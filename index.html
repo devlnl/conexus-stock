@@ -357,6 +357,9 @@
     .biz-switcher-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .15s; }
     .biz-switcher-btn:hover { border-color: var(--azul); background: rgba(15,82,186,0.18); }
     .biz-switcher-caret { font-size: 10px; opacity: 0.6; }
+    .venda-busca-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13.5px; margin-top: 4px; }
+    .venda-busca-item:hover { background: var(--cinza-claro); }
+    .cart-qty-input { width: 64px; padding: 6px 8px; border: 1px solid var(--cinza-borda); border-radius: 6px; font-size: 13px; font-family: 'Inter', sans-serif; }
 
     .app-menu-toggle { display: none; width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #fff; font-size: 16px; cursor: pointer; align-items: center; justify-content: center; }
     .app-menu-toggle:hover { border-color: var(--azul); background: rgba(15,82,186,0.15); }
@@ -807,6 +810,8 @@
     <div class="app-sidebar" id="app-sidebar">
       <div class="app-nav-item active" data-view="view-dashboard">📊 Dashboard</div>
       <div class="app-nav-item" data-view="view-estoque">📦 Estoque</div>
+      <div class="app-nav-item" data-view="view-vendas">🛒 Vendas</div>
+      <div class="app-nav-item" data-view="view-clientes">👥 Clientes</div>
       <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
       <div class="app-nav-item" data-view="view-movimentacoes">🔄 Movimentações</div>
       <div class="app-nav-item" data-view="view-financas">💰 Finanças</div>
@@ -875,6 +880,98 @@
             <input type="text" class="app-search" id="estoque-search" placeholder="Buscar produto..." />
           </div>
           <div id="estoque-table-slot"></div>
+        </div>
+      </div>
+
+      <!-- VENDAS -->
+      <div class="app-view" id="view-vendas">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Vendas</div>
+            <div class="app-view-sub">Registre vendas com carrinho, cliente e forma de pagamento</div>
+          </div>
+        </div>
+        <div class="fin-tabs" style="margin-bottom:20px;">
+          <button class="fin-tab active" id="venda-subtab-nova">Nova venda</button>
+          <button class="fin-tab" id="venda-subtab-historico">Histórico</button>
+        </div>
+
+        <div id="venda-panel-nova">
+          <div class="app-card" style="padding:20px; margin-bottom:20px; position:relative;">
+            <div class="app-form-group" style="margin-bottom:0;">
+              <label class="app-form-label">Buscar produto</label>
+              <input type="text" class="app-form-input" id="venda-busca-produto" placeholder="Digite o nome do produto..." autocomplete="off" />
+            </div>
+            <div id="venda-busca-resultados"></div>
+          </div>
+
+          <div class="app-card">
+            <div class="app-card-head">
+              <div class="app-card-title">Carrinho</div>
+            </div>
+            <div id="venda-carrinho-slot"></div>
+          </div>
+
+          <div class="app-card" style="padding:20px; margin-top:16px;">
+            <div class="msg-box" id="venda-msg"></div>
+            <div class="app-form-row">
+              <div class="app-form-group">
+                <label class="app-form-label">Cliente (opcional)</label>
+                <select class="app-form-select" id="venda-cliente">
+                  <option value="">Sem cliente</option>
+                </select>
+              </div>
+              <div class="app-form-group">
+                <label class="app-form-label">Forma de pagamento</label>
+                <select class="app-form-select" id="venda-pagamento">
+                  <option value="dinheiro">Dinheiro</option>
+                  <option value="pix">Pix</option>
+                  <option value="cartao">Cartão</option>
+                  <option value="boleto">Boleto</option>
+                  <option value="transferencia">Transferência</option>
+                  <option value="outra">Outra</option>
+                </select>
+              </div>
+            </div>
+            <div class="app-form-group">
+              <label class="app-form-label">Desconto (R$, opcional)</label>
+              <input type="number" class="app-form-input" id="venda-desconto" min="0" step="0.01" placeholder="0,00" />
+            </div>
+            <div class="app-fin-summary" style="margin: 16px 0;">
+              <div class="kpi-card"><div class="kpi-label">Subtotal</div><div class="kpi-val" id="venda-subtotal-val">R$ 0,00</div></div>
+              <div class="kpi-card"><div class="kpi-label">Desconto</div><div class="kpi-val" id="venda-desconto-val">R$ 0,00</div></div>
+              <div class="kpi-card"><div class="kpi-label">Total</div><div class="kpi-val" id="venda-total-val">R$ 0,00</div></div>
+            </div>
+            <button class="btn-app-primary" id="venda-finalizar" style="width:100%; justify-content:center;">Finalizar venda</button>
+          </div>
+        </div>
+
+        <div id="venda-panel-historico" style="display:none;">
+          <div class="app-card">
+            <div class="app-card-head">
+              <div class="app-card-title">Vendas registradas</div>
+              <button class="btn-app-secondary" id="btn-export-vendas">⬇ Exportar planilha</button>
+            </div>
+            <div id="vendas-historico-slot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLIENTES -->
+      <div class="app-view" id="view-clientes">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Clientes</div>
+            <div class="app-view-sub">Cadastro de clientes do seu negócio</div>
+          </div>
+          <button class="btn-app-primary" id="btn-add-cliente">+ Novo cliente</button>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head">
+            <div class="app-card-title">Clientes cadastrados</div>
+            <input type="text" class="app-search" id="clientes-search" placeholder="Buscar cliente..." />
+          </div>
+          <div id="clientes-table-slot"></div>
         </div>
       </div>
 
@@ -1026,6 +1123,59 @@
     <div class="modal-actions">
       <button class="btn-app-secondary" id="delete-business-cancel">Cancelar</button>
       <button class="btn-app-primary" id="delete-business-confirm" style="background:var(--vermelho)">Excluir negócio</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: criar/editar cliente -->
+<div class="modal-overlay" id="modal-cliente">
+  <div class="modal-box">
+    <div class="modal-title" id="cliente-modal-title">Adicionar cliente</div>
+    <div class="modal-sub">Preencha as informações do cliente</div>
+    <div class="msg-box" id="cliente-msg"></div>
+    <input type="hidden" id="cliente-id" />
+    <div class="app-form-group">
+      <label class="app-form-label">Nome</label>
+      <input type="text" class="app-form-input" id="cliente-nome" placeholder="Nome do cliente" />
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">CPF/CNPJ (opcional)</label>
+        <input type="text" class="app-form-input" id="cliente-documento" />
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Telefone (opcional)</label>
+        <input type="text" class="app-form-input" id="cliente-telefone" />
+      </div>
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">E-mail (opcional)</label>
+      <input type="email" class="app-form-input" id="cliente-email" />
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Endereço (opcional)</label>
+      <input type="text" class="app-form-input" id="cliente-endereco" />
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Observações (opcional)</label>
+      <input type="text" class="app-form-input" id="cliente-obs" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="cliente-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="cliente-save">Criar cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: excluir cliente -->
+<div class="modal-overlay" id="modal-delete-cliente">
+  <div class="modal-box">
+    <div class="modal-title">Excluir cliente?</div>
+    <div class="modal-sub">Essa ação não pode ser desfeita. O histórico de vendas desse cliente continua salvo, só deixa de mostrar o nome dele.</div>
+    <input type="hidden" id="delete-cliente-id" />
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="delete-cliente-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="delete-cliente-confirm" style="background:var(--vermelho)">Excluir cliente</button>
     </div>
   </div>
 </div>
@@ -1230,6 +1380,9 @@ let movements = [];     // cache local das movimentações
 let businesses = [];        // cache local dos negócios do usuário logado
 let currentBusiness = null; // negócio selecionado no momento
 let businessTypes = [];     // cache local dos tipos de negócio (tabela de referência)
+let customers = [];         // cache local dos clientes do negócio atual
+let salesHistory = [];      // cache local das vendas do negócio atual
+let cartItems = [];         // carrinho da tela de Vendas: [{ id, quantity }]
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -1722,21 +1875,31 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes] = await withTimeout(Promise.all([
+    const [prodRes, movRes, custRes, salesRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
-      sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
+      sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
+      sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
+      sb.from('sales').select('*, customers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
     if (movRes.error) throw movRes.error;
+    if (custRes.error) throw custRes.error;
+    if (salesRes.error) throw salesRes.error;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
+    customers = custRes.data || [];
+    salesHistory = salesRes.data || [];
 
     renderDashboard();
     renderEstoqueTable();
     renderMovimentacoes();
     renderFinancas(window.__appFinPeriod || 'sem');
+    renderClientesTable();
+    populateVendaClienteSelect();
+    renderSalesHistory();
+    renderCart();
   } catch (err) {
     console.error('Erro ao carregar dados:', err);
     toast('Não foi possível carregar seus dados. ' + (err.message || ''), true);
@@ -2169,6 +2332,385 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     if (e.target === overlay) overlay.classList.remove('open');
   });
 });
+
+// ══════════════════════════════════════════════
+// CLIENTES
+// ══════════════════════════════════════════════
+function renderClientesTable(filterText) {
+  const slot = document.getElementById('clientes-table-slot');
+  const term = (filterText || document.getElementById('clientes-search').value || '').toLowerCase().trim();
+  const list = customers.filter(c => c.name.toLowerCase().includes(term));
+
+  if (customers.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">👥</div>' +
+      '<div class="empty-state-title">Nenhum cliente cadastrado</div>' +
+      '<div class="empty-state-sub">Adicione seu primeiro cliente pra usar na tela de Vendas.</div>' +
+      '<button class="btn-app-primary" id="empty-add-cliente-btn">+ Novo cliente</button></div>';
+    document.getElementById('empty-add-cliente-btn').addEventListener('click', () => openCustomerModal());
+    return;
+  }
+  if (list.length === 0) {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">Nenhum cliente encontrado</div><div class="empty-state-sub">Tente buscar com outro termo.</div></div>';
+    return;
+  }
+
+  let html = '<table class="app-table"><thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr></thead><tbody>';
+  list.forEach(c => {
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(c.name) + '</strong></td>' +
+      '<td>' + escapeHtml(c.phone || '—') + '</td>' +
+      '<td>' + escapeHtml(c.email || '—') + '</td>' +
+      '<td><div class="row-actions">' +
+        '<button class="icon-btn" title="Editar" data-cliente-action="editar" data-id="' + c.id + '">✎</button>' +
+        '<button class="icon-btn danger" title="Excluir" data-cliente-action="excluir" data-id="' + c.id + '">🗑</button>' +
+      '</div></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+
+  slot.querySelectorAll('[data-cliente-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cliente = customers.find(c => c.id === btn.dataset.id);
+      if (!cliente) return;
+      if (btn.dataset.clienteAction === 'editar') openCustomerModal(cliente);
+      if (btn.dataset.clienteAction === 'excluir') openDeleteCustomerModal(cliente);
+    });
+  });
+}
+document.getElementById('clientes-search').addEventListener('input', () => renderClientesTable());
+
+function openCustomerModal(cliente) {
+  hideMsg('cliente-msg');
+  if (cliente) {
+    document.getElementById('cliente-modal-title').textContent = 'Editar cliente';
+    document.getElementById('cliente-save').textContent = 'Salvar alterações';
+    document.getElementById('cliente-id').value = cliente.id;
+    document.getElementById('cliente-nome').value = cliente.name;
+    document.getElementById('cliente-documento').value = cliente.document || '';
+    document.getElementById('cliente-telefone').value = cliente.phone || '';
+    document.getElementById('cliente-email').value = cliente.email || '';
+    document.getElementById('cliente-endereco').value = cliente.address || '';
+    document.getElementById('cliente-obs').value = cliente.notes || '';
+  } else {
+    document.getElementById('cliente-modal-title').textContent = 'Adicionar cliente';
+    document.getElementById('cliente-save').textContent = 'Criar cliente';
+    document.getElementById('cliente-id').value = '';
+    document.getElementById('cliente-nome').value = '';
+    document.getElementById('cliente-documento').value = '';
+    document.getElementById('cliente-telefone').value = '';
+    document.getElementById('cliente-email').value = '';
+    document.getElementById('cliente-endereco').value = '';
+    document.getElementById('cliente-obs').value = '';
+  }
+  document.getElementById('modal-cliente').classList.add('open');
+}
+document.getElementById('btn-add-cliente').addEventListener('click', () => openCustomerModal());
+document.getElementById('cliente-cancel').addEventListener('click', () => document.getElementById('modal-cliente').classList.remove('open'));
+
+document.getElementById('cliente-save').addEventListener('click', async () => {
+  const id = document.getElementById('cliente-id').value;
+  const nome = document.getElementById('cliente-nome').value.trim();
+  const documento = document.getElementById('cliente-documento').value.trim();
+  const telefone = document.getElementById('cliente-telefone').value.trim();
+  const email = document.getElementById('cliente-email').value.trim();
+  const endereco = document.getElementById('cliente-endereco').value.trim();
+  const obs = document.getElementById('cliente-obs').value.trim();
+
+  hideMsg('cliente-msg');
+  if (!nome) { showMsg('cliente-msg', 'Informe o nome do cliente.', 'error'); return; }
+
+  setBtn('cliente-save', true, id ? 'Salvar alterações' : 'Criar cliente');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('cliente-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    const payload = {
+      name: nome, document: documento || null, phone: telefone || null,
+      email: email || null, address: endereco || null, notes: obs || null
+    };
+
+    if (id) {
+      const { error } = await withTimeout(sb.from('customers').update({
+        ...payload, updated_at: new Date().toISOString()
+      }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+      if (error) { showMsg('cliente-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      toast('Cliente atualizado com sucesso.');
+    } else {
+      const { error } = await withTimeout(sb.from('customers').insert({
+        ...payload, user_id: user.id, business_id: currentBusiness.id
+      }), 15000);
+      if (error) { showMsg('cliente-msg', 'Erro ao criar cliente: ' + error.message, 'error'); return; }
+      toast('Cliente criado com sucesso.');
+    }
+
+    document.getElementById('modal-cliente').classList.remove('open');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao salvar cliente:', err);
+    showMsg('cliente-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('cliente-save', false, id ? 'Salvar alterações' : 'Criar cliente');
+  }
+});
+
+function openDeleteCustomerModal(cliente) {
+  document.getElementById('delete-cliente-id').value = cliente.id;
+  document.getElementById('modal-delete-cliente').classList.add('open');
+}
+document.getElementById('delete-cliente-cancel').addEventListener('click', () => document.getElementById('modal-delete-cliente').classList.remove('open'));
+document.getElementById('delete-cliente-confirm').addEventListener('click', async () => {
+  const id = document.getElementById('delete-cliente-id').value;
+  setBtn('delete-cliente-confirm', true, 'Excluir cliente');
+  try {
+    const { error } = await withTimeout(sb.from('customers').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    document.getElementById('modal-delete-cliente').classList.remove('open');
+    if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    toast('Cliente excluído.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao excluir cliente:', err);
+    document.getElementById('modal-delete-cliente').classList.remove('open');
+    toast('Não foi possível excluir. ' + (err && err.message ? err.message : 'Tente novamente.'), true);
+  } finally {
+    setBtn('delete-cliente-confirm', false, 'Excluir cliente');
+  }
+});
+
+function populateVendaClienteSelect() {
+  const select = document.getElementById('venda-cliente');
+  const currentVal = select.value;
+  select.innerHTML = '<option value="">Sem cliente</option>' +
+    customers.map(c => '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>').join('');
+  if (customers.some(c => c.id === currentVal)) select.value = currentVal;
+}
+
+// ══════════════════════════════════════════════
+// VENDAS — carrinho, busca de produto e histórico
+// ══════════════════════════════════════════════
+const PAGAMENTO_LABELS = { dinheiro: 'Dinheiro', pix: 'Pix', cartao: 'Cartão', boleto: 'Boleto', transferencia: 'Transferência', outra: 'Outra' };
+const VENDA_STATUS_LABELS = { concluida: 'Concluída', cancelada: 'Cancelada', devolvida: 'Devolvida' };
+
+function switchVendaSubtab(tab) {
+  document.getElementById('venda-subtab-nova').classList.toggle('active', tab === 'nova');
+  document.getElementById('venda-subtab-historico').classList.toggle('active', tab === 'historico');
+  document.getElementById('venda-panel-nova').style.display = tab === 'nova' ? 'block' : 'none';
+  document.getElementById('venda-panel-historico').style.display = tab === 'historico' ? 'block' : 'none';
+}
+document.getElementById('venda-subtab-nova').addEventListener('click', () => switchVendaSubtab('nova'));
+document.getElementById('venda-subtab-historico').addEventListener('click', () => switchVendaSubtab('historico'));
+
+document.getElementById('venda-busca-produto').addEventListener('input', function() {
+  const term = this.value.toLowerCase().trim();
+  const resultsSlot = document.getElementById('venda-busca-resultados');
+  if (!term) { resultsSlot.innerHTML = ''; return; }
+  const matches = products.filter(p => p.name.toLowerCase().includes(term) && Number(p.quantity) > 0).slice(0, 6);
+  if (matches.length === 0) {
+    resultsSlot.innerHTML = '<div style="padding:10px 4px; font-size:13px; color:var(--cinza-texto);">Nenhum produto disponível encontrado.</div>';
+    return;
+  }
+  resultsSlot.innerHTML = matches.map(p =>
+    '<div class="venda-busca-item" data-add-product="' + p.id + '">' +
+      '<span>' + escapeHtml(p.name) + '</span>' +
+      '<span style="color:var(--cinza-texto); font-size:12px;">' + p.quantity + ' em estoque · ' + brl(p.price) + '</span>' +
+    '</div>'
+  ).join('');
+  resultsSlot.querySelectorAll('[data-add-product]').forEach(el => {
+    el.addEventListener('click', () => {
+      addToCart(el.dataset.addProduct);
+      document.getElementById('venda-busca-produto').value = '';
+      resultsSlot.innerHTML = '';
+    });
+  });
+});
+
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  const existing = cartItems.find(c => c.id === productId);
+  const currentQtyInCart = existing ? existing.quantity : 0;
+  if (currentQtyInCart + 1 > Number(product.quantity)) {
+    toast('Estoque insuficiente para adicionar mais unidades de "' + product.name + '".', true);
+    return;
+  }
+  if (existing) existing.quantity += 1;
+  else cartItems.push({ id: productId, quantity: 1 });
+  renderCart();
+}
+
+function removeFromCart(productId) {
+  cartItems = cartItems.filter(c => c.id !== productId);
+  renderCart();
+}
+
+function updateCartQty(productId, qty) {
+  const item = cartItems.find(c => c.id === productId);
+  const product = products.find(p => p.id === productId);
+  if (!item || !product) return;
+  qty = Math.max(1, Math.min(qty, Number(product.quantity)));
+  item.quantity = qty;
+  renderCart();
+}
+
+function renderCart() {
+  const slot = document.getElementById('venda-carrinho-slot');
+  if (cartItems.length === 0) {
+    slot.innerHTML = '<div class="empty-state" style="border:none;">' +
+      '<div class="empty-state-icon">🛒</div>' +
+      '<div class="empty-state-title">Carrinho vazio</div>' +
+      '<div class="empty-state-sub">Busque um produto acima para adicionar à venda.</div></div>';
+    renderVendaTotals();
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Produto</th><th>Preço</th><th>Qtd</th><th>Subtotal</th><th></th></tr></thead><tbody>';
+  cartItems.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (!product) return;
+    const subtotal = item.quantity * Number(product.price);
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(product.name) + '</strong></td>' +
+      '<td>' + brl(product.price) + '</td>' +
+      '<td><input type="number" class="cart-qty-input" min="1" max="' + product.quantity + '" value="' + item.quantity + '" data-cart-qty="' + item.id + '"></td>' +
+      '<td>' + brl(subtotal) + '</td>' +
+      '<td><button class="icon-btn danger" title="Remover" data-cart-remove="' + item.id + '">🗑</button></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+
+  slot.querySelectorAll('[data-cart-qty]').forEach(inp => {
+    inp.addEventListener('change', () => updateCartQty(inp.dataset.cartQty, parseInt(inp.value, 10) || 1));
+  });
+  slot.querySelectorAll('[data-cart-remove]').forEach(btn => {
+    btn.addEventListener('click', () => removeFromCart(btn.dataset.cartRemove));
+  });
+  renderVendaTotals();
+}
+
+function renderVendaTotals() {
+  const subtotal = cartItems.reduce((s, item) => {
+    const product = products.find(p => p.id === item.id);
+    return s + (product ? item.quantity * Number(product.price) : 0);
+  }, 0);
+  const descontoInput = parseFloat(document.getElementById('venda-desconto').value) || 0;
+  const desconto = Math.min(Math.max(descontoInput, 0), subtotal);
+  const total = subtotal - desconto;
+  document.getElementById('venda-subtotal-val').textContent = brl(subtotal);
+  document.getElementById('venda-desconto-val').textContent = brl(desconto);
+  document.getElementById('venda-total-val').textContent = brl(total);
+}
+document.getElementById('venda-desconto').addEventListener('input', renderVendaTotals);
+
+document.getElementById('venda-finalizar').addEventListener('click', async () => {
+  hideMsg('venda-msg');
+  if (cartItems.length === 0) { showMsg('venda-msg', 'Adicione pelo menos um produto à venda.', 'error'); return; }
+
+  const subtotal = cartItems.reduce((s, item) => {
+    const product = products.find(p => p.id === item.id);
+    return s + (product ? item.quantity * Number(product.price) : 0);
+  }, 0);
+  const descontoInput = parseFloat(document.getElementById('venda-desconto').value) || 0;
+  const discount = Math.min(Math.max(descontoInput, 0), subtotal);
+  const total = subtotal - discount;
+  const paymentMethod = document.getElementById('venda-pagamento').value;
+  const customerId = document.getElementById('venda-cliente').value || null;
+
+  setBtn('venda-finalizar', true, 'Finalizar venda');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('venda-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    const discountFactor = subtotal > 0 ? (1 - discount / subtotal) : 1;
+    const itemsSnapshot = cartItems.map(item => {
+      const product = products.find(p => p.id === item.id);
+      return { id: item.id, name: product.name, quantity: item.quantity, price: Number(product.price) * discountFactor };
+    });
+
+    const { data: saleData, error: saleError } = await withTimeout(sb.from('sales').insert({
+      business_id: currentBusiness.id, user_id: user.id, customer_id: customerId,
+      subtotal, discount, total, payment_method: paymentMethod, status: 'concluida'
+    }).select().single(), 15000);
+    if (saleError) { showMsg('venda-msg', 'Erro ao registrar venda: ' + saleError.message, 'error'); return; }
+
+    const saleId = saleData.id;
+
+    const { error: itemsError } = await withTimeout(sb.from('sale_items').insert(
+      itemsSnapshot.map(i => ({ sale_id: saleId, user_id: user.id, product_id: i.id, product_name: i.name, quantity: i.quantity, unit_price: i.price }))
+    ), 15000);
+    if (itemsError) toast('Venda registrada, mas houve erro ao salvar os itens: ' + itemsError.message, true);
+
+    const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
+      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'saida', quantity: i.quantity, unit_price: i.price }))
+    ), 15000);
+    if (movsError) toast('Venda registrada, mas houve erro ao atualizar o estoque: ' + movsError.message, true);
+
+    await Promise.all(itemsSnapshot.map(i => {
+      const product = products.find(p => p.id === i.id);
+      const novaQtd = Math.max(0, Number(product.quantity) - i.quantity);
+      return withTimeout(sb.from('products').update({ quantity: novaQtd, updated_at: new Date().toISOString() }).eq('id', i.id).eq('business_id', currentBusiness.id), 15000);
+    }));
+
+    toast('Venda registrada com sucesso!');
+    cartItems = [];
+    document.getElementById('venda-desconto').value = '';
+    await loadAllData();
+    switchVendaSubtab('historico');
+  } catch (err) {
+    console.error('Erro ao finalizar venda:', err);
+    showMsg('venda-msg', 'Não foi possível finalizar a venda. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('venda-finalizar', false, 'Finalizar venda');
+  }
+});
+
+function renderSalesHistory() {
+  const slot = document.getElementById('vendas-historico-slot');
+  if (salesHistory.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">🧾</div>' +
+      '<div class="empty-state-title">Nenhuma venda registrada</div>' +
+      '<div class="empty-state-sub">Vendas finalizadas aparecem aqui.</div></div>';
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Data</th><th>Cliente</th><th>Pagamento</th><th>Total</th><th>Status</th></tr></thead><tbody>';
+  salesHistory.forEach(s => {
+    const data = new Date(s.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const clienteNome = s.customers ? s.customers.name : 'Sem cliente';
+    html += '<tr>' +
+      '<td>' + data + '</td>' +
+      '<td>' + escapeHtml(clienteNome) + '</td>' +
+      '<td>' + (PAGAMENTO_LABELS[s.payment_method] || '—') + '</td>' +
+      '<td><strong>' + brl(s.total) + '</strong></td>' +
+      '<td>' + (VENDA_STATUS_LABELS[s.status] || s.status) + '</td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+}
+
+function exportarVendas() {
+  if (salesHistory.length === 0) {
+    toast('Não há vendas para exportar.', true);
+    return;
+  }
+  const linhas = salesHistory.map(s => ({
+    'Data': new Date(s.created_at).toLocaleString('pt-BR'),
+    'Cliente': s.customers ? s.customers.name : 'Sem cliente',
+    'Subtotal (R$)': Number(s.subtotal),
+    'Desconto (R$)': Number(s.discount),
+    'Total (R$)': Number(s.total),
+    'Forma de pagamento': PAGAMENTO_LABELS[s.payment_method] || s.payment_method || '',
+    'Status': VENDA_STATUS_LABELS[s.status] || s.status
+  }));
+  const ws = XLSX.utils.json_to_sheet(linhas);
+  ws['!cols'] = [{ wch: 20 }, { wch: 24 }, { wch: 14 }, { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 12 }];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Vendas');
+  baixarPlanilha(wb, nomeArquivoComData('conexus_vendas'));
+  toast('Planilha de vendas exportada.');
+}
+document.getElementById('btn-export-vendas').addEventListener('click', exportarVendas);
 
 // ══════════════════════════════════════════════
 // EXPORTAÇÃO DE PLANILHAS (.xlsx)
