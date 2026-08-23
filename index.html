@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nexus Stock – Controle de Estoque e Finanças</title>
+  <title>Conexus – A gestão que se adapta ao seu negócio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -200,6 +200,10 @@
     .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
     .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
     .divider span { font-size: 12px; color: rgba(255,255,255,0.3); }
+    .password-field-wrap { position: relative; }
+    .password-field-wrap .form-input { padding-right: 44px; }
+    .toggle-password-btn { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; font-size: 15px; padding: 8px 10px; color: rgba(255,255,255,0.45); line-height: 1; }
+    .toggle-password-btn:hover { color: #fff; }
     .msg-box { display: none; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; text-align: center; }
     .msg-error { background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); }
     .msg-success { background: rgba(16,185,129,0.15); color: #34D399; border: 1px solid rgba(16,185,129,0.3); }
@@ -354,9 +358,19 @@
     .biz-switcher-btn:hover { border-color: var(--azul); background: rgba(15,82,186,0.18); }
     .biz-switcher-caret { font-size: 10px; opacity: 0.6; }
 
+    .app-menu-toggle { display: none; width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #fff; font-size: 16px; cursor: pointer; align-items: center; justify-content: center; }
+    .app-menu-toggle:hover { border-color: var(--azul); background: rgba(15,82,186,0.15); }
+    .app-menu-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 240; }
+    .app-menu-backdrop.open { display: block; }
+
     @media (max-width: 900px) {
       .kpi-grid { grid-template-columns: repeat(2,1fr); }
-      .app-sidebar { display: none; }
+      .app-menu-toggle { display: flex; }
+      .app-sidebar {
+        display: block; transform: translateX(-100%); transition: transform .25s ease;
+        z-index: 250; box-shadow: 4px 0 30px rgba(0,0,0,0.2);
+      }
+      .app-sidebar.open { transform: translateX(0); }
       .app-main { margin-left: 0; padding: 24px 16px; }
       .app-form-row { grid-template-columns: 1fr; }
       table.app-table { font-size: 12px; }
@@ -386,7 +400,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" id="logo-home">Nexus<span>Stock</span></div>
+  <div class="nav-logo" id="logo-home">Con<span>exus</span></div>
   <ul class="nav-links">
     <li><a href="#home">Início</a></li>
     <li><a href="#funcionalidades">Funcionalidades</a></li>
@@ -396,7 +410,7 @@
     <li><a href="#tecnologia">Tecnologia</a></li>
   </ul>
   <div class="nav-cta" id="nav-cta-area">
-    <a href="#cadastro" class="btn-outline">Entrar</a>
+    <a href="#cadastro" class="btn-outline" id="nav-btn-entrar">Entrar</a>
     <a href="#cadastro" class="btn-primary-nav">Criar conta</a>
   </div>
 </nav>
@@ -405,9 +419,9 @@
 <section id="home">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
-  <div class="hero-badge"><span class="badge-dot"></span>Gestão inteligente de estoque e finanças</div>
+  <div class="hero-badge"><span class="badge-dot"></span>A gestão que se adapta ao seu negócio</div>
   <h1 class="hero-h1">Seu estoque e finanças em <em>um só lugar</em></h1>
-  <p class="hero-sub">A Nexus Stock oferece controle total de produtos e análise financeira para pequenas e grandes empresas, de forma simples e acessível.</p>
+  <p class="hero-sub">O Conexus oferece controle total de produtos, estoque e finanças para um ou vários negócios, de forma simples e acessível.</p>
   <div class="hero-btns">
     <a href="#cadastro" class="btn-hero btn-hero-p">Começar gratuitamente</a>
     <a href="#funcionalidades" class="btn-hero btn-hero-s">Ver funcionalidades</a>
@@ -430,7 +444,7 @@
     </div>
     <div class="mock-body">
       <div class="mock-sidebar">
-        <div class="mock-logo">Nexus<span>Stock</span></div>
+        <div class="mock-logo">Con<span>exus</span></div>
         <div class="mock-nav-item active">📊 Dashboard</div>
         <div class="mock-nav-item">📦 Estoque</div>
         <div class="mock-nav-item">➕ Adicionar</div>
@@ -510,7 +524,7 @@
 <section id="segmentos">
   <div class="sec-label-d">Feito para cada tipo de negócio</div>
   <div class="sec-title-d">Um sistema, vários segmentos</div>
-  <div class="sec-sub-d">A Nexus Stock se adapta à rotina do seu negócio, com controles pensados para cada segmento.</div>
+  <div class="sec-sub-d">O Conexus se adapta ao seu negócio, com controles pensados para cada segmento.</div>
   <div class="seg-grid">
     <div class="seg-card">
       <div class="seg-icon">🛒</div>
@@ -654,10 +668,10 @@
 
     <!-- LOGADO -->
     <div class="auth-card" id="card-logged" style="display:none">
-      <div class="auth-logo">Nexus<span>Stock</span></div>
+      <div class="auth-logo">Con<span>exus</span></div>
       <div class="logged-center">
         <div class="logged-icon">✅</div>
-        <div class="logged-name">Bem-vindo à Nexus Stock!</div>
+        <div class="logged-name">Bem-vindo ao Conexus!</div>
         <div class="logged-email" id="logged-email"></div>
       </div>
       <button class="btn-form-app" id="btn-go-app">Abrir painel da empresa →</button>
@@ -666,7 +680,7 @@
 
     <!-- CADASTRO -->
     <div class="auth-card" id="card-signup">
-      <div class="auth-logo">Nexus<span>Stock</span></div>
+      <div class="auth-logo">Con<span>exus</span></div>
       <div class="auth-sub">Crie sua conta gratuita agora</div>
       <div class="msg-box" id="msg-signup"></div>
       <div class="form-group">
@@ -675,11 +689,17 @@
       </div>
       <div class="form-group">
         <label class="form-label">Senha</label>
-        <input type="password" class="form-input" id="su-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
+        <div class="password-field-wrap">
+          <input type="password" class="form-input" id="su-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" />
+          <button type="button" class="toggle-password-btn" data-target="su-pass" aria-label="Mostrar senha">👁</button>
+        </div>
       </div>
       <div class="form-group">
         <label class="form-label">Confirmar senha</label>
-        <input type="password" class="form-input" id="su-confirm" placeholder="Repita a senha" autocomplete="new-password" />
+        <div class="password-field-wrap">
+          <input type="password" class="form-input" id="su-confirm" placeholder="Repita a senha" autocomplete="new-password" />
+          <button type="button" class="toggle-password-btn" data-target="su-confirm" aria-label="Mostrar senha">👁</button>
+        </div>
       </div>
       <button class="btn-form" id="btn-signup">Criar conta gratuita</button>
       <div class="divider"><span>ou</span></div>
@@ -688,7 +708,7 @@
 
     <!-- LOGIN -->
     <div class="auth-card" id="card-login" style="display:none">
-      <div class="auth-logo">Nexus<span>Stock</span></div>
+      <div class="auth-logo">Con<span>exus</span></div>
       <div class="auth-sub">Entre na sua conta</div>
       <div class="msg-box" id="msg-login"></div>
       <div class="form-group">
@@ -697,7 +717,10 @@
       </div>
       <div class="form-group">
         <label class="form-label">Senha</label>
-        <input type="password" class="form-input" id="li-pass" placeholder="Sua senha" autocomplete="current-password" />
+        <div class="password-field-wrap">
+          <input type="password" class="form-input" id="li-pass" placeholder="Sua senha" autocomplete="current-password" />
+          <button type="button" class="toggle-password-btn" data-target="li-pass" aria-label="Mostrar senha">👁</button>
+        </div>
       </div>
       <button class="btn-form" id="btn-login">Entrar</button>
       <div class="divider"><span>ou</span></div>
@@ -727,14 +750,14 @@
 <!-- CTA -->
 <section id="cta">
   <div class="cta-title">Pronto para transformar sua gestão?</div>
-  <div class="cta-sub">Junte-se a empresas que já controlam estoque e finanças com a Nexus Stock.</div>
+  <div class="cta-sub">Junte-se a empresas que já controlam estoque e finanças com o Conexus.</div>
   <a href="#cadastro" class="btn-cta">Criar conta gratuita →</a>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Nexus<span>Stock</span></div>
-  <div class="footer-copy">© 2025 Nexus Stock. Todos os direitos reservados.</div>
+  <div class="footer-logo">Con<span>exus</span></div>
+  <div class="footer-copy">© 2025 Conexus. Todos os direitos reservados.</div>
 </footer>
 
 </div>
@@ -745,7 +768,7 @@
 <div id="businesses-shell" style="display:none;">
   <div class="app-topbar">
     <div class="app-topbar-left">
-      <div class="app-logo">Nexus<span>Stock</span></div>
+      <div class="app-logo">Con<span>exus</span></div>
     </div>
     <div class="app-topbar-right">
       <span class="app-user-email" id="biz-user-email"></span>
@@ -768,7 +791,8 @@
 <div id="app-shell">
   <div class="app-topbar">
     <div class="app-topbar-left">
-      <div class="app-logo">Nexus<span>Stock</span></div>
+      <button class="app-menu-toggle" id="app-menu-toggle" title="Abrir menu" aria-label="Abrir menu">☰</button>
+      <div class="app-logo">Con<span>exus</span></div>
       <button class="biz-switcher-btn" id="biz-switcher-btn" title="Trocar de negócio">
         <span id="biz-switcher-name">Carregando…</span><span class="biz-switcher-caret">▾</span>
       </button>
@@ -779,7 +803,8 @@
     </div>
   </div>
   <div class="app-body">
-    <div class="app-sidebar">
+    <div class="app-menu-backdrop" id="app-menu-backdrop"></div>
+    <div class="app-sidebar" id="app-sidebar">
       <div class="app-nav-item active" data-view="view-dashboard">📊 Dashboard</div>
       <div class="app-nav-item" data-view="view-estoque">📦 Estoque</div>
       <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
@@ -966,9 +991,41 @@
         </select>
       </div>
     </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Logo (URL, opcional)</label>
+      <input type="text" class="app-form-input" id="biz-logo" placeholder="https://..." />
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Documento fiscal (opcional)</label>
+        <input type="text" class="app-form-input" id="biz-documento" placeholder="CNPJ ou CPF" />
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Contato (opcional)</label>
+        <input type="text" class="app-form-input" id="biz-contato" placeholder="Telefone ou e-mail" />
+      </div>
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Endereço (opcional)</label>
+      <input type="text" class="app-form-input" id="biz-endereco" placeholder="Endereço do negócio" />
+    </div>
     <div class="modal-actions">
       <button class="btn-app-secondary" id="biz-cancel">Cancelar</button>
       <button class="btn-app-primary" id="biz-save">Criar negócio</button>
+    </div>
+    <button class="btn-app-secondary" id="biz-delete-trigger" style="width:100%; margin-top:10px; display:none; color:var(--vermelho); border-color:var(--vermelho);">Excluir negócio</button>
+  </div>
+</div>
+
+<!-- Modal: excluir negócio -->
+<div class="modal-overlay" id="modal-delete-business">
+  <div class="modal-box">
+    <div class="modal-title">Excluir negócio?</div>
+    <div class="modal-sub">Essa ação não pode ser desfeita. Todos os produtos, estoque e movimentações desse negócio também serão apagados.</div>
+    <input type="hidden" id="delete-business-id" />
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="delete-business-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="delete-business-confirm" style="background:var(--vermelho)">Excluir negócio</button>
     </div>
   </div>
 </div>
@@ -1200,15 +1257,44 @@ function showLoggedOutMarketing() {
   document.getElementById('card-signup').style.display = 'block';
   document.getElementById('auth-title').textContent = 'Crie sua conta';
   document.getElementById('nav-cta-area').innerHTML =
-    '<a href="#cadastro" class="btn-outline">Entrar</a><a href="#cadastro" class="btn-primary-nav">Criar conta</a>';
+    '<a href="#cadastro" class="btn-outline" id="nav-btn-entrar">Entrar</a><a href="#cadastro" class="btn-primary-nav">Criar conta</a>';
+  wireNavBtnEntrar();
 }
 
-// ── Alternar formulários cadastro/login ──
-document.getElementById('go-login').addEventListener('click', function() {
+function showLoginCard() {
   document.getElementById('card-signup').style.display = 'none';
   document.getElementById('card-login').style.display = 'block';
   document.getElementById('auth-title').textContent = 'Entre na sua conta';
   hideMsg('msg-login');
+}
+
+function wireNavBtnEntrar() {
+  const btn = document.getElementById('nav-btn-entrar');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    showLoginCard();
+    var target = document.querySelector('#cadastro');
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+wireNavBtnEntrar();
+
+// ── Mostrar/ocultar senha ──
+document.querySelectorAll('.toggle-password-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    const input = document.getElementById(btn.dataset.target);
+    if (!input) return;
+    const showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    btn.textContent = showing ? '👁' : '🙈';
+    btn.setAttribute('aria-label', showing ? 'Mostrar senha' : 'Ocultar senha');
+  });
+});
+
+// ── Alternar formulários cadastro/login ──
+document.getElementById('go-login').addEventListener('click', function() {
+  showLoginCard();
 });
 document.getElementById('go-signup').addEventListener('click', function() {
   document.getElementById('card-login').style.display = 'none';
@@ -1498,13 +1584,23 @@ function openBusinessModal(biz) {
     document.getElementById('biz-id').value = biz.id;
     document.getElementById('biz-nome').value = biz.name;
     document.getElementById('biz-porte').value = biz.size || 'individual';
+    document.getElementById('biz-logo').value = biz.logo_url || '';
+    document.getElementById('biz-documento').value = biz.document_number || '';
+    document.getElementById('biz-contato').value = biz.contact || '';
+    document.getElementById('biz-endereco').value = biz.address || '';
     if (biz.business_type_id) select.value = biz.business_type_id;
+    document.getElementById('biz-delete-trigger').style.display = 'block';
   } else {
     document.getElementById('biz-modal-title').textContent = 'Adicionar negócio';
     document.getElementById('biz-save').textContent = 'Criar negócio';
     document.getElementById('biz-id').value = '';
     document.getElementById('biz-nome').value = '';
     document.getElementById('biz-porte').value = 'individual';
+    document.getElementById('biz-logo').value = '';
+    document.getElementById('biz-documento').value = '';
+    document.getElementById('biz-contato').value = '';
+    document.getElementById('biz-endereco').value = '';
+    document.getElementById('biz-delete-trigger').style.display = 'none';
   }
   document.getElementById('modal-business').classList.add('open');
 }
@@ -1516,6 +1612,10 @@ document.getElementById('biz-save').addEventListener('click', async () => {
   const nome = document.getElementById('biz-nome').value.trim();
   const tipoId = document.getElementById('biz-tipo').value;
   const porte = document.getElementById('biz-porte').value;
+  const logoUrl = document.getElementById('biz-logo').value.trim();
+  const documento = document.getElementById('biz-documento').value.trim();
+  const contato = document.getElementById('biz-contato').value.trim();
+  const endereco = document.getElementById('biz-endereco').value.trim();
 
   hideMsg('biz-msg');
   if (!nome) { showMsg('biz-msg', 'Informe o nome do negócio.', 'error'); return; }
@@ -1527,15 +1627,21 @@ document.getElementById('biz-save').addEventListener('click', async () => {
     const user = await getAuthedUser();
     if (!user) { showMsg('biz-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
 
+    const payload = {
+      name: nome, business_type_id: tipoId, size: porte,
+      logo_url: logoUrl || null, document_number: documento || null,
+      contact: contato || null, address: endereco || null
+    };
+
     if (id) {
       const { error } = await withTimeout(sb.from('businesses').update({
-        name: nome, business_type_id: tipoId, size: porte, updated_at: new Date().toISOString()
+        ...payload, updated_at: new Date().toISOString()
       }).eq('id', id), 15000);
       if (error) { showMsg('biz-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
       toast('Negócio atualizado com sucesso.');
     } else {
       const { error } = await withTimeout(sb.from('businesses').insert({
-        user_id: user.id, name: nome, business_type_id: tipoId, size: porte
+        ...payload, user_id: user.id
       }), 15000);
       if (error) { showMsg('biz-msg', 'Erro ao criar negócio: ' + error.message, 'error'); return; }
       toast('Negócio criado com sucesso.');
@@ -1552,10 +1658,43 @@ document.getElementById('biz-save').addEventListener('click', async () => {
   }
 });
 
+// ── Modal: excluir negócio ──
+document.getElementById('biz-delete-trigger').addEventListener('click', () => {
+  const id = document.getElementById('biz-id').value;
+  if (!id) return;
+  document.getElementById('modal-business').classList.remove('open');
+  document.getElementById('delete-business-id').value = id;
+  document.getElementById('modal-delete-business').classList.add('open');
+});
+document.getElementById('delete-business-cancel').addEventListener('click', () => document.getElementById('modal-delete-business').classList.remove('open'));
+document.getElementById('delete-business-confirm').addEventListener('click', async () => {
+  const id = document.getElementById('delete-business-id').value;
+  setBtn('delete-business-confirm', true, 'Excluir negócio');
+  try {
+    const { error } = await withTimeout(sb.from('businesses').delete().eq('id', id), 15000);
+    document.getElementById('modal-delete-business').classList.remove('open');
+    if (error) { toast('Erro ao excluir negócio: ' + error.message, true); return; }
+    toast('Negócio excluído.');
+    await loadBusinesses();
+    renderBusinessesGrid();
+  } catch (err) {
+    console.error('Erro ao excluir negócio:', err);
+    document.getElementById('modal-delete-business').classList.remove('open');
+    toast('Não foi possível excluir. ' + (err && err.message ? err.message : 'Tente novamente.'), true);
+  } finally {
+    setBtn('delete-business-confirm', false, 'Excluir negócio');
+  }
+});
+
 // ══════════════════════════════════════════════
 // NAVEGAÇÃO ENTRE VIEWS DO APP
 // ══════════════════════════════════════════════
+function closeMobileMenu() {
+  document.getElementById('app-sidebar').classList.remove('open');
+  document.getElementById('app-menu-backdrop').classList.remove('open');
+}
 function goto(viewId) {
+  closeMobileMenu();
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
   document.querySelectorAll('.app-nav-item').forEach(item => {
@@ -1571,6 +1710,11 @@ document.querySelectorAll('.app-nav-item').forEach(item => {
 document.querySelectorAll('[data-goto]').forEach(btn => {
   btn.addEventListener('click', () => goto(btn.dataset.goto));
 });
+document.getElementById('app-menu-toggle').addEventListener('click', () => {
+  document.getElementById('app-sidebar').classList.add('open');
+  document.getElementById('app-menu-backdrop').classList.add('open');
+});
+document.getElementById('app-menu-backdrop').addEventListener('click', closeMobileMenu);
 
 // ══════════════════════════════════════════════
 // CARREGAR DADOS DO SUPABASE
@@ -2059,7 +2203,7 @@ function exportarEstoque() {
   ws['!cols'] = [{ wch: 28 }, { wch: 16 }, { wch: 12 }, { wch: 18 }, { wch: 22 }, { wch: 14 }, { wch: 14 }, { wch: 14 }];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Estoque');
-  baixarPlanilha(wb, nomeArquivoComData('nexus-stock_estoque'));
+  baixarPlanilha(wb, nomeArquivoComData('conexus_estoque'));
   toast('Planilha de estoque exportada.');
 }
 
@@ -2081,7 +2225,7 @@ function exportarMovimentacoes() {
   ws['!cols'] = [{ wch: 20 }, { wch: 28 }, { wch: 10 }, { wch: 12 }, { wch: 16 }, { wch: 16 }];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Movimentações');
-  baixarPlanilha(wb, nomeArquivoComData('nexus-stock_movimentacoes'));
+  baixarPlanilha(wb, nomeArquivoComData('conexus_movimentacoes'));
   toast('Planilha de movimentações exportada.');
 }
 
@@ -2123,7 +2267,7 @@ function exportarFinancas() {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, wsResumo, 'Resumo');
   XLSX.utils.book_append_sheet(wb, wsDetalhe, 'Vendas detalhadas');
-  baixarPlanilha(wb, nomeArquivoComData('nexus-stock_financas'));
+  baixarPlanilha(wb, nomeArquivoComData('conexus_financas'));
   toast('Planilha financeira exportada.');
 }
 
