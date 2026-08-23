@@ -1172,6 +1172,25 @@
   </div>
 </div>
 
+<!-- Modal: devolução de venda -->
+<div class="modal-overlay" id="modal-devolucao">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-title">Registrar devolução</div>
+    <div class="modal-sub">Informe quantas unidades de cada produto foram devolvidas</div>
+    <div class="msg-box" id="devolucao-msg"></div>
+    <input type="hidden" id="devolucao-sale-id" />
+    <div id="devolucao-itens-slot"></div>
+    <div class="app-form-group" style="margin-top:12px;">
+      <label class="app-form-label">Motivo (opcional)</label>
+      <input type="text" class="app-form-input" id="devolucao-motivo" placeholder="Ex: produto com defeito" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="devolucao-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="devolucao-confirm">Confirmar devolução</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: criar/editar fornecedor -->
 <div class="modal-overlay" id="modal-fornecedor">
   <div class="modal-box">
@@ -1559,6 +1578,7 @@ let cartItems = [];         // carrinho da tela de Vendas: [{ id, quantity }]
 let suppliers = [];         // cache local dos fornecedores do negócio atual
 let purchasesHistory = [];  // cache local das compras do negócio atual
 let compraCartItems = [];   // carrinho da tela de Compras: [{ id, quantity, unitCost }]
+let salesReturns = [];      // cache local das devoluções do negócio atual
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -2051,13 +2071,14 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes] = await withTimeout(Promise.all([
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
       sb.from('sales').select('*, customers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('suppliers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
-      sb.from('purchases').select('*, suppliers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
+      sb.from('purchases').select('*, suppliers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
+      sb.from('returns').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
@@ -2066,6 +2087,7 @@ async function loadAllData() {
     if (salesRes.error) throw salesRes.error;
     if (suppRes.error) throw suppRes.error;
     if (purchRes.error) throw purchRes.error;
+    if (returnsRes.error) throw returnsRes.error;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
@@ -2073,6 +2095,7 @@ async function loadAllData() {
     salesHistory = salesRes.data || [];
     suppliers = suppRes.data || [];
     purchasesHistory = purchRes.data || [];
+    salesReturns = returnsRes.data || [];
 
     renderDashboard();
     renderEstoqueTable();
@@ -2478,18 +2501,29 @@ function renderFinancas(period) {
 
   const start = periodStartDate(period);
   const saidas = movements.filter(m => m.type === 'saida' && new Date(m.created_at) >= start);
+  const devolucoesPeriodo = salesReturns.filter(r => new Date(r.created_at) >= start);
 
-  const receita = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
+  const receitaBruta = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
+  const valorDevolvido = devolucoesPeriodo.reduce((s, r) => s + Number(r.quantity) * Number(r.unit_price), 0);
+  const receita = receitaBruta - valorDevolvido;
+
   // custo real: usa o custo salvo na própria movimentação (unit_cost, capturado
   // no momento da venda); se a movimentação não tiver isso (dado antigo), usa o
   // custo atual do produto; só na falta total de qualquer dado de custo real
-  // cai na estimativa de 40% como último recurso.
-  const custo = saidas.reduce((s, m) => {
+  // cai na estimativa de 40% como último recurso. Devoluções abatem o custo
+  // proporcional, já que o produto volta pro estoque.
+  const custoBruto = saidas.reduce((s, m) => {
     if (m.unit_cost != null) return s + Number(m.quantity) * Number(m.unit_cost);
     const produto = products.find(p => p.id === m.product_id);
     if (produto && produto.cost_price != null) return s + Number(m.quantity) * Number(produto.cost_price);
     return s + Number(m.quantity) * Number(m.unit_price) * 0.4;
   }, 0);
+  const custoDevolvido = devolucoesPeriodo.reduce((s, r) => {
+    const produto = products.find(p => p.id === r.product_id);
+    if (produto && produto.cost_price != null) return s + Number(r.quantity) * Number(produto.cost_price);
+    return s + Number(r.quantity) * Number(r.unit_price) * 0.4;
+  }, 0);
+  const custo = custoBruto - custoDevolvido;
   const lucro = receita - custo;
 
   document.getElementById('app-fin-receita').textContent = brl(receita);
@@ -2879,20 +2913,29 @@ function renderSalesHistory() {
       '<div class="empty-state-sub">Vendas finalizadas aparecem aqui.</div></div>';
     return;
   }
-  let html = '<table class="app-table"><thead><tr><th>Data</th><th>Cliente</th><th>Pagamento</th><th>Total</th><th>Status</th></tr></thead><tbody>';
+  let html = '<table class="app-table"><thead><tr><th>Data</th><th>Cliente</th><th>Pagamento</th><th>Total</th><th>Status</th><th>Ações</th></tr></thead><tbody>';
   salesHistory.forEach(s => {
     const data = new Date(s.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     const clienteNome = s.customers ? s.customers.name : 'Sem cliente';
+    const podeDevolver = s.status !== 'devolvida' && s.status !== 'cancelada';
     html += '<tr>' +
       '<td>' + data + '</td>' +
       '<td>' + escapeHtml(clienteNome) + '</td>' +
       '<td>' + (PAGAMENTO_LABELS[s.payment_method] || '—') + '</td>' +
       '<td><strong>' + brl(s.total) + '</strong></td>' +
       '<td>' + (VENDA_STATUS_LABELS[s.status] || s.status) + '</td>' +
+      '<td>' + (podeDevolver ? '<button class="btn-app-secondary" data-return-sale="' + s.id + '" style="padding:6px 12px; font-size:12px;">Devolver</button>' : '—') + '</td>' +
       '</tr>';
   });
   html += '</tbody></table>';
   slot.innerHTML = html;
+
+  slot.querySelectorAll('[data-return-sale]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sale = salesHistory.find(s => s.id === btn.dataset.returnSale);
+      if (sale) openReturnModal(sale);
+    });
+  });
 }
 
 function exportarVendas() {
@@ -2917,6 +2960,125 @@ function exportarVendas() {
   toast('Planilha de vendas exportada.');
 }
 document.getElementById('btn-export-vendas').addEventListener('click', exportarVendas);
+
+// ══════════════════════════════════════════════
+// DEVOLUÇÕES
+// ══════════════════════════════════════════════
+async function openReturnModal(sale) {
+  document.getElementById('devolucao-sale-id').value = sale.id;
+  document.getElementById('devolucao-motivo').value = '';
+  hideMsg('devolucao-msg');
+  const slot = document.getElementById('devolucao-itens-slot');
+  slot.innerHTML = '<div class="app-loading"><span class="spin"></span>Carregando itens da venda...</div>';
+  document.getElementById('modal-devolucao').classList.add('open');
+
+  try {
+    const [itemsRes, returnsRes] = await withTimeout(Promise.all([
+      sb.from('sale_items').select('*').eq('sale_id', sale.id),
+      sb.from('returns').select('*').eq('sale_id', sale.id)
+    ]), 15000);
+    if (itemsRes.error) throw itemsRes.error;
+    if (returnsRes.error) throw returnsRes.error;
+
+    const items = itemsRes.data || [];
+    const returnsForSale = returnsRes.data || [];
+
+    if (items.length === 0) {
+      slot.innerHTML = '<div class="field-hint">Essa venda não tem itens registrados.</div>';
+      return;
+    }
+
+    slot.innerHTML = items.map(item => {
+      const jaDevolvido = returnsForSale.filter(r => r.sale_item_id === item.id).reduce((s, r) => s + Number(r.quantity), 0);
+      const disponivel = item.quantity - jaDevolvido;
+      if (disponivel <= 0) {
+        return '<div style="padding:10px 0; font-size:13px; color:var(--cinza-texto);">' + escapeHtml(item.product_name) + ' — já totalmente devolvido</div>';
+      }
+      return '<div class="app-form-row" style="align-items:end; margin-bottom:10px;">' +
+        '<div><div class="app-form-label">' + escapeHtml(item.product_name) + '</div>' +
+        '<div class="field-hint">Vendido: ' + item.quantity + (jaDevolvido > 0 ? ' · já devolvido: ' + jaDevolvido : '') + '</div></div>' +
+        '<div class="app-form-group" style="margin-bottom:0;">' +
+        '<input type="number" class="app-form-input" min="0" max="' + disponivel + '" value="0" ' +
+        'data-devolucao-item data-sale-item-id="' + item.id + '" data-product-id="' + (item.product_id || '') + '" ' +
+        'data-product-name="' + escapeHtml(item.product_name) + '" data-unit-price="' + item.unit_price + '" data-max="' + disponivel + '" /></div></div>';
+    }).join('');
+  } catch (err) {
+    console.error('Erro ao carregar itens da venda:', err);
+    slot.innerHTML = '<div class="msg-box msg-error" style="display:block;">Não foi possível carregar os itens dessa venda.</div>';
+  }
+}
+document.getElementById('devolucao-cancel').addEventListener('click', () => document.getElementById('modal-devolucao').classList.remove('open'));
+
+document.getElementById('devolucao-confirm').addEventListener('click', async () => {
+  hideMsg('devolucao-msg');
+  const saleId = document.getElementById('devolucao-sale-id').value;
+  const motivo = document.getElementById('devolucao-motivo').value.trim();
+  const inputs = Array.from(document.querySelectorAll('[data-devolucao-item]'));
+
+  const itensParaDevolver = inputs.map(inp => {
+    const max = parseInt(inp.dataset.max, 10);
+    return {
+      saleItemId: inp.dataset.saleItemId,
+      productId: inp.dataset.productId || null,
+      productName: inp.dataset.productName,
+      unitPrice: parseFloat(inp.dataset.unitPrice),
+      max: max,
+      quantity: Math.min(Math.max(parseInt(inp.value, 10) || 0, 0), max)
+    };
+  }).filter(i => i.quantity > 0);
+
+  if (itensParaDevolver.length === 0) { showMsg('devolucao-msg', 'Informe a quantidade de pelo menos um item.', 'error'); return; }
+
+  setBtn('devolucao-confirm', true, 'Confirmar devolução');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('devolucao-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    const { error: returnsError } = await withTimeout(sb.from('returns').insert(
+      itensParaDevolver.map(i => ({
+        business_id: currentBusiness.id, user_id: user.id, sale_id: saleId,
+        sale_item_id: i.saleItemId, product_id: i.productId, product_name: i.productName,
+        quantity: i.quantity, unit_price: i.unitPrice, reason: motivo || null
+      }))
+    ), 15000);
+    if (returnsError) { showMsg('devolucao-msg', 'Erro ao registrar devolução: ' + returnsError.message, 'error'); return; }
+
+    // devolve estoque só pra itens cujo produto ainda existe
+    const itensComProduto = itensParaDevolver.filter(i => i.productId);
+    if (itensComProduto.length > 0) {
+      const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
+        itensComProduto.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.productId, product_name: i.productName, type: 'entrada', quantity: i.quantity, unit_price: i.unitPrice }))
+      ), 15000);
+      if (movsError) toast('Devolução registrada, mas houve erro ao atualizar o estoque: ' + movsError.message, true);
+
+      await Promise.all(itensComProduto.map(i => {
+        const product = products.find(p => p.id === i.productId);
+        if (!product) return Promise.resolve();
+        const novaQtd = Number(product.quantity) + i.quantity;
+        return withTimeout(sb.from('products').update({ quantity: novaQtd, updated_at: new Date().toISOString() }).eq('id', i.productId).eq('business_id', currentBusiness.id), 15000);
+      }));
+    }
+
+    // se não sobrou nada disponível pra devolver em nenhum item, marca a venda como devolvida
+    const aindaTemDisponivel = inputs.some(inp => {
+      const max = parseInt(inp.dataset.max, 10);
+      const devolvidoAgora = Math.min(Math.max(parseInt(inp.value, 10) || 0, 0), max);
+      return (max - devolvidoAgora) > 0;
+    });
+    if (!aindaTemDisponivel) {
+      await withTimeout(sb.from('sales').update({ status: 'devolvida' }).eq('id', saleId).eq('business_id', currentBusiness.id), 15000);
+    }
+
+    toast('Devolução registrada com sucesso.');
+    document.getElementById('modal-devolucao').classList.remove('open');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao registrar devolução:', err);
+    showMsg('devolucao-msg', 'Não foi possível registrar a devolução. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('devolucao-confirm', false, 'Confirmar devolução');
+  }
+});
 
 // ══════════════════════════════════════════════
 // FORNECEDORES
@@ -3383,13 +3545,23 @@ function exportarFinancas() {
     return;
   }
 
-  const receita = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
-  const custo = saidas.reduce((s, m) => {
+  const devolucoesPeriodo = salesReturns.filter(r => new Date(r.created_at) >= start);
+  const receitaBruta = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
+  const valorDevolvido = devolucoesPeriodo.reduce((s, r) => s + Number(r.quantity) * Number(r.unit_price), 0);
+  const receita = receitaBruta - valorDevolvido;
+
+  const custoBruto = saidas.reduce((s, m) => {
     if (m.unit_cost != null) return s + Number(m.quantity) * Number(m.unit_cost);
     const produto = products.find(p => p.id === m.product_id);
     if (produto && produto.cost_price != null) return s + Number(m.quantity) * Number(produto.cost_price);
     return s + Number(m.quantity) * Number(m.unit_price) * 0.4;
   }, 0);
+  const custoDevolvido = devolucoesPeriodo.reduce((s, r) => {
+    const produto = products.find(p => p.id === r.product_id);
+    if (produto && produto.cost_price != null) return s + Number(r.quantity) * Number(produto.cost_price);
+    return s + Number(r.quantity) * Number(r.unit_price) * 0.4;
+  }, 0);
+  const custo = custoBruto - custoDevolvido;
   const lucro = receita - custo;
   const labelPeriodo = period === 'sem' ? 'Última semana' : period === 'mes' ? 'Último mês' : 'Último ano';
 
