@@ -339,6 +339,21 @@
     .spin { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--cinza-borda); border-top-color: var(--azul); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: -3px; margin-right: 8px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ══════════════════ MEUS NEGÓCIOS ══════════════════ */
+    .app-topbar-left { display: flex; align-items: center; gap: 16px; }
+    .biz-shell-body { max-width: 1100px; margin: 0 auto; padding: 96px 36px 48px; }
+    .biz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top: 24px; }
+    .biz-card { background: #fff; border-radius: 14px; border: 1px solid var(--cinza-borda); padding: 22px; transition: box-shadow .2s, transform .2s; }
+    .biz-card:hover { box-shadow: 0 4px 20px rgba(15,82,186,0.08); transform: translateY(-2px); }
+    .biz-card-icon { font-size: 26px; margin-bottom: 10px; }
+    .biz-card-name { font-size: 16px; font-weight: 700; color: var(--cinza-11); margin-bottom: 4px; }
+    .biz-card-type { font-size: 13px; color: var(--cinza-texto); margin-bottom: 18px; }
+    .biz-card-actions { display: flex; gap: 8px; }
+    .biz-card-actions .btn-app-primary { flex: 1; justify-content: center; }
+    .biz-switcher-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .15s; }
+    .biz-switcher-btn:hover { border-color: var(--azul); background: rgba(15,82,186,0.18); }
+    .biz-switcher-caret { font-size: 10px; opacity: 0.6; }
+
     @media (max-width: 900px) {
       .kpi-grid { grid-template-columns: repeat(2,1fr); }
       .app-sidebar { display: none; }
@@ -359,6 +374,8 @@
       footer { flex-direction: column; gap: 12px; text-align: center; }
       .auth-card { padding: 32px 24px; }
       .kpi-grid { grid-template-columns: 1fr; }
+      .app-user-email { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .biz-switcher-btn span:first-child { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle; }
     }
   </style>
 </head>
@@ -724,10 +741,38 @@
 <!-- ══════════════════ FIM MARKETING SITE ══════════════════ -->
 
 
-<!-- ══════════════════ APP REAL (pós-login) ══════════════════ -->
+<!-- ══════════════════ MEUS NEGÓCIOS ══════════════════ -->
+<div id="businesses-shell" style="display:none;">
+  <div class="app-topbar">
+    <div class="app-topbar-left">
+      <div class="app-logo">Nexus<span>Stock</span></div>
+    </div>
+    <div class="app-topbar-right">
+      <span class="app-user-email" id="biz-user-email"></span>
+      <button class="btn-app-logout" id="biz-btn-logout">Sair</button>
+    </div>
+  </div>
+  <div class="biz-shell-body">
+    <div class="app-header-row">
+      <div>
+        <div class="app-view-title">Meus negócios</div>
+        <div class="app-view-sub">Escolha um negócio para gerenciar, ou adicione um novo</div>
+      </div>
+      <button class="btn-app-primary" id="btn-add-negocio">+ Adicionar negócio</button>
+    </div>
+    <div id="businesses-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════ APP REAL (pós-login, dentro de um negócio) ══════════════════ -->
 <div id="app-shell">
   <div class="app-topbar">
-    <div class="app-logo">Nexus<span>Stock</span></div>
+    <div class="app-topbar-left">
+      <div class="app-logo">Nexus<span>Stock</span></div>
+      <button class="biz-switcher-btn" id="biz-switcher-btn" title="Trocar de negócio">
+        <span id="biz-switcher-name">Carregando…</span><span class="biz-switcher-caret">▾</span>
+      </button>
+    </div>
     <div class="app-topbar-right">
       <span class="app-user-email" id="app-user-email"></span>
       <button class="btn-app-logout" id="app-btn-logout">Sair</button>
@@ -891,6 +936,39 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- Modal: criar/editar negócio -->
+<div class="modal-overlay" id="modal-business">
+  <div class="modal-box">
+    <div class="modal-title" id="biz-modal-title">Adicionar negócio</div>
+    <div class="modal-sub">Preencha as informações do seu negócio</div>
+    <div class="msg-box" id="biz-msg"></div>
+    <input type="hidden" id="biz-id" />
+    <div class="app-form-group">
+      <label class="app-form-label">Nome do negócio</label>
+      <input type="text" class="app-form-input" id="biz-nome" placeholder="Ex: Minha Loja" />
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Tipo de negócio</label>
+        <select class="app-form-select" id="biz-tipo"></select>
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Porte</label>
+        <select class="app-form-select" id="biz-porte">
+          <option value="individual">Individual</option>
+          <option value="pequeno">Pequeno</option>
+          <option value="medio">Médio</option>
+          <option value="grande">Grande</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="biz-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="biz-save">Criar negócio</button>
     </div>
   </div>
 </div>
@@ -1092,6 +1170,9 @@ document.querySelectorAll('.feat-card, .tech-card, .seg-card').forEach(function(
 let currentUser = null;
 let products = [];      // cache local dos produtos do usuário logado
 let movements = [];     // cache local das movimentações
+let businesses = [];        // cache local dos negócios do usuário logado
+let currentBusiness = null; // negócio selecionado no momento
+let businessTypes = [];     // cache local dos tipos de negócio (tabela de referência)
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -1106,7 +1187,7 @@ function showLoggedMarketing(email) {
   document.getElementById('nav-btn-app').addEventListener('click', async function() {
     setBtn('nav-btn-app', true, 'Abrir painel', 'Abrindo...');
     try {
-      await openApp();
+      await openBusinessesShell();
     } finally {
       setBtn('nav-btn-app', false, 'Abrir painel');
     }
@@ -1213,6 +1294,8 @@ document.getElementById('btn-logout').addEventListener('click', async function()
     console.error('Erro ao sair (saindo mesmo assim localmente):', err);
   } finally {
     currentUser = null;
+    currentBusiness = null;
+    businesses = [];
     setBtn('btn-logout', false, 'Sair da conta');
     showLoggedOutMarketing();
   }
@@ -1227,7 +1310,26 @@ document.getElementById('app-btn-logout').addEventListener('click', async functi
     console.error('Erro ao sair (saindo mesmo assim localmente):', err);
   } finally {
     currentUser = null;
+    currentBusiness = null;
+    businesses = [];
     setBtn('app-btn-logout', false, 'Sair');
+    closeApp();
+    showLoggedOutMarketing();
+  }
+});
+
+// ── LOGOUT (dentro de Meus Negócios) ──
+document.getElementById('biz-btn-logout').addEventListener('click', async function() {
+  setBtn('biz-btn-logout', true, 'Sair', 'Saindo...');
+  try {
+    await withTimeout(sb.auth.signOut(), 8000);
+  } catch (err) {
+    console.error('Erro ao sair (saindo mesmo assim localmente):', err);
+  } finally {
+    currentUser = null;
+    currentBusiness = null;
+    businesses = [];
+    setBtn('biz-btn-logout', false, 'Sair');
     closeApp();
     showLoggedOutMarketing();
   }
@@ -1236,7 +1338,7 @@ document.getElementById('app-btn-logout').addEventListener('click', async functi
 document.getElementById('btn-go-app').addEventListener('click', async function() {
   setBtn('btn-go-app', true, 'Abrir painel da empresa →', 'Abrindo...');
   try {
-    await openApp();
+    await openBusinessesShell();
   } finally {
     setBtn('btn-go-app', false, 'Abrir painel da empresa →');
   }
@@ -1247,10 +1349,13 @@ document.getElementById('btn-go-app').addEventListener('click', async function()
 sb.auth.onAuthStateChange(function(event, session) {
   if (session && session.user) {
     currentUser = session.user;
-    if (document.getElementById('app-shell').style.display !== 'block') {
+    const appOpen = document.getElementById('app-shell').style.display === 'block';
+    const bizShellOpen = document.getElementById('businesses-shell').style.display === 'block';
+    if (!appOpen && !bizShellOpen) {
       showLoggedMarketing(currentUser.email);
     } else {
       document.getElementById('app-user-email').textContent = currentUser.email;
+      document.getElementById('biz-user-email').textContent = currentUser.email;
     }
   } else {
     currentUser = null;
@@ -1260,7 +1365,18 @@ sb.auth.onAuthStateChange(function(event, session) {
 // ══════════════════════════════════════════════
 // ABRIR / FECHAR APP
 // ══════════════════════════════════════════════
-async function openApp() {
+function closeApp() {
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('businesses-shell').style.display = 'none';
+  document.getElementById('marketing-site').style.display = 'block';
+}
+
+// ══════════════════════════════════════════════
+// NEGÓCIOS — Meus negócios / seleção / criação
+// ══════════════════════════════════════════════
+const PORTE_LABELS = { individual: 'Individual', pequeno: 'Pequeno', medio: 'Médio', grande: 'Grande' };
+
+async function openBusinessesShell() {
   const user = await getAuthedUser();
   if (!user) {
     toast('Sua sessão expirou ou não foi encontrada. Faça login novamente.', true);
@@ -1269,22 +1385,172 @@ async function openApp() {
     return;
   }
   currentUser = user;
+  currentBusiness = null;
+  console.log('[Conexus] Sessão ativa. user.id =', user.id, '| email =', user.email);
+  document.getElementById('marketing-site').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('businesses-shell').style.display = 'block';
+  document.getElementById('biz-user-email').textContent = currentUser.email;
+
+  const grid = document.getElementById('businesses-grid');
+  grid.innerHTML = '<div class="app-loading"><span class="spin"></span>Carregando seus negócios...</div>';
+
   try {
-    console.log('[Nexus Stock] Sessão ativa. user.id =', user.id, '| email =', user.email);
-    document.getElementById('marketing-site').style.display = 'none';
-    document.getElementById('app-shell').style.display = 'block';
-    document.getElementById('app-user-email').textContent = currentUser.email;
-    document.getElementById('dash-greeting').textContent = 'Bem-vindo(a) de volta, ' + currentUser.email;
-    await loadAllData();
+    await loadBusinessTypes();
+    await loadBusinesses();
+    renderBusinessesGrid();
   } catch (err) {
-    console.error('Erro ao abrir o painel:', err);
-    toast('Não foi possível abrir o painel agora. Tente novamente.', true);
+    console.error('Erro ao carregar negócios:', err);
+    grid.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">⚠️</div>' +
+      '<div class="empty-state-title">Não foi possível carregar seus negócios</div>' +
+      '<div class="empty-state-sub">Verifique sua conexão ou se a migração do banco (tabelas businesses/business_types) já foi executada.</div></div>';
   }
 }
-function closeApp() {
-  document.getElementById('app-shell').style.display = 'none';
-  document.getElementById('marketing-site').style.display = 'block';
+
+async function loadBusinessTypes() {
+  if (businessTypes.length > 0) return; // tipos são fixos, não precisa recarregar toda vez
+  const { data, error } = await withTimeout(sb.from('business_types').select('*').order('name'), 15000);
+  if (error) throw error;
+  businessTypes = data || [];
 }
+
+async function loadBusinesses() {
+  const { data, error } = await withTimeout(
+    sb.from('businesses').select('*, business_types(name, icon)').order('created_at', { ascending: true }),
+    15000
+  );
+  if (error) throw error;
+  businesses = data || [];
+}
+
+function renderBusinessesGrid() {
+  const grid = document.getElementById('businesses-grid');
+
+  if (businesses.length === 0) {
+    grid.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">🏢</div>' +
+      '<div class="empty-state-title">Você ainda não tem nenhum negócio</div>' +
+      '<div class="empty-state-sub">Adicione seu primeiro negócio para começar a usar o Conexus.</div>' +
+      '<button class="btn-app-primary" id="empty-add-negocio-btn">+ Adicionar negócio</button></div>';
+    document.getElementById('empty-add-negocio-btn').addEventListener('click', () => openBusinessModal());
+    return;
+  }
+
+  grid.innerHTML = '<div class="biz-grid">' + businesses.map(b => {
+    const tipo = b.business_types;
+    const icon = tipo ? tipo.icon : '🏢';
+    const tipoNome = tipo ? tipo.name : 'Sem tipo definido';
+    const porte = PORTE_LABELS[b.size] || '';
+    return '<div class="biz-card">' +
+      '<div class="biz-card-icon">' + icon + '</div>' +
+      '<div class="biz-card-name">' + escapeHtml(b.name) + '</div>' +
+      '<div class="biz-card-type">' + escapeHtml(tipoNome) + (porte ? ' · ' + porte : '') + '</div>' +
+      '<div class="biz-card-actions">' +
+        '<button class="btn-app-primary" data-action="abrir" data-id="' + b.id + '">Abrir gestão</button>' +
+        '<button class="icon-btn" title="Editar negócio" data-action="editar-negocio" data-id="' + b.id + '">✎</button>' +
+      '</div></div>';
+  }).join('') + '</div>';
+
+  grid.querySelectorAll('[data-action="abrir"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const biz = businesses.find(b => b.id === btn.dataset.id);
+      if (biz) openBusiness(biz);
+    });
+  });
+  grid.querySelectorAll('[data-action="editar-negocio"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const biz = businesses.find(b => b.id === btn.dataset.id);
+      if (biz) openBusinessModal(biz);
+    });
+  });
+}
+
+async function openBusiness(biz) {
+  currentBusiness = biz;
+  products = [];
+  movements = [];
+  document.getElementById('businesses-shell').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'block';
+  document.getElementById('app-user-email').textContent = currentUser.email;
+  document.getElementById('biz-switcher-name').textContent = biz.name;
+  document.getElementById('dash-greeting').textContent = 'Resumo do negócio ' + biz.name;
+  goto('view-dashboard');
+  await loadAllData();
+}
+
+function backToBusinesses() {
+  document.getElementById('app-shell').style.display = 'none';
+  renderBusinessesGrid(); // reflete qualquer edição feita ao negócio
+  document.getElementById('businesses-shell').style.display = 'block';
+}
+document.getElementById('biz-switcher-btn').addEventListener('click', backToBusinesses);
+
+// ── Modal: criar/editar negócio ──
+function openBusinessModal(biz) {
+  hideMsg('biz-msg');
+  const select = document.getElementById('biz-tipo');
+  select.innerHTML = businessTypes.map(t => '<option value="' + t.id + '">' + t.icon + ' ' + escapeHtml(t.name) + '</option>').join('');
+
+  if (biz) {
+    document.getElementById('biz-modal-title').textContent = 'Editar negócio';
+    document.getElementById('biz-save').textContent = 'Salvar alterações';
+    document.getElementById('biz-id').value = biz.id;
+    document.getElementById('biz-nome').value = biz.name;
+    document.getElementById('biz-porte').value = biz.size || 'individual';
+    if (biz.business_type_id) select.value = biz.business_type_id;
+  } else {
+    document.getElementById('biz-modal-title').textContent = 'Adicionar negócio';
+    document.getElementById('biz-save').textContent = 'Criar negócio';
+    document.getElementById('biz-id').value = '';
+    document.getElementById('biz-nome').value = '';
+    document.getElementById('biz-porte').value = 'individual';
+  }
+  document.getElementById('modal-business').classList.add('open');
+}
+document.getElementById('btn-add-negocio').addEventListener('click', () => openBusinessModal());
+document.getElementById('biz-cancel').addEventListener('click', () => document.getElementById('modal-business').classList.remove('open'));
+
+document.getElementById('biz-save').addEventListener('click', async () => {
+  const id = document.getElementById('biz-id').value;
+  const nome = document.getElementById('biz-nome').value.trim();
+  const tipoId = document.getElementById('biz-tipo').value;
+  const porte = document.getElementById('biz-porte').value;
+
+  hideMsg('biz-msg');
+  if (!nome) { showMsg('biz-msg', 'Informe o nome do negócio.', 'error'); return; }
+  if (!tipoId) { showMsg('biz-msg', 'Escolha um tipo de negócio.', 'error'); return; }
+
+  setBtn('biz-save', true, id ? 'Salvar alterações' : 'Criar negócio');
+
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('biz-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    if (id) {
+      const { error } = await withTimeout(sb.from('businesses').update({
+        name: nome, business_type_id: tipoId, size: porte, updated_at: new Date().toISOString()
+      }).eq('id', id), 15000);
+      if (error) { showMsg('biz-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      toast('Negócio atualizado com sucesso.');
+    } else {
+      const { error } = await withTimeout(sb.from('businesses').insert({
+        user_id: user.id, name: nome, business_type_id: tipoId, size: porte
+      }), 15000);
+      if (error) { showMsg('biz-msg', 'Erro ao criar negócio: ' + error.message, 'error'); return; }
+      toast('Negócio criado com sucesso.');
+    }
+
+    document.getElementById('modal-business').classList.remove('open');
+    await loadBusinesses();
+    renderBusinessesGrid();
+  } catch (err) {
+    console.error('Erro ao salvar negócio:', err);
+    showMsg('biz-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('biz-save', false, id ? 'Salvar alterações' : 'Criar negócio');
+  }
+});
 
 // ══════════════════════════════════════════════
 // NAVEGAÇÃO ENTRE VIEWS DO APP
@@ -1310,10 +1576,11 @@ document.querySelectorAll('[data-goto]').forEach(btn => {
 // CARREGAR DADOS DO SUPABASE
 // ══════════════════════════════════════════════
 async function loadAllData() {
+  if (!currentBusiness) return;
   try {
     const [prodRes, movRes] = await withTimeout(Promise.all([
-      sb.from('products').select('*').order('created_at', { ascending: false }),
-      sb.from('stock_movements').select('*').order('created_at', { ascending: false }).limit(200)
+      sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
+      sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
@@ -1488,7 +1755,7 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   try {
     const { error } = await withTimeout(sb.from('products').update({
       name, price, category, low_stock_threshold: limite, updated_at: new Date().toISOString()
-    }).eq('id', id), 15000);
+    }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
 
     if (error) { showMsg('edit-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
 
@@ -1513,7 +1780,7 @@ document.getElementById('delete-confirm').addEventListener('click', async () => 
   const id = document.getElementById('delete-id').value;
   setBtn('delete-confirm', true, 'Excluir produto');
   try {
-    const { error } = await withTimeout(sb.from('products').delete().eq('id', id), 15000);
+    const { error } = await withTimeout(sb.from('products').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
     document.getElementById('modal-delete').classList.remove('open');
     if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
     toast('Produto excluído.');
@@ -1568,7 +1835,7 @@ document.getElementById('move-confirm').addEventListener('click', async () => {
 
     const { error: updError } = await withTimeout(sb.from('products').update({
       quantity: novaQtd, updated_at: new Date().toISOString()
-    }).eq('id', id), 15000);
+    }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
 
     if (updError) {
       showMsg('move-msg', 'Erro: ' + updError.message, 'error');
@@ -1577,6 +1844,7 @@ document.getElementById('move-confirm').addEventListener('click', async () => {
 
     const { error: movError } = await withTimeout(sb.from('stock_movements').insert({
       user_id: user.id,
+      business_id: currentBusiness.id,
       product_id: id,
       product_name: product.name,
       type: type,
@@ -1629,6 +1897,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
 
     const { error } = await withTimeout(sb.from('products').insert({
       user_id: user.id,
+      business_id: currentBusiness.id,
       name: nome,
       quantity: qtd,
       price: preco,
