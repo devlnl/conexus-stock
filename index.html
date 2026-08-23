@@ -812,6 +812,8 @@
       <div class="app-nav-item" data-view="view-estoque">📦 Estoque</div>
       <div class="app-nav-item" data-view="view-vendas">🛒 Vendas</div>
       <div class="app-nav-item" data-view="view-clientes">👥 Clientes</div>
+      <div class="app-nav-item" data-view="view-compras">📥 Compras</div>
+      <div class="app-nav-item" data-view="view-fornecedores">🏭 Fornecedores</div>
       <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
       <div class="app-nav-item" data-view="view-movimentacoes">🔄 Movimentações</div>
       <div class="app-nav-item" data-view="view-financas">💰 Finanças</div>
@@ -975,6 +977,109 @@
         </div>
       </div>
 
+      <!-- COMPRAS -->
+      <div class="app-view" id="view-compras">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Compras</div>
+            <div class="app-view-sub">Registre compras de fornecedores e atualize o custo real dos produtos</div>
+          </div>
+        </div>
+        <div class="fin-tabs" style="margin-bottom:20px;">
+          <button class="fin-tab active" id="compra-subtab-nova">Nova compra</button>
+          <button class="fin-tab" id="compra-subtab-historico">Histórico</button>
+        </div>
+
+        <div id="compra-panel-nova">
+          <div class="app-card" style="padding:20px; margin-bottom:20px; position:relative;">
+            <div class="app-form-group" style="margin-bottom:0;">
+              <label class="app-form-label">Buscar produto</label>
+              <input type="text" class="app-form-input" id="compra-busca-produto" placeholder="Digite o nome do produto..." autocomplete="off" />
+            </div>
+            <div id="compra-busca-resultados"></div>
+          </div>
+
+          <div class="app-card">
+            <div class="app-card-head">
+              <div class="app-card-title">Itens da compra</div>
+            </div>
+            <div id="compra-carrinho-slot"></div>
+          </div>
+
+          <div class="app-card" style="padding:20px; margin-top:16px;">
+            <div class="msg-box" id="compra-msg"></div>
+            <div class="app-form-row">
+              <div class="app-form-group">
+                <label class="app-form-label">Fornecedor (opcional)</label>
+                <select class="app-form-select" id="compra-fornecedor">
+                  <option value="">Sem fornecedor</option>
+                </select>
+              </div>
+              <div class="app-form-group">
+                <label class="app-form-label">Forma de pagamento</label>
+                <select class="app-form-select" id="compra-pagamento">
+                  <option value="dinheiro">Dinheiro</option>
+                  <option value="pix">Pix</option>
+                  <option value="cartao">Cartão</option>
+                  <option value="boleto">Boleto</option>
+                  <option value="transferencia">Transferência</option>
+                  <option value="outra">Outra</option>
+                </select>
+              </div>
+            </div>
+            <div class="app-form-row">
+              <div class="app-form-group">
+                <label class="app-form-label">Frete (R$, opcional)</label>
+                <input type="number" class="app-form-input" id="compra-frete" min="0" step="0.01" placeholder="0,00" />
+              </div>
+              <div class="app-form-group">
+                <label class="app-form-label">Impostos/outros custos (R$, opcional)</label>
+                <input type="number" class="app-form-input" id="compra-impostos" min="0" step="0.01" placeholder="0,00" />
+              </div>
+            </div>
+            <div class="app-form-group">
+              <label class="app-form-label">Desconto (R$, opcional)</label>
+              <input type="number" class="app-form-input" id="compra-desconto" min="0" step="0.01" placeholder="0,00" />
+            </div>
+            <div class="app-fin-summary" style="margin: 16px 0;">
+              <div class="kpi-card"><div class="kpi-label">Subtotal</div><div class="kpi-val" id="compra-subtotal-val">R$ 0,00</div></div>
+              <div class="kpi-card"><div class="kpi-label">Frete + impostos</div><div class="kpi-val" id="compra-extras-val">R$ 0,00</div></div>
+              <div class="kpi-card"><div class="kpi-label">Total</div><div class="kpi-val" id="compra-total-val">R$ 0,00</div></div>
+            </div>
+            <div class="field-hint" style="margin-bottom:12px;">Frete, impostos e desconto são distribuídos proporcionalmente entre os produtos pra chegar no custo real de cada um.</div>
+            <button class="btn-app-primary" id="compra-finalizar" style="width:100%; justify-content:center;">Registrar compra</button>
+          </div>
+        </div>
+
+        <div id="compra-panel-historico" style="display:none;">
+          <div class="app-card">
+            <div class="app-card-head">
+              <div class="app-card-title">Compras registradas</div>
+              <button class="btn-app-secondary" id="btn-export-compras">⬇ Exportar planilha</button>
+            </div>
+            <div id="compras-historico-slot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORNECEDORES -->
+      <div class="app-view" id="view-fornecedores">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Fornecedores</div>
+            <div class="app-view-sub">Cadastro de fornecedores do seu negócio</div>
+          </div>
+          <button class="btn-app-primary" id="btn-add-fornecedor">+ Novo fornecedor</button>
+        </div>
+        <div class="app-card">
+          <div class="app-card-head">
+            <div class="app-card-title">Fornecedores cadastrados</div>
+            <input type="text" class="app-search" id="fornecedores-search" placeholder="Buscar fornecedor..." />
+          </div>
+          <div id="fornecedores-table-slot"></div>
+        </div>
+      </div>
+
       <!-- ADICIONAR PRODUTO -->
       <div class="app-view" id="view-adicionar">
         <div class="app-header-row">
@@ -1010,6 +1115,11 @@
                 <input type="number" class="app-form-input" id="add-limite" min="0" step="1" placeholder="10" />
                 <div class="field-hint">Você recebe um alerta quando o estoque chega nesse número.</div>
               </div>
+            </div>
+            <div class="app-form-group">
+              <label class="app-form-label">Custo de aquisição (R$, opcional)</label>
+              <input type="number" class="app-form-input" id="add-custo" min="0" step="0.01" placeholder="0,00" />
+              <div class="field-hint">Usado pra calcular o lucro real. Se você comprar esse produto pela tela de Compras, o custo é atualizado automaticamente.</div>
             </div>
             <button class="btn-app-primary" id="btn-add-produto" style="width:100%; justify-content:center; margin-top:8px;">Adicionar ao estoque</button>
           </div>
@@ -1049,8 +1159,8 @@
         </div>
         <div class="app-fin-summary">
           <div class="kpi-card"><div class="kpi-label">Receita</div><div class="kpi-val" id="app-fin-receita">R$ 0,00</div></div>
-          <div class="kpi-card"><div class="kpi-label">Custo (estimado)</div><div class="kpi-val" id="app-fin-custo">R$ 0,00</div></div>
-          <div class="kpi-card"><div class="kpi-label">Lucro líquido</div><div class="kpi-val" id="app-fin-lucro">R$ 0,00</div></div>
+          <div class="kpi-card"><div class="kpi-label">Custo dos produtos</div><div class="kpi-val" id="app-fin-custo">R$ 0,00</div></div>
+          <div class="kpi-card"><div class="kpi-label">Lucro bruto</div><div class="kpi-val" id="app-fin-lucro">R$ 0,00</div></div>
         </div>
         <div class="app-card" style="padding:24px;">
           <div class="app-card-title" style="margin-bottom:16px;">Vendas por período</div>
@@ -1058,6 +1168,65 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- Modal: criar/editar fornecedor -->
+<div class="modal-overlay" id="modal-fornecedor">
+  <div class="modal-box">
+    <div class="modal-title" id="fornecedor-modal-title">Adicionar fornecedor</div>
+    <div class="modal-sub">Preencha as informações do fornecedor</div>
+    <div class="msg-box" id="fornecedor-msg"></div>
+    <input type="hidden" id="fornecedor-id" />
+    <div class="app-form-group">
+      <label class="app-form-label">Nome/Empresa</label>
+      <input type="text" class="app-form-input" id="fornecedor-nome" placeholder="Nome do fornecedor" />
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">CNPJ (opcional)</label>
+        <input type="text" class="app-form-input" id="fornecedor-documento" />
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Contato (opcional)</label>
+        <input type="text" class="app-form-input" id="fornecedor-contato" />
+      </div>
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Telefone (opcional)</label>
+        <input type="text" class="app-form-input" id="fornecedor-telefone" />
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">E-mail (opcional)</label>
+        <input type="email" class="app-form-input" id="fornecedor-email" />
+      </div>
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Endereço (opcional)</label>
+      <input type="text" class="app-form-input" id="fornecedor-endereco" />
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Condições de pagamento (opcional)</label>
+      <input type="text" class="app-form-input" id="fornecedor-condicoes" placeholder="Ex: 30 dias, à vista..." />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="fornecedor-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="fornecedor-save">Criar fornecedor</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: excluir fornecedor -->
+<div class="modal-overlay" id="modal-delete-fornecedor">
+  <div class="modal-box">
+    <div class="modal-title">Excluir fornecedor?</div>
+    <div class="modal-sub">Essa ação não pode ser desfeita. O histórico de compras desse fornecedor continua salvo, só deixa de mostrar o nome dele.</div>
+    <input type="hidden" id="delete-fornecedor-id" />
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="delete-fornecedor-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="delete-fornecedor-confirm" style="background:var(--vermelho)">Excluir fornecedor</button>
     </div>
   </div>
 </div>
@@ -1204,6 +1373,10 @@
     <div class="app-form-group">
       <label class="app-form-label">Alertar quando qtd ≤</label>
       <input type="number" class="app-form-input" id="edit-limite" min="0" step="1" />
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Custo de aquisição (R$, opcional)</label>
+      <input type="number" class="app-form-input" id="edit-custo" min="0" step="0.01" />
     </div>
     <div class="modal-actions">
       <button class="btn-app-secondary" id="edit-cancel">Cancelar</button>
@@ -1383,6 +1556,9 @@ let businessTypes = [];     // cache local dos tipos de negócio (tabela de refe
 let customers = [];         // cache local dos clientes do negócio atual
 let salesHistory = [];      // cache local das vendas do negócio atual
 let cartItems = [];         // carrinho da tela de Vendas: [{ id, quantity }]
+let suppliers = [];         // cache local dos fornecedores do negócio atual
+let purchasesHistory = [];  // cache local das compras do negócio atual
+let compraCartItems = [];   // carrinho da tela de Compras: [{ id, quantity, unitCost }]
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -1875,22 +2051,28 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes, custRes, salesRes] = await withTimeout(Promise.all([
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
-      sb.from('sales').select('*, customers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
+      sb.from('sales').select('*, customers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
+      sb.from('suppliers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
+      sb.from('purchases').select('*, suppliers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
     if (movRes.error) throw movRes.error;
     if (custRes.error) throw custRes.error;
     if (salesRes.error) throw salesRes.error;
+    if (suppRes.error) throw suppRes.error;
+    if (purchRes.error) throw purchRes.error;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
     customers = custRes.data || [];
     salesHistory = salesRes.data || [];
+    suppliers = suppRes.data || [];
+    purchasesHistory = purchRes.data || [];
 
     renderDashboard();
     renderEstoqueTable();
@@ -1900,6 +2082,10 @@ async function loadAllData() {
     populateVendaClienteSelect();
     renderSalesHistory();
     renderCart();
+    renderFornecedoresTable();
+    populateCompraFornecedorSelect();
+    renderPurchasesHistory();
+    renderCompraCart();
   } catch (err) {
     console.error('Erro ao carregar dados:', err);
     toast('Não foi possível carregar seus dados. ' + (err.message || ''), true);
@@ -2043,6 +2229,7 @@ function openEditModal(p) {
   document.getElementById('edit-preco').value = p.price;
   document.getElementById('edit-categoria').value = p.category || '';
   document.getElementById('edit-limite').value = p.low_stock_threshold;
+  document.getElementById('edit-custo').value = p.cost_price != null ? p.cost_price : '';
   hideMsg('edit-msg');
   document.getElementById('modal-edit').classList.add('open');
 }
@@ -2053,15 +2240,18 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   const price = parseFloat(document.getElementById('edit-preco').value);
   const category = document.getElementById('edit-categoria').value.trim() || 'Geral';
   const limite = parseInt(document.getElementById('edit-limite').value, 10);
+  const custoRaw = document.getElementById('edit-custo').value;
+  const custo = custoRaw === '' ? null : parseFloat(custoRaw);
 
   if (!name) { showMsg('edit-msg', 'O nome do produto é obrigatório.', 'error'); return; }
   if (isNaN(price) || price < 0) { showMsg('edit-msg', 'Informe um preço válido.', 'error'); return; }
   if (isNaN(limite) || limite < 0) { showMsg('edit-msg', 'Informe um limite válido para alerta de estoque.', 'error'); return; }
+  if (custo !== null && (isNaN(custo) || custo < 0)) { showMsg('edit-msg', 'Informe um custo válido.', 'error'); return; }
 
   setBtn('edit-save', true, 'Salvar alterações');
   try {
     const { error } = await withTimeout(sb.from('products').update({
-      name, price, category, low_stock_threshold: limite, updated_at: new Date().toISOString()
+      name, price, category, low_stock_threshold: limite, cost_price: custo, updated_at: new Date().toISOString()
     }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
 
     if (error) { showMsg('edit-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
@@ -2185,6 +2375,8 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
   const categoria = document.getElementById('add-categoria').value.trim() || 'Geral';
   const limiteRaw = document.getElementById('add-limite').value;
   const limite = limiteRaw === '' ? 10 : parseInt(limiteRaw, 10);
+  const custoRaw = document.getElementById('add-custo').value;
+  const custo = custoRaw === '' ? null : parseFloat(custoRaw);
 
   hideMsg('add-msg');
 
@@ -2192,6 +2384,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
   if (isNaN(qtd) || qtd < 0) { showMsg('add-msg', 'Informe uma quantidade válida.', 'error'); return; }
   if (isNaN(preco) || preco < 0) { showMsg('add-msg', 'Informe um preço válido.', 'error'); return; }
   if (isNaN(limite) || limite < 0) { showMsg('add-msg', 'Informe um limite de alerta válido.', 'error'); return; }
+  if (custo !== null && (isNaN(custo) || custo < 0)) { showMsg('add-msg', 'Informe um custo válido.', 'error'); return; }
 
   setBtn('btn-add-produto', true, 'Adicionar ao estoque');
 
@@ -2209,7 +2402,8 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
       quantity: qtd,
       price: preco,
       category: categoria,
-      low_stock_threshold: limite
+      low_stock_threshold: limite,
+      cost_price: custo
     }), 15000);
 
     if (error) {
@@ -2228,6 +2422,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
     document.getElementById('add-preco').value = '';
     document.getElementById('add-categoria').value = '';
     document.getElementById('add-limite').value = '';
+    document.getElementById('add-custo').value = '';
 
     await loadAllData();
     setTimeout(() => goto('view-estoque'), 700);
@@ -2285,9 +2480,16 @@ function renderFinancas(period) {
   const saidas = movements.filter(m => m.type === 'saida' && new Date(m.created_at) >= start);
 
   const receita = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
-  // custo estimado: sem dado de custo de aquisição informado pelo usuário,
-  // assumimos 40% do preço de venda como custo estimado (referência didática)
-  const custo = receita * 0.4;
+  // custo real: usa o custo salvo na própria movimentação (unit_cost, capturado
+  // no momento da venda); se a movimentação não tiver isso (dado antigo), usa o
+  // custo atual do produto; só na falta total de qualquer dado de custo real
+  // cai na estimativa de 40% como último recurso.
+  const custo = saidas.reduce((s, m) => {
+    if (m.unit_cost != null) return s + Number(m.quantity) * Number(m.unit_cost);
+    const produto = products.find(p => p.id === m.product_id);
+    if (produto && produto.cost_price != null) return s + Number(m.quantity) * Number(produto.cost_price);
+    return s + Number(m.quantity) * Number(m.unit_price) * 0.4;
+  }, 0);
   const lucro = receita - custo;
 
   document.getElementById('app-fin-receita').textContent = brl(receita);
@@ -2624,7 +2826,11 @@ document.getElementById('venda-finalizar').addEventListener('click', async () =>
     const discountFactor = subtotal > 0 ? (1 - discount / subtotal) : 1;
     const itemsSnapshot = cartItems.map(item => {
       const product = products.find(p => p.id === item.id);
-      return { id: item.id, name: product.name, quantity: item.quantity, price: Number(product.price) * discountFactor };
+      return {
+        id: item.id, name: product.name, quantity: item.quantity,
+        price: Number(product.price) * discountFactor,
+        cost: product.cost_price != null ? Number(product.cost_price) : null
+      };
     });
 
     const { data: saleData, error: saleError } = await withTimeout(sb.from('sales').insert({
@@ -2641,7 +2847,7 @@ document.getElementById('venda-finalizar').addEventListener('click', async () =>
     if (itemsError) toast('Venda registrada, mas houve erro ao salvar os itens: ' + itemsError.message, true);
 
     const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
-      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'saida', quantity: i.quantity, unit_price: i.price }))
+      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'saida', quantity: i.quantity, unit_price: i.price, unit_cost: i.cost }))
     ), 15000);
     if (movsError) toast('Venda registrada, mas houve erro ao atualizar o estoque: ' + movsError.message, true);
 
@@ -2711,6 +2917,401 @@ function exportarVendas() {
   toast('Planilha de vendas exportada.');
 }
 document.getElementById('btn-export-vendas').addEventListener('click', exportarVendas);
+
+// ══════════════════════════════════════════════
+// FORNECEDORES
+// ══════════════════════════════════════════════
+function renderFornecedoresTable(filterText) {
+  const slot = document.getElementById('fornecedores-table-slot');
+  const term = (filterText || document.getElementById('fornecedores-search').value || '').toLowerCase().trim();
+  const list = suppliers.filter(s => s.name.toLowerCase().includes(term));
+
+  if (suppliers.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">🏭</div>' +
+      '<div class="empty-state-title">Nenhum fornecedor cadastrado</div>' +
+      '<div class="empty-state-sub">Adicione seu primeiro fornecedor pra usar na tela de Compras.</div>' +
+      '<button class="btn-app-primary" id="empty-add-fornecedor-btn">+ Novo fornecedor</button></div>';
+    document.getElementById('empty-add-fornecedor-btn').addEventListener('click', () => openSupplierModal());
+    return;
+  }
+  if (list.length === 0) {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">Nenhum fornecedor encontrado</div><div class="empty-state-sub">Tente buscar com outro termo.</div></div>';
+    return;
+  }
+
+  let html = '<table class="app-table"><thead><tr><th>Nome</th><th>Contato</th><th>Telefone</th><th>Ações</th></tr></thead><tbody>';
+  list.forEach(s => {
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(s.name) + '</strong></td>' +
+      '<td>' + escapeHtml(s.contact || '—') + '</td>' +
+      '<td>' + escapeHtml(s.phone || '—') + '</td>' +
+      '<td><div class="row-actions">' +
+        '<button class="icon-btn" title="Editar" data-fornecedor-action="editar" data-id="' + s.id + '">✎</button>' +
+        '<button class="icon-btn danger" title="Excluir" data-fornecedor-action="excluir" data-id="' + s.id + '">🗑</button>' +
+      '</div></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+
+  slot.querySelectorAll('[data-fornecedor-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const fornecedor = suppliers.find(s => s.id === btn.dataset.id);
+      if (!fornecedor) return;
+      if (btn.dataset.fornecedorAction === 'editar') openSupplierModal(fornecedor);
+      if (btn.dataset.fornecedorAction === 'excluir') openDeleteSupplierModal(fornecedor);
+    });
+  });
+}
+document.getElementById('fornecedores-search').addEventListener('input', () => renderFornecedoresTable());
+
+function openSupplierModal(fornecedor) {
+  hideMsg('fornecedor-msg');
+  if (fornecedor) {
+    document.getElementById('fornecedor-modal-title').textContent = 'Editar fornecedor';
+    document.getElementById('fornecedor-save').textContent = 'Salvar alterações';
+    document.getElementById('fornecedor-id').value = fornecedor.id;
+    document.getElementById('fornecedor-nome').value = fornecedor.name;
+    document.getElementById('fornecedor-documento').value = fornecedor.document || '';
+    document.getElementById('fornecedor-contato').value = fornecedor.contact || '';
+    document.getElementById('fornecedor-telefone').value = fornecedor.phone || '';
+    document.getElementById('fornecedor-email').value = fornecedor.email || '';
+    document.getElementById('fornecedor-endereco').value = fornecedor.address || '';
+    document.getElementById('fornecedor-condicoes').value = fornecedor.payment_terms || '';
+  } else {
+    document.getElementById('fornecedor-modal-title').textContent = 'Adicionar fornecedor';
+    document.getElementById('fornecedor-save').textContent = 'Criar fornecedor';
+    document.getElementById('fornecedor-id').value = '';
+    document.getElementById('fornecedor-nome').value = '';
+    document.getElementById('fornecedor-documento').value = '';
+    document.getElementById('fornecedor-contato').value = '';
+    document.getElementById('fornecedor-telefone').value = '';
+    document.getElementById('fornecedor-email').value = '';
+    document.getElementById('fornecedor-endereco').value = '';
+    document.getElementById('fornecedor-condicoes').value = '';
+  }
+  document.getElementById('modal-fornecedor').classList.add('open');
+}
+document.getElementById('btn-add-fornecedor').addEventListener('click', () => openSupplierModal());
+document.getElementById('fornecedor-cancel').addEventListener('click', () => document.getElementById('modal-fornecedor').classList.remove('open'));
+
+document.getElementById('fornecedor-save').addEventListener('click', async () => {
+  const id = document.getElementById('fornecedor-id').value;
+  const nome = document.getElementById('fornecedor-nome').value.trim();
+  const documento = document.getElementById('fornecedor-documento').value.trim();
+  const contato = document.getElementById('fornecedor-contato').value.trim();
+  const telefone = document.getElementById('fornecedor-telefone').value.trim();
+  const email = document.getElementById('fornecedor-email').value.trim();
+  const endereco = document.getElementById('fornecedor-endereco').value.trim();
+  const condicoes = document.getElementById('fornecedor-condicoes').value.trim();
+
+  hideMsg('fornecedor-msg');
+  if (!nome) { showMsg('fornecedor-msg', 'Informe o nome do fornecedor.', 'error'); return; }
+
+  setBtn('fornecedor-save', true, id ? 'Salvar alterações' : 'Criar fornecedor');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('fornecedor-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    const payload = {
+      name: nome, document: documento || null, contact: contato || null, phone: telefone || null,
+      email: email || null, address: endereco || null, payment_terms: condicoes || null
+    };
+
+    if (id) {
+      const { error } = await withTimeout(sb.from('suppliers').update({
+        ...payload, updated_at: new Date().toISOString()
+      }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+      if (error) { showMsg('fornecedor-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      toast('Fornecedor atualizado com sucesso.');
+    } else {
+      const { error } = await withTimeout(sb.from('suppliers').insert({
+        ...payload, user_id: user.id, business_id: currentBusiness.id
+      }), 15000);
+      if (error) { showMsg('fornecedor-msg', 'Erro ao criar fornecedor: ' + error.message, 'error'); return; }
+      toast('Fornecedor criado com sucesso.');
+    }
+
+    document.getElementById('modal-fornecedor').classList.remove('open');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao salvar fornecedor:', err);
+    showMsg('fornecedor-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('fornecedor-save', false, id ? 'Salvar alterações' : 'Criar fornecedor');
+  }
+});
+
+function openDeleteSupplierModal(fornecedor) {
+  document.getElementById('delete-fornecedor-id').value = fornecedor.id;
+  document.getElementById('modal-delete-fornecedor').classList.add('open');
+}
+document.getElementById('delete-fornecedor-cancel').addEventListener('click', () => document.getElementById('modal-delete-fornecedor').classList.remove('open'));
+document.getElementById('delete-fornecedor-confirm').addEventListener('click', async () => {
+  const id = document.getElementById('delete-fornecedor-id').value;
+  setBtn('delete-fornecedor-confirm', true, 'Excluir fornecedor');
+  try {
+    const { error } = await withTimeout(sb.from('suppliers').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    document.getElementById('modal-delete-fornecedor').classList.remove('open');
+    if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    toast('Fornecedor excluído.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao excluir fornecedor:', err);
+    document.getElementById('modal-delete-fornecedor').classList.remove('open');
+    toast('Não foi possível excluir. ' + (err && err.message ? err.message : 'Tente novamente.'), true);
+  } finally {
+    setBtn('delete-fornecedor-confirm', false, 'Excluir fornecedor');
+  }
+});
+
+function populateCompraFornecedorSelect() {
+  const select = document.getElementById('compra-fornecedor');
+  const currentVal = select.value;
+  select.innerHTML = '<option value="">Sem fornecedor</option>' +
+    suppliers.map(s => '<option value="' + s.id + '">' + escapeHtml(s.name) + '</option>').join('');
+  if (suppliers.some(s => s.id === currentVal)) select.value = currentVal;
+}
+
+// ══════════════════════════════════════════════
+// COMPRAS — carrinho com custo editável, frete/impostos, histórico
+// ══════════════════════════════════════════════
+function switchCompraSubtab(tab) {
+  document.getElementById('compra-subtab-nova').classList.toggle('active', tab === 'nova');
+  document.getElementById('compra-subtab-historico').classList.toggle('active', tab === 'historico');
+  document.getElementById('compra-panel-nova').style.display = tab === 'nova' ? 'block' : 'none';
+  document.getElementById('compra-panel-historico').style.display = tab === 'historico' ? 'block' : 'none';
+}
+document.getElementById('compra-subtab-nova').addEventListener('click', () => switchCompraSubtab('nova'));
+document.getElementById('compra-subtab-historico').addEventListener('click', () => switchCompraSubtab('historico'));
+
+document.getElementById('compra-busca-produto').addEventListener('input', function() {
+  const term = this.value.toLowerCase().trim();
+  const resultsSlot = document.getElementById('compra-busca-resultados');
+  if (!term) { resultsSlot.innerHTML = ''; return; }
+  const matches = products.filter(p => p.name.toLowerCase().includes(term)).slice(0, 6);
+  if (matches.length === 0) {
+    resultsSlot.innerHTML = '<div style="padding:10px 4px; font-size:13px; color:var(--cinza-texto);">Nenhum produto encontrado.</div>';
+    return;
+  }
+  resultsSlot.innerHTML = matches.map(p =>
+    '<div class="venda-busca-item" data-add-compra-product="' + p.id + '">' +
+      '<span>' + escapeHtml(p.name) + '</span>' +
+      '<span style="color:var(--cinza-texto); font-size:12px;">' + p.quantity + ' em estoque' + (p.cost_price != null ? ' · custo atual ' + brl(p.cost_price) : '') + '</span>' +
+    '</div>'
+  ).join('');
+  resultsSlot.querySelectorAll('[data-add-compra-product]').forEach(el => {
+    el.addEventListener('click', () => {
+      addToCompraCart(el.dataset.addCompraProduct);
+      document.getElementById('compra-busca-produto').value = '';
+      resultsSlot.innerHTML = '';
+    });
+  });
+});
+
+function addToCompraCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+  const existing = compraCartItems.find(c => c.id === productId);
+  if (existing) { existing.quantity += 1; }
+  else {
+    compraCartItems.push({ id: productId, quantity: 1, unitCost: product.cost_price != null ? Number(product.cost_price) : 0 });
+  }
+  renderCompraCart();
+}
+
+function removeFromCompraCart(productId) {
+  compraCartItems = compraCartItems.filter(c => c.id !== productId);
+  renderCompraCart();
+}
+
+function updateCompraCartQty(productId, qty) {
+  const item = compraCartItems.find(c => c.id === productId);
+  if (!item) return;
+  item.quantity = Math.max(1, qty);
+  renderCompraCart();
+}
+
+function updateCompraCartCost(productId, cost) {
+  const item = compraCartItems.find(c => c.id === productId);
+  if (!item) return;
+  item.unitCost = Math.max(0, cost);
+  renderCompraCart();
+}
+
+function renderCompraCart() {
+  const slot = document.getElementById('compra-carrinho-slot');
+  if (compraCartItems.length === 0) {
+    slot.innerHTML = '<div class="empty-state" style="border:none;">' +
+      '<div class="empty-state-icon">📥</div>' +
+      '<div class="empty-state-title">Nenhum item adicionado</div>' +
+      '<div class="empty-state-sub">Busque um produto acima para adicionar à compra.</div></div>';
+    renderCompraTotals();
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Produto</th><th>Qtd</th><th>Custo unit. (R$)</th><th>Subtotal</th><th></th></tr></thead><tbody>';
+  compraCartItems.forEach(item => {
+    const product = products.find(p => p.id === item.id);
+    if (!product) return;
+    const subtotal = item.quantity * item.unitCost;
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(product.name) + '</strong></td>' +
+      '<td><input type="number" class="cart-qty-input" min="1" value="' + item.quantity + '" data-compra-qty="' + item.id + '"></td>' +
+      '<td><input type="number" class="cart-qty-input" min="0" step="0.01" value="' + item.unitCost.toFixed(2) + '" data-compra-cost="' + item.id + '" style="width:84px;"></td>' +
+      '<td>' + brl(subtotal) + '</td>' +
+      '<td><button class="icon-btn danger" title="Remover" data-compra-remove="' + item.id + '">🗑</button></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+
+  slot.querySelectorAll('[data-compra-qty]').forEach(inp => {
+    inp.addEventListener('change', () => updateCompraCartQty(inp.dataset.compraQty, parseInt(inp.value, 10) || 1));
+  });
+  slot.querySelectorAll('[data-compra-cost]').forEach(inp => {
+    inp.addEventListener('change', () => updateCompraCartCost(inp.dataset.compraCost, parseFloat(inp.value) || 0));
+  });
+  slot.querySelectorAll('[data-compra-remove]').forEach(btn => {
+    btn.addEventListener('click', () => removeFromCompraCart(btn.dataset.compraRemove));
+  });
+  renderCompraTotals();
+}
+
+function renderCompraTotals() {
+  const subtotal = compraCartItems.reduce((s, item) => s + item.quantity * item.unitCost, 0);
+  const frete = parseFloat(document.getElementById('compra-frete').value) || 0;
+  const impostos = parseFloat(document.getElementById('compra-impostos').value) || 0;
+  const extras = frete + impostos;
+  const desconto = parseFloat(document.getElementById('compra-desconto').value) || 0;
+  const total = Math.max(0, subtotal + extras - desconto);
+  document.getElementById('compra-subtotal-val').textContent = brl(subtotal);
+  document.getElementById('compra-extras-val').textContent = brl(extras);
+  document.getElementById('compra-total-val').textContent = brl(total);
+}
+['compra-frete', 'compra-impostos', 'compra-desconto'].forEach(id => {
+  document.getElementById(id).addEventListener('input', renderCompraTotals);
+});
+
+document.getElementById('compra-finalizar').addEventListener('click', async () => {
+  hideMsg('compra-msg');
+  if (compraCartItems.length === 0) { showMsg('compra-msg', 'Adicione pelo menos um produto à compra.', 'error'); return; }
+  if (compraCartItems.some(i => !i.unitCost || i.unitCost <= 0)) { showMsg('compra-msg', 'Informe um custo unitário válido para cada item.', 'error'); return; }
+
+  const subtotal = compraCartItems.reduce((s, item) => s + item.quantity * item.unitCost, 0);
+  const frete = parseFloat(document.getElementById('compra-frete').value) || 0;
+  const impostos = parseFloat(document.getElementById('compra-impostos').value) || 0;
+  const desconto = Math.min(parseFloat(document.getElementById('compra-desconto').value) || 0, subtotal + frete + impostos);
+  const total = subtotal + frete + impostos - desconto;
+  const paymentMethod = document.getElementById('compra-pagamento').value;
+  const supplierId = document.getElementById('compra-fornecedor').value || null;
+
+  setBtn('compra-finalizar', true, 'Registrar compra');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('compra-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    // distribui frete + impostos - desconto proporcionalmente ao valor de
+    // cada item, pra chegar no custo real por unidade
+    const extrasLiquido = frete + impostos - desconto;
+    const fatorExtras = subtotal > 0 ? (1 + extrasLiquido / subtotal) : 1;
+
+    const itemsSnapshot = compraCartItems.map(item => {
+      const product = products.find(p => p.id === item.id);
+      return { id: item.id, name: product.name, quantity: item.quantity, custoReal: item.unitCost * fatorExtras };
+    });
+
+    const { data: purchaseData, error: purchaseError } = await withTimeout(sb.from('purchases').insert({
+      business_id: currentBusiness.id, user_id: user.id, supplier_id: supplierId,
+      subtotal, freight: frete, taxes: impostos, discount: desconto, total,
+      payment_method: paymentMethod, status: 'recebida'
+    }).select().single(), 15000);
+    if (purchaseError) { showMsg('compra-msg', 'Erro ao registrar compra: ' + purchaseError.message, 'error'); return; }
+
+    const purchaseId = purchaseData.id;
+
+    const { error: itemsError } = await withTimeout(sb.from('purchase_items').insert(
+      itemsSnapshot.map(i => ({ purchase_id: purchaseId, user_id: user.id, product_id: i.id, product_name: i.name, quantity: i.quantity, unit_cost: i.custoReal }))
+    ), 15000);
+    if (itemsError) toast('Compra registrada, mas houve erro ao salvar os itens: ' + itemsError.message, true);
+
+    const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
+      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'entrada', quantity: i.quantity, unit_price: i.custoReal, unit_cost: i.custoReal }))
+    ), 15000);
+    if (movsError) toast('Compra registrada, mas houve erro ao atualizar o histórico de estoque: ' + movsError.message, true);
+
+    await Promise.all(itemsSnapshot.map(i => {
+      const product = products.find(p => p.id === i.id);
+      const novaQtd = Number(product.quantity) + i.quantity;
+      return withTimeout(sb.from('products').update({
+        quantity: novaQtd, cost_price: i.custoReal, updated_at: new Date().toISOString()
+      }).eq('id', i.id).eq('business_id', currentBusiness.id), 15000);
+    }));
+
+    toast('Compra registrada com sucesso!');
+    compraCartItems = [];
+    document.getElementById('compra-frete').value = '';
+    document.getElementById('compra-impostos').value = '';
+    document.getElementById('compra-desconto').value = '';
+    await loadAllData();
+    switchCompraSubtab('historico');
+  } catch (err) {
+    console.error('Erro ao finalizar compra:', err);
+    showMsg('compra-msg', 'Não foi possível finalizar a compra. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('compra-finalizar', false, 'Registrar compra');
+  }
+});
+
+function renderPurchasesHistory() {
+  const slot = document.getElementById('compras-historico-slot');
+  if (purchasesHistory.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">📥</div>' +
+      '<div class="empty-state-title">Nenhuma compra registrada</div>' +
+      '<div class="empty-state-sub">Compras registradas aparecem aqui.</div></div>';
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Data</th><th>Fornecedor</th><th>Pagamento</th><th>Total</th><th>Status</th></tr></thead><tbody>';
+  purchasesHistory.forEach(p => {
+    const data = new Date(p.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const fornecedorNome = p.suppliers ? p.suppliers.name : 'Sem fornecedor';
+    html += '<tr>' +
+      '<td>' + data + '</td>' +
+      '<td>' + escapeHtml(fornecedorNome) + '</td>' +
+      '<td>' + (PAGAMENTO_LABELS[p.payment_method] || '—') + '</td>' +
+      '<td><strong>' + brl(p.total) + '</strong></td>' +
+      '<td>' + (p.status === 'recebida' ? 'Recebida' : 'Cancelada') + '</td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+}
+
+function exportarCompras() {
+  if (purchasesHistory.length === 0) {
+    toast('Não há compras para exportar.', true);
+    return;
+  }
+  const linhas = purchasesHistory.map(p => ({
+    'Data': new Date(p.created_at).toLocaleString('pt-BR'),
+    'Fornecedor': p.suppliers ? p.suppliers.name : 'Sem fornecedor',
+    'Subtotal (R$)': Number(p.subtotal),
+    'Frete (R$)': Number(p.freight),
+    'Impostos (R$)': Number(p.taxes),
+    'Desconto (R$)': Number(p.discount),
+    'Total (R$)': Number(p.total),
+    'Forma de pagamento': PAGAMENTO_LABELS[p.payment_method] || p.payment_method || '',
+    'Status': p.status === 'recebida' ? 'Recebida' : 'Cancelada'
+  }));
+  const ws = XLSX.utils.json_to_sheet(linhas);
+  ws['!cols'] = [{ wch: 20 }, { wch: 24 }, { wch: 14 }, { wch: 12 }, { wch: 12 }, { wch: 14 }, { wch: 14 }, { wch: 18 }, { wch: 12 }];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Compras');
+  baixarPlanilha(wb, nomeArquivoComData('conexus_compras'));
+  toast('Planilha de compras exportada.');
+}
+document.getElementById('btn-export-compras').addEventListener('click', exportarCompras);
 
 // ══════════════════════════════════════════════
 // EXPORTAÇÃO DE PLANILHAS (.xlsx)
@@ -2783,15 +3384,20 @@ function exportarFinancas() {
   }
 
   const receita = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
-  const custo = receita * 0.4;
+  const custo = saidas.reduce((s, m) => {
+    if (m.unit_cost != null) return s + Number(m.quantity) * Number(m.unit_cost);
+    const produto = products.find(p => p.id === m.product_id);
+    if (produto && produto.cost_price != null) return s + Number(m.quantity) * Number(produto.cost_price);
+    return s + Number(m.quantity) * Number(m.unit_price) * 0.4;
+  }, 0);
   const lucro = receita - custo;
   const labelPeriodo = period === 'sem' ? 'Última semana' : period === 'mes' ? 'Último mês' : 'Último ano';
 
   const resumo = [
     { 'Indicador': 'Período', 'Valor': labelPeriodo },
     { 'Indicador': 'Receita (R$)', 'Valor': receita.toFixed(2) },
-    { 'Indicador': 'Custo estimado (R$)', 'Valor': custo.toFixed(2) },
-    { 'Indicador': 'Lucro líquido (R$)', 'Valor': lucro.toFixed(2) }
+    { 'Indicador': 'Custo dos produtos (R$)', 'Valor': custo.toFixed(2) },
+    { 'Indicador': 'Lucro bruto (R$)', 'Valor': lucro.toFixed(2) }
   ];
   const detalhe = saidas.map(m => ({
     'Data': new Date(m.created_at).toLocaleString('pt-BR'),
