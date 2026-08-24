@@ -814,6 +814,7 @@
       <div class="app-nav-item" data-view="view-clientes">👥 Clientes</div>
       <div class="app-nav-item" data-view="view-compras">📥 Compras</div>
       <div class="app-nav-item" data-view="view-fornecedores">🏭 Fornecedores</div>
+      <div class="app-nav-item" data-view="view-categorias">🏷️ Categorias</div>
       <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
       <div class="app-nav-item" data-view="view-movimentacoes">🔄 Movimentações</div>
       <div class="app-nav-item" data-view="view-financas">💰 Financeiro</div>
@@ -1080,6 +1081,20 @@
         </div>
       </div>
 
+      <!-- CATEGORIAS -->
+      <div class="app-view" id="view-categorias">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Categorias</div>
+            <div class="app-view-sub">Sugestões de categoria pra usar no cadastro de produtos</div>
+          </div>
+          <button class="btn-app-primary" id="btn-add-categoria">+ Nova categoria</button>
+        </div>
+        <div class="app-card">
+          <div id="categorias-table-slot"></div>
+        </div>
+      </div>
+
       <!-- ADICIONAR PRODUTO -->
       <div class="app-view" id="view-adicionar">
         <div class="app-header-row">
@@ -1108,7 +1123,7 @@
             <div class="app-form-row">
               <div class="app-form-group">
                 <label class="app-form-label">Categoria</label>
-                <input type="text" class="app-form-input" id="add-categoria" placeholder="Ex: Roupas" />
+                <input type="text" class="app-form-input" id="add-categoria" placeholder="Ex: Roupas" list="categorias-datalist" />
               </div>
               <div class="app-form-group">
                 <label class="app-form-label">Alertar quando qtd ≤</label>
@@ -1369,6 +1384,39 @@
   </div>
 </div>
 
+<datalist id="categorias-datalist"></datalist>
+
+<!-- Modal: criar/editar categoria -->
+<div class="modal-overlay" id="modal-categoria">
+  <div class="modal-box">
+    <div class="modal-title" id="categoria-modal-title">Adicionar categoria</div>
+    <div class="modal-sub">Vira sugestão no campo de categoria dos produtos</div>
+    <div class="msg-box" id="categoria-msg"></div>
+    <input type="hidden" id="categoria-id" />
+    <div class="app-form-group">
+      <label class="app-form-label">Nome da categoria</label>
+      <input type="text" class="app-form-input" id="categoria-nome" placeholder="Ex: Roupas" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="categoria-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="categoria-save">Criar categoria</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: excluir categoria -->
+<div class="modal-overlay" id="modal-delete-categoria">
+  <div class="modal-box">
+    <div class="modal-title">Excluir categoria?</div>
+    <div class="modal-sub">Remove só a sugestão da lista — produtos que já usam esse nome não são alterados.</div>
+    <input type="hidden" id="delete-categoria-id" />
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="delete-categoria-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="delete-categoria-confirm" style="background:var(--vermelho)">Excluir categoria</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: devolução de venda -->
 <div class="modal-overlay" id="modal-devolucao">
   <div class="modal-box" style="max-width:520px;">
@@ -1583,7 +1631,7 @@
       </div>
       <div class="app-form-group">
         <label class="app-form-label">Categoria</label>
-        <input type="text" class="app-form-input" id="edit-categoria" />
+        <input type="text" class="app-form-input" id="edit-categoria" list="categorias-datalist" />
       </div>
     </div>
     <div class="app-form-group">
@@ -1778,6 +1826,7 @@ let compraCartItems = [];   // carrinho da tela de Compras: [{ id, quantity, uni
 let salesReturns = [];      // cache local das devoluções do negócio atual
 let expenses = [];          // cache local das despesas do negócio atual
 let revenues = [];          // cache local das outras receitas do negócio atual
+let categories = [];        // cache local das categorias sugeridas do negócio atual
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -2270,7 +2319,7 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes] = await withTimeout(Promise.all([
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
@@ -2279,7 +2328,8 @@ async function loadAllData() {
       sb.from('purchases').select('*, suppliers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('returns').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('expenses').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
-      sb.from('revenues').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300)
+      sb.from('revenues').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
+      sb.from('categories').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true })
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
@@ -2291,6 +2341,7 @@ async function loadAllData() {
     if (returnsRes.error) throw returnsRes.error;
     if (expRes.error) throw expRes.error;
     if (revRes.error) throw revRes.error;
+    if (catRes.error) throw catRes.error;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
@@ -2301,6 +2352,7 @@ async function loadAllData() {
     salesReturns = returnsRes.data || [];
     expenses = expRes.data || [];
     revenues = revRes.data || [];
+    categories = catRes.data || [];
 
     renderDashboard();
     renderEstoqueTable();
@@ -2319,6 +2371,8 @@ async function loadAllData() {
     renderReceitasTable();
     renderContasReceber();
     renderFluxoCaixa(window.__fluxoPeriod || 'sem');
+    renderCategoriasTable();
+    populateCategoriasDatalist();
   } catch (err) {
     console.error('Erro ao carregar dados:', err);
     toast('Não foi possível carregar seus dados. ' + (err.message || ''), true);
@@ -4135,6 +4189,135 @@ function renderFluxoCaixa(period) {
 }
 ['sem', 'mes', 'ano'].forEach(p => {
   document.getElementById('fluxo-tab-' + p).addEventListener('click', () => renderFluxoCaixa(p));
+});
+
+// ══════════════════════════════════════════════
+// CATEGORIAS
+// ══════════════════════════════════════════════
+function populateCategoriasDatalist() {
+  const datalist = document.getElementById('categorias-datalist');
+  datalist.innerHTML = categories.map(c => '<option value="' + escapeHtml(c.name) + '"></option>').join('');
+}
+
+function renderCategoriasTable() {
+  const slot = document.getElementById('categorias-table-slot');
+  if (categories.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">🏷️</div>' +
+      '<div class="empty-state-title">Nenhuma categoria cadastrada</div>' +
+      '<div class="empty-state-sub">Categorias viram sugestão no campo de categoria dos produtos, evitando nomes repetidos com grafias diferentes.</div>' +
+      '<button class="btn-app-primary" id="empty-add-categoria-btn">+ Nova categoria</button></div>';
+    document.getElementById('empty-add-categoria-btn').addEventListener('click', () => openCategoryModal());
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Categoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>';
+  categories.forEach(c => {
+    const count = products.filter(p => p.category === c.name).length;
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(c.name) + '</strong></td>' +
+      '<td>' + count + '</td>' +
+      '<td><div class="row-actions">' +
+        '<button class="icon-btn" title="Editar" data-categoria-action="editar" data-id="' + c.id + '">✎</button>' +
+        '<button class="icon-btn danger" title="Excluir" data-categoria-action="excluir" data-id="' + c.id + '">🗑</button>' +
+      '</div></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+  slot.querySelectorAll('[data-categoria-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = categories.find(c => c.id === btn.dataset.id);
+      if (!cat) return;
+      if (btn.dataset.categoriaAction === 'editar') openCategoryModal(cat);
+      if (btn.dataset.categoriaAction === 'excluir') openDeleteCategoryModal(cat);
+    });
+  });
+}
+
+function openCategoryModal(cat) {
+  hideMsg('categoria-msg');
+  if (cat) {
+    document.getElementById('categoria-modal-title').textContent = 'Editar categoria';
+    document.getElementById('categoria-save').textContent = 'Salvar alterações';
+    document.getElementById('categoria-id').value = cat.id;
+    document.getElementById('categoria-nome').value = cat.name;
+  } else {
+    document.getElementById('categoria-modal-title').textContent = 'Adicionar categoria';
+    document.getElementById('categoria-save').textContent = 'Criar categoria';
+    document.getElementById('categoria-id').value = '';
+    document.getElementById('categoria-nome').value = '';
+  }
+  document.getElementById('modal-categoria').classList.add('open');
+}
+document.getElementById('btn-add-categoria').addEventListener('click', () => openCategoryModal());
+document.getElementById('categoria-cancel').addEventListener('click', () => document.getElementById('modal-categoria').classList.remove('open'));
+
+document.getElementById('categoria-save').addEventListener('click', async () => {
+  const id = document.getElementById('categoria-id').value;
+  const nome = document.getElementById('categoria-nome').value.trim();
+  hideMsg('categoria-msg');
+  if (!nome) { showMsg('categoria-msg', 'Informe o nome da categoria.', 'error'); return; }
+
+  setBtn('categoria-save', true, id ? 'Salvar alterações' : 'Criar categoria');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('categoria-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    if (id) {
+      const categoriaAtual = categories.find(c => c.id === id);
+      const nomeAntigo = categoriaAtual ? categoriaAtual.name : null;
+
+      const { error } = await withTimeout(sb.from('categories').update({ name: nome }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+      if (error) {
+        if (error.code === '23505') { showMsg('categoria-msg', 'Já existe uma categoria com esse nome.', 'error'); return; }
+        showMsg('categoria-msg', 'Erro ao salvar: ' + error.message, 'error'); return;
+      }
+
+      if (nomeAntigo && nomeAntigo !== nome) {
+        const { error: prodError } = await withTimeout(sb.from('products').update({ category: nome }).eq('business_id', currentBusiness.id).eq('category', nomeAntigo), 15000);
+        if (prodError) toast('Categoria renomeada, mas houve erro ao atualizar produtos existentes: ' + prodError.message, true);
+      }
+      toast('Categoria atualizada com sucesso.');
+    } else {
+      const { error } = await withTimeout(sb.from('categories').insert({ name: nome, user_id: user.id, business_id: currentBusiness.id }), 15000);
+      if (error) {
+        if (error.code === '23505') { showMsg('categoria-msg', 'Essa categoria já existe.', 'error'); return; }
+        showMsg('categoria-msg', 'Erro ao criar categoria: ' + error.message, 'error'); return;
+      }
+      toast('Categoria criada com sucesso.');
+    }
+
+    document.getElementById('modal-categoria').classList.remove('open');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao salvar categoria:', err);
+    showMsg('categoria-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('categoria-save', false, id ? 'Salvar alterações' : 'Criar categoria');
+  }
+});
+
+function openDeleteCategoryModal(cat) {
+  document.getElementById('delete-categoria-id').value = cat.id;
+  document.getElementById('modal-delete-categoria').classList.add('open');
+}
+document.getElementById('delete-categoria-cancel').addEventListener('click', () => document.getElementById('modal-delete-categoria').classList.remove('open'));
+document.getElementById('delete-categoria-confirm').addEventListener('click', async () => {
+  const id = document.getElementById('delete-categoria-id').value;
+  setBtn('delete-categoria-confirm', true, 'Excluir categoria');
+  try {
+    const { error } = await withTimeout(sb.from('categories').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    document.getElementById('modal-delete-categoria').classList.remove('open');
+    if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    toast('Categoria excluída.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao excluir categoria:', err);
+    document.getElementById('modal-delete-categoria').classList.remove('open');
+    toast('Não foi possível excluir. ' + (err && err.message ? err.message : 'Tente novamente.'), true);
+  } finally {
+    setBtn('delete-categoria-confirm', false, 'Excluir categoria');
+  }
 });
 
 // ══════════════════════════════════════════════
