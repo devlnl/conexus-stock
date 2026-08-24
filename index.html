@@ -816,7 +816,7 @@
       <div class="app-nav-item" data-view="view-fornecedores">🏭 Fornecedores</div>
       <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
       <div class="app-nav-item" data-view="view-movimentacoes">🔄 Movimentações</div>
-      <div class="app-nav-item" data-view="view-financas">💰 Finanças</div>
+      <div class="app-nav-item" data-view="view-financas">💰 Financeiro</div>
     </div>
 
     <div class="app-main">
@@ -1147,27 +1147,224 @@
       <div class="app-view" id="view-financas">
         <div class="app-header-row">
           <div>
-            <div class="app-view-title">Finanças</div>
-            <div class="app-view-sub">Calculado a partir das movimentações de saída (vendas)</div>
+            <div class="app-view-title">Financeiro</div>
+            <div class="app-view-sub">Vendas, despesas, contas e fluxo de caixa do negócio</div>
           </div>
-          <button class="btn-app-secondary" id="btn-export-financas">⬇ Exportar planilha</button>
         </div>
-        <div class="fin-tabs" style="margin-bottom:24px;">
-          <button class="fin-tab active" id="app-tab-sem">Semana</button>
-          <button class="fin-tab" id="app-tab-mes">Mês</button>
-          <button class="fin-tab" id="app-tab-ano">Ano</button>
+        <div class="fin-tabs" style="margin-bottom:20px; flex-wrap:wrap;">
+          <button class="fin-tab active" id="financeiro-subtab-visao">Visão geral</button>
+          <button class="fin-tab" id="financeiro-subtab-despesas">Despesas</button>
+          <button class="fin-tab" id="financeiro-subtab-pagar">Contas a pagar</button>
+          <button class="fin-tab" id="financeiro-subtab-receitas">Receitas</button>
+          <button class="fin-tab" id="financeiro-subtab-receber">Contas a receber</button>
+          <button class="fin-tab" id="financeiro-subtab-fluxo">Fluxo de caixa</button>
         </div>
-        <div class="app-fin-summary">
-          <div class="kpi-card"><div class="kpi-label">Receita</div><div class="kpi-val" id="app-fin-receita">R$ 0,00</div></div>
-          <div class="kpi-card"><div class="kpi-label">Custo dos produtos</div><div class="kpi-val" id="app-fin-custo">R$ 0,00</div></div>
-          <div class="kpi-card"><div class="kpi-label">Lucro bruto</div><div class="kpi-val" id="app-fin-lucro">R$ 0,00</div></div>
+
+        <div id="financeiro-panel-visao">
+          <div class="app-header-row">
+            <div></div>
+            <button class="btn-app-secondary" id="btn-export-financas">⬇ Exportar planilha</button>
+          </div>
+          <div class="fin-tabs" style="margin-bottom:24px;">
+            <button class="fin-tab active" id="app-tab-sem">Semana</button>
+            <button class="fin-tab" id="app-tab-mes">Mês</button>
+            <button class="fin-tab" id="app-tab-ano">Ano</button>
+          </div>
+          <div class="app-fin-summary" style="margin-bottom:16px;">
+            <div class="kpi-card"><div class="kpi-label">Receita</div><div class="kpi-val" id="app-fin-receita">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Custo dos produtos</div><div class="kpi-val" id="app-fin-custo">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Lucro bruto</div><div class="kpi-val" id="app-fin-lucro">R$ 0,00</div></div>
+          </div>
+          <div class="app-fin-summary">
+            <div class="kpi-card"><div class="kpi-label">Outras receitas</div><div class="kpi-val" id="app-fin-outras-receitas">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Despesas</div><div class="kpi-val" id="app-fin-despesas">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Lucro líquido</div><div class="kpi-val" id="app-fin-lucro-liquido">R$ 0,00</div></div>
+          </div>
+          <div class="app-card" style="padding:24px; margin-top:16px;">
+            <div class="app-card-title" style="margin-bottom:16px;">Vendas por período</div>
+            <div id="app-fin-chart-slot"></div>
+          </div>
         </div>
-        <div class="app-card" style="padding:24px;">
-          <div class="app-card-title" style="margin-bottom:16px;">Vendas por período</div>
-          <div id="app-fin-chart-slot"></div>
+
+        <div id="financeiro-panel-despesas" style="display:none;">
+          <div class="app-header-row">
+            <div>
+              <div class="app-view-title" style="font-size:18px;">Despesas</div>
+              <div class="app-view-sub">Aluguel, energia, salários e outros custos fixos do negócio</div>
+            </div>
+            <button class="btn-app-primary" id="btn-add-despesa">+ Nova despesa</button>
+          </div>
+          <div class="app-card"><div id="despesas-table-slot"></div></div>
+        </div>
+
+        <div id="financeiro-panel-pagar" style="display:none;">
+          <div class="app-view-sub" style="margin-bottom:16px;">Despesas pendentes, ordenadas pela data de vencimento</div>
+          <div class="app-card"><div id="contas-pagar-slot"></div></div>
+        </div>
+
+        <div id="financeiro-panel-receitas" style="display:none;">
+          <div class="app-header-row">
+            <div>
+              <div class="app-view-title" style="font-size:18px;">Receitas</div>
+              <div class="app-view-sub">Receitas fora de vendas — serviços, comissões e outras</div>
+            </div>
+            <button class="btn-app-primary" id="btn-add-receita">+ Nova receita</button>
+          </div>
+          <div class="app-card"><div id="receitas-table-slot"></div></div>
+        </div>
+
+        <div id="financeiro-panel-receber" style="display:none;">
+          <div class="app-view-sub" style="margin-bottom:16px;">Receitas pendentes, ordenadas pela data de vencimento</div>
+          <div class="app-card"><div id="contas-receber-slot"></div></div>
+        </div>
+
+        <div id="financeiro-panel-fluxo" style="display:none;">
+          <div class="fin-tabs" style="margin-bottom:20px;">
+            <button class="fin-tab active" id="fluxo-tab-sem">Semana</button>
+            <button class="fin-tab" id="fluxo-tab-mes">Mês</button>
+            <button class="fin-tab" id="fluxo-tab-ano">Ano</button>
+          </div>
+          <div class="app-fin-summary">
+            <div class="kpi-card"><div class="kpi-label">Entradas</div><div class="kpi-val" id="fluxo-entradas">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Saídas</div><div class="kpi-val" id="fluxo-saidas">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Saldo do período</div><div class="kpi-val" id="fluxo-saldo">R$ 0,00</div></div>
+          </div>
+          <div class="field-hint" style="margin-top:12px;">Saldo do período = entradas (vendas + receitas recebidas) − saídas (compras + despesas pagas) no intervalo selecionado. Não é um saldo acumulado desde o início.</div>
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- Modal: criar/editar despesa -->
+<div class="modal-overlay" id="modal-despesa">
+  <div class="modal-box">
+    <div class="modal-title" id="despesa-modal-title">Adicionar despesa</div>
+    <div class="modal-sub">Preencha as informações da despesa</div>
+    <div class="msg-box" id="despesa-msg"></div>
+    <input type="hidden" id="despesa-id" />
+    <div class="app-form-group">
+      <label class="app-form-label">Descrição</label>
+      <input type="text" class="app-form-input" id="despesa-descricao" placeholder="Ex: Aluguel de agosto" />
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Categoria</label>
+        <select class="app-form-select" id="despesa-categoria">
+          <option value="aluguel">Aluguel</option>
+          <option value="energia">Energia</option>
+          <option value="internet">Internet</option>
+          <option value="salarios">Salários</option>
+          <option value="impostos">Impostos</option>
+          <option value="marketing">Marketing</option>
+          <option value="fretes">Fretes</option>
+          <option value="manutencao">Manutenção</option>
+          <option value="outras">Outras</option>
+        </select>
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Valor (R$)</label>
+        <input type="number" class="app-form-input" id="despesa-valor" min="0" step="0.01" placeholder="0,00" />
+      </div>
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Vencimento (opcional)</label>
+        <input type="date" class="app-form-input" id="despesa-vencimento" />
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Status</label>
+        <select class="app-form-select" id="despesa-status">
+          <option value="pendente">Pendente</option>
+          <option value="pago">Pago</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+    </div>
+    <div class="app-form-group" id="despesa-data-pagamento-wrap">
+      <label class="app-form-label">Data do pagamento</label>
+      <input type="date" class="app-form-input" id="despesa-data-pagamento" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="despesa-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="despesa-save">Criar despesa</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: excluir despesa -->
+<div class="modal-overlay" id="modal-delete-despesa">
+  <div class="modal-box">
+    <div class="modal-title">Excluir despesa?</div>
+    <div class="modal-sub">Essa ação não pode ser desfeita.</div>
+    <input type="hidden" id="delete-despesa-id" />
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="delete-despesa-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="delete-despesa-confirm" style="background:var(--vermelho)">Excluir despesa</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: criar/editar receita -->
+<div class="modal-overlay" id="modal-receita">
+  <div class="modal-box">
+    <div class="modal-title" id="receita-modal-title">Adicionar receita</div>
+    <div class="modal-sub">Receita fora de vendas — serviço, comissão etc.</div>
+    <div class="msg-box" id="receita-msg"></div>
+    <input type="hidden" id="receita-id" />
+    <div class="app-form-group">
+      <label class="app-form-label">Descrição</label>
+      <input type="text" class="app-form-input" id="receita-descricao" placeholder="Ex: Serviço de consultoria" />
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Categoria</label>
+        <select class="app-form-select" id="receita-categoria">
+          <option value="servicos">Serviços</option>
+          <option value="comissoes">Comissões</option>
+          <option value="outras">Outras</option>
+        </select>
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Valor (R$)</label>
+        <input type="number" class="app-form-input" id="receita-valor" min="0" step="0.01" placeholder="0,00" />
+      </div>
+    </div>
+    <div class="app-form-row">
+      <div class="app-form-group">
+        <label class="app-form-label">Vencimento (opcional)</label>
+        <input type="date" class="app-form-input" id="receita-vencimento" />
+      </div>
+      <div class="app-form-group">
+        <label class="app-form-label">Status</label>
+        <select class="app-form-select" id="receita-status">
+          <option value="pendente">Pendente</option>
+          <option value="recebido">Recebido</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+    </div>
+    <div class="app-form-group" id="receita-data-recebimento-wrap">
+      <label class="app-form-label">Data do recebimento</label>
+      <input type="date" class="app-form-input" id="receita-data-recebimento" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="receita-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="receita-save">Criar receita</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: excluir receita -->
+<div class="modal-overlay" id="modal-delete-receita">
+  <div class="modal-box">
+    <div class="modal-title">Excluir receita?</div>
+    <div class="modal-sub">Essa ação não pode ser desfeita.</div>
+    <input type="hidden" id="delete-receita-id" />
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="delete-receita-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="delete-receita-confirm" style="background:var(--vermelho)">Excluir receita</button>
     </div>
   </div>
 </div>
@@ -1579,6 +1776,8 @@ let suppliers = [];         // cache local dos fornecedores do negócio atual
 let purchasesHistory = [];  // cache local das compras do negócio atual
 let compraCartItems = [];   // carrinho da tela de Compras: [{ id, quantity, unitCost }]
 let salesReturns = [];      // cache local das devoluções do negócio atual
+let expenses = [];          // cache local das despesas do negócio atual
+let revenues = [];          // cache local das outras receitas do negócio atual
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -2071,14 +2270,16 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes] = await withTimeout(Promise.all([
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
       sb.from('sales').select('*, customers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('suppliers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
       sb.from('purchases').select('*, suppliers(name)').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
-      sb.from('returns').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
+      sb.from('returns').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
+      sb.from('expenses').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
+      sb.from('revenues').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
@@ -2088,6 +2289,8 @@ async function loadAllData() {
     if (suppRes.error) throw suppRes.error;
     if (purchRes.error) throw purchRes.error;
     if (returnsRes.error) throw returnsRes.error;
+    if (expRes.error) throw expRes.error;
+    if (revRes.error) throw revRes.error;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
@@ -2096,6 +2299,8 @@ async function loadAllData() {
     suppliers = suppRes.data || [];
     purchasesHistory = purchRes.data || [];
     salesReturns = returnsRes.data || [];
+    expenses = expRes.data || [];
+    revenues = revRes.data || [];
 
     renderDashboard();
     renderEstoqueTable();
@@ -2109,6 +2314,11 @@ async function loadAllData() {
     populateCompraFornecedorSelect();
     renderPurchasesHistory();
     renderCompraCart();
+    renderDespesasTable();
+    renderContasPagar();
+    renderReceitasTable();
+    renderContasReceber();
+    renderFluxoCaixa(window.__fluxoPeriod || 'sem');
   } catch (err) {
     console.error('Erro ao carregar dados:', err);
     toast('Não foi possível carregar seus dados. ' + (err.message || ''), true);
@@ -2524,11 +2734,20 @@ function renderFinancas(period) {
     return s + Number(r.quantity) * Number(r.unit_price) * 0.4;
   }, 0);
   const custo = custoBruto - custoDevolvido;
-  const lucro = receita - custo;
+  const lucroBruto = receita - custo;
+
+  const outrasReceitas = revenues.filter(r => r.status === 'recebido' && r.payment_date && new Date(r.payment_date) >= start)
+    .reduce((s, r) => s + Number(r.amount), 0);
+  const despesasPeriodo = expenses.filter(e => e.status === 'pago' && e.payment_date && new Date(e.payment_date) >= start)
+    .reduce((s, e) => s + Number(e.amount), 0);
+  const lucroLiquido = lucroBruto + outrasReceitas - despesasPeriodo;
 
   document.getElementById('app-fin-receita').textContent = brl(receita);
   document.getElementById('app-fin-custo').textContent = brl(custo);
-  document.getElementById('app-fin-lucro').textContent = brl(lucro);
+  document.getElementById('app-fin-lucro').textContent = brl(lucroBruto);
+  document.getElementById('app-fin-outras-receitas').textContent = brl(outrasReceitas);
+  document.getElementById('app-fin-despesas').textContent = brl(despesasPeriodo);
+  document.getElementById('app-fin-lucro-liquido').textContent = brl(lucroLiquido);
 
   // Agrupar vendas por dia (até 7 pontos) dentro do período
   const buckets = {};
@@ -3476,6 +3695,449 @@ function exportarCompras() {
 document.getElementById('btn-export-compras').addEventListener('click', exportarCompras);
 
 // ══════════════════════════════════════════════
+// FINANCEIRO — sub-abas, despesas, receitas, contas, fluxo
+// ══════════════════════════════════════════════
+const DESPESA_CATEGORIA_LABELS = { aluguel: 'Aluguel', energia: 'Energia', internet: 'Internet', salarios: 'Salários', impostos: 'Impostos', marketing: 'Marketing', fretes: 'Fretes', manutencao: 'Manutenção', outras: 'Outras' };
+const DESPESA_STATUS_LABELS = { pendente: 'Pendente', pago: 'Pago', cancelado: 'Cancelado' };
+const RECEITA_CATEGORIA_LABELS = { servicos: 'Serviços', comissoes: 'Comissões', outras: 'Outras' };
+const RECEITA_STATUS_LABELS = { pendente: 'Pendente', recebido: 'Recebido', cancelado: 'Cancelado' };
+
+function formatDataBR(dateStr) {
+  if (!dateStr) return '—';
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('pt-BR');
+}
+function isVencida(item) {
+  return item.status === 'pendente' && item.due_date && new Date(item.due_date + 'T00:00:00') < new Date(new Date().toDateString());
+}
+function statusBadgeFinanceiro(item, labels) {
+  if (isVencida(item)) return '<span class="sbadge s-out">Vencida</span>';
+  if (item.status === 'pago' || item.status === 'recebido') return '<span class="sbadge s-ok">' + labels[item.status] + '</span>';
+  if (item.status === 'cancelado') return '<span class="sbadge" style="background:var(--cinza-claro); color:var(--cinza-texto);">Cancelado</span>';
+  return '<span class="sbadge s-low">Pendente</span>';
+}
+
+const FINANCEIRO_SUBTABS = ['visao', 'despesas', 'pagar', 'receitas', 'receber', 'fluxo'];
+function switchFinanceiroSubtab(tab) {
+  FINANCEIRO_SUBTABS.forEach(t => {
+    document.getElementById('financeiro-subtab-' + t).classList.toggle('active', t === tab);
+    document.getElementById('financeiro-panel-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+}
+FINANCEIRO_SUBTABS.forEach(t => {
+  document.getElementById('financeiro-subtab-' + t).addEventListener('click', () => switchFinanceiroSubtab(t));
+});
+
+// ── Despesas ──
+function renderDespesasTable() {
+  const slot = document.getElementById('despesas-table-slot');
+  if (expenses.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">💸</div>' +
+      '<div class="empty-state-title">Nenhuma despesa cadastrada</div>' +
+      '<div class="empty-state-sub">Registre aluguel, energia, salários e outros custos do negócio.</div>' +
+      '<button class="btn-app-primary" id="empty-add-despesa-btn">+ Nova despesa</button></div>';
+    document.getElementById('empty-add-despesa-btn').addEventListener('click', () => openExpenseModal());
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody>';
+  expenses.forEach(e => {
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(e.description) + '</strong></td>' +
+      '<td><span class="cat-pill">' + (DESPESA_CATEGORIA_LABELS[e.category] || e.category) + '</span></td>' +
+      '<td>' + brl(e.amount) + '</td>' +
+      '<td>' + formatDataBR(e.due_date) + '</td>' +
+      '<td>' + statusBadgeFinanceiro(e, DESPESA_STATUS_LABELS) + '</td>' +
+      '<td><div class="row-actions">' +
+        '<button class="icon-btn" title="Editar" data-despesa-action="editar" data-id="' + e.id + '">✎</button>' +
+        '<button class="icon-btn danger" title="Excluir" data-despesa-action="excluir" data-id="' + e.id + '">🗑</button>' +
+      '</div></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+  slot.querySelectorAll('[data-despesa-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const despesa = expenses.find(e => e.id === btn.dataset.id);
+      if (!despesa) return;
+      if (btn.dataset.despesaAction === 'editar') openExpenseModal(despesa);
+      if (btn.dataset.despesaAction === 'excluir') openDeleteExpenseModal(despesa);
+    });
+  });
+}
+
+function toggleDespesaPagamentoField() {
+  const show = document.getElementById('despesa-status').value === 'pago';
+  document.getElementById('despesa-data-pagamento-wrap').style.display = show ? 'block' : 'none';
+  if (show && !document.getElementById('despesa-data-pagamento').value) {
+    document.getElementById('despesa-data-pagamento').value = new Date().toISOString().slice(0, 10);
+  }
+}
+document.getElementById('despesa-status').addEventListener('change', toggleDespesaPagamentoField);
+
+function openExpenseModal(despesa) {
+  hideMsg('despesa-msg');
+  if (despesa) {
+    document.getElementById('despesa-modal-title').textContent = 'Editar despesa';
+    document.getElementById('despesa-save').textContent = 'Salvar alterações';
+    document.getElementById('despesa-id').value = despesa.id;
+    document.getElementById('despesa-descricao').value = despesa.description;
+    document.getElementById('despesa-categoria').value = despesa.category;
+    document.getElementById('despesa-valor').value = despesa.amount;
+    document.getElementById('despesa-vencimento').value = despesa.due_date || '';
+    document.getElementById('despesa-status').value = despesa.status;
+    document.getElementById('despesa-data-pagamento').value = despesa.payment_date || '';
+  } else {
+    document.getElementById('despesa-modal-title').textContent = 'Adicionar despesa';
+    document.getElementById('despesa-save').textContent = 'Criar despesa';
+    document.getElementById('despesa-id').value = '';
+    document.getElementById('despesa-descricao').value = '';
+    document.getElementById('despesa-categoria').value = 'outras';
+    document.getElementById('despesa-valor').value = '';
+    document.getElementById('despesa-vencimento').value = '';
+    document.getElementById('despesa-status').value = 'pendente';
+    document.getElementById('despesa-data-pagamento').value = '';
+  }
+  toggleDespesaPagamentoField();
+  document.getElementById('modal-despesa').classList.add('open');
+}
+document.getElementById('btn-add-despesa').addEventListener('click', () => openExpenseModal());
+document.getElementById('despesa-cancel').addEventListener('click', () => document.getElementById('modal-despesa').classList.remove('open'));
+
+document.getElementById('despesa-save').addEventListener('click', async () => {
+  const id = document.getElementById('despesa-id').value;
+  const descricao = document.getElementById('despesa-descricao').value.trim();
+  const categoria = document.getElementById('despesa-categoria').value;
+  const valor = parseFloat(document.getElementById('despesa-valor').value);
+  const vencimento = document.getElementById('despesa-vencimento').value || null;
+  const status = document.getElementById('despesa-status').value;
+  const dataPagamento = status === 'pago' ? (document.getElementById('despesa-data-pagamento').value || new Date().toISOString().slice(0, 10)) : null;
+
+  hideMsg('despesa-msg');
+  if (!descricao) { showMsg('despesa-msg', 'Informe a descrição da despesa.', 'error'); return; }
+  if (isNaN(valor) || valor <= 0) { showMsg('despesa-msg', 'Informe um valor válido.', 'error'); return; }
+
+  setBtn('despesa-save', true, id ? 'Salvar alterações' : 'Criar despesa');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('despesa-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    const payload = { description: descricao, category: categoria, amount: valor, due_date: vencimento, status: status, payment_date: dataPagamento };
+
+    if (id) {
+      const { error } = await withTimeout(sb.from('expenses').update({
+        ...payload, updated_at: new Date().toISOString()
+      }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+      if (error) { showMsg('despesa-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      toast('Despesa atualizada com sucesso.');
+    } else {
+      const { error } = await withTimeout(sb.from('expenses').insert({
+        ...payload, user_id: user.id, business_id: currentBusiness.id
+      }), 15000);
+      if (error) { showMsg('despesa-msg', 'Erro ao criar despesa: ' + error.message, 'error'); return; }
+      toast('Despesa criada com sucesso.');
+    }
+
+    document.getElementById('modal-despesa').classList.remove('open');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao salvar despesa:', err);
+    showMsg('despesa-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('despesa-save', false, id ? 'Salvar alterações' : 'Criar despesa');
+  }
+});
+
+function openDeleteExpenseModal(despesa) {
+  document.getElementById('delete-despesa-id').value = despesa.id;
+  document.getElementById('modal-delete-despesa').classList.add('open');
+}
+document.getElementById('delete-despesa-cancel').addEventListener('click', () => document.getElementById('modal-delete-despesa').classList.remove('open'));
+document.getElementById('delete-despesa-confirm').addEventListener('click', async () => {
+  const id = document.getElementById('delete-despesa-id').value;
+  setBtn('delete-despesa-confirm', true, 'Excluir despesa');
+  try {
+    const { error } = await withTimeout(sb.from('expenses').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    document.getElementById('modal-delete-despesa').classList.remove('open');
+    if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    toast('Despesa excluída.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao excluir despesa:', err);
+    document.getElementById('modal-delete-despesa').classList.remove('open');
+    toast('Não foi possível excluir. ' + (err && err.message ? err.message : 'Tente novamente.'), true);
+  } finally {
+    setBtn('delete-despesa-confirm', false, 'Excluir despesa');
+  }
+});
+
+// ── Contas a pagar (despesas pendentes, ordenadas por vencimento) ──
+function renderContasPagar() {
+  const slot = document.getElementById('contas-pagar-slot');
+  const pendentes = expenses.filter(e => e.status === 'pendente').sort((a, b) => {
+    if (!a.due_date) return 1;
+    if (!b.due_date) return -1;
+    return new Date(a.due_date) - new Date(b.due_date);
+  });
+  if (pendentes.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">✅</div>' +
+      '<div class="empty-state-title">Nenhuma conta a pagar pendente</div>' +
+      '<div class="empty-state-sub">Despesas com status "Pendente" aparecem aqui.</div></div>';
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody>';
+  pendentes.forEach(e => {
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(e.description) + '</strong></td>' +
+      '<td><span class="cat-pill">' + (DESPESA_CATEGORIA_LABELS[e.category] || e.category) + '</span></td>' +
+      '<td>' + brl(e.amount) + '</td>' +
+      '<td>' + formatDataBR(e.due_date) + '</td>' +
+      '<td>' + statusBadgeFinanceiro(e, DESPESA_STATUS_LABELS) + '</td>' +
+      '<td><button class="btn-app-secondary" data-marcar-pago="' + e.id + '" style="padding:6px 12px; font-size:12px;">Marcar como pago</button></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+  slot.querySelectorAll('[data-marcar-pago]').forEach(btn => {
+    btn.addEventListener('click', () => marcarDespesaPaga(btn.dataset.marcarPago));
+  });
+}
+async function marcarDespesaPaga(id) {
+  try {
+    const { error } = await withTimeout(sb.from('expenses').update({
+      status: 'pago', payment_date: new Date().toISOString().slice(0, 10), updated_at: new Date().toISOString()
+    }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    if (error) { toast('Erro ao marcar como pago: ' + error.message, true); return; }
+    toast('Despesa marcada como paga.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao marcar despesa como paga:', err);
+    toast('Não foi possível atualizar. Tente novamente.', true);
+  }
+}
+
+// ── Receitas ──
+function renderReceitasTable() {
+  const slot = document.getElementById('receitas-table-slot');
+  if (revenues.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">💵</div>' +
+      '<div class="empty-state-title">Nenhuma receita cadastrada</div>' +
+      '<div class="empty-state-sub">Registre serviços, comissões e outras receitas fora de vendas.</div>' +
+      '<button class="btn-app-primary" id="empty-add-receita-btn">+ Nova receita</button></div>';
+    document.getElementById('empty-add-receita-btn').addEventListener('click', () => openRevenueModal());
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody>';
+  revenues.forEach(r => {
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(r.description) + '</strong></td>' +
+      '<td><span class="cat-pill">' + (RECEITA_CATEGORIA_LABELS[r.category] || r.category) + '</span></td>' +
+      '<td>' + brl(r.amount) + '</td>' +
+      '<td>' + formatDataBR(r.due_date) + '</td>' +
+      '<td>' + statusBadgeFinanceiro(r, RECEITA_STATUS_LABELS) + '</td>' +
+      '<td><div class="row-actions">' +
+        '<button class="icon-btn" title="Editar" data-receita-action="editar" data-id="' + r.id + '">✎</button>' +
+        '<button class="icon-btn danger" title="Excluir" data-receita-action="excluir" data-id="' + r.id + '">🗑</button>' +
+      '</div></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+  slot.querySelectorAll('[data-receita-action]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const receita = revenues.find(r => r.id === btn.dataset.id);
+      if (!receita) return;
+      if (btn.dataset.receitaAction === 'editar') openRevenueModal(receita);
+      if (btn.dataset.receitaAction === 'excluir') openDeleteRevenueModal(receita);
+    });
+  });
+}
+
+function toggleReceitaRecebimentoField() {
+  const show = document.getElementById('receita-status').value === 'recebido';
+  document.getElementById('receita-data-recebimento-wrap').style.display = show ? 'block' : 'none';
+  if (show && !document.getElementById('receita-data-recebimento').value) {
+    document.getElementById('receita-data-recebimento').value = new Date().toISOString().slice(0, 10);
+  }
+}
+document.getElementById('receita-status').addEventListener('change', toggleReceitaRecebimentoField);
+
+function openRevenueModal(receita) {
+  hideMsg('receita-msg');
+  if (receita) {
+    document.getElementById('receita-modal-title').textContent = 'Editar receita';
+    document.getElementById('receita-save').textContent = 'Salvar alterações';
+    document.getElementById('receita-id').value = receita.id;
+    document.getElementById('receita-descricao').value = receita.description;
+    document.getElementById('receita-categoria').value = receita.category;
+    document.getElementById('receita-valor').value = receita.amount;
+    document.getElementById('receita-vencimento').value = receita.due_date || '';
+    document.getElementById('receita-status').value = receita.status;
+    document.getElementById('receita-data-recebimento').value = receita.payment_date || '';
+  } else {
+    document.getElementById('receita-modal-title').textContent = 'Adicionar receita';
+    document.getElementById('receita-save').textContent = 'Criar receita';
+    document.getElementById('receita-id').value = '';
+    document.getElementById('receita-descricao').value = '';
+    document.getElementById('receita-categoria').value = 'outras';
+    document.getElementById('receita-valor').value = '';
+    document.getElementById('receita-vencimento').value = '';
+    document.getElementById('receita-status').value = 'pendente';
+    document.getElementById('receita-data-recebimento').value = '';
+  }
+  toggleReceitaRecebimentoField();
+  document.getElementById('modal-receita').classList.add('open');
+}
+document.getElementById('btn-add-receita').addEventListener('click', () => openRevenueModal());
+document.getElementById('receita-cancel').addEventListener('click', () => document.getElementById('modal-receita').classList.remove('open'));
+
+document.getElementById('receita-save').addEventListener('click', async () => {
+  const id = document.getElementById('receita-id').value;
+  const descricao = document.getElementById('receita-descricao').value.trim();
+  const categoria = document.getElementById('receita-categoria').value;
+  const valor = parseFloat(document.getElementById('receita-valor').value);
+  const vencimento = document.getElementById('receita-vencimento').value || null;
+  const status = document.getElementById('receita-status').value;
+  const dataRecebimento = status === 'recebido' ? (document.getElementById('receita-data-recebimento').value || new Date().toISOString().slice(0, 10)) : null;
+
+  hideMsg('receita-msg');
+  if (!descricao) { showMsg('receita-msg', 'Informe a descrição da receita.', 'error'); return; }
+  if (isNaN(valor) || valor <= 0) { showMsg('receita-msg', 'Informe um valor válido.', 'error'); return; }
+
+  setBtn('receita-save', true, id ? 'Salvar alterações' : 'Criar receita');
+  try {
+    const user = await getAuthedUser();
+    if (!user) { showMsg('receita-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
+
+    const payload = { description: descricao, category: categoria, amount: valor, due_date: vencimento, status: status, payment_date: dataRecebimento };
+
+    if (id) {
+      const { error } = await withTimeout(sb.from('revenues').update({
+        ...payload, updated_at: new Date().toISOString()
+      }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+      if (error) { showMsg('receita-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      toast('Receita atualizada com sucesso.');
+    } else {
+      const { error } = await withTimeout(sb.from('revenues').insert({
+        ...payload, user_id: user.id, business_id: currentBusiness.id
+      }), 15000);
+      if (error) { showMsg('receita-msg', 'Erro ao criar receita: ' + error.message, 'error'); return; }
+      toast('Receita criada com sucesso.');
+    }
+
+    document.getElementById('modal-receita').classList.remove('open');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao salvar receita:', err);
+    showMsg('receita-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('receita-save', false, id ? 'Salvar alterações' : 'Criar receita');
+  }
+});
+
+function openDeleteRevenueModal(receita) {
+  document.getElementById('delete-receita-id').value = receita.id;
+  document.getElementById('modal-delete-receita').classList.add('open');
+}
+document.getElementById('delete-receita-cancel').addEventListener('click', () => document.getElementById('modal-delete-receita').classList.remove('open'));
+document.getElementById('delete-receita-confirm').addEventListener('click', async () => {
+  const id = document.getElementById('delete-receita-id').value;
+  setBtn('delete-receita-confirm', true, 'Excluir receita');
+  try {
+    const { error } = await withTimeout(sb.from('revenues').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    document.getElementById('modal-delete-receita').classList.remove('open');
+    if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    toast('Receita excluída.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao excluir receita:', err);
+    document.getElementById('modal-delete-receita').classList.remove('open');
+    toast('Não foi possível excluir. ' + (err && err.message ? err.message : 'Tente novamente.'), true);
+  } finally {
+    setBtn('delete-receita-confirm', false, 'Excluir receita');
+  }
+});
+
+// ── Contas a receber (receitas pendentes, ordenadas por vencimento) ──
+function renderContasReceber() {
+  const slot = document.getElementById('contas-receber-slot');
+  const pendentes = revenues.filter(r => r.status === 'pendente').sort((a, b) => {
+    if (!a.due_date) return 1;
+    if (!b.due_date) return -1;
+    return new Date(a.due_date) - new Date(b.due_date);
+  });
+  if (pendentes.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">✅</div>' +
+      '<div class="empty-state-title">Nenhuma conta a receber pendente</div>' +
+      '<div class="empty-state-sub">Receitas com status "Pendente" aparecem aqui.</div></div>';
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Descrição</th><th>Categoria</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead><tbody>';
+  pendentes.forEach(r => {
+    html += '<tr>' +
+      '<td><strong>' + escapeHtml(r.description) + '</strong></td>' +
+      '<td><span class="cat-pill">' + (RECEITA_CATEGORIA_LABELS[r.category] || r.category) + '</span></td>' +
+      '<td>' + brl(r.amount) + '</td>' +
+      '<td>' + formatDataBR(r.due_date) + '</td>' +
+      '<td>' + statusBadgeFinanceiro(r, RECEITA_STATUS_LABELS) + '</td>' +
+      '<td><button class="btn-app-secondary" data-marcar-recebido="' + r.id + '" style="padding:6px 12px; font-size:12px;">Marcar como recebido</button></td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+  slot.querySelectorAll('[data-marcar-recebido]').forEach(btn => {
+    btn.addEventListener('click', () => marcarReceitaRecebida(btn.dataset.marcarRecebido));
+  });
+}
+async function marcarReceitaRecebida(id) {
+  try {
+    const { error } = await withTimeout(sb.from('revenues').update({
+      status: 'recebido', payment_date: new Date().toISOString().slice(0, 10), updated_at: new Date().toISOString()
+    }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
+    if (error) { toast('Erro ao marcar como recebido: ' + error.message, true); return; }
+    toast('Receita marcada como recebida.');
+    await loadAllData();
+  } catch (err) {
+    console.error('Erro ao marcar receita como recebida:', err);
+    toast('Não foi possível atualizar. Tente novamente.', true);
+  }
+}
+
+// ── Fluxo de caixa ──
+function renderFluxoCaixa(period) {
+  window.__fluxoPeriod = period;
+  ['sem', 'mes', 'ano'].forEach(p => {
+    document.getElementById('fluxo-tab-' + p).classList.toggle('active', p === period);
+  });
+  const start = periodStartDate(period);
+
+  const entradasVendas = movements.filter(m => m.type === 'saida' && new Date(m.created_at) >= start)
+    .reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
+  const devolucoesPeriodo = salesReturns.filter(r => new Date(r.created_at) >= start)
+    .reduce((s, r) => s + Number(r.quantity) * Number(r.unit_price), 0);
+  const entradasReceitas = revenues.filter(r => r.status === 'recebido' && r.payment_date && new Date(r.payment_date) >= start)
+    .reduce((s, r) => s + Number(r.amount), 0);
+  const entradas = entradasVendas - devolucoesPeriodo + entradasReceitas;
+
+  const saidasCompras = purchasesHistory.filter(p => new Date(p.created_at) >= start)
+    .reduce((s, p) => s + Number(p.total), 0);
+  const saidasDespesas = expenses.filter(e => e.status === 'pago' && e.payment_date && new Date(e.payment_date) >= start)
+    .reduce((s, e) => s + Number(e.amount), 0);
+  const saidas = saidasCompras + saidasDespesas;
+
+  const saldo = entradas - saidas;
+
+  document.getElementById('fluxo-entradas').textContent = brl(entradas);
+  document.getElementById('fluxo-saidas').textContent = brl(saidas);
+  document.getElementById('fluxo-saldo').textContent = brl(saldo);
+}
+['sem', 'mes', 'ano'].forEach(p => {
+  document.getElementById('fluxo-tab-' + p).addEventListener('click', () => renderFluxoCaixa(p));
+});
+
+// ══════════════════════════════════════════════
 // EXPORTAÇÃO DE PLANILHAS (.xlsx)
 // ══════════════════════════════════════════════
 function nomeArquivoComData(prefixo) {
@@ -3563,13 +4225,21 @@ function exportarFinancas() {
   }, 0);
   const custo = custoBruto - custoDevolvido;
   const lucro = receita - custo;
+  const outrasReceitas = revenues.filter(r => r.status === 'recebido' && r.payment_date && new Date(r.payment_date) >= start)
+    .reduce((s, r) => s + Number(r.amount), 0);
+  const despesasPeriodo = expenses.filter(e => e.status === 'pago' && e.payment_date && new Date(e.payment_date) >= start)
+    .reduce((s, e) => s + Number(e.amount), 0);
+  const lucroLiquido = lucro + outrasReceitas - despesasPeriodo;
   const labelPeriodo = period === 'sem' ? 'Última semana' : period === 'mes' ? 'Último mês' : 'Último ano';
 
   const resumo = [
     { 'Indicador': 'Período', 'Valor': labelPeriodo },
     { 'Indicador': 'Receita (R$)', 'Valor': receita.toFixed(2) },
     { 'Indicador': 'Custo dos produtos (R$)', 'Valor': custo.toFixed(2) },
-    { 'Indicador': 'Lucro bruto (R$)', 'Valor': lucro.toFixed(2) }
+    { 'Indicador': 'Lucro bruto (R$)', 'Valor': lucro.toFixed(2) },
+    { 'Indicador': 'Outras receitas (R$)', 'Valor': outrasReceitas.toFixed(2) },
+    { 'Indicador': 'Despesas (R$)', 'Valor': despesasPeriodo.toFixed(2) },
+    { 'Indicador': 'Lucro líquido (R$)', 'Valor': lucroLiquido.toFixed(2) }
   ];
   const detalhe = saidas.map(m => ({
     'Data': new Date(m.created_at).toLocaleString('pt-BR'),
