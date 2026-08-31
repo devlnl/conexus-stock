@@ -71,7 +71,7 @@
     }
     .hero-h1 em { font-style: normal; color: var(--azul); }
     .hero-sub { font-size: 18px; color: rgba(255,255,255,0.55); text-align: center; max-width: 540px; line-height: 1.65; position: relative; margin-bottom: 44px; }
-    .hero-btns { display: flex; gap: 14px; position: relative; }
+    .hero-btns { display: flex; gap: 14px; position: relative; flex-wrap: wrap; justify-content: center; }
     .btn-hero { padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .2s; display: inline-block; border: none; }
     .btn-hero-p { background: var(--azul); color: #fff; border: none; }
     .btn-hero-p:hover { background: var(--azul-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(15,82,186,0.4); }
@@ -204,6 +204,19 @@
     .password-field-wrap .form-input { padding-right: 44px; }
     .toggle-password-btn { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; font-size: 15px; padding: 8px 10px; color: rgba(255,255,255,0.45); line-height: 1; }
     .toggle-password-btn:hover { color: #fff; }
+    .toggle-password-btn.on-light { color: var(--cinza-texto); }
+    .toggle-password-btn.on-light:hover { color: var(--cinza-11); }
+    .test-mode-banner { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.35); color: #92400E; padding: 10px 16px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; display: none; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .test-mode-banner button { background: var(--azul); color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap; }
+    .notif-bell-btn { position: relative; width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #fff; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .notif-bell-btn:hover { border-color: var(--azul); background: rgba(15,82,186,0.15); }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px; background: var(--vermelho); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .notif-dropdown { position: absolute; top: 46px; right: 0; width: 300px; max-height: 360px; overflow-y: auto; background: #fff; border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.18); border: 1px solid var(--cinza-borda); z-index: 500; }
+    .notif-dropdown-title { padding: 14px 16px; font-size: 13px; font-weight: 700; color: var(--cinza-11); border-bottom: 1px solid var(--cinza-borda); }
+    .notif-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; font-size: 13px; color: var(--cinza-11); cursor: pointer; border-bottom: 1px solid var(--cinza-borda); }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item:hover { background: var(--cinza-claro); }
+    .notif-item-icon { font-size: 15px; }
     .msg-box { display: none; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; text-align: center; }
     .msg-error { background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); }
     .msg-success { background: rgba(16,185,129,0.15); color: #34D399; border: 1px solid rgba(16,185,129,0.3); }
@@ -394,6 +407,79 @@
       .app-user-email { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .biz-switcher-btn span:first-child { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle; }
     }
+
+    /* ══════════════════ TEMA ESCURO (opcional, só na área do app) ══════════════════
+       Bloco 100% aditivo — nenhuma regra acima foi alterada. Ativado via
+       atributo data-theme="dark" no <body> (precisa ser no body, não no
+       #app-shell, porque os modais ficam fora dele no DOM — são irmãos,
+       não filhos). As classes usadas aqui (app-card, app-form-input,
+       modal-box etc.) só existem na área do app/modais, nunca no site de
+       marketing, então não tem risco de vazar estilo escuro pra lá.
+       A topbar já é escura nos dois temas, de propósito — sem override. */
+    body[data-theme="dark"] #app-shell,
+    body[data-theme="dark"] #businesses-shell {
+      background: #14171C;
+    }
+    body[data-theme="dark"] .app-sidebar {
+      background: #1A1E24; border-right-color: #2C313A;
+    }
+    body[data-theme="dark"] .app-nav-item { color: #8A93A3; }
+    body[data-theme="dark"] .app-nav-item:hover { background: #232830; color: #E8EAED; }
+    body[data-theme="dark"] .app-nav-item.active { background: rgba(15,82,186,0.22); color: #7EB3FF; }
+
+    body[data-theme="dark"] .kpi-card,
+    body[data-theme="dark"] .app-card,
+    body[data-theme="dark"] .empty-state,
+    body[data-theme="dark"] .icon-btn,
+    body[data-theme="dark"] .app-form-input,
+    body[data-theme="dark"] .app-form-select,
+    body[data-theme="dark"] .btn-app-secondary,
+    body[data-theme="dark"] .cart-qty-input,
+    body[data-theme="dark"] .notif-dropdown,
+    body[data-theme="dark"] .biz-card,
+    body[data-theme="dark"] .modal-box {
+      background: #1E232B; border-color: #2C313A; color: #E8EAED;
+    }
+    body[data-theme="dark"] .app-card-head,
+    body[data-theme="dark"] table.app-table th,
+    body[data-theme="dark"] table.app-table td,
+    body[data-theme="dark"] .notif-dropdown-title,
+    body[data-theme="dark"] .move-row {
+      border-color: #2C313A;
+    }
+    body[data-theme="dark"] table.app-table th { background: #232830; color: #8A93A3; }
+    body[data-theme="dark"] table.app-table td { color: #E8EAED; }
+    body[data-theme="dark"] table.app-table tr:hover { background: rgba(15,82,186,0.08); }
+
+    body[data-theme="dark"] .app-view-title,
+    body[data-theme="dark"] .app-card-title,
+    body[data-theme="dark"] .kpi-val,
+    body[data-theme="dark"] .empty-state-title,
+    body[data-theme="dark"] .move-name,
+    body[data-theme="dark"] .notif-dropdown-title,
+    body[data-theme="dark"] .modal-title,
+    body[data-theme="dark"] .app-form-label,
+    body[data-theme="dark"] .biz-card-name {
+      color: #F3F4F6;
+    }
+    body[data-theme="dark"] .app-view-sub,
+    body[data-theme="dark"] .kpi-label,
+    body[data-theme="dark"] .empty-state-sub,
+    body[data-theme="dark"] .field-hint,
+    body[data-theme="dark"] .move-meta,
+    body[data-theme="dark"] .kpi-sub,
+    body[data-theme="dark"] .notif-item,
+    body[data-theme="dark"] .modal-sub,
+    body[data-theme="dark"] .biz-card-type {
+      color: #8A93A3;
+    }
+    body[data-theme="dark"] .cat-pill { background: #2C313A; color: #B8C0CC; }
+    body[data-theme="dark"] .app-search { background: #1E232B; border-color: #2C313A; color: #E8EAED; }
+    body[data-theme="dark"] .notif-item { border-color: #2C313A; }
+    body[data-theme="dark"] .notif-item:hover { background: #262B33; }
+    body[data-theme="dark"] .venda-busca-item:hover { background: #262B33; }
+    body[data-theme="dark"] .app-menu-backdrop { background: rgba(0,0,0,0.65); }
+    .theme-toggle-btn { font-size: 15px; }
   </style>
 </head>
 <body>
@@ -427,6 +513,7 @@
   <p class="hero-sub">O Conexus oferece controle total de produtos, estoque e finanças para um ou vários negócios, de forma simples e acessível.</p>
   <div class="hero-btns">
     <a href="#cadastro" class="btn-hero btn-hero-p">Começar gratuitamente</a>
+    <button class="btn-hero btn-hero-s" id="btn-testar-hero" type="button">Testar o Conexus</button>
     <a href="#funcionalidades" class="btn-hero btn-hero-s">Ver funcionalidades</a>
   </div>
   <div class="hero-stats">
@@ -774,11 +861,16 @@
       <div class="app-logo">Con<span>exus</span></div>
     </div>
     <div class="app-topbar-right">
+      <button class="notif-bell-btn theme-toggle-btn" id="theme-toggle-btn-biz" title="Alternar tema">🌙</button>
       <span class="app-user-email" id="biz-user-email"></span>
       <button class="btn-app-logout" id="biz-btn-logout">Sair</button>
     </div>
   </div>
   <div class="biz-shell-body">
+    <div class="test-mode-banner" id="test-mode-banner-biz">
+      <span>🧪 Modo de teste — crie uma conta pra não perder seus dados.</span>
+      <button type="button" id="test-mode-criar-conta-btn-biz">Criar conta</button>
+    </div>
     <div class="app-header-row">
       <div>
         <div class="app-view-title">Meus negócios</div>
@@ -801,6 +893,17 @@
       </button>
     </div>
     <div class="app-topbar-right">
+      <button class="notif-bell-btn theme-toggle-btn" id="theme-toggle-btn-app" title="Alternar tema">🌙</button>
+      <button class="notif-bell-btn" id="global-search-btn" title="Buscar">🔍</button>
+      <div style="position:relative;">
+        <button class="notif-bell-btn" id="notif-bell-btn" title="Notificações">
+          🔔<span class="notif-badge" id="notif-badge" style="display:none;">0</span>
+        </button>
+        <div class="notif-dropdown" id="notif-dropdown" style="display:none;">
+          <div class="notif-dropdown-title">Notificações</div>
+          <div id="notif-list-slot"></div>
+        </div>
+      </div>
       <span class="app-user-email" id="app-user-email"></span>
       <button class="btn-app-logout" id="app-btn-logout">Sair</button>
     </div>
@@ -816,11 +919,17 @@
       <div class="app-nav-item" data-view="view-fornecedores">🏭 Fornecedores</div>
       <div class="app-nav-item" data-view="view-categorias">🏷️ Categorias</div>
       <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
+      <div class="app-nav-item" data-view="view-relatorios">📈 Relatórios</div>
+      <div class="app-nav-item" data-view="view-auditoria">🕵️ Auditoria</div>
       <div class="app-nav-item" data-view="view-movimentacoes">🔄 Movimentações</div>
       <div class="app-nav-item" data-view="view-financas">💰 Financeiro</div>
     </div>
 
     <div class="app-main">
+      <div class="test-mode-banner" id="test-mode-banner-app">
+        <span>🧪 Modo de teste — crie uma conta pra não perder seus dados.</span>
+        <button type="button" id="test-mode-criar-conta-btn-app">Criar conta</button>
+      </div>
 
       <!-- DASHBOARD -->
       <div class="app-view active" id="view-dashboard">
@@ -1156,6 +1265,100 @@
           </div>
           <div id="movs-list-slot"></div>
         </div>
+      </div>
+
+      <!-- RELATÓRIOS -->
+      <div class="app-view" id="view-relatorios">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Relatórios</div>
+            <div class="app-view-sub">Análises a partir dos seus dados de vendas e produtos</div>
+          </div>
+        </div>
+        <div class="fin-tabs" style="margin-bottom:20px; flex-wrap:wrap;">
+          <button class="fin-tab active" id="relatorio-subtab-vendidos">Mais vendidos</button>
+          <button class="fin-tab" id="relatorio-subtab-parados">Produtos parados</button>
+          <button class="fin-tab" id="relatorio-subtab-margem">Margem</button>
+          <button class="fin-tab" id="relatorio-subtab-categoria">Por categoria</button>
+          <button class="fin-tab" id="relatorio-subtab-pagamento">Formas de pagamento</button>
+          <button class="fin-tab" id="relatorio-subtab-giro">Giro &amp; Previsão</button>
+        </div>
+
+        <div id="relatorio-panel-vendidos">
+          <div class="fin-tabs" style="margin-bottom:20px;">
+            <button class="fin-tab active" id="relatorio-tab-sem">Semana</button>
+            <button class="fin-tab" id="relatorio-tab-mes">Mês</button>
+            <button class="fin-tab" id="relatorio-tab-ano">Ano</button>
+          </div>
+          <div class="app-card" style="margin-bottom:16px;">
+            <div class="app-card-head"><div class="app-card-title">Por quantidade</div></div>
+            <div id="relatorio-mais-vendidos-qtd-slot"></div>
+          </div>
+          <div class="app-card">
+            <div class="app-card-head"><div class="app-card-title">Por receita</div></div>
+            <div id="relatorio-mais-vendidos-receita-slot"></div>
+          </div>
+        </div>
+
+        <div id="relatorio-panel-parados" style="display:none;">
+          <div class="fin-tabs" style="margin-bottom:20px;">
+            <button class="fin-tab active" id="parados-tab-30">30 dias</button>
+            <button class="fin-tab" id="parados-tab-60">60 dias</button>
+            <button class="fin-tab" id="parados-tab-90">90 dias</button>
+          </div>
+          <div class="app-card"><div id="relatorio-parados-slot"></div></div>
+        </div>
+
+        <div id="relatorio-panel-margem" style="display:none;">
+          <div class="app-card"><div id="relatorio-margem-slot"></div></div>
+        </div>
+
+        <div id="relatorio-panel-categoria" style="display:none;">
+          <div class="fin-tabs" style="margin-bottom:20px;">
+            <button class="fin-tab active" id="categoria-tab-sem">Semana</button>
+            <button class="fin-tab" id="categoria-tab-mes">Mês</button>
+            <button class="fin-tab" id="categoria-tab-ano">Ano</button>
+          </div>
+          <div class="app-card"><div id="relatorio-categoria-slot"></div></div>
+        </div>
+
+        <div id="relatorio-panel-pagamento" style="display:none;">
+          <div class="fin-tabs" style="margin-bottom:20px;">
+            <button class="fin-tab active" id="pagamento-tab-sem">Semana</button>
+            <button class="fin-tab" id="pagamento-tab-mes">Mês</button>
+            <button class="fin-tab" id="pagamento-tab-ano">Ano</button>
+          </div>
+          <div class="app-card"><div id="relatorio-pagamento-slot"></div></div>
+        </div>
+
+        <div id="relatorio-panel-giro" style="display:none;">
+          <div class="fin-tabs" style="margin-bottom:20px;">
+            <button class="fin-tab active" id="giro-tab-sem">Semana</button>
+            <button class="fin-tab" id="giro-tab-mes">Mês</button>
+            <button class="fin-tab" id="giro-tab-ano">Ano</button>
+          </div>
+          <div class="app-fin-summary" style="margin-bottom:16px;">
+            <div class="kpi-card"><div class="kpi-label">Giro de estoque</div><div class="kpi-val" id="giro-valor">0x</div></div>
+            <div class="kpi-card"><div class="kpi-label">Custo das vendas</div><div class="kpi-val" id="giro-custo-vendas">R$ 0,00</div></div>
+            <div class="kpi-card"><div class="kpi-label">Valor em estoque hoje</div><div class="kpi-val" id="giro-valor-estoque">R$ 0,00</div></div>
+          </div>
+          <div class="field-hint" style="margin-bottom:20px;">Giro = custo das vendas do período ÷ valor do estoque atual. É uma aproximação — o cálculo mais rigoroso usaria o estoque médio do período, não o valor de hoje.</div>
+          <div class="app-card">
+            <div class="app-card-head"><div class="app-card-title">Previsão de reposição por produto</div></div>
+            <div id="relatorio-previsao-slot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUDITORIA -->
+      <div class="app-view" id="view-auditoria">
+        <div class="app-header-row">
+          <div>
+            <div class="app-view-title">Auditoria</div>
+            <div class="app-view-sub">Histórico de edições e exclusões sensíveis neste negócio</div>
+          </div>
+        </div>
+        <div class="app-card"><div id="auditoria-table-slot"></div></div>
       </div>
 
       <!-- FINANÇAS -->
@@ -1495,6 +1698,79 @@
   </div>
 </div>
 
+<!-- Modal: busca global -->
+<div class="modal-overlay" id="modal-busca-global">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-title">Buscar no Conexus</div>
+    <input type="text" class="app-form-input" id="busca-global-input" placeholder="Produto, cliente, fornecedor..." autocomplete="off" style="margin-bottom:8px;" />
+    <div id="busca-global-resultados"></div>
+  </div>
+</div>
+
+<!-- Modal: modo de teste -->
+<div class="modal-overlay" id="modal-teste">
+  <div class="modal-box">
+    <div class="modal-title">Modo de teste</div>
+    <div class="modal-sub">Você pode experimentar o Conexus sem criar conta. Seus dados ficam salvos enquanto você testa — criar uma conta a qualquer momento transforma esse teste numa conta de verdade, sem perder nada.</div>
+    <div class="msg-box" id="teste-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="teste-criar-conta">Criar conta</button>
+      <button class="btn-app-primary" id="teste-comecar">Começar teste</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: criar conta a partir do modo de teste -->
+<div class="modal-overlay" id="modal-upgrade-conta">
+  <div class="modal-box">
+    <div class="modal-title">Criar conta</div>
+    <div class="modal-sub">Transforma seu teste em uma conta de verdade, sem perder nada que você já fez.</div>
+    <div class="msg-box" id="upgrade-msg"></div>
+    <div class="app-form-group">
+      <label class="app-form-label">E-mail</label>
+      <input type="email" class="app-form-input" id="upgrade-email" placeholder="seu@email.com" />
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Senha</label>
+      <div class="password-field-wrap">
+        <input type="password" class="app-form-input" id="upgrade-senha" placeholder="Mínimo 8 caracteres" />
+        <button type="button" class="toggle-password-btn on-light" data-target="upgrade-senha" aria-label="Mostrar senha">👁</button>
+      </div>
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Confirmar senha</label>
+      <div class="password-field-wrap">
+        <input type="password" class="app-form-input" id="upgrade-senha-confirmar" placeholder="Repita a senha" />
+        <button type="button" class="toggle-password-btn on-light" data-target="upgrade-senha-confirmar" aria-label="Mostrar senha">👁</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="upgrade-cancel">Cancelar</button>
+      <button class="btn-app-primary" id="upgrade-confirmar">Criar conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: equipe do negócio -->
+<div class="modal-overlay" id="modal-equipe">
+  <div class="modal-box">
+    <div class="modal-title">Equipe do negócio</div>
+    <div class="modal-sub" id="equipe-negocio-nome"></div>
+    <div class="msg-box" id="equipe-msg"></div>
+    <input type="hidden" id="equipe-business-id" />
+    <div id="equipe-lista-slot"></div>
+    <div class="app-form-group" style="margin-top:16px;">
+      <label class="app-form-label">Adicionar membro por e-mail</label>
+      <input type="email" class="app-form-input" id="equipe-email" placeholder="email@exemplo.com" />
+      <div class="field-hint">A pessoa precisa já ter uma conta no Conexus com esse e-mail. Ela ganha acesso completo a este negócio, exceto excluí-lo, editar as configurações ou gerenciar a equipe.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-app-secondary" id="equipe-close">Fechar</button>
+      <button class="btn-app-primary" id="equipe-convidar">Adicionar</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: criar/editar negócio -->
 <div class="modal-overlay" id="modal-business">
   <div class="modal-box">
@@ -1662,6 +1938,17 @@
       <input type="number" class="app-form-input" id="move-qtd" min="1" step="1" placeholder="0" />
       <div class="field-hint" id="move-hint"></div>
     </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Motivo (opcional)</label>
+      <select class="app-form-select" id="move-motivo">
+        <option value="">Nenhum — movimentação padrão</option>
+        <option value="ajuste">Ajuste de inventário (contagem)</option>
+        <option value="perda">Perda ou produto danificado</option>
+        <option value="devolucao_fornecedor">Devolução ao fornecedor</option>
+        <option value="outro">Outro motivo</option>
+      </select>
+      <div class="field-hint">Marcar um motivo faz essa saída não contar como venda no Financeiro.</div>
+    </div>
     <div class="modal-actions">
       <button class="btn-app-secondary" id="move-cancel">Cancelar</button>
       <button class="btn-app-primary" id="move-confirm">Confirmar</button>
@@ -1827,6 +2114,7 @@ let salesReturns = [];      // cache local das devoluções do negócio atual
 let expenses = [];          // cache local das despesas do negócio atual
 let revenues = [];          // cache local das outras receitas do negócio atual
 let categories = [];        // cache local das categorias sugeridas do negócio atual
+let auditLogs = [];         // cache local do log de auditoria do negócio atual
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -1876,6 +2164,107 @@ function wireNavBtnEntrar() {
   });
 }
 wireNavBtnEntrar();
+
+// ══════════════════════════════════════════════
+// TEMA CLARO/ESCURO
+// ══════════════════════════════════════════════
+// Preferência vale só pra sessão atual (sem localStorage/sessionStorage
+// de propósito — volta pro tema claro se a página for recarregada).
+let currentTheme = 'light';
+function applyTheme(theme) {
+  currentTheme = theme;
+  document.body.setAttribute('data-theme', theme);
+  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+    btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  });
+}
+function toggleTheme() {
+  applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+}
+document.getElementById('theme-toggle-btn-biz').addEventListener('click', toggleTheme);
+document.getElementById('theme-toggle-btn-app').addEventListener('click', toggleTheme);
+
+// ══════════════════════════════════════════════
+// MODO DE TESTE (login anônimo do Supabase)
+// ══════════════════════════════════════════════
+function updateTestModeBanners() {
+  const isAnon = !!(currentUser && currentUser.is_anonymous);
+  document.getElementById('test-mode-banner-biz').style.display = isAnon ? 'flex' : 'none';
+  document.getElementById('test-mode-banner-app').style.display = isAnon ? 'flex' : 'none';
+}
+
+document.getElementById('btn-testar-hero').addEventListener('click', () => {
+  hideMsg('teste-msg');
+  document.getElementById('modal-teste').classList.add('open');
+});
+document.getElementById('teste-criar-conta').addEventListener('click', () => {
+  document.getElementById('modal-teste').classList.remove('open');
+  document.getElementById('card-logged').style.display = 'none';
+  document.getElementById('card-login').style.display = 'none';
+  document.getElementById('card-signup').style.display = 'block';
+  document.getElementById('auth-title').textContent = 'Crie sua conta';
+  var target = document.querySelector('#cadastro');
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('teste-comecar').addEventListener('click', async () => {
+  hideMsg('teste-msg');
+  setBtn('teste-comecar', true, 'Começar teste', 'Entrando...');
+  try {
+    const { error } = await withTimeout(sb.auth.signInAnonymously(), 15000);
+    if (error) {
+      showMsg('teste-msg', 'Não foi possível iniciar o modo de teste. Verifique se "Anonymous Sign-ins" está habilitado nas configurações de Authentication do projeto Supabase. Detalhes: ' + error.message, 'error');
+      return;
+    }
+    document.getElementById('modal-teste').classList.remove('open');
+    await openBusinessesShell();
+  } catch (err) {
+    console.error('Erro ao iniciar modo de teste:', err);
+    showMsg('teste-msg', 'Não foi possível iniciar o modo de teste. Tente novamente.', 'error');
+  } finally {
+    setBtn('teste-comecar', false, 'Começar teste');
+  }
+});
+
+function openUpgradeModal() {
+  hideMsg('upgrade-msg');
+  document.getElementById('upgrade-email').value = '';
+  document.getElementById('upgrade-senha').value = '';
+  document.getElementById('upgrade-senha-confirmar').value = '';
+  document.getElementById('modal-upgrade-conta').classList.add('open');
+}
+document.getElementById('test-mode-criar-conta-btn-biz').addEventListener('click', openUpgradeModal);
+document.getElementById('test-mode-criar-conta-btn-app').addEventListener('click', openUpgradeModal);
+document.getElementById('upgrade-cancel').addEventListener('click', () => document.getElementById('modal-upgrade-conta').classList.remove('open'));
+
+document.getElementById('upgrade-confirmar').addEventListener('click', async () => {
+  const email = document.getElementById('upgrade-email').value.trim();
+  const senha = document.getElementById('upgrade-senha').value;
+  const confirmar = document.getElementById('upgrade-senha-confirmar').value;
+  hideMsg('upgrade-msg');
+
+  if (!email || !senha || !confirmar) { showMsg('upgrade-msg', 'Preencha todos os campos.', 'error'); return; }
+  if (senha.length < 8) { showMsg('upgrade-msg', 'A senha precisa ter pelo menos 8 caracteres.', 'error'); return; }
+  if (senha !== confirmar) { showMsg('upgrade-msg', 'As senhas não coincidem.', 'error'); return; }
+
+  setBtn('upgrade-confirmar', true, 'Criar conta');
+  try {
+    const { data, error } = await withTimeout(sb.auth.updateUser({ email: email, password: senha }), 15000);
+    if (error) { showMsg('upgrade-msg', error.message, 'error'); return; }
+
+    currentUser = data.user;
+    updateTestModeBanners();
+    document.getElementById('app-user-email').textContent = currentUser.email || '';
+    document.getElementById('biz-user-email').textContent = currentUser.email || '';
+    toast('Conta criada! Seus dados de teste agora são permanentes.');
+    document.getElementById('modal-upgrade-conta').classList.remove('open');
+  } catch (err) {
+    console.error('Erro ao criar conta a partir do teste:', err);
+    showMsg('upgrade-msg', 'Não foi possível criar a conta. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('upgrade-confirmar', false, 'Criar conta');
+  }
+});
 
 // ── Mostrar/ocultar senha ──
 document.querySelectorAll('.toggle-password-btn').forEach(function(btn) {
@@ -1968,8 +2357,17 @@ document.getElementById('btn-login').addEventListener('click', async function() 
   }
 });
 
+// Evita perder dados de teste sem querer — só pergunta quando é anônimo.
+function confirmLogoutIfAnonymous() {
+  if (currentUser && currentUser.is_anonymous) {
+    return confirm('Você está no modo de teste. Ao sair, os dados desse teste serão perdidos. Deseja continuar?');
+  }
+  return true;
+}
+
 // ── LOGOUT (marketing card) ──
 document.getElementById('btn-logout').addEventListener('click', async function() {
+  if (!confirmLogoutIfAnonymous()) return;
   setBtn('btn-logout', true, 'Sair da conta', 'Saindo...');
   try {
     await withTimeout(sb.auth.signOut(), 8000);
@@ -1986,6 +2384,7 @@ document.getElementById('btn-logout').addEventListener('click', async function()
 
 // ── LOGOUT (dentro do app) ──
 document.getElementById('app-btn-logout').addEventListener('click', async function() {
+  if (!confirmLogoutIfAnonymous()) return;
   setBtn('app-btn-logout', true, 'Sair', 'Saindo...');
   try {
     await withTimeout(sb.auth.signOut(), 8000);
@@ -2003,6 +2402,7 @@ document.getElementById('app-btn-logout').addEventListener('click', async functi
 
 // ── LOGOUT (dentro de Meus Negócios) ──
 document.getElementById('biz-btn-logout').addEventListener('click', async function() {
+  if (!confirmLogoutIfAnonymous()) return;
   setBtn('biz-btn-logout', true, 'Sair', 'Saindo...');
   try {
     await withTimeout(sb.auth.signOut(), 8000);
@@ -2032,13 +2432,18 @@ document.getElementById('btn-go-app').addEventListener('click', async function()
 sb.auth.onAuthStateChange(function(event, session) {
   if (session && session.user) {
     currentUser = session.user;
+    updateTestModeBanners();
     const appOpen = document.getElementById('app-shell').style.display === 'block';
     const bizShellOpen = document.getElementById('businesses-shell').style.display === 'block';
     if (!appOpen && !bizShellOpen) {
-      showLoggedMarketing(currentUser.email);
+      if (!session.user.is_anonymous) {
+        showLoggedMarketing(currentUser.email);
+      }
+      // usuário anônimo: o próprio fluxo de "Começar teste" já leva
+      // direto pra openBusinessesShell(), não precisa fazer nada aqui.
     } else {
-      document.getElementById('app-user-email').textContent = currentUser.email;
-      document.getElementById('biz-user-email').textContent = currentUser.email;
+      document.getElementById('app-user-email').textContent = currentUser.email || 'Modo de teste';
+      document.getElementById('biz-user-email').textContent = currentUser.email || 'Modo de teste';
     }
   } else {
     currentUser = null;
@@ -2069,11 +2474,12 @@ async function openBusinessesShell() {
   }
   currentUser = user;
   currentBusiness = null;
+  updateTestModeBanners();
   console.log('[Conexus] Sessão ativa. user.id =', user.id, '| email =', user.email);
   document.getElementById('marketing-site').style.display = 'none';
   document.getElementById('app-shell').style.display = 'none';
   document.getElementById('businesses-shell').style.display = 'block';
-  document.getElementById('biz-user-email').textContent = currentUser.email;
+  document.getElementById('biz-user-email').textContent = currentUser.email || 'Modo de teste';
 
   const grid = document.getElementById('businesses-grid');
   grid.innerHTML = '<div class="app-loading"><span class="spin"></span>Carregando seus negócios...</div>';
@@ -2125,13 +2531,15 @@ function renderBusinessesGrid() {
     const icon = tipo ? tipo.icon : '🏢';
     const tipoNome = tipo ? tipo.name : 'Sem tipo definido';
     const porte = PORTE_LABELS[b.size] || '';
+    const souDono = b.user_id === currentUser.id;
     return '<div class="biz-card">' +
       '<div class="biz-card-icon">' + icon + '</div>' +
-      '<div class="biz-card-name">' + escapeHtml(b.name) + '</div>' +
+      '<div class="biz-card-name">' + escapeHtml(b.name) + (souDono ? '' : ' <span class="cat-pill" style="font-size:10px; vertical-align:middle;">Membro</span>') + '</div>' +
       '<div class="biz-card-type">' + escapeHtml(tipoNome) + (porte ? ' · ' + porte : '') + '</div>' +
       '<div class="biz-card-actions">' +
         '<button class="btn-app-primary" data-action="abrir" data-id="' + b.id + '">Abrir gestão</button>' +
-        '<button class="icon-btn" title="Editar negócio" data-action="editar-negocio" data-id="' + b.id + '">✎</button>' +
+        (souDono ? '<button class="icon-btn" title="Editar negócio" data-action="editar-negocio" data-id="' + b.id + '">✎</button>' : '') +
+        (souDono ? '<button class="icon-btn" title="Equipe" data-action="equipe" data-id="' + b.id + '">👥</button>' : '') +
       '</div></div>';
   }).join('') + '</div>';
 
@@ -2147,15 +2555,22 @@ function renderBusinessesGrid() {
       if (biz) openBusinessModal(biz);
     });
   });
+  grid.querySelectorAll('[data-action="equipe"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const biz = businesses.find(b => b.id === btn.dataset.id);
+      if (biz) openEquipeModal(biz);
+    });
+  });
 }
 
 async function openBusiness(biz) {
   currentBusiness = biz;
   products = [];
   movements = [];
+  updateTestModeBanners();
   document.getElementById('businesses-shell').style.display = 'none';
   document.getElementById('app-shell').style.display = 'block';
-  document.getElementById('app-user-email').textContent = currentUser.email;
+  document.getElementById('app-user-email').textContent = currentUser.email || 'Modo de teste';
   document.getElementById('biz-switcher-name').textContent = biz.name;
   document.getElementById('dash-greeting').textContent = 'Resumo do negócio ' + biz.name;
   goto('view-dashboard');
@@ -2168,6 +2583,86 @@ function backToBusinesses() {
   document.getElementById('businesses-shell').style.display = 'block';
 }
 document.getElementById('biz-switcher-btn').addEventListener('click', backToBusinesses);
+
+// ── Modal: equipe do negócio ──
+let equipeMembers = [];
+
+async function openEquipeModal(biz) {
+  document.getElementById('equipe-business-id').value = biz.id;
+  document.getElementById('equipe-negocio-nome').textContent = biz.name;
+  document.getElementById('equipe-email').value = '';
+  hideMsg('equipe-msg');
+  const slot = document.getElementById('equipe-lista-slot');
+  slot.innerHTML = '<div class="app-loading"><span class="spin"></span>Carregando equipe...</div>';
+  document.getElementById('modal-equipe').classList.add('open');
+
+  try {
+    const { data, error } = await withTimeout(
+      sb.from('business_members').select('*').eq('business_id', biz.id).order('created_at', { ascending: true }),
+      15000
+    );
+    if (error) throw error;
+    equipeMembers = data || [];
+    renderEquipeLista();
+  } catch (err) {
+    console.error('Erro ao carregar equipe:', err);
+    slot.innerHTML = '<div class="msg-box msg-error" style="display:block;">Não foi possível carregar a equipe agora.</div>';
+  }
+}
+
+function renderEquipeLista() {
+  const slot = document.getElementById('equipe-lista-slot');
+  if (equipeMembers.length === 0) {
+    slot.innerHTML = '<div class="field-hint">Nenhum membro além de você ainda.</div>';
+    return;
+  }
+  slot.innerHTML = equipeMembers.map(m =>
+    '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--cinza-borda);">' +
+      '<span style="font-size:13.5px;">' + escapeHtml(m.member_email) + '</span>' +
+      '<button class="icon-btn danger" title="Remover" data-remover-membro="' + m.id + '">🗑</button>' +
+    '</div>'
+  ).join('');
+  slot.querySelectorAll('[data-remover-membro]').forEach(btn => {
+    btn.addEventListener('click', () => removerMembro(btn.dataset.removerMembro));
+  });
+}
+
+document.getElementById('equipe-close').addEventListener('click', () => document.getElementById('modal-equipe').classList.remove('open'));
+
+document.getElementById('equipe-convidar').addEventListener('click', async () => {
+  const businessId = document.getElementById('equipe-business-id').value;
+  const email = document.getElementById('equipe-email').value.trim();
+  hideMsg('equipe-msg');
+  if (!email) { showMsg('equipe-msg', 'Informe o e-mail da pessoa.', 'error'); return; }
+
+  setBtn('equipe-convidar', true, 'Adicionar');
+  try {
+    const { error } = await withTimeout(sb.rpc('add_business_member', { p_business_id: businessId, p_email: email }), 15000);
+    if (error) { showMsg('equipe-msg', error.message, 'error'); return; }
+    toast('Membro adicionado com sucesso.');
+    document.getElementById('equipe-email').value = '';
+    const biz = businesses.find(b => b.id === businessId);
+    if (biz) await openEquipeModal(biz);
+  } catch (err) {
+    console.error('Erro ao adicionar membro:', err);
+    showMsg('equipe-msg', 'Não foi possível adicionar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+  } finally {
+    setBtn('equipe-convidar', false, 'Adicionar');
+  }
+});
+
+async function removerMembro(id) {
+  try {
+    const { error } = await withTimeout(sb.from('business_members').delete().eq('id', id), 15000);
+    if (error) { toast('Erro ao remover: ' + error.message, true); return; }
+    toast('Membro removido.');
+    equipeMembers = equipeMembers.filter(m => m.id !== id);
+    renderEquipeLista();
+  } catch (err) {
+    console.error('Erro ao remover membro:', err);
+    toast('Não foi possível remover. Tente novamente.', true);
+  }
+}
 
 // ── Modal: criar/editar negócio ──
 function openBusinessModal(biz) {
@@ -2235,6 +2730,7 @@ document.getElementById('biz-save').addEventListener('click', async () => {
         ...payload, updated_at: new Date().toISOString()
       }).eq('id', id), 15000);
       if (error) { showMsg('biz-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      logAudit('editar', 'negócio', nome, null, id);
       toast('Negócio atualizado com sucesso.');
     } else {
       const { error } = await withTimeout(sb.from('businesses').insert({
@@ -2319,7 +2815,7 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes] = await withTimeout(Promise.all([
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes, auditRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
@@ -2329,7 +2825,8 @@ async function loadAllData() {
       sb.from('returns').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('expenses').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
       sb.from('revenues').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
-      sb.from('categories').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true })
+      sb.from('categories').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
+      sb.from('audit_logs').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
@@ -2342,6 +2839,7 @@ async function loadAllData() {
     if (expRes.error) throw expRes.error;
     if (revRes.error) throw revRes.error;
     if (catRes.error) throw catRes.error;
+    if (auditRes.error) throw auditRes.error;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
@@ -2353,6 +2851,7 @@ async function loadAllData() {
     expenses = expRes.data || [];
     revenues = revRes.data || [];
     categories = catRes.data || [];
+    auditLogs = auditRes.data || [];
 
     renderDashboard();
     renderEstoqueTable();
@@ -2373,6 +2872,17 @@ async function loadAllData() {
     renderFluxoCaixa(window.__fluxoPeriod || 'sem');
     renderCategoriasTable();
     populateCategoriasDatalist();
+    renderMaisVendidosRelatorio(window.__relatorioVendidosPeriod || 'sem');
+    renderProdutosParados(window.__relatorioParadosDias || 30);
+    renderMargemProduto();
+    renderVendasPorCategoria(window.__relatorioCategoriaPeriod || 'sem');
+    renderVendasPorPagamento(window.__relatorioPagamentoPeriod || 'sem');
+    renderGiroEstoque(window.__relatorioGiroPeriod || 'sem');
+    renderPrevisaoEstoque();
+    renderGiroEstoque(window.__relatorioGiroPeriod || 'sem');
+    renderPrevisaoEstoque();
+    renderAuditoria();
+    renderNotifications();
   } catch (err) {
     console.error('Erro ao carregar dados:', err);
     toast('Não foi possível carregar seus dados. ' + (err.message || ''), true);
@@ -2412,7 +2922,7 @@ function renderDashboard() {
 
   // Mais vendidos = soma de saídas por produto
   const saidaPorProduto = {};
-  movements.filter(m => m.type === 'saida').forEach(m => {
+  movements.filter(m => m.type === 'saida' && m.is_sale).forEach(m => {
     saidaPorProduto[m.product_name] = (saidaPorProduto[m.product_name] || 0) + Number(m.quantity);
   });
   const ranking = Object.entries(saidaPorProduto).sort((a,b) => b[1]-a[1]).slice(0, 5);
@@ -2543,6 +3053,7 @@ document.getElementById('edit-save').addEventListener('click', async () => {
 
     if (error) { showMsg('edit-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
 
+    logAudit('editar', 'produto', name, 'Preço: ' + brl(price) + (custo !== null ? ' · Custo: ' + brl(custo) : ''));
     document.getElementById('modal-edit').classList.remove('open');
     toast('Produto atualizado com sucesso.');
     await loadAllData();
@@ -2562,11 +3073,13 @@ function openDeleteModal(p) {
 document.getElementById('delete-cancel').addEventListener('click', () => document.getElementById('modal-delete').classList.remove('open'));
 document.getElementById('delete-confirm').addEventListener('click', async () => {
   const id = document.getElementById('delete-id').value;
+  const produtoExcluido = products.find(p => p.id === id);
   setBtn('delete-confirm', true, 'Excluir produto');
   try {
     const { error } = await withTimeout(sb.from('products').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
     document.getElementById('modal-delete').classList.remove('open');
     if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    logAudit('excluir', 'produto', produtoExcluido ? produtoExcluido.name : null);
     toast('Produto excluído.');
     await loadAllData();
   } catch (err) {
@@ -2583,6 +3096,7 @@ function openMoveModal(p, type) {
   document.getElementById('move-id').value = p.id;
   document.getElementById('move-type').value = type;
   document.getElementById('move-qtd').value = '';
+  document.getElementById('move-motivo').value = '';
   hideMsg('move-msg');
   document.getElementById('move-title').textContent = type === 'entrada' ? 'Registrar entrada' : 'Registrar saída';
   document.getElementById('move-sub').textContent = p.name + ' — estoque atual: ' + p.quantity + ' unidades';
@@ -2597,6 +3111,7 @@ document.getElementById('move-confirm').addEventListener('click', async () => {
   const id = document.getElementById('move-id').value;
   const type = document.getElementById('move-type').value;
   const qtd = parseInt(document.getElementById('move-qtd').value, 10);
+  const motivo = document.getElementById('move-motivo').value;
   const product = products.find(p => p.id === id);
 
   if (!product) { showMsg('move-msg', 'Produto não encontrado. Atualize a página e tente novamente.', 'error'); return; }
@@ -2633,7 +3148,9 @@ document.getElementById('move-confirm').addEventListener('click', async () => {
       product_name: product.name,
       type: type,
       quantity: qtd,
-      unit_price: product.price
+      unit_price: product.price,
+      reason: motivo || null,
+      is_sale: type === 'saida' && !motivo
     }), 15000);
 
     if (movError) {
@@ -2724,6 +3241,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
 // ══════════════════════════════════════════════
 // MOVIMENTAÇÕES — histórico
 // ══════════════════════════════════════════════
+const MOTIVO_LABELS = { ajuste: 'Ajuste de inventário', perda: 'Perda/dano', devolucao_fornecedor: 'Devolução ao fornecedor', outro: 'Outro motivo' };
 function renderMovimentacoes() {
   const slot = document.getElementById('movs-list-slot');
   if (movements.length === 0) {
@@ -2737,10 +3255,11 @@ function renderMovimentacoes() {
   slot.innerHTML = movements.map(m => {
     const isIn = m.type === 'entrada';
     const data = new Date(m.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const motivoTexto = m.reason ? ' · ' + (MOTIVO_LABELS[m.reason] || m.reason) : '';
     return '<div class="move-row">' +
       '<div class="move-left">' +
         '<div class="move-icon ' + (isIn ? 'in' : 'out') + '">' + (isIn ? '↑' : '↓') + '</div>' +
-        '<div><div class="move-name">' + escapeHtml(m.product_name) + '</div><div class="move-meta">' + data + '</div></div>' +
+        '<div><div class="move-name">' + escapeHtml(m.product_name) + '</div><div class="move-meta">' + data + motivoTexto + '</div></div>' +
       '</div>' +
       '<div class="move-qty ' + (isIn ? 'in' : 'out') + '">' + (isIn ? '+' : '-') + m.quantity + ' un.</div>' +
       '</div>';
@@ -2764,7 +3283,7 @@ function renderFinancas(period) {
   });
 
   const start = periodStartDate(period);
-  const saidas = movements.filter(m => m.type === 'saida' && new Date(m.created_at) >= start);
+  const saidas = movements.filter(m => m.type === 'saida' && m.is_sale && new Date(m.created_at) >= start);
   const devolucoesPeriodo = salesReturns.filter(r => new Date(r.created_at) >= start);
 
   const receitaBruta = saidas.reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
@@ -2971,11 +3490,13 @@ function openDeleteCustomerModal(cliente) {
 document.getElementById('delete-cliente-cancel').addEventListener('click', () => document.getElementById('modal-delete-cliente').classList.remove('open'));
 document.getElementById('delete-cliente-confirm').addEventListener('click', async () => {
   const id = document.getElementById('delete-cliente-id').value;
+  const clienteExcluido = customers.find(c => c.id === id);
   setBtn('delete-cliente-confirm', true, 'Excluir cliente');
   try {
     const { error } = await withTimeout(sb.from('customers').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
     document.getElementById('modal-delete-cliente').classList.remove('open');
     if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    logAudit('excluir', 'cliente', clienteExcluido ? clienteExcluido.name : null);
     toast('Cliente excluído.');
     await loadAllData();
   } catch (err) {
@@ -3154,7 +3675,7 @@ document.getElementById('venda-finalizar').addEventListener('click', async () =>
     if (itemsError) toast('Venda registrada, mas houve erro ao salvar os itens: ' + itemsError.message, true);
 
     const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
-      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'saida', quantity: i.quantity, unit_price: i.price, unit_cost: i.cost }))
+      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'saida', quantity: i.quantity, unit_price: i.price, unit_cost: i.cost, is_sale: true }))
     ), 15000);
     if (movsError) toast('Venda registrada, mas houve erro ao atualizar o estoque: ' + movsError.message, true);
 
@@ -3342,6 +3863,9 @@ document.getElementById('devolucao-confirm').addEventListener('click', async () 
       await withTimeout(sb.from('sales').update({ status: 'devolvida' }).eq('id', saleId).eq('business_id', currentBusiness.id), 15000);
     }
 
+    const itensResumo = itensParaDevolver.map(i => i.quantity + 'x ' + i.productName).join(', ');
+    logAudit('editar', 'devolução', 'Venda #' + saleId.slice(0, 8), itensResumo);
+
     toast('Devolução registrada com sucesso.');
     document.getElementById('modal-devolucao').classList.remove('open');
     await loadAllData();
@@ -3485,11 +4009,13 @@ function openDeleteSupplierModal(fornecedor) {
 document.getElementById('delete-fornecedor-cancel').addEventListener('click', () => document.getElementById('modal-delete-fornecedor').classList.remove('open'));
 document.getElementById('delete-fornecedor-confirm').addEventListener('click', async () => {
   const id = document.getElementById('delete-fornecedor-id').value;
+  const fornecedorExcluido = suppliers.find(s => s.id === id);
   setBtn('delete-fornecedor-confirm', true, 'Excluir fornecedor');
   try {
     const { error } = await withTimeout(sb.from('suppliers').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
     document.getElementById('modal-delete-fornecedor').classList.remove('open');
     if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    logAudit('excluir', 'fornecedor', fornecedorExcluido ? fornecedorExcluido.name : null);
     toast('Fornecedor excluído.');
     await loadAllData();
   } catch (err) {
@@ -3908,11 +4434,13 @@ function openDeleteExpenseModal(despesa) {
 document.getElementById('delete-despesa-cancel').addEventListener('click', () => document.getElementById('modal-delete-despesa').classList.remove('open'));
 document.getElementById('delete-despesa-confirm').addEventListener('click', async () => {
   const id = document.getElementById('delete-despesa-id').value;
+  const despesaExcluida = expenses.find(e => e.id === id);
   setBtn('delete-despesa-confirm', true, 'Excluir despesa');
   try {
     const { error } = await withTimeout(sb.from('expenses').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
     document.getElementById('modal-delete-despesa').classList.remove('open');
     if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    logAudit('excluir', 'despesa', despesaExcluida ? despesaExcluida.description : null, despesaExcluida ? brl(despesaExcluida.amount) : null);
     toast('Despesa excluída.');
     await loadAllData();
   } catch (err) {
@@ -4097,11 +4625,13 @@ function openDeleteRevenueModal(receita) {
 document.getElementById('delete-receita-cancel').addEventListener('click', () => document.getElementById('modal-delete-receita').classList.remove('open'));
 document.getElementById('delete-receita-confirm').addEventListener('click', async () => {
   const id = document.getElementById('delete-receita-id').value;
+  const receitaExcluida = revenues.find(r => r.id === id);
   setBtn('delete-receita-confirm', true, 'Excluir receita');
   try {
     const { error } = await withTimeout(sb.from('revenues').delete().eq('id', id).eq('business_id', currentBusiness.id), 15000);
     document.getElementById('modal-delete-receita').classList.remove('open');
     if (error) { toast('Erro ao excluir: ' + error.message, true); return; }
+    logAudit('excluir', 'receita', receitaExcluida ? receitaExcluida.description : null, receitaExcluida ? brl(receitaExcluida.amount) : null);
     toast('Receita excluída.');
     await loadAllData();
   } catch (err) {
@@ -4167,7 +4697,7 @@ function renderFluxoCaixa(period) {
   });
   const start = periodStartDate(period);
 
-  const entradasVendas = movements.filter(m => m.type === 'saida' && new Date(m.created_at) >= start)
+  const entradasVendas = movements.filter(m => m.type === 'saida' && m.is_sale && new Date(m.created_at) >= start)
     .reduce((s, m) => s + Number(m.quantity) * Number(m.unit_price), 0);
   const devolucoesPeriodo = salesReturns.filter(r => new Date(r.created_at) >= start)
     .reduce((s, r) => s + Number(r.quantity) * Number(r.unit_price), 0);
@@ -4321,6 +4851,426 @@ document.getElementById('delete-categoria-confirm').addEventListener('click', as
 });
 
 // ══════════════════════════════════════════════
+// RELATÓRIOS
+// ══════════════════════════════════════════════
+const RELATORIO_SUBTABS = ['vendidos', 'parados', 'margem', 'categoria', 'pagamento', 'giro'];
+function switchRelatorioSubtab(tab) {
+  RELATORIO_SUBTABS.forEach(t => {
+    document.getElementById('relatorio-subtab-' + t).classList.toggle('active', t === tab);
+    document.getElementById('relatorio-panel-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+}
+RELATORIO_SUBTABS.forEach(t => {
+  document.getElementById('relatorio-subtab-' + t).addEventListener('click', () => switchRelatorioSubtab(t));
+});
+
+function getSaidasDoPeriodo(start) {
+  return movements.filter(m => m.type === 'saida' && m.is_sale && new Date(m.created_at) >= start);
+}
+
+// ── Mais vendidos ──
+function renderMaisVendidosRelatorio(period) {
+  window.__relatorioVendidosPeriod = period;
+  ['sem', 'mes', 'ano'].forEach(p => document.getElementById('relatorio-tab-' + p).classList.toggle('active', p === period));
+
+  const saidas = getSaidasDoPeriodo(periodStartDate(period));
+  const porProduto = {};
+  saidas.forEach(m => {
+    if (!porProduto[m.product_name]) porProduto[m.product_name] = { quantidade: 0, receita: 0 };
+    porProduto[m.product_name].quantidade += Number(m.quantity);
+    porProduto[m.product_name].receita += Number(m.quantity) * Number(m.unit_price);
+  });
+  const porQuantidade = Object.entries(porProduto).sort((a, b) => b[1].quantidade - a[1].quantidade).slice(0, 10);
+  const porReceita = Object.entries(porProduto).sort((a, b) => b[1].receita - a[1].receita).slice(0, 10);
+
+  const slotQtd = document.getElementById('relatorio-mais-vendidos-qtd-slot');
+  const slotReceita = document.getElementById('relatorio-mais-vendidos-receita-slot');
+
+  if (porQuantidade.length === 0) {
+    slotQtd.innerHTML = '<div class="empty-state" style="border:none;"><div class="empty-state-icon">📊</div><div class="empty-state-title">Sem vendas no período</div></div>';
+    slotReceita.innerHTML = '';
+    return;
+  }
+  slotQtd.innerHTML = '<table class="app-table"><thead><tr><th>Produto</th><th>Quantidade vendida</th></tr></thead><tbody>' +
+    porQuantidade.map(([nome, d]) => '<tr><td>' + escapeHtml(nome) + '</td><td>' + d.quantidade + '</td></tr>').join('') +
+    '</tbody></table>';
+  slotReceita.innerHTML = '<table class="app-table"><thead><tr><th>Produto</th><th>Receita gerada</th></tr></thead><tbody>' +
+    porReceita.map(([nome, d]) => '<tr><td>' + escapeHtml(nome) + '</td><td>' + brl(d.receita) + '</td></tr>').join('') +
+    '</tbody></table>';
+}
+['sem', 'mes', 'ano'].forEach(p => {
+  document.getElementById('relatorio-tab-' + p).addEventListener('click', () => renderMaisVendidosRelatorio(p));
+});
+
+// ── Produtos parados ──
+function renderProdutosParados(diasLimite) {
+  window.__relatorioParadosDias = diasLimite;
+  [30, 60, 90].forEach(d => document.getElementById('parados-tab-' + d).classList.toggle('active', d === diasLimite));
+
+  const slot = document.getElementById('relatorio-parados-slot');
+  const agora = Date.now();
+  const limiteMs = diasLimite * 24 * 60 * 60 * 1000;
+
+  const ultimaVendaPorProduto = {};
+  movements.filter(m => m.type === 'saida' && m.is_sale).forEach(m => {
+    const t = new Date(m.created_at).getTime();
+    if (!ultimaVendaPorProduto[m.product_id] || t > ultimaVendaPorProduto[m.product_id]) {
+      ultimaVendaPorProduto[m.product_id] = t;
+    }
+  });
+
+  const parados = products.filter(p => {
+    const ultima = ultimaVendaPorProduto[p.id];
+    if (!ultima) return true;
+    return (agora - ultima) >= limiteMs;
+  }).map(p => {
+    const ultima = ultimaVendaPorProduto[p.id] || null;
+    return { produto: p, ultimaVenda: ultima, dias: ultima ? Math.floor((agora - ultima) / (24 * 60 * 60 * 1000)) : null };
+  }).sort((a, b) => {
+    if (a.dias === null && b.dias === null) return 0;
+    if (a.dias === null) return -1;
+    if (b.dias === null) return 1;
+    return b.dias - a.dias;
+  });
+
+  if (parados.length === 0) {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎉</div><div class="empty-state-title">Nenhum produto parado</div><div class="empty-state-sub">Todos os produtos venderam dentro do período selecionado.</div></div>';
+    return;
+  }
+  slot.innerHTML = '<table class="app-table"><thead><tr><th>Produto</th><th>Última venda</th><th>Dias parado</th><th>Estoque atual</th></tr></thead><tbody>' +
+    parados.map(item => '<tr><td><strong>' + escapeHtml(item.produto.name) + '</strong></td>' +
+      '<td>' + (item.ultimaVenda ? new Date(item.ultimaVenda).toLocaleDateString('pt-BR') : 'Nunca vendeu') + '</td>' +
+      '<td>' + (item.dias !== null ? item.dias + ' dias' : '—') + '</td>' +
+      '<td>' + item.produto.quantity + '</td></tr>').join('') +
+    '</tbody></table>';
+}
+[30, 60, 90].forEach(d => {
+  document.getElementById('parados-tab-' + d).addEventListener('click', () => renderProdutosParados(d));
+});
+
+// ── Margem por produto ──
+function renderMargemProduto() {
+  const slot = document.getElementById('relatorio-margem-slot');
+  if (products.length === 0) {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📈</div><div class="empty-state-title">Nenhum produto cadastrado</div></div>';
+    return;
+  }
+  const comMargem = products.map(p => {
+    const custo = p.cost_price != null ? Number(p.cost_price) : null;
+    const preco = Number(p.price);
+    const margemReais = custo != null ? preco - custo : null;
+    const margemPct = (custo != null && preco > 0) ? (margemReais / preco) * 100 : null;
+    return { produto: p, custo, preco, margemReais, margemPct };
+  }).sort((a, b) => {
+    if (a.margemPct === null && b.margemPct === null) return 0;
+    if (a.margemPct === null) return -1;
+    if (b.margemPct === null) return 1;
+    return a.margemPct - b.margemPct;
+  });
+
+  slot.innerHTML = '<table class="app-table"><thead><tr><th>Produto</th><th>Custo</th><th>Preço</th><th>Margem</th><th>Margem %</th></tr></thead><tbody>' +
+    comMargem.map(item => {
+      let badge = '<span class="sbadge" style="background:var(--cinza-claro); color:var(--cinza-texto);">Sem custo</span>';
+      if (item.margemPct !== null) {
+        if (item.margemPct >= 40) badge = '<span class="sbadge s-ok">' + item.margemPct.toFixed(0) + '%</span>';
+        else if (item.margemPct >= 20) badge = '<span class="sbadge s-low">' + item.margemPct.toFixed(0) + '%</span>';
+        else badge = '<span class="sbadge s-out">' + item.margemPct.toFixed(0) + '%</span>';
+      }
+      return '<tr><td><strong>' + escapeHtml(item.produto.name) + '</strong></td>' +
+        '<td>' + (item.custo !== null ? brl(item.custo) : '—') + '</td>' +
+        '<td>' + brl(item.preco) + '</td>' +
+        '<td>' + (item.margemReais !== null ? brl(item.margemReais) : '—') + '</td>' +
+        '<td>' + badge + '</td></tr>';
+    }).join('') +
+    '</tbody></table>';
+}
+
+// ── Vendas por categoria ──
+function renderVendasPorCategoria(period) {
+  window.__relatorioCategoriaPeriod = period;
+  ['sem', 'mes', 'ano'].forEach(p => document.getElementById('categoria-tab-' + p).classList.toggle('active', p === period));
+
+  const slot = document.getElementById('relatorio-categoria-slot');
+  const saidas = getSaidasDoPeriodo(periodStartDate(period));
+  const porCategoria = {};
+  saidas.forEach(m => {
+    const produto = products.find(p => p.id === m.product_id);
+    const categoria = produto ? (produto.category || 'Geral') : 'Geral';
+    if (!porCategoria[categoria]) porCategoria[categoria] = { quantidade: 0, receita: 0 };
+    porCategoria[categoria].quantidade += Number(m.quantity);
+    porCategoria[categoria].receita += Number(m.quantity) * Number(m.unit_price);
+  });
+  const entries = Object.entries(porCategoria).sort((a, b) => b[1].receita - a[1].receita);
+
+  if (entries.length === 0) {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏷️</div><div class="empty-state-title">Sem vendas no período</div></div>';
+    return;
+  }
+  slot.innerHTML = '<table class="app-table"><thead><tr><th>Categoria</th><th>Quantidade</th><th>Receita</th></tr></thead><tbody>' +
+    entries.map(([nome, d]) => '<tr><td>' + escapeHtml(nome) + '</td><td>' + d.quantidade + '</td><td>' + brl(d.receita) + '</td></tr>').join('') +
+    '</tbody></table>';
+}
+['sem', 'mes', 'ano'].forEach(p => {
+  document.getElementById('categoria-tab-' + p).addEventListener('click', () => renderVendasPorCategoria(p));
+});
+
+// ── Vendas por forma de pagamento ──
+function renderVendasPorPagamento(period) {
+  window.__relatorioPagamentoPeriod = period;
+  ['sem', 'mes', 'ano'].forEach(p => document.getElementById('pagamento-tab-' + p).classList.toggle('active', p === period));
+
+  const slot = document.getElementById('relatorio-pagamento-slot');
+  const start = periodStartDate(period);
+  const vendasPeriodo = salesHistory.filter(s => new Date(s.created_at) >= start && s.status !== 'cancelada');
+  const porForma = {};
+  vendasPeriodo.forEach(s => {
+    const forma = s.payment_method || 'outra';
+    if (!porForma[forma]) porForma[forma] = { qtd: 0, total: 0 };
+    porForma[forma].qtd += 1;
+    porForma[forma].total += Number(s.total);
+  });
+  const entries = Object.entries(porForma).sort((a, b) => b[1].total - a[1].total);
+
+  if (entries.length === 0) {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">💳</div><div class="empty-state-title">Sem vendas no período</div></div>';
+    return;
+  }
+  slot.innerHTML = '<table class="app-table"><thead><tr><th>Forma de pagamento</th><th>Nº de vendas</th><th>Total</th></tr></thead><tbody>' +
+    entries.map(([forma, d]) => '<tr><td>' + (PAGAMENTO_LABELS[forma] || forma) + '</td><td>' + d.qtd + '</td><td>' + brl(d.total) + '</td></tr>').join('') +
+    '</tbody></table>';
+}
+['sem', 'mes', 'ano'].forEach(p => {
+  document.getElementById('pagamento-tab-' + p).addEventListener('click', () => renderVendasPorPagamento(p));
+});
+
+// ── Giro de estoque + previsão de reposição ──
+function custoRealOuEstimado(quantidade, produto) {
+  if (produto && produto.cost_price != null) return quantidade * Number(produto.cost_price);
+  if (produto) return quantidade * Number(produto.price) * 0.4;
+  return 0;
+}
+
+function renderGiroEstoque(period) {
+  window.__relatorioGiroPeriod = period;
+  ['sem', 'mes', 'ano'].forEach(p => document.getElementById('giro-tab-' + p).classList.toggle('active', p === period));
+
+  const saidas = getSaidasDoPeriodo(periodStartDate(period));
+  const custoVendas = saidas.reduce((s, m) => {
+    if (m.unit_cost != null) return s + Number(m.quantity) * Number(m.unit_cost);
+    return s + custoRealOuEstimado(Number(m.quantity), products.find(p => p.id === m.product_id));
+  }, 0);
+  const valorEstoqueAtual = products.reduce((s, p) => s + custoRealOuEstimado(Number(p.quantity), p), 0);
+  const giro = valorEstoqueAtual > 0 ? custoVendas / valorEstoqueAtual : 0;
+
+  document.getElementById('giro-valor').textContent = giro.toFixed(2) + 'x';
+  document.getElementById('giro-custo-vendas').textContent = brl(custoVendas);
+  document.getElementById('giro-valor-estoque').textContent = brl(valorEstoqueAtual);
+}
+['sem', 'mes', 'ano'].forEach(p => {
+  document.getElementById('giro-tab-' + p).addEventListener('click', () => renderGiroEstoque(p));
+});
+
+function renderPrevisaoEstoque() {
+  const slot = document.getElementById('relatorio-previsao-slot');
+  const trintaDiasAtras = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const saidas30d = movements.filter(m => m.type === 'saida' && m.is_sale && new Date(m.created_at) >= trintaDiasAtras);
+
+  const vendidoPorProduto = {};
+  saidas30d.forEach(m => {
+    vendidoPorProduto[m.product_id] = (vendidoPorProduto[m.product_id] || 0) + Number(m.quantity);
+  });
+
+  const linhas = products.map(p => {
+    const vendido30d = vendidoPorProduto[p.id] || 0;
+    const taxaDiaria = vendido30d / 30;
+    const diasRestantes = taxaDiaria > 0 ? Math.floor(Number(p.quantity) / taxaDiaria) : null;
+    const sugestaoCompra = taxaDiaria > 0 ? Math.max(0, Math.ceil(taxaDiaria * 30 - Number(p.quantity))) : 0;
+    return { produto: p, taxaDiaria, diasRestantes, sugestaoCompra, vendido30d };
+  }).filter(item => item.vendido30d > 0)
+    .sort((a, b) => (a.diasRestantes ?? Infinity) - (b.diasRestantes ?? Infinity));
+
+  if (linhas.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">🔮</div>' +
+      '<div class="empty-state-title">Sem dados suficientes</div>' +
+      '<div class="empty-state-sub">A previsão precisa de vendas registradas nos últimos 30 dias.</div></div>';
+    return;
+  }
+
+  slot.innerHTML = '<table class="app-table"><thead><tr><th>Produto</th><th>Estoque atual</th><th>Vendas/dia (média 30d)</th><th>Estoque acaba em</th><th>Sugestão de compra</th></tr></thead><tbody>' +
+    linhas.map(item => {
+      const diasTexto = item.diasRestantes <= 0 ? 'Já esgotado' : '~' + item.diasRestantes + ' dias';
+      const badgeClass = item.diasRestantes <= 7 ? 's-out' : item.diasRestantes <= 15 ? 's-low' : 's-ok';
+      return '<tr><td><strong>' + escapeHtml(item.produto.name) + '</strong></td>' +
+        '<td>' + item.produto.quantity + '</td>' +
+        '<td>' + item.taxaDiaria.toFixed(1) + '</td>' +
+        '<td><span class="sbadge ' + badgeClass + '">' + diasTexto + '</span></td>' +
+        '<td>' + (item.sugestaoCompra > 0 ? item.sugestaoCompra + ' unidades' : '—') + '</td>' +
+        '</tr>';
+    }).join('') +
+    '</tbody></table>' +
+    '<div class="field-hint" style="padding:14px 20px;">Projeção simples baseada na média de vendas dos últimos 30 dias — não considera sazonalidade, promoções ou tendências.</div>';
+}
+
+// ══════════════════════════════════════════════
+// AUDITORIA
+// ══════════════════════════════════════════════
+// Registro "melhor esforço": nunca bloqueia nem mostra erro pro usuário
+// se falhar — auditoria não pode atrapalhar a ação que está sendo feita.
+async function logAudit(action, entityType, entityName, details, businessIdOverride) {
+  try {
+    const bizId = businessIdOverride || (currentBusiness && currentBusiness.id);
+    if (!bizId || !currentUser) return;
+    await sb.from('audit_logs').insert({
+      business_id: bizId,
+      user_id: currentUser.id,
+      user_email: currentUser.email,
+      action: action,
+      entity_type: entityType,
+      entity_name: entityName || null,
+      details: details || null
+    });
+  } catch (err) {
+    console.error('Erro ao registrar auditoria (não bloqueante):', err);
+  }
+}
+
+const AUDIT_ACTION_LABELS = { editar: 'Editou', excluir: 'Excluiu' };
+function renderAuditoria() {
+  const slot = document.getElementById('auditoria-table-slot');
+  if (auditLogs.length === 0) {
+    slot.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state-icon">🕵️</div>' +
+      '<div class="empty-state-title">Nenhum registro ainda</div>' +
+      '<div class="empty-state-sub">Edições e exclusões de produtos, negócio, clientes, fornecedores, despesas, receitas e devoluções aparecem aqui.</div></div>';
+    return;
+  }
+  let html = '<table class="app-table"><thead><tr><th>Data/Hora</th><th>Usuário</th><th>Ação</th><th>Item</th><th>Detalhes</th></tr></thead><tbody>';
+  auditLogs.forEach(a => {
+    const data = new Date(a.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    html += '<tr>' +
+      '<td>' + data + '</td>' +
+      '<td>' + escapeHtml(a.user_email || '—') + '</td>' +
+      '<td>' + (AUDIT_ACTION_LABELS[a.action] || a.action) + ' ' + escapeHtml(a.entity_type) + '</td>' +
+      '<td>' + escapeHtml(a.entity_name || '—') + '</td>' +
+      '<td style="color:var(--cinza-texto);">' + escapeHtml(a.details || '—') + '</td>' +
+      '</tr>';
+  });
+  html += '</tbody></table>';
+  slot.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+// NOTIFICAÇÕES
+// ══════════════════════════════════════════════
+function getNotifications() {
+  const notifs = [];
+  const esgotados = products.filter(p => Number(p.quantity) <= 0);
+  const baixos = products.filter(p => Number(p.quantity) > 0 && Number(p.quantity) <= Number(p.low_stock_threshold));
+  const contasPagarVencidas = expenses.filter(e => isVencida(e));
+  const contasReceberVencidas = revenues.filter(r => isVencida(r));
+
+  if (esgotados.length > 0) notifs.push({ icon: '🔴', text: esgotados.length + ' produto(s) sem estoque', view: 'view-estoque' });
+  if (baixos.length > 0) notifs.push({ icon: '⚠️', text: baixos.length + ' produto(s) com estoque baixo', view: 'view-estoque' });
+  if (contasPagarVencidas.length > 0) notifs.push({ icon: '💳', text: contasPagarVencidas.length + ' conta(s) a pagar vencida(s)', view: 'view-financas', subtab: 'pagar' });
+  if (contasReceberVencidas.length > 0) notifs.push({ icon: '💵', text: contasReceberVencidas.length + ' conta(s) a receber vencida(s)', view: 'view-financas', subtab: 'receber' });
+  return notifs;
+}
+
+function renderNotifications() {
+  const notifs = getNotifications();
+  const badge = document.getElementById('notif-badge');
+  badge.style.display = notifs.length > 0 ? 'flex' : 'none';
+  badge.textContent = notifs.length;
+
+  const slot = document.getElementById('notif-list-slot');
+  if (notifs.length === 0) {
+    slot.innerHTML = '<div class="field-hint" style="padding:16px;">Nenhuma notificação no momento.</div>';
+    return;
+  }
+  slot.innerHTML = notifs.map((n, i) =>
+    '<div class="notif-item" data-notif-index="' + i + '">' +
+      '<span class="notif-item-icon">' + n.icon + '</span><span>' + n.text + '</span>' +
+    '</div>'
+  ).join('');
+  slot.querySelectorAll('[data-notif-index]').forEach(el => {
+    el.addEventListener('click', () => {
+      const n = notifs[parseInt(el.dataset.notifIndex, 10)];
+      closeNotifDropdown();
+      goto(n.view);
+      if (n.subtab) switchFinanceiroSubtab(n.subtab);
+    });
+  });
+}
+
+function closeNotifDropdown() {
+  document.getElementById('notif-dropdown').style.display = 'none';
+}
+document.getElementById('notif-bell-btn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const dropdown = document.getElementById('notif-dropdown');
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('notif-dropdown');
+  if (dropdown.style.display === 'block' && !dropdown.contains(e.target) && e.target.id !== 'notif-bell-btn') {
+    closeNotifDropdown();
+  }
+});
+
+// ══════════════════════════════════════════════
+// BUSCA GLOBAL
+// ══════════════════════════════════════════════
+document.getElementById('global-search-btn').addEventListener('click', () => {
+  document.getElementById('busca-global-input').value = '';
+  document.getElementById('busca-global-resultados').innerHTML = '';
+  document.getElementById('modal-busca-global').classList.add('open');
+  setTimeout(() => document.getElementById('busca-global-input').focus(), 50);
+});
+
+document.getElementById('busca-global-input').addEventListener('input', function() {
+  const term = this.value.toLowerCase().trim();
+  const slot = document.getElementById('busca-global-resultados');
+  if (!term) { slot.innerHTML = ''; return; }
+
+  const prodMatches = products.filter(p => p.name.toLowerCase().includes(term) || (p.category || '').toLowerCase().includes(term)).slice(0, 5);
+  const custMatches = customers.filter(c => c.name.toLowerCase().includes(term) || (c.phone || '').includes(term) || (c.email || '').toLowerCase().includes(term)).slice(0, 5);
+  const suppMatches = suppliers.filter(s => s.name.toLowerCase().includes(term)).slice(0, 5);
+
+  if (prodMatches.length === 0 && custMatches.length === 0 && suppMatches.length === 0) {
+    slot.innerHTML = '<div class="field-hint" style="padding:12px 4px;">Nenhum resultado encontrado.</div>';
+    return;
+  }
+
+  let html = '';
+  if (prodMatches.length > 0) {
+    html += '<div style="font-size:11px; font-weight:700; color:var(--cinza-texto); text-transform:uppercase; margin:12px 0 6px;">Produtos</div>' +
+      prodMatches.map(p => '<div class="venda-busca-item" data-busca-view="view-estoque" data-busca-termo="' + escapeHtml(p.name) + '"><span>' + escapeHtml(p.name) + '</span><span style="color:var(--cinza-texto); font-size:12px;">' + p.quantity + ' em estoque</span></div>').join('');
+  }
+  if (custMatches.length > 0) {
+    html += '<div style="font-size:11px; font-weight:700; color:var(--cinza-texto); text-transform:uppercase; margin:12px 0 6px;">Clientes</div>' +
+      custMatches.map(c => '<div class="venda-busca-item" data-busca-view="view-clientes" data-busca-termo="' + escapeHtml(c.name) + '"><span>' + escapeHtml(c.name) + '</span><span style="color:var(--cinza-texto); font-size:12px;">' + escapeHtml(c.phone || c.email || '') + '</span></div>').join('');
+  }
+  if (suppMatches.length > 0) {
+    html += '<div style="font-size:11px; font-weight:700; color:var(--cinza-texto); text-transform:uppercase; margin:12px 0 6px;">Fornecedores</div>' +
+      suppMatches.map(s => '<div class="venda-busca-item" data-busca-view="view-fornecedores" data-busca-termo="' + escapeHtml(s.name) + '"><span>' + escapeHtml(s.name) + '</span></div>').join('');
+  }
+  slot.innerHTML = html;
+
+  slot.querySelectorAll('[data-busca-view]').forEach(el => {
+    el.addEventListener('click', () => {
+      const view = el.dataset.buscaView;
+      const termo = el.dataset.buscaTermo;
+      document.getElementById('modal-busca-global').classList.remove('open');
+      goto(view);
+      if (view === 'view-estoque') { document.getElementById('estoque-search').value = termo; renderEstoqueTable(); }
+      if (view === 'view-clientes') { document.getElementById('clientes-search').value = termo; renderClientesTable(); }
+      if (view === 'view-fornecedores') { document.getElementById('fornecedores-search').value = termo; renderFornecedoresTable(); }
+    });
+  });
+});
+
+// ══════════════════════════════════════════════
 // EXPORTAÇÃO DE PLANILHAS (.xlsx)
 // ══════════════════════════════════════════════
 function nomeArquivoComData(prefixo) {
@@ -4383,7 +5333,7 @@ function exportarMovimentacoes() {
 function exportarFinancas() {
   const period = window.__appFinPeriod || 'sem';
   const start = periodStartDate(period);
-  const saidas = movements.filter(m => m.type === 'saida' && new Date(m.created_at) >= start);
+  const saidas = movements.filter(m => m.type === 'saida' && m.is_sale && new Date(m.created_at) >= start);
 
   if (saidas.length === 0) {
     toast('Não há vendas no período selecionado para exportar.', true);
