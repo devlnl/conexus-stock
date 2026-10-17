@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conexus – A gestão que se adapta ao seu negócio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Conexus – Gestão empresarial por segmento</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -12,7 +12,7 @@
       --azul: #0F52BA; --azul-hover: #0D47A0;
       --branco: #FFFFFF; --cinza-claro: #F4F6FB;
       --cinza-borda: #E2E8F0; --cinza-texto: #64748B;
-      --verde: #10B981; --vermelho: #EF4444; --amarelo: #F59E0B;
+      --verde: #376D89; --vermelho: #EF4444; --amarelo: #F59E0B;
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--branco); color: var(--cinza-11); overflow-x: hidden; }
@@ -93,7 +93,7 @@
     .mock-dashboard { max-width: 1000px; margin: 0 auto; background: #111827; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
     .mock-topbar { display: flex; align-items: center; gap: 8px; padding: 14px 20px; background: #0D1117; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-r { background: #FF5F57; } .dot-y { background: #FFBD2E; } .dot-g { background: #28CA41; }
+    .dot-r { background: #FF5F57; } .dot-y { background: #FFBD2E; } .dot-g { background: #7089A1; }
     .mock-body { display: flex; }
     .mock-sidebar { width: 200px; background: #0D1117; padding: 20px 0; border-right: 1px solid rgba(255,255,255,0.06); }
     .mock-logo { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: #fff; padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 16px; }
@@ -156,7 +156,7 @@
     .stock-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--cinza-borda); font-size: 13px; align-items: center; }
     .stock-row:last-child { border-bottom: none; }
     .sbadge { padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
-    .s-ok { background: rgba(16,185,129,0.12); color: #059669; }
+    .s-ok { background: rgba(55,109,137,0.12); color: #376D89; }
     .s-low { background: rgba(245,158,11,0.15); color: #D97706; }
     .s-out { background: rgba(239,68,68,0.12); color: #DC2626; }
 
@@ -219,7 +219,7 @@
     .notif-item-icon { font-size: 15px; }
     .msg-box { display: none; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; text-align: center; }
     .msg-error { background: rgba(239,68,68,0.15); color: #F87171; border: 1px solid rgba(239,68,68,0.3); }
-    .msg-success { background: rgba(16,185,129,0.15); color: #34D399; border: 1px solid rgba(16,185,129,0.3); }
+    .msg-success { background: rgba(55,109,137,0.15); color: #9FC3E0; border: 1px solid rgba(55,109,137,0.3); }
     .logged-center { text-align: center; margin: 24px 0; }
     .logged-icon { font-size: 48px; margin-bottom: 12px; }
     .logged-name { color: rgba(255,255,255,0.8); font-size: 15px; margin-bottom: 4px; }
@@ -340,7 +340,7 @@
     .move-row:last-child { border-bottom: none; }
     .move-left { display: flex; align-items: center; gap: 12px; }
     .move-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-    .move-icon.in { background: rgba(16,185,129,0.12); color: #059669; }
+    .move-icon.in { background: rgba(55,109,137,0.12); color: #376D89; }
     .move-icon.out { background: rgba(239,68,68,0.12); color: #DC2626; }
     .move-name { font-size: 13.5px; font-weight: 600; color: var(--cinza-11); }
     .move-meta { font-size: 12px; color: var(--cinza-texto); margin-top: 2px; }
@@ -480,6 +480,85 @@
     body[data-theme="dark"] .venda-busca-item:hover { background: #262B33; }
     body[data-theme="dark"] .app-menu-backdrop { background: rgba(0,0,0,0.65); }
     .theme-toggle-btn { font-size: 15px; }
+
+/* ── Conexus 10: identidade editorial, produto empresarial ──────────── */
+:root {
+  --cinza-11:#182234; --cinza-21:#222e42;
+  --azul:#C95837; --azul-hover:#A8452B;
+  --branco:#ffffff; --cinza-claro:#F6F5F2;
+  --cinza-borda:#E1E1DC; --cinza-texto:#647084;
+  --verde:#376D89; --vermelho:#BD4142; --amarelo:#A47B36;
+}
+html { scroll-padding-top:70px }
+body {font-family:'Manrope','Inter',sans-serif;background:#f6f5f2;}
+nav,.app-topbar,.biz-topbar {background:#182234!important;backdrop-filter:none;border-bottom:1px solid #354152}
+.nav-logo,.app-logo,.auth-logo,.biz-logo,.mock-logo,.footer-logo {font-family:'Manrope',sans-serif;letter-spacing:-.055em;font-weight:800}
+.nav-logo span,.app-logo span,.auth-logo span,.biz-logo span,.mock-logo span,.footer-logo span {color:#e47d5e}
+#home {min-height:680px;background:#182234;padding:160px 6vw 130px;align-items:flex-start;justify-content:center}
+.hero-grid,.hero-glow {display:none!important}
+.hero-badge {background:transparent;border:1px solid #5a6b82;border-radius:3px;color:#d0d9e5;letter-spacing:.11em;text-transform:uppercase;font-size:11px;padding:8px 12px}
+.badge-dot {display:none}
+.hero-h1 {text-align:left;max-width:970px;letter-spacing:-.065em;line-height:1.07;font-size:clamp(46px,6.7vw,96px);font-family:'Manrope',sans-serif}
+.hero-h1 em {color:#f0a28c}
+.hero-sub {text-align:left;max-width:620px;color:#bac7d6;font-size:17px;line-height:1.75}
+.hero-btns {justify-content:flex-start}
+.hero-stats {margin-top:70px;gap:0;width:min(900px,100%);border-top:1px solid #394659;justify-content:space-between}
+.hero-stat {text-align:left;padding-right:20px}
+.hero-stat-num{font-family:'Manrope',sans-serif;font-weight:700}
+.btn-primary-nav,.btn-hero-p,.btn-app-primary,.btn-form,.btn-form-app,.btn-nav-app,.btn-cta {border-radius:6px;box-shadow:none!important;transform:none!important}
+.btn-primary-nav:hover,.btn-hero-p:hover,.btn-app-primary:hover,.btn-form:hover,.btn-nav-app:hover{background:var(--azul-hover)}
+.btn-hero,.btn-hero-s {border-radius:6px}
+.dashboard-preview {background:#222e42}
+.mock-dashboard {border-radius:7px;box-shadow:0 25px 55px #0003}
+.mock-card,.mock-chart-box {border-radius:4px}
+.feat-card,.seg-card,.tech-card,.stock-widget,.finance-widget {border-radius:6px;box-shadow:none!important;transform:none!important}
+.feat-card:hover,.seg-card:hover {border-color:#d19b8b;transform:none}
+.feat-icon {border-radius:5px}
+#cta {background:#283b52}
+#app-shell,#businesses-shell {background:#f6f5f2}
+.app-sidebar {width:242px;background:#fff;border-right:1px solid #e4e3df;padding-top:22px}
+.app-main {margin-left:242px;max-width:none;width:calc(100% - 242px);padding:34px clamp(18px,3.5vw,60px) 70px}
+.app-nav-item {margin:2px 12px;padding:11px 13px;border-left:0;border-radius:5px;font-weight:600;font-size:13px}
+.app-nav-item:hover {background:#f2f1ed}
+.app-nav-item.active {border-left:0;background:#f9ede9;color:#9b3e28}
+.app-view-title {font-family:'Manrope',sans-serif;letter-spacing:-.04em;font-size:28px}
+.kpi-grid {gap:12px}
+.kpi-card,.app-card,.modal-box,.empty-state,.biz-card {border-radius:7px;box-shadow:none}
+.kpi-card {border-top:3px solid #263f5c;padding:22px}
+.kpi-card.alert {border-top-color:#b8823a;background:#fff}
+.kpi-val {font-family:'Manrope',sans-serif;letter-spacing:-.04em}
+.app-card-head {background:#fff}
+.app-table th {background:#f9f8f5!important}
+.app-table tr:hover {background:#fcf7f4}
+.app-form-input,.app-form-select,.app-search {border-radius:5px}
+.app-form-input:focus,.app-form-select:focus,.app-search:focus {outline:2px solid #c9583750;outline-offset:1px}
+.app-view .btn-app-primary, .modal-actions .btn-app-primary {min-height:37px}
+.s-ok,.move-icon.in {color:#225a83;background:#e7f0f7}
+.move-qty.in,.sg,.c-up {color:#376d89}
+.auth-card {border-radius:8px}
+#cadastro {background:#182234}
+.test-mode-banner {border-radius:6px}
+.fin-tab,.app-nav-item,.modal-overlay,.btn-app-primary,.btn-app-secondary,.btn-form {transition-duration:.14s}
+.app-nav-item[hidden],[data-goto][hidden] {display:none!important}
+.sidebar-division {margin:22px 24px 9px;color:#8b94a2;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.sidebar-sector {margin:4px 20px 16px;padding:12px;background:#f4f4f0;border-left:3px solid #c95837;border-radius:3px;font-size:11px;color:#5e6e82}
+.sidebar-sector strong {display:block;color:#26354a;font-size:12px;margin-bottom:3px}
+.sidebar-settings {background:none;border:1px solid #d9dedf;color:#45556b;margin:24px 20px;width:calc(100% - 40px);padding:10px 8px;font:600 12px 'Manrope',sans-serif;cursor:pointer;border-radius:5px}
+.sidebar-settings:hover {border-color:#c95837;color:#983c29}
+.module-choice {display:flex;align-items:center;gap:10px;padding:11px 13px;border-bottom:1px solid #e4e5e1;font-size:13px}
+.module-choice input {accent-color:#c95837;width:16px;height:16px}
+.modules-chooser {max-height:390px;overflow-y:auto;border:1px solid #e5e5df;border-radius:5px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr}
+.modules-chooser .module-choice:nth-child(odd){border-right:1px solid #e5e5df}
+.records-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;padding:18px}
+.record-card {border:1px solid #dfe2e2;background:#fff;border-radius:6px;padding:16px}
+.record-card-head{display:flex;align-items:center;justify-content:space-between;font-size:15px;margin-bottom:15px;gap:6px}
+.record-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.record-detail span{display:block;font-size:10px;color:#687789;margin-bottom:4px}
+.record-detail strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.record-card small {display:block;color:#8791a2;border-top:1px solid #eee;padding-top:12px;margin-top:14px}
+@media (max-width:850px){.app-main{width:100%;margin-left:0;padding:20px 14px 70px}.app-sidebar{width:260px}.modules-chooser{grid-template-columns:1fr}.modules-chooser .module-choice:nth-child(odd){border-right:0}#home{padding:125px 25px 90px}.hero-stats{flex-wrap:wrap;gap:24px}.hero-stat{flex:1 1 110px}}
+@media (max-width:520px){#home{min-height:580px}.hero-h1{font-size:43px;letter-spacing:-.05em}.hero-sub{font-size:15px}.kpi-grid{grid-template-columns:1fr 1fr}.record-details{grid-template-columns:1fr}.modal-box{padding:22px}}
+
   </style>
 </head>
 <body>
@@ -508,7 +587,7 @@
 <section id="home">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
-  <div class="hero-badge"><span class="badge-dot"></span>A gestão que se adapta ao seu negócio</div>
+  <div class="hero-badge"><span class="badge-dot"></span>Gestão empresarial por segmento</div>
   <h1 class="hero-h1">Seu estoque e finanças em <em>um só lugar</em></h1>
   <p class="hero-sub">O Conexus oferece controle total de produtos, estoque e finanças para um ou vários negócios, de forma simples e acessível.</p>
   <div class="hero-btns">
@@ -536,10 +615,10 @@
       <div class="mock-sidebar">
         <div class="mock-logo">Con<span>exus</span></div>
         <div class="mock-nav-item active">📊 Dashboard</div>
-        <div class="mock-nav-item">📦 Estoque</div>
+        <div class="mock-nav-item">▣ Estoque</div>
         <div class="mock-nav-item">➕ Adicionar</div>
         <div class="mock-nav-item">💰 Finanças</div>
-        <div class="mock-nav-item">📈 Relatórios</div>
+        <div class="mock-nav-item">⌁ Relatórios</div>
       </div>
       <div class="mock-content">
         <div class="mock-title">Visão Geral — Exemplo</div>
@@ -585,7 +664,7 @@
               </div>
               <div>
                 <div class="finance-row"><span class="finance-label">Lucro líquido</span><span class="finance-val">R$ 53.720</span></div>
-                <div class="finance-bar-bg"><div class="finance-bar-fill" style="width:63%;background:#10B981"></div></div>
+                <div class="finance-bar-bg"><div class="finance-bar-fill" style="width:63%;background:#376D89"></div></div>
               </div>
             </div>
           </div>
@@ -694,7 +773,7 @@
   <div class="two-col">
     <div class="col-text">
       <div class="sec-label-d">Módulo de estoque</div>
-      <div class="sec-title-d">Controle total dos seus produtos</div>
+      <div class="sec-title-d">Estoque organizado por empresa</div>
       <p>Gerencie todo o inventário da sua empresa em um único painel. Adicione produtos, controle entradas e saídas, e receba alertas quando o estoque estiver baixo.</p>
       <ul class="check-list">
         <li>Cadastro com nome, quantidade e preço de venda</li>
@@ -911,18 +990,22 @@
   <div class="app-body">
     <div class="app-menu-backdrop" id="app-menu-backdrop"></div>
     <div class="app-sidebar" id="app-sidebar">
-      <div class="app-nav-item active" data-view="view-dashboard">📊 Dashboard</div>
-      <div class="app-nav-item" data-view="view-estoque">📦 Estoque</div>
-      <div class="app-nav-item" data-view="view-vendas">🛒 Vendas</div>
-      <div class="app-nav-item" data-view="view-clientes">👥 Clientes</div>
-      <div class="app-nav-item" data-view="view-compras">📥 Compras</div>
-      <div class="app-nav-item" data-view="view-fornecedores">🏭 Fornecedores</div>
-      <div class="app-nav-item" data-view="view-categorias">🏷️ Categorias</div>
-      <div class="app-nav-item" data-view="view-adicionar">➕ Adicionar produto</div>
-      <div class="app-nav-item" data-view="view-relatorios">📈 Relatórios</div>
-      <div class="app-nav-item" data-view="view-auditoria">🕵️ Auditoria</div>
-      <div class="app-nav-item" data-view="view-movimentacoes">🔄 Movimentações</div>
-      <div class="app-nav-item" data-view="view-financas">💰 Financeiro</div>
+      <div class="sidebar-sector"><strong>Segmento empresarial</strong><span id="conexus-sector-label">Gestão personalizada</span></div>
+      <div class="sidebar-division">GESTÃO</div>
+      <div class="app-nav-item active" data-view="view-dashboard">◫ Visão geral</div>
+      <div class="app-nav-item" data-view="view-operacoes" id="conexus-operacoes-nav">▦ Operações do setor</div>
+      <div class="app-nav-item" data-view="view-estoque">▣ Estoque</div>
+      <div class="app-nav-item" data-view="view-vendas">◈ Vendas</div>
+      <div class="app-nav-item" data-view="view-clientes">◌ Clientes</div>
+      <div class="app-nav-item" data-view="view-compras">↓ Compras</div>
+      <div class="app-nav-item" data-view="view-fornecedores">◇ Fornecedores</div>
+      <div class="app-nav-item" data-view="view-categorias">≡ Categorias</div>
+      <div class="app-nav-item" data-view="view-adicionar">＋ Cadastrar produto</div>
+      <div class="app-nav-item" data-view="view-relatorios">⌁ Relatórios</div>
+      <div class="app-nav-item" data-view="view-auditoria">◎ Auditoria</div>
+      <div class="app-nav-item" data-view="view-movimentacoes">↔ Movimentações</div>
+      <div class="app-nav-item" data-view="view-financas">◈ Financeiro</div>
+      <button class="sidebar-settings" id="modulos-abre" type="button">⚙ Personalizar módulos</button>
     </div>
 
     <div class="app-main">
@@ -974,6 +1057,13 @@
         </div>
       </div>
 
+      <!-- REGISTROS ESPECÍFICOS DO SEGMENTO -->
+      <div class="app-view" id="view-operacoes">
+        <div class="app-header-row"><div><div class="app-view-title" id="operacoes-titulo">Operações</div>
+        <div class="app-view-sub" id="operacoes-descricao">Registros do segmento</div></div>
+        <button class="btn-app-primary" id="operacoes-novo">+ Novo registro</button></div>
+        <div class="app-card"><div class="app-card-head"><div class="app-card-title">Registros do negócio</div></div><div id="operacoes-lista"></div></div>
+      </div>
       <!-- ESTOQUE -->
       <div class="app-view" id="view-estoque">
         <div class="app-header-row">
@@ -1771,6 +1861,24 @@
   </div>
 </div>
 
+<!-- Preferências de módulos -->
+<div class="modal-overlay" id="modal-modulos"><div class="modal-box" style="max-width:650px">
+  <div class="modal-title">Personalizar módulos</div>
+  <div class="modal-sub">Escolha as ferramentas disponíveis neste negócio. Visão geral e Financeiro são permanentes.</div>
+  <div class="msg-box" id="modulos-msg"></div><div class="modules-chooser" id="modulos-lista"></div>
+  <div class="modal-actions"><button class="btn-app-secondary" id="modulos-cancelar">Cancelar</button><button class="btn-app-primary" id="modulos-salvar">Salvar módulos</button></div>
+</div></div>
+<!-- Operações setoriais -->
+<div class="modal-overlay" id="modal-operacoes"><div class="modal-box" style="max-width:580px">
+  <div class="modal-title" id="operacoes-form-title">Nova operação</div>
+  <div class="modal-sub">Os campos mudam de acordo com o segmento.</div>
+  <div class="msg-box" id="operacoes-msg"></div>
+  <form id="operacoes-form" onsubmit="return false">
+   <div class="app-form-group"><label class="app-form-label">Identificação *</label><input class="app-form-input" id="operacoes-nome" required maxlength="160" /></div>
+   <div id="operacoes-campos"></div>
+  </form>
+  <div class="modal-actions"><button class="btn-app-secondary" id="operacoes-cancelar">Cancelar</button><button class="btn-app-primary" id="operacoes-salvar">Salvar registro</button></div>
+</div></div>
 <!-- Modal: criar/editar negócio -->
 <div class="modal-overlay" id="modal-business">
   <div class="modal-box">
@@ -2115,6 +2223,185 @@ let expenses = [];          // cache local das despesas do negócio atual
 let revenues = [];          // cache local das outras receitas do negócio atual
 let categories = [];        // cache local das categorias sugeridas do negócio atual
 let auditLogs = [];         // cache local do log de auditoria do negócio atual
+
+
+// ─── CONFIGURAÇÃO SETORIAL ─────────────────────────────────────────────────────
+const MODULOS = [
+  ['view-dashboard','Visão geral'],['view-operacoes','Operações do setor'],
+  ['view-estoque','Estoque'],['view-vendas','Vendas'],['view-clientes','Clientes'],
+  ['view-compras','Compras'],['view-fornecedores','Fornecedores'],
+  ['view-categorias','Categorias de produtos'],['view-adicionar','Cadastrar produto'],
+  ['view-relatorios','Relatórios de produtos'],['view-auditoria','Auditoria'],
+  ['view-movimentacoes','Movimentações'],['view-financas','Financeiro']
+];
+const MODULOS_INVENTARIO = MODULOS.map(m => m[0]);
+const MODULOS_SERVICOS = ['view-dashboard','view-operacoes','view-clientes','view-auditoria','view-financas'];
+const MODULOS_DIGITAL = ['view-dashboard','view-operacoes','view-auditoria','view-financas'];
+const TIPOS_DIGITAIS = new Set(['afiliados','criador_conteudo']);
+const TIPOS_SERVICOS = new Set(['servicos','freelancer','consultoria','agencia_marketing','beleza','saude','educacao','imobiliaria','eventos','hotelaria','tecnologia','logistica','fretes','oficina','construcao']);
+const TIPOS_INDUSTRIA = new Set(['industria','industria_alimenticia','industria_farmaceutica','industria_quimica','industria_textil','industria_metalurgica','industria_cosmeticos','industria_moveleira','industria_automotiva','industria_eletronica','industria_bebidas']);
+const CAMPOS = {
+  afiliados: { titulo:'Campanhas e comissões',sub:'Acompanhe campanhas e resultados informados manualmente.', item:'Campanha',campos:[['plataforma','Plataforma','select',['Shopee','Amazon','Mercado Livre','TikTok','Instagram','Outra']],['produto','Produto divulgado','text'],['cliques','Cliques','number'],['vendas','Conversões','number'],['comissao','Comissão (R$)','money'],['link','Link de afiliado','url']] },
+  criador_conteudo: {titulo:'Conteúdos e parcerias',item:'Publicação',campos:[['plataforma','Plataforma','text'],['marca','Marca / parceiro','text'],['alcance','Alcance','number'],['engajamento','Interações','number'],['receita','Receita (R$)','money'],['prazo','Data de entrega','date']]},
+  industria_alimenticia: {titulo:'Lotes alimentícios',item:'Lote',campos:[['produto','Produto','text'],['lote','Código do lote','text'],['fabricacao','Fabricação','date'],['validade','Validade','date'],['quantidade','Quantidade do lote','number'],['status','Situação','select',['Produção','Qualidade','Liberado','Bloqueado']] ]},
+  industria_farmaceutica: {titulo:'Lotes farmacêuticos',item:'Lote',campos:[['produto','Produto','text'],['lote','Código do lote','text'],['registro','Registro sanitário (referência)','text'],['fabricacao','Fabricação','date'],['validade','Validade','date'],['status','Situação','select',['Em processo','Em análise','Liberado','Bloqueado']]]},
+  industria: {titulo:'Ordens de produção',item:'Ordem',campos:[['produto','Produto','text'],['ordem','Ordem de produção','text'],['quantidade','Quantidade','number'],['inicio','Início','date'],['entrega','Conclusão prevista','date'],['status','Situação','select',['Planejada','Produzindo','Concluída','Pausada']]]},
+  logistica: {titulo:'Ordens de transporte',item:'Entrega',campos:[['origem','Origem','text'],['destino','Destino','text'],['motorista','Responsável','text'],['entrega','Data da entrega','date'],['frete','Valor do frete (R$)','money'],['status','Situação','select',['Pendente','Em trânsito','Entregue','Cancelada']]]},
+  agronegocio: {titulo:'Operações agrícolas',item:'Operação',campos:[['cultura','Cultura','text'],['talhao','Talhão / área','text'],['hectares','Área (ha)','number'],['safra','Safra','text'],['data','Data','date'],['status','Situação','select',['Planejada','Em execução','Concluída']]]},
+  farmacia: {titulo:'Controle de validades',item:'Lote',campos:[['produto','Produto','text'],['lote','Lote','text'],['validade','Validade','date'],['quantidade','Quantidade','number'],['status','Situação','select',['Disponível','Segregado','Vencido']]]},
+  restaurante: {titulo:'Produção e pedidos',item:'Pedido',campos:[['pedido','Número do pedido','text'],['canal','Canal','select',['Balcão','Mesa','Delivery','Aplicativo']],['prazo','Previsão','date'],['valor','Valor (R$)','money'],['status','Situação','select',['Novo','Preparando','Entregue','Cancelado']]]},
+  ecommerce: {titulo:'Pedidos de e-commerce',item:'Pedido',campos:[['canal','Marketplace / canal','text'],['cliente','Cliente','text'],['codigo','Código do pedido','text'],['rastreio','Código de rastreio','text'],['valor','Valor (R$)','money'],['status','Situação','select',['Novo','Separação','Enviado','Entregue','Devolvido']]]},
+  comercio: {titulo:'Pedidos do comércio',item:'Pedido',campos:[['cliente','Cliente','text'],['canal','Canal','select',['Loja física','WhatsApp','Online','Outro']],['valor','Valor (R$)','money'],['prazo','Entrega','date'],['status','Situação','select',['Aberto','Separando','Concluído','Cancelado']]]},
+  moda: {titulo:'Coleções e lançamentos',item:'Coleção',campos:[['colecao','Coleção','text'],['sku','SKU de referência','text'],['tamanho','Grade de tamanho','text'],['inicio','Lançamento','date'],['orcamento','Orçamento (R$)','money'],['status','Situação','select',['Planejando','Lançada','Encerrada']]]},
+  supermercado: {titulo:'Controle de validade',item:'Lote',campos:[['produto','Produto','text'],['lote','Lote','text'],['validade','Validade','date'],['quantidade','Unidades','number'],['status','Situação','select',['Disponível','Retirado','Vencido']]]},
+  padaria: {titulo:'Produção diária',item:'Produção',campos:[['produto','Produto','text'],['quantidade','Quantidade','number'],['data','Data','date'],['validade','Validade','date'],['status','Situação','select',['Planejada','Em preparo','Concluída']]]},
+  beleza: {titulo:'Atendimentos e agenda',item:'Atendimento',campos:[['cliente','Cliente','text'],['servico','Procedimento','text'],['profissional','Profissional','text'],['data','Data','date'],['preco','Preço (R$)','money'],['status','Situação','select',['Agendado','Realizado','Cancelado']]]},
+  saude: {titulo:'Agenda administrativa',item:'Agendamento',campos:[['servico','Tipo de atendimento','text'],['profissional','Profissional','text'],['sala','Sala','text'],['data','Data','date'],['status','Situação','select',['Agendado','Realizado','Cancelado']]]},
+  educacao: {titulo:'Turmas e cursos',item:'Turma',campos:[['curso','Curso','text'],['professor','Responsável','text'],['vagas','Vagas','number'],['inicio','Início','date'],['fim','Fim','date'],['status','Situação','select',['Inscrições','Em andamento','Encerrada']]]},
+  imobiliaria: {titulo:'Imóveis e propostas',item:'Imóvel',campos:[['endereco','Localização','text'],['tipo','Tipo','select',['Casa','Apartamento','Terreno','Comercial']],['valor','Valor (R$)','money'],['corretor','Responsável','text'],['status','Situação','select',['Disponível','Negociação','Locado','Vendido']]]},
+  eventos: {titulo:'Eventos e contratos',item:'Evento',campos:[['cliente','Cliente','text'],['local','Local','text'],['data','Data','date'],['orcamento','Orçamento (R$)','money'],['status','Situação','select',['Proposta','Confirmado','Realizado','Cancelado']]]},
+  hotelaria: {titulo:'Reservas internas',item:'Reserva',campos:[['responsavel','Responsável','text'],['unidade','Unidade / quarto','text'],['entrada','Check-in','date'],['saida','Check-out','date'],['valor','Valor (R$)','money'],['status','Situação','select',['Prevista','Confirmada','Concluída','Cancelada']]]},
+  oficina: {titulo:'Ordens de manutenção',item:'Ordem',campos:[['cliente','Cliente','text'],['equipamento','Veículo / equipamento','text'],['servico','Serviço','text'],['preco','Orçamento (R$)','money'],['prazo','Prazo','date'],['status','Situação','select',['Orçamento','Aguardando peça','Em reparo','Pronta']]]},
+  construcao: {titulo:'Obras e serviços',item:'Obra',campos:[['cliente','Cliente','text'],['local','Local','text'],['orcamento','Orçamento (R$)','money'],['inicio','Início','date'],['fim','Entrega prevista','date'],['status','Situação','select',['Orçamento','Em andamento','Concluída']]]},
+  freelancer: {titulo:'Trabalhos e entregas',item:'Projeto',campos:[['cliente','Cliente','text'],['tipo','Serviço','text'],['valor','Valor (R$)','money'],['prazo','Prazo','date'],['status','Situação','select',['Proposta','Produção','Entregue','Cancelado']]]},
+  tecnologia: {titulo:'Projetos digitais',item:'Projeto',campos:[['cliente','Cliente','text'],['stack','Tecnologias','text'],['orcamento','Orçamento (R$)','money'],['prazo','Entrega prevista','date'],['status','Situação','select',['Planejado','Desenvolvimento','Testes','Publicado']]]},
+  agencia_marketing: {titulo:'Projetos e campanhas',item:'Campanha',campos:[['cliente','Cliente','text'],['canal','Canal','text'],['orcamento','Orçamento (R$)','money'],['inicio','Início','date'],['fim','Prazo','date'],['status','Situação','select',['Planejada','Ativa','Concluída']]]},
+  servicos: {titulo:'Ordens de serviço',item:'Serviço',campos:[['cliente','Cliente','text'],['servico','Serviço','text'],['preco','Valor (R$)','money'],['agendamento','Agendamento','date'],['status','Situação','select',['Orçamento','Agendado','Em execução','Concluído']]]}
+};
+// Personalização para os segmentos do catálogo, sem prometer funcionalidades
+// regulamentadas ou integrações externas não implementadas.
+const PERFIS_SETORIAIS = {
+  'industria_quimica':'industria','industria_textil':'industria','industria_metalurgica':'industria',
+  'industria_cosmeticos':'industria','industria_moveleira':'industria','industria_automotiva':'industria',
+  'industria_eletronica':'industria','industria_bebidas':'industria_alimenticia',
+  'fretes':'logistica','consultoria':'servicos',
+  'artesanato':'industria','criador_conteudo':'criador_conteudo',
+  'alimenticio':'industria_alimenticia'
+};
+function slugNegocio(biz = currentBusiness) {
+  const ref = businessTypes.find(t => t.id === biz?.business_type_id);
+  return ref?.slug || biz?.business_types?.slug || 'outros';
+}
+function modeloSetorial(biz = currentBusiness) {
+  const slug = slugNegocio(biz), root = PERFIS_SETORIAIS[slug] || slug;
+  return CAMPOS[slug] || CAMPOS[root] || {titulo:'Atividades do negócio',item:'Atividade',campos:[['responsavel','Responsável','text'],['valor','Valor (R$)','money'],['prazo','Prazo','date'],['status','Situação','select',['Aberta','Em andamento','Concluída']]]};
+}
+function defaultModules(biz = currentBusiness) {
+  const slug = slugNegocio(biz);
+  if (TIPOS_DIGITAIS.has(slug)) return MODULOS_DIGITAL;
+  if (TIPOS_SERVICOS.has(slug)) return MODULOS_SERVICOS;
+  return MODULOS_INVENTARIO;
+}
+function enabledModules(biz = currentBusiness) {
+  if (!biz) return ['view-dashboard'];
+  const prefs = biz.module_preferences;
+  if (prefs && Array.isArray(prefs.enabled)) {
+    const validos = new Set(MODULOS.map(m => m[0]));
+    return [...new Set(['view-dashboard','view-financas',...prefs.enabled.filter(id => validos.has(id))])];
+  }
+  return defaultModules(biz);
+}
+function hasModule(id) { return enabledModules().includes(id); }
+function hasInventory() { return hasModule('view-estoque'); }
+function configureSectorUI() {
+  if (!currentBusiness) return;
+  const profile = modeloSetorial();
+  const moduloAtivo = new Set(enabledModules());
+  document.querySelectorAll('.app-nav-item[data-view]').forEach(el => {
+    el.hidden = !moduloAtivo.has(el.dataset.view);
+  });
+  document.querySelectorAll('[data-goto]').forEach(el => {
+    el.hidden = !moduloAtivo.has(el.dataset.goto);
+  });
+  document.getElementById('conexus-sector-label').textContent =
+    businessTypes.find(t=>t.id === currentBusiness.business_type_id)?.name || 'Gestão personalizada';
+  document.getElementById('conexus-operacoes-nav').textContent = '▦  ' + profile.titulo;
+  document.getElementById('operacoes-titulo').textContent = profile.titulo;
+  document.getElementById('operacoes-descricao').textContent = profile.sub || 'Registros específicos deste segmento, sem integração externa.';
+  document.getElementById('operacoes-novo').textContent = '+ ' + profile.item;
+  document.getElementById('operacoes-form-title').textContent = 'Cadastrar ' + profile.item.toLowerCase();
+  document.getElementById('operacoes-campos').innerHTML = profile.campos.map(([key,label,type,opts]) => {
+    const field = type==='select'
+      ? '<select class="app-form-select" name="'+key+'"><option value="">Selecione</option>'+(opts||[]).map(x=>'<option>'+escapeHtml(x)+'</option>').join('')+'</select>'
+      : '<input class="app-form-input" name="'+key+'" type="'+(type==='money'?'number':type)+'" '+((type==='money'||type==='number')?'min="0" step="'+(type==='money'?'0.01':'1')+'"':'')+' />';
+    return '<div class="app-form-group"><label class="app-form-label">'+escapeHtml(label)+'</label>'+field+'</div>';
+  }).join('');
+}
+function openModulesModal() {
+  if (!currentBusiness || currentBusiness.user_id !== currentUser?.id) {
+    toast('Somente o proprietário pode configurar módulos.', true); return;
+  }
+  const enabled = new Set(enabledModules());
+  const slot = document.getElementById('modulos-lista');
+  slot.innerHTML = MODULOS.map(([id,label]) => '<label class="module-choice"><input type="checkbox" value="'+id+'" '+(enabled.has(id)?'checked':'')+' '+(id==='view-dashboard'||id==='view-financas'?'disabled':'')+'/><span>'+escapeHtml(label)+'</span></label>').join('');
+  hideMsg('modulos-msg');
+  document.getElementById('modal-modulos').classList.add('open');
+}
+document.getElementById('modulos-abre').addEventListener('click', openModulesModal);
+document.getElementById('modulos-cancelar').addEventListener('click',()=>document.getElementById('modal-modulos').classList.remove('open'));
+document.getElementById('modulos-salvar').addEventListener('click', async () => {
+  const btn = document.getElementById('modulos-salvar');
+  const enabled = [...document.querySelectorAll('#modulos-lista input:checked')].map(x=>x.value);
+  for (const mandatory of ['view-dashboard','view-financas']) if (!enabled.includes(mandatory)) enabled.push(mandatory);
+  btn.disabled = true;
+  try {
+    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:{enabled}})
+      .eq('id',currentBusiness.id).eq('user_id',currentUser.id).select('*').single(),15000);
+    if (error) throw error;
+    currentBusiness = {...currentBusiness,...data};
+    businesses = businesses.map(b=>b.id===currentBusiness.id?{...b,...data}:b);
+    configureSectorUI();
+    goto('view-dashboard');
+    renderDashboard();
+    document.getElementById('modal-modulos').classList.remove('open');
+    toast('Módulos atualizados.');
+  } catch(e) {showMsg('modulos-msg',e.message||'Falha ao salvar módulos.','error');}
+  finally {btn.disabled=false;}
+});
+// CRUD de registros do setor; os campos variam de acordo com o tipo de negócio.
+let registrosSetoriais=[];
+function renderRegistrosSetoriais() {
+  const slot=document.getElementById('operacoes-lista');
+  if(!registrosSetoriais.length) {slot.innerHTML='<div class="empty-state"><div class="empty-state-title">Sem registros</div><div class="empty-state-sub">Cadastre a primeira operação deste segmento.</div></div>';return;}
+  const campos=modeloSetorial().campos;
+  slot.innerHTML='<div class="records-grid">'+registrosSetoriais.map(r=>{
+    const cells=campos.slice(0,4).map(([key,label,type])=>{
+      const val=r.fields?.[key];
+      const display=type==='money' && val!==undefined && val!=='' ? brl(val) : (val||'—');
+      return '<div class="record-detail"><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(display)+'</strong></div>';
+    }).join('');
+    return '<article class="record-card"><div class="record-card-head"><strong>'+escapeHtml(r.title)+'</strong><button class="icon-btn danger" data-remover-registro="'+r.id+'" title="Excluir registro">×</button></div><div class="record-details">'+cells+'</div><small>'+new Date(r.created_at).toLocaleDateString('pt-BR')+'</small></article>';
+  }).join('')+'</div>';
+  slot.querySelectorAll('[data-remover-registro]').forEach(btn=>btn.addEventListener('click',async()=>{
+    if(!confirm('Excluir este registro?')) return;
+    btn.disabled=true;
+    try {const {error}=await withTimeout(sb.from('business_records').delete().eq('id',btn.dataset.removerRegistro).eq('business_id',currentBusiness.id),15000);
+      if(error)throw error;
+      registrosSetoriais=registrosSetoriais.filter(r=>r.id!==btn.dataset.removerRegistro);
+      renderRegistrosSetoriais();renderDashboard();toast('Registro excluído.');
+    } catch(e){toast(e.message||'Erro ao excluir.',true);btn.disabled=false;}
+  }));
+}
+document.getElementById('operacoes-novo').addEventListener('click',()=>{
+  document.getElementById('operacoes-form').reset();hideMsg('operacoes-msg');
+  document.getElementById('modal-operacoes').classList.add('open');
+});
+document.getElementById('operacoes-cancelar').addEventListener('click',()=>document.getElementById('modal-operacoes').classList.remove('open'));
+document.getElementById('operacoes-salvar').addEventListener('click',async()=>{
+  hideMsg('operacoes-msg');
+  const nome=document.getElementById('operacoes-nome').value.trim();
+  if(!nome || nome.length>160){showMsg('operacoes-msg','Informe um título de até 160 caracteres.','error');return;}
+  const inputs=[...document.getElementById('operacoes-campos').querySelectorAll('[name]')];
+  const fields=Object.fromEntries(inputs.map(x=>[x.name,x.value.trim()]));
+  const btn=document.getElementById('operacoes-salvar');btn.disabled=true;
+  try {
+    const {data,error}=await withTimeout(sb.from('business_records').insert({business_id:currentBusiness.id,user_id:currentUser.id,sector_slug:slugNegocio(),title:nome,fields}).select('*').single(),15000);
+    if(error)throw error;
+    registrosSetoriais.unshift(data);renderRegistrosSetoriais();renderDashboard();
+    document.getElementById('modal-operacoes').classList.remove('open');toast('Registro criado.');
+  }catch(e){showMsg('operacoes-msg',e.message||'Erro ao salvar registro.','error');}
+  finally{btn.disabled=false;}
+});
 
 function showLoggedMarketing(email) {
   document.getElementById('card-signup').style.display = 'none';
@@ -2506,7 +2793,7 @@ async function loadBusinessTypes() {
 
 async function loadBusinesses() {
   const { data, error } = await withTimeout(
-    sb.from('businesses').select('*, business_types(name, icon)').order('created_at', { ascending: true }),
+    sb.from('businesses').select('*, business_types(name, icon, slug)').order('created_at', { ascending: true }),
     15000
   );
   if (error) throw error;
@@ -2528,7 +2815,7 @@ function renderBusinessesGrid() {
 
   grid.innerHTML = '<div class="biz-grid">' + businesses.map(b => {
     const tipo = b.business_types;
-    const icon = tipo ? tipo.icon : '🏢';
+    const icon = escapeHtml(tipo?.icon || '▣');
     const tipoNome = tipo ? tipo.name : 'Sem tipo definido';
     const porte = PORTE_LABELS[b.size] || '';
     const souDono = b.user_id === currentUser.id;
@@ -2567,17 +2854,22 @@ async function openBusiness(biz) {
   currentBusiness = biz;
   products = [];
   movements = [];
+  customers=[];salesHistory=[];suppliers=[];purchasesHistory=[];salesReturns=[];
+  expenses=[];revenues=[];categories=[];auditLogs=[];
+  cartItems = [];compraCartItems = [];registrosSetoriais=[];
   updateTestModeBanners();
   document.getElementById('businesses-shell').style.display = 'none';
   document.getElementById('app-shell').style.display = 'block';
   document.getElementById('app-user-email').textContent = currentUser.email || 'Modo de teste';
   document.getElementById('biz-switcher-name').textContent = biz.name;
   document.getElementById('dash-greeting').textContent = 'Resumo do negócio ' + biz.name;
+  configureSectorUI();
   goto('view-dashboard');
   await loadAllData();
 }
 
 function backToBusinesses() {
+  currentBusiness=null;
   document.getElementById('app-shell').style.display = 'none';
   renderBusinessesGrid(); // reflete qualquer edição feita ao negócio
   document.getElementById('businesses-shell').style.display = 'block';
@@ -2705,6 +2997,7 @@ document.getElementById('biz-save').addEventListener('click', async () => {
   const tipoId = document.getElementById('biz-tipo').value;
   const porte = document.getElementById('biz-porte').value;
   const logoUrl = document.getElementById('biz-logo').value.trim();
+  if (logoUrl && !/^https:\/\//i.test(logoUrl)) { showMsg('biz-msg','A URL da logo deve começar com https://','error'); return; }
   const documento = document.getElementById('biz-documento').value.trim();
   const contato = document.getElementById('biz-contato').value.trim();
   const endereco = document.getElementById('biz-endereco').value.trim();
@@ -2787,6 +3080,7 @@ function closeMobileMenu() {
   document.getElementById('app-menu-backdrop').classList.remove('open');
 }
 function goto(viewId) {
+  if (currentBusiness && !hasModule(viewId)) viewId = 'view-dashboard';
   closeMobileMenu();
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
@@ -2815,7 +3109,8 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 async function loadAllData() {
   if (!currentBusiness) return;
   try {
-    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes, auditRes] = await withTimeout(Promise.all([
+    const businessAtStart = currentBusiness.id;
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes, auditRes, recordsRes] = await withTimeout(Promise.all([
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
@@ -2826,7 +3121,8 @@ async function loadAllData() {
       sb.from('expenses').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
       sb.from('revenues').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300),
       sb.from('categories').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
-      sb.from('audit_logs').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200)
+      sb.from('audit_logs').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
+      sb.from('business_records').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300)
     ]), 15000);
 
     if (prodRes.error) throw prodRes.error;
@@ -2840,6 +3136,8 @@ async function loadAllData() {
     if (revRes.error) throw revRes.error;
     if (catRes.error) throw catRes.error;
     if (auditRes.error) throw auditRes.error;
+    if (recordsRes.error) throw recordsRes.error;
+    if (!currentBusiness || businessAtStart !== currentBusiness.id) return;
 
     products = prodRes.data || [];
     movements = movRes.data || [];
@@ -2852,6 +3150,8 @@ async function loadAllData() {
     revenues = revRes.data || [];
     categories = catRes.data || [];
     auditLogs = auditRes.data || [];
+    registrosSetoriais = recordsRes.data || [];
+    renderRegistrosSetoriais();
 
     renderDashboard();
     renderEstoqueTable();
@@ -2879,8 +3179,6 @@ async function loadAllData() {
     renderVendasPorPagamento(window.__relatorioPagamentoPeriod || 'sem');
     renderGiroEstoque(window.__relatorioGiroPeriod || 'sem');
     renderPrevisaoEstoque();
-    renderGiroEstoque(window.__relatorioGiroPeriod || 'sem');
-    renderPrevisaoEstoque();
     renderAuditoria();
     renderNotifications();
   } catch (err) {
@@ -2893,6 +3191,28 @@ async function loadAllData() {
 // DASHBOARD
 // ══════════════════════════════════════════════
 function renderDashboard() {
+  if (!hasInventory()) {
+    const pagos = revenues.filter(r=>r.status==='recebido');
+    const recebido = pagos.reduce((acc,r)=>acc+Number(r.amount||0),0);
+    const despesasPagas=expenses.filter(e=>e.status==='pago').reduce((acc,e)=>acc+Number(e.amount||0),0);
+    const cards=document.querySelectorAll('#view-dashboard .kpi-card');
+    [['Registros operacionais',registrosSetoriais.length,'Atividades cadastradas'],
+     ['Receitas recebidas',brl(recebido),'Valores registrados em Financeiro'],
+     ['Despesas pagas',brl(despesasPagas),'Pagamentos realizados'],
+     ['Saldo operacional',brl(recebido-despesasPagas),'Receitas menos despesas']]
+      .forEach(([label,valor,desc],i)=>{
+        cards[i].querySelector('.kpi-label').textContent=label;
+        cards[i].querySelector('.kpi-val').textContent=valor;
+        cards[i].querySelector('.kpi-sub').textContent=desc;
+      });
+    document.getElementById('dash-alert-slot').innerHTML='';
+    document.getElementById('dash-top-vendidos').innerHTML='<div class="empty-state" style="border:0;padding:25px"><div class="empty-state-title">'+escapeHtml(modeloSetorial().titulo)+'</div><div class="empty-state-sub">'+registrosSetoriais.length+' registro(s) no segmento. Use o módulo de operações para acompanhar as atividades.</div></div>';
+    document.querySelector('#dash-top-vendidos').previousElementSibling.querySelector('.app-card-title').textContent = modeloSetorial().titulo;
+    return;
+  }
+  const labels=['Produtos cadastrados','Valor em estoque','Estoque baixo','Movimentações (30d)'];
+  document.querySelectorAll('#view-dashboard .kpi-card').forEach((c,i)=>c.querySelector('.kpi-label').textContent=labels[i]);
+  document.querySelector('#dash-top-vendidos').previousElementSibling.querySelector('.app-card-title').textContent='Mais vendidos';
   const totalProdutos = products.length;
   const totalUnidades = products.reduce((s, p) => s + Number(p.quantity), 0);
   const valorEstoque = products.reduce((s, p) => s + Number(p.quantity) * Number(p.price), 0);
@@ -3036,14 +3356,14 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   const name = document.getElementById('edit-nome').value.trim();
   const price = parseFloat(document.getElementById('edit-preco').value);
   const category = document.getElementById('edit-categoria').value.trim() || 'Geral';
-  const limite = parseInt(document.getElementById('edit-limite').value, 10);
+  const limite = Number(document.getElementById('edit-limite').value);
   const custoRaw = document.getElementById('edit-custo').value;
   const custo = custoRaw === '' ? null : parseFloat(custoRaw);
 
   if (!name) { showMsg('edit-msg', 'O nome do produto é obrigatório.', 'error'); return; }
-  if (isNaN(price) || price < 0) { showMsg('edit-msg', 'Informe um preço válido.', 'error'); return; }
-  if (isNaN(limite) || limite < 0) { showMsg('edit-msg', 'Informe um limite válido para alerta de estoque.', 'error'); return; }
-  if (custo !== null && (isNaN(custo) || custo < 0)) { showMsg('edit-msg', 'Informe um custo válido.', 'error'); return; }
+  if (!Number.isFinite(price) || price < 0) { showMsg('edit-msg', 'Informe um preço válido.', 'error'); return; }
+  if (!Number.isSafeInteger(limite) || limite < 0) { showMsg('edit-msg', 'Informe um limite válido para alerta de estoque.', 'error'); return; }
+  if (custo !== null && (!Number.isFinite(custo) || custo < 0)) { showMsg('edit-msg', 'Informe um custo válido.', 'error'); return; }
 
   setBtn('edit-save', true, 'Salvar alterações');
   try {
@@ -3101,72 +3421,34 @@ function openMoveModal(p, type) {
   document.getElementById('move-title').textContent = type === 'entrada' ? 'Registrar entrada' : 'Registrar saída';
   document.getElementById('move-sub').textContent = p.name + ' — estoque atual: ' + p.quantity + ' unidades';
   document.getElementById('move-hint').textContent = type === 'saida'
-    ? 'Saídas são contabilizadas como vendas no módulo financeiro.'
+    ? 'Saída simples sem motivo conta como venda. Escolha um motivo para uma baixa operacional.'
     : 'Entradas aumentam a quantidade disponível em estoque.';
   document.getElementById('move-confirm').textContent = type === 'entrada' ? 'Registrar entrada' : 'Registrar saída';
   document.getElementById('modal-move').classList.add('open');
 }
 document.getElementById('move-cancel').addEventListener('click', () => document.getElementById('modal-move').classList.remove('open'));
+
 document.getElementById('move-confirm').addEventListener('click', async () => {
-  const id = document.getElementById('move-id').value;
-  const type = document.getElementById('move-type').value;
-  const qtd = parseInt(document.getElementById('move-qtd').value, 10);
-  const motivo = document.getElementById('move-motivo').value;
-  const product = products.find(p => p.id === id);
-
-  if (!product) { showMsg('move-msg', 'Produto não encontrado. Atualize a página e tente novamente.', 'error'); return; }
-  if (!qtd || qtd <= 0) { showMsg('move-msg', 'Informe uma quantidade válida.', 'error'); return; }
-  if (type === 'saida' && qtd > Number(product.quantity)) {
-    showMsg('move-msg', 'Quantidade maior que o estoque disponível (' + product.quantity + ').', 'error');
-    return;
+  const id=document.getElementById('move-id').value;
+  const type=document.getElementById('move-type').value;
+  const raw=document.getElementById('move-qtd').value;
+  const qtd=Number(raw);
+  const reason=document.getElementById('move-motivo').value;
+  hideMsg('move-msg');
+  if (!Number.isSafeInteger(qtd)||qtd<=0||qtd>100000000) {
+    showMsg('move-msg','Informe uma quantidade inteira e positiva.','error');return;
   }
-
-  setBtn('move-confirm', true, 'Confirmar');
-
+  setBtn('move-confirm',true,'Confirmar');
   try {
-    const user = await getAuthedUser();
-    if (!user) {
-      showMsg('move-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error');
-      return;
-    }
-
-    const novaQtd = type === 'entrada' ? Number(product.quantity) + qtd : Number(product.quantity) - qtd;
-
-    const { error: updError } = await withTimeout(sb.from('products').update({
-      quantity: novaQtd, updated_at: new Date().toISOString()
-    }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
-
-    if (updError) {
-      showMsg('move-msg', 'Erro: ' + updError.message, 'error');
-      return;
-    }
-
-    const { error: movError } = await withTimeout(sb.from('stock_movements').insert({
-      user_id: user.id,
-      business_id: currentBusiness.id,
-      product_id: id,
-      product_name: product.name,
-      type: type,
-      quantity: qtd,
-      unit_price: product.price,
-      reason: motivo || null,
-      is_sale: type === 'saida' && !motivo
-    }), 15000);
-
-    if (movError) {
-      toast('Estoque atualizado, mas houve erro ao salvar o histórico: ' + movError.message, true);
-    } else {
-      toast(type === 'entrada' ? 'Entrada registrada com sucesso.' : 'Saída registrada com sucesso.');
-    }
-
+    const {error}=await withTimeout(sb.rpc('conexus_move_stock',{
+      p_business_id:currentBusiness.id,p_product_id:id,p_type:type,p_quantity:qtd,p_reason:reason||null
+    }),20000);
+    if(error)throw error;
     document.getElementById('modal-move').classList.remove('open');
+    toast('Movimentação registrada.');
     await loadAllData();
-  } catch (err) {
-    console.error('Erro ao movimentar estoque:', err);
-    showMsg('move-msg', 'Não foi possível concluir. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
-  } finally {
-    setBtn('move-confirm', false, 'Confirmar');
-  }
+  }catch(e){showMsg('move-msg',e.message||'Erro ao movimentar estoque.','error');}
+  finally{setBtn('move-confirm',false,'Confirmar');}
 });
 
 // ══════════════════════════════════════════════
@@ -3174,21 +3456,21 @@ document.getElementById('move-confirm').addEventListener('click', async () => {
 // ══════════════════════════════════════════════
 document.getElementById('btn-add-produto').addEventListener('click', async () => {
   const nome = document.getElementById('add-nome').value.trim();
-  const qtd = parseInt(document.getElementById('add-qtd').value, 10);
+  const qtd = Number(document.getElementById('add-qtd').value);
   const preco = parseFloat(document.getElementById('add-preco').value);
   const categoria = document.getElementById('add-categoria').value.trim() || 'Geral';
   const limiteRaw = document.getElementById('add-limite').value;
-  const limite = limiteRaw === '' ? 10 : parseInt(limiteRaw, 10);
+  const limite = limiteRaw === '' ? 10 : Number(limiteRaw);
   const custoRaw = document.getElementById('add-custo').value;
   const custo = custoRaw === '' ? null : parseFloat(custoRaw);
 
   hideMsg('add-msg');
 
   if (!nome) { showMsg('add-msg', 'Informe o nome do produto.', 'error'); return; }
-  if (isNaN(qtd) || qtd < 0) { showMsg('add-msg', 'Informe uma quantidade válida.', 'error'); return; }
-  if (isNaN(preco) || preco < 0) { showMsg('add-msg', 'Informe um preço válido.', 'error'); return; }
-  if (isNaN(limite) || limite < 0) { showMsg('add-msg', 'Informe um limite de alerta válido.', 'error'); return; }
-  if (custo !== null && (isNaN(custo) || custo < 0)) { showMsg('add-msg', 'Informe um custo válido.', 'error'); return; }
+  if (!Number.isSafeInteger(qtd) || qtd < 0) { showMsg('add-msg', 'Informe uma quantidade válida.', 'error'); return; }
+  if (!Number.isFinite(preco) || preco < 0) { showMsg('add-msg', 'Informe um preço válido.', 'error'); return; }
+  if (!Number.isSafeInteger(limite) || limite < 0) { showMsg('add-msg', 'Informe um limite de alerta válido.', 'error'); return; }
+  if (custo !== null && (!Number.isFinite(custo) || custo < 0)) { showMsg('add-msg', 'Informe um custo válido.', 'error'); return; }
 
   setBtn('btn-add-produto', true, 'Adicionar ao estoque');
 
@@ -3255,7 +3537,7 @@ function renderMovimentacoes() {
   slot.innerHTML = movements.map(m => {
     const isIn = m.type === 'entrada';
     const data = new Date(m.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    const motivoTexto = m.reason ? ' · ' + (MOTIVO_LABELS[m.reason] || m.reason) : '';
+    const motivoTexto = m.reason ? ' · ' + escapeHtml(MOTIVO_LABELS[m.reason] || m.reason) : '';
     return '<div class="move-row">' +
       '<div class="move-left">' +
         '<div class="move-icon ' + (isIn ? 'in' : 'out') + '">' + (isIn ? '↑' : '↓') + '</div>' +
@@ -3329,7 +3611,25 @@ function renderFinancas(period) {
     const key = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
     buckets[key] = (buckets[key] || 0) + Number(m.quantity) * Number(m.unit_price);
   });
-  const entries = Object.entries(buckets).slice(-10);
+  let entries = Object.entries(buckets).slice(-10);
+  if (hasInventory()) {
+    document.getElementById('app-fin-receita').previousElementSibling.textContent='Receita de vendas';
+    document.getElementById('app-fin-lucro').previousElementSibling.textContent='Lucro bruto';
+  }
+  if (!hasInventory()) {
+    document.getElementById('app-fin-receita').previousElementSibling.textContent='Receitas recebidas';
+    document.getElementById('app-fin-custo').previousElementSibling.textContent='Custo dos produtos';
+    document.getElementById('app-fin-lucro').previousElementSibling.textContent='Resultado bruto';
+    document.getElementById('app-fin-receita').textContent=brl(outrasReceitas);
+    document.getElementById('app-fin-custo').textContent=brl(0);
+    document.getElementById('app-fin-lucro').textContent=brl(outrasReceitas);
+    const byDay={};
+    revenues.filter(r=>r.status==='recebido'&&r.payment_date&&new Date(r.payment_date)>=start).forEach(r=>{
+      const label=new Date(r.payment_date+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+      byDay[label]=(byDay[label]||0)+Number(r.amount||0);
+    });
+    entries=Object.entries(byDay).slice(-10);
+  }
   const chartSlot = document.getElementById('app-fin-chart-slot');
 
   if (entries.length === 0) {
@@ -3632,70 +3932,30 @@ function renderVendaTotals() {
 }
 document.getElementById('venda-desconto').addEventListener('input', renderVendaTotals);
 
+
 document.getElementById('venda-finalizar').addEventListener('click', async () => {
   hideMsg('venda-msg');
-  if (cartItems.length === 0) { showMsg('venda-msg', 'Adicione pelo menos um produto à venda.', 'error'); return; }
-
-  const subtotal = cartItems.reduce((s, item) => {
-    const product = products.find(p => p.id === item.id);
-    return s + (product ? item.quantity * Number(product.price) : 0);
-  }, 0);
-  const descontoInput = parseFloat(document.getElementById('venda-desconto').value) || 0;
-  const discount = Math.min(Math.max(descontoInput, 0), subtotal);
-  const total = subtotal - discount;
-  const paymentMethod = document.getElementById('venda-pagamento').value;
-  const customerId = document.getElementById('venda-cliente').value || null;
-
-  setBtn('venda-finalizar', true, 'Finalizar venda');
-  try {
-    const user = await getAuthedUser();
-    if (!user) { showMsg('venda-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
-
-    const discountFactor = subtotal > 0 ? (1 - discount / subtotal) : 1;
-    const itemsSnapshot = cartItems.map(item => {
-      const product = products.find(p => p.id === item.id);
-      return {
-        id: item.id, name: product.name, quantity: item.quantity,
-        price: Number(product.price) * discountFactor,
-        cost: product.cost_price != null ? Number(product.cost_price) : null
-      };
-    });
-
-    const { data: saleData, error: saleError } = await withTimeout(sb.from('sales').insert({
-      business_id: currentBusiness.id, user_id: user.id, customer_id: customerId,
-      subtotal, discount, total, payment_method: paymentMethod, status: 'concluida'
-    }).select().single(), 15000);
-    if (saleError) { showMsg('venda-msg', 'Erro ao registrar venda: ' + saleError.message, 'error'); return; }
-
-    const saleId = saleData.id;
-
-    const { error: itemsError } = await withTimeout(sb.from('sale_items').insert(
-      itemsSnapshot.map(i => ({ sale_id: saleId, user_id: user.id, product_id: i.id, product_name: i.name, quantity: i.quantity, unit_price: i.price }))
-    ), 15000);
-    if (itemsError) toast('Venda registrada, mas houve erro ao salvar os itens: ' + itemsError.message, true);
-
-    const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
-      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'saida', quantity: i.quantity, unit_price: i.price, unit_cost: i.cost, is_sale: true }))
-    ), 15000);
-    if (movsError) toast('Venda registrada, mas houve erro ao atualizar o estoque: ' + movsError.message, true);
-
-    await Promise.all(itemsSnapshot.map(i => {
-      const product = products.find(p => p.id === i.id);
-      const novaQtd = Math.max(0, Number(product.quantity) - i.quantity);
-      return withTimeout(sb.from('products').update({ quantity: novaQtd, updated_at: new Date().toISOString() }).eq('id', i.id).eq('business_id', currentBusiness.id), 15000);
-    }));
-
-    toast('Venda registrada com sucesso!');
-    cartItems = [];
-    document.getElementById('venda-desconto').value = '';
-    await loadAllData();
-    switchVendaSubtab('historico');
-  } catch (err) {
-    console.error('Erro ao finalizar venda:', err);
-    showMsg('venda-msg', 'Não foi possível finalizar a venda. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
-  } finally {
-    setBtn('venda-finalizar', false, 'Finalizar venda');
+  if (!cartItems.length) {showMsg('venda-msg','Adicione produtos ao carrinho.','error');return;}
+  const discount=Number(document.getElementById('venda-desconto').value||0);
+  if(!Number.isFinite(discount)||discount<0){showMsg('venda-msg','Desconto inválido.','error');return;}
+  if(cartItems.some(i=>!Number.isSafeInteger(Number(i.quantity))||Number(i.quantity)<1)){
+    showMsg('venda-msg','Revise as quantidades.','error');return;
   }
+  setBtn('venda-finalizar',true,'Finalizar venda');
+  try {
+    const {error}=await withTimeout(sb.rpc('conexus_record_sale',{
+      p_business_id:currentBusiness.id,
+      p_customer_id:document.getElementById('venda-cliente').value||null,
+      p_payment_method:document.getElementById('venda-pagamento').value||null,
+      p_discount:discount,
+      p_items:cartItems.map(i=>({id:i.id,quantity:Number(i.quantity)}))
+    }),25000);
+    if(error)throw error;
+    cartItems=[];
+    document.getElementById('venda-desconto').value='';
+    await loadAllData();switchVendaSubtab('historico');toast('Venda concluída.');
+  }catch(e){showMsg('venda-msg',e.message||'Erro ao finalizar a venda.','error');}
+  finally{setBtn('venda-finalizar',false,'Finalizar venda');}
 });
 
 function renderSalesHistory() {
@@ -3803,78 +4063,28 @@ async function openReturnModal(sale) {
 }
 document.getElementById('devolucao-cancel').addEventListener('click', () => document.getElementById('modal-devolucao').classList.remove('open'));
 
+
 document.getElementById('devolucao-confirm').addEventListener('click', async () => {
   hideMsg('devolucao-msg');
-  const saleId = document.getElementById('devolucao-sale-id').value;
-  const motivo = document.getElementById('devolucao-motivo').value.trim();
-  const inputs = Array.from(document.querySelectorAll('[data-devolucao-item]'));
-
-  const itensParaDevolver = inputs.map(inp => {
-    const max = parseInt(inp.dataset.max, 10);
-    return {
-      saleItemId: inp.dataset.saleItemId,
-      productId: inp.dataset.productId || null,
-      productName: inp.dataset.productName,
-      unitPrice: parseFloat(inp.dataset.unitPrice),
-      max: max,
-      quantity: Math.min(Math.max(parseInt(inp.value, 10) || 0, 0), max)
-    };
-  }).filter(i => i.quantity > 0);
-
-  if (itensParaDevolver.length === 0) { showMsg('devolucao-msg', 'Informe a quantidade de pelo menos um item.', 'error'); return; }
-
-  setBtn('devolucao-confirm', true, 'Confirmar devolução');
-  try {
-    const user = await getAuthedUser();
-    if (!user) { showMsg('devolucao-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
-
-    const { error: returnsError } = await withTimeout(sb.from('returns').insert(
-      itensParaDevolver.map(i => ({
-        business_id: currentBusiness.id, user_id: user.id, sale_id: saleId,
-        sale_item_id: i.saleItemId, product_id: i.productId, product_name: i.productName,
-        quantity: i.quantity, unit_price: i.unitPrice, reason: motivo || null
-      }))
-    ), 15000);
-    if (returnsError) { showMsg('devolucao-msg', 'Erro ao registrar devolução: ' + returnsError.message, 'error'); return; }
-
-    // devolve estoque só pra itens cujo produto ainda existe
-    const itensComProduto = itensParaDevolver.filter(i => i.productId);
-    if (itensComProduto.length > 0) {
-      const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
-        itensComProduto.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.productId, product_name: i.productName, type: 'entrada', quantity: i.quantity, unit_price: i.unitPrice }))
-      ), 15000);
-      if (movsError) toast('Devolução registrada, mas houve erro ao atualizar o estoque: ' + movsError.message, true);
-
-      await Promise.all(itensComProduto.map(i => {
-        const product = products.find(p => p.id === i.productId);
-        if (!product) return Promise.resolve();
-        const novaQtd = Number(product.quantity) + i.quantity;
-        return withTimeout(sb.from('products').update({ quantity: novaQtd, updated_at: new Date().toISOString() }).eq('id', i.productId).eq('business_id', currentBusiness.id), 15000);
-      }));
-    }
-
-    // se não sobrou nada disponível pra devolver em nenhum item, marca a venda como devolvida
-    const aindaTemDisponivel = inputs.some(inp => {
-      const max = parseInt(inp.dataset.max, 10);
-      const devolvidoAgora = Math.min(Math.max(parseInt(inp.value, 10) || 0, 0), max);
-      return (max - devolvidoAgora) > 0;
-    });
-    if (!aindaTemDisponivel) {
-      await withTimeout(sb.from('sales').update({ status: 'devolvida' }).eq('id', saleId).eq('business_id', currentBusiness.id), 15000);
-    }
-
-    const itensResumo = itensParaDevolver.map(i => i.quantity + 'x ' + i.productName).join(', ');
-    logAudit('editar', 'devolução', 'Venda #' + saleId.slice(0, 8), itensResumo);
-
-    toast('Devolução registrada com sucesso.');
-    document.getElementById('modal-devolucao').classList.remove('open');
-    await loadAllData();
-  } catch (err) {
-    console.error('Erro ao registrar devolução:', err);
-    showMsg('devolucao-msg', 'Não foi possível registrar a devolução. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
-  } finally {
-    setBtn('devolucao-confirm', false, 'Confirmar devolução');
+  const itens=[...document.querySelectorAll('[data-devolucao-item]')].map(inp=>({
+    saleItemId:inp.dataset.saleItemId,quantity:Number(inp.value)
+  })).filter(item=>item.quantity>0);
+  if(!itens.length||itens.some(item=>!Number.isSafeInteger(item.quantity))) {
+    showMsg('devolucao-msg','Informe quantidades inteiras maiores que zero.','error');return;
   }
+  setBtn('devolucao-confirm',true,'Confirmar devolução');
+  try {
+    const {error}=await withTimeout(sb.rpc('conexus_record_return',{
+      p_business_id:currentBusiness.id,
+      p_sale_id:document.getElementById('devolucao-sale-id').value,
+      p_reason:document.getElementById('devolucao-motivo').value.trim()||null,
+      p_items:itens
+    }),25000);
+    if(error)throw error;
+    document.getElementById('modal-devolucao').classList.remove('open');
+    await loadAllData();toast('Devolução registrada.');
+  }catch(e){showMsg('devolucao-msg',e.message||'Erro ao registrar devolução.','error');}
+  finally{setBtn('devolucao-confirm',false,'Confirmar devolução');}
 });
 
 // ══════════════════════════════════════════════
@@ -4154,74 +4364,33 @@ function renderCompraTotals() {
   document.getElementById(id).addEventListener('input', renderCompraTotals);
 });
 
+
 document.getElementById('compra-finalizar').addEventListener('click', async () => {
   hideMsg('compra-msg');
-  if (compraCartItems.length === 0) { showMsg('compra-msg', 'Adicione pelo menos um produto à compra.', 'error'); return; }
-  if (compraCartItems.some(i => !i.unitCost || i.unitCost <= 0)) { showMsg('compra-msg', 'Informe um custo unitário válido para cada item.', 'error'); return; }
-
-  const subtotal = compraCartItems.reduce((s, item) => s + item.quantity * item.unitCost, 0);
-  const frete = parseFloat(document.getElementById('compra-frete').value) || 0;
-  const impostos = parseFloat(document.getElementById('compra-impostos').value) || 0;
-  const desconto = Math.min(parseFloat(document.getElementById('compra-desconto').value) || 0, subtotal + frete + impostos);
-  const total = subtotal + frete + impostos - desconto;
-  const paymentMethod = document.getElementById('compra-pagamento').value;
-  const supplierId = document.getElementById('compra-fornecedor').value || null;
-
-  setBtn('compra-finalizar', true, 'Registrar compra');
-  try {
-    const user = await getAuthedUser();
-    if (!user) { showMsg('compra-msg', 'Sua sessão expirou. Saia e entre novamente para continuar.', 'error'); return; }
-
-    // distribui frete + impostos - desconto proporcionalmente ao valor de
-    // cada item, pra chegar no custo real por unidade
-    const extrasLiquido = frete + impostos - desconto;
-    const fatorExtras = subtotal > 0 ? (1 + extrasLiquido / subtotal) : 1;
-
-    const itemsSnapshot = compraCartItems.map(item => {
-      const product = products.find(p => p.id === item.id);
-      return { id: item.id, name: product.name, quantity: item.quantity, custoReal: item.unitCost * fatorExtras };
-    });
-
-    const { data: purchaseData, error: purchaseError } = await withTimeout(sb.from('purchases').insert({
-      business_id: currentBusiness.id, user_id: user.id, supplier_id: supplierId,
-      subtotal, freight: frete, taxes: impostos, discount: desconto, total,
-      payment_method: paymentMethod, status: 'recebida'
-    }).select().single(), 15000);
-    if (purchaseError) { showMsg('compra-msg', 'Erro ao registrar compra: ' + purchaseError.message, 'error'); return; }
-
-    const purchaseId = purchaseData.id;
-
-    const { error: itemsError } = await withTimeout(sb.from('purchase_items').insert(
-      itemsSnapshot.map(i => ({ purchase_id: purchaseId, user_id: user.id, product_id: i.id, product_name: i.name, quantity: i.quantity, unit_cost: i.custoReal }))
-    ), 15000);
-    if (itemsError) toast('Compra registrada, mas houve erro ao salvar os itens: ' + itemsError.message, true);
-
-    const { error: movsError } = await withTimeout(sb.from('stock_movements').insert(
-      itemsSnapshot.map(i => ({ business_id: currentBusiness.id, user_id: user.id, product_id: i.id, product_name: i.name, type: 'entrada', quantity: i.quantity, unit_price: i.custoReal, unit_cost: i.custoReal }))
-    ), 15000);
-    if (movsError) toast('Compra registrada, mas houve erro ao atualizar o histórico de estoque: ' + movsError.message, true);
-
-    await Promise.all(itemsSnapshot.map(i => {
-      const product = products.find(p => p.id === i.id);
-      const novaQtd = Number(product.quantity) + i.quantity;
-      return withTimeout(sb.from('products').update({
-        quantity: novaQtd, cost_price: i.custoReal, updated_at: new Date().toISOString()
-      }).eq('id', i.id).eq('business_id', currentBusiness.id), 15000);
-    }));
-
-    toast('Compra registrada com sucesso!');
-    compraCartItems = [];
-    document.getElementById('compra-frete').value = '';
-    document.getElementById('compra-impostos').value = '';
-    document.getElementById('compra-desconto').value = '';
-    await loadAllData();
-    switchCompraSubtab('historico');
-  } catch (err) {
-    console.error('Erro ao finalizar compra:', err);
-    showMsg('compra-msg', 'Não foi possível finalizar a compra. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
-  } finally {
-    setBtn('compra-finalizar', false, 'Registrar compra');
+  if(!compraCartItems.length){showMsg('compra-msg','Adicione ao menos um item.','error');return;}
+  if(compraCartItems.some(i=>!Number.isSafeInteger(Number(i.quantity))||i.quantity<=0||!Number.isFinite(Number(i.unitCost))||i.unitCost<=0)){
+    showMsg('compra-msg','Revise quantidades e custos unitários.','error');return;
   }
+  const parseAmount=id=>Number(document.getElementById(id).value||0);
+  const [frete,impostos,desconto]=['compra-frete','compra-impostos','compra-desconto'].map(parseAmount);
+  if([frete,impostos,desconto].some(n=>!Number.isFinite(n)||n<0)){
+    showMsg('compra-msg','Frete, impostos e descontos devem ser positivos.','error');return;
+  }
+  setBtn('compra-finalizar',true,'Registrar compra');
+  try {
+    const {error}=await withTimeout(sb.rpc('conexus_record_purchase',{
+      p_business_id:currentBusiness.id,
+      p_supplier_id:document.getElementById('compra-fornecedor').value||null,
+      p_payment_method:document.getElementById('compra-pagamento').value||null,
+      p_freight:frete,p_taxes:impostos,p_discount:desconto,
+      p_items:compraCartItems.map(i=>({id:i.id,quantity:Number(i.quantity),unitCost:Number(i.unitCost)}))
+    }),25000);
+    if(error)throw error;
+    compraCartItems=[];
+    ['compra-frete','compra-impostos','compra-desconto'].forEach(id=>document.getElementById(id).value='');
+    await loadAllData();switchCompraSubtab('historico');toast('Compra registrada.');
+  }catch(e){showMsg('compra-msg',e.message||'Erro ao registrar compra.','error');}
+  finally{setBtn('compra-finalizar',false,'Registrar compra');}
 });
 
 function renderPurchasesHistory() {
@@ -5151,7 +5320,7 @@ function renderAuditoria() {
     html += '<tr>' +
       '<td>' + data + '</td>' +
       '<td>' + escapeHtml(a.user_email || '—') + '</td>' +
-      '<td>' + (AUDIT_ACTION_LABELS[a.action] || a.action) + ' ' + escapeHtml(a.entity_type) + '</td>' +
+      '<td>' + escapeHtml(AUDIT_ACTION_LABELS[a.action] || a.action) + ' ' + escapeHtml(a.entity_type) + '</td>' +
       '<td>' + escapeHtml(a.entity_name || '—') + '</td>' +
       '<td style="color:var(--cinza-texto);">' + escapeHtml(a.details || '—') + '</td>' +
       '</tr>';
@@ -5335,8 +5504,8 @@ function exportarFinancas() {
   const start = periodStartDate(period);
   const saidas = movements.filter(m => m.type === 'saida' && m.is_sale && new Date(m.created_at) >= start);
 
-  if (saidas.length === 0) {
-    toast('Não há vendas no período selecionado para exportar.', true);
+  if (saidas.length === 0 && !revenues.some(r => r.status === 'recebido' && r.payment_date && new Date(r.payment_date) >= start)) {
+    toast('Não há movimentação financeira no período para exportar.', true);
     return;
   }
 
