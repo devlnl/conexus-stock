@@ -559,6 +559,58 @@ nav,.app-topbar,.biz-topbar {background:#182234!important;backdrop-filter:none;b
 @media (max-width:850px){.app-main{width:100%;margin-left:0;padding:20px 14px 70px}.app-sidebar{width:260px}.modules-chooser{grid-template-columns:1fr}.modules-chooser .module-choice:nth-child(odd){border-right:0}#home{padding:125px 25px 90px}.hero-stats{flex-wrap:wrap;gap:24px}.hero-stat{flex:1 1 110px}}
 @media (max-width:520px){#home{min-height:580px}.hero-h1{font-size:43px;letter-spacing:-.05em}.hero-sub{font-size:15px}.kpi-grid{grid-template-columns:1fr 1fr}.record-details{grid-template-columns:1fr}.modal-box{padding:22px}}
 
+/* Conexus v12 · superfícies escuras consistentes, após todas as regras anteriores. */
+#businesses-shell,#app-shell{min-height:100vh}
+body[data-theme="dark"]{--cinza-claro:#101723;--cinza-borda:#334154;--cinza-texto:#a9b7c9;color:#e9edf5}
+body[data-theme="dark"] #app-shell,body[data-theme="dark"] #businesses-shell{background:#101722!important;color:#e9edf5}
+body[data-theme="dark"] .app-sidebar{background:#182231!important;border-color:#344153!important}
+body[data-theme="dark"] .app-sidebar .sidebar-sector{background:#263347;color:#b0bdca;border-color:#c95837}
+body[data-theme="dark"] .sidebar-sector strong{color:#f6f7fa}
+body[data-theme="dark"] .sidebar-division{color:#93a5ba}
+body[data-theme="dark"] .sidebar-settings{border-color:#4b5c73;color:#dce5f0}
+body[data-theme="dark"] .app-nav-item{color:#c3cddd}
+body[data-theme="dark"] .app-nav-item:hover{background:#2a3646;color:#fff}
+body[data-theme="dark"] .app-nav-item.active{background:#51332f;color:#ffaf97}
+body[data-theme="dark"] .app-main,body[data-theme="dark"] .app-view{color:#e9edf5}
+body[data-theme="dark"] .kpi-card,body[data-theme="dark"] .kpi-card.alert,
+body[data-theme="dark"] .app-card,body[data-theme="dark"] .app-card-head,
+body[data-theme="dark"] .biz-card,body[data-theme="dark"] .empty-state,
+body[data-theme="dark"] .modal-box,body[data-theme="dark"] .record-card,
+body[data-theme="dark"] .stock-widget,body[data-theme="dark"] .finance-widget,
+body[data-theme="dark"] .icon-btn,body[data-theme="dark"] .btn-app-secondary,
+body[data-theme="dark"] .notif-dropdown,body[data-theme="dark"] .cart-qty-input,
+body[data-theme="dark"] .app-form-input,body[data-theme="dark"] .app-form-select,
+body[data-theme="dark"] .app-search,body[data-theme="dark"] .modules-chooser,
+body[data-theme="dark"] .module-choice,body[data-theme="dark"] .fin-tabs{
+ background:#1c2939!important;color:#eef2f7!important;border-color:#34465a!important;
+}
+body[data-theme="dark"] .app-table th,body[data-theme="dark"] table.app-table th{background:#26364a!important;color:#bacce0!important;border-color:#34465a!important}
+body[data-theme="dark"] .app-table td,body[data-theme="dark"] table.app-table td,
+body[data-theme="dark"] .app-table tr,body[data-theme="dark"] table.app-table tr{background:#1c2939!important;color:#e9edf5!important;border-color:#34465a!important}
+body[data-theme="dark"] .app-table tbody tr:hover td{background:#2a3a4d!important}
+body[data-theme="dark"] .biz-card-name,body[data-theme="dark"] .app-view-title,
+body[data-theme="dark"] .app-card-title,body[data-theme="dark"] .modal-title,
+body[data-theme="dark"] .kpi-val,body[data-theme="dark"] .move-name,
+body[data-theme="dark"] .app-form-label,body[data-theme="dark"] .empty-state-title,
+body[data-theme="dark"] .record-card strong,body[data-theme="dark"] .record-detail strong{color:#f3f6fb!important}
+body[data-theme="dark"] .app-view-sub,body[data-theme="dark"] .kpi-sub,
+body[data-theme="dark"] .kpi-label,body[data-theme="dark"] .modal-sub,
+body[data-theme="dark"] .biz-card-type,body[data-theme="dark"] .empty-state-sub,
+body[data-theme="dark"] .record-detail span,body[data-theme="dark"] .field-hint{color:#afc0d4!important}
+body[data-theme="dark"] .app-form-input::placeholder,body[data-theme="dark"] .app-search::placeholder{color:#8295ac}
+body[data-theme="dark"] .app-card-head,body[data-theme="dark"] .module-choice,
+body[data-theme="dark"] .record-card small,body[data-theme="dark"] .move-row,
+body[data-theme="dark"] .notif-item{border-color:#34465a!important}
+body[data-theme="dark"] .cat-pill{background:#33465b;color:#d8e5f4}
+body[data-theme="dark"] .fin-tab.active{background:#40536a!important;color:#fff!important}
+body[data-theme="dark"] #dash-alert-slot a{color:#ffb48b!important;text-decoration:underline}
+body[data-theme="dark"] .test-mode-banner{background:#312b21;border-color:#916d38;color:#f3d8a4}
+body[data-theme="dark"] .test-mode-banner span{color:#f3d8a4}
+body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea{color-scheme:dark}
+body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
+.theme-toggle-btn{min-width:38px;min-height:38px;display:inline-flex;align-items:center;justify-content:center}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
   </style>
 </head>
 <body>
@@ -947,8 +999,8 @@ nav,.app-topbar,.biz-topbar {background:#182234!important;backdrop-filter:none;b
   </div>
   <div class="biz-shell-body">
     <div class="test-mode-banner" id="test-mode-banner-biz">
-      <span>🧪 Modo de teste — crie uma conta pra não perder seus dados.</span>
-      <button type="button" id="test-mode-criar-conta-btn-biz">Criar conta</button>
+      <span>Demonstração temporária: dados não são gravados e serão descartados ao sair.</span>
+      <button type="button" id="test-mode-criar-conta-btn-biz">Sair e criar conta</button>
     </div>
     <div class="app-header-row">
       <div>
@@ -1010,8 +1062,8 @@ nav,.app-topbar,.biz-topbar {background:#182234!important;backdrop-filter:none;b
 
     <div class="app-main">
       <div class="test-mode-banner" id="test-mode-banner-app">
-        <span>🧪 Modo de teste — crie uma conta pra não perder seus dados.</span>
-        <button type="button" id="test-mode-criar-conta-btn-app">Criar conta</button>
+        <span>Demonstração temporária: dados não são gravados e serão descartados ao sair.</span>
+        <button type="button" id="test-mode-criar-conta-btn-app">Sair e criar conta</button>
       </div>
 
       <!-- DASHBOARD -->
@@ -1801,7 +1853,7 @@ nav,.app-topbar,.biz-topbar {background:#182234!important;backdrop-filter:none;b
 <div class="modal-overlay" id="modal-teste">
   <div class="modal-box">
     <div class="modal-title">Modo de teste</div>
-    <div class="modal-sub">Você pode experimentar o Conexus sem criar conta. Seus dados ficam salvos enquanto você testa — criar uma conta a qualquer momento transforma esse teste numa conta de verdade, sem perder nada.</div>
+    <div class="modal-sub">Experimente empresas de diferentes setores sem criar conta. Os dados são temporários, ficam somente nesta aba e desaparecem ao encerrar o teste ou recarregar a página. Nada é enviado ao Supabase.</div>
     <div class="msg-box" id="teste-msg"></div>
     <div class="modal-actions">
       <button class="btn-app-secondary" id="teste-criar-conta">Criar conta</button>
@@ -1814,7 +1866,7 @@ nav,.app-topbar,.biz-topbar {background:#182234!important;backdrop-filter:none;b
 <div class="modal-overlay" id="modal-upgrade-conta">
   <div class="modal-box">
     <div class="modal-title">Criar conta</div>
-    <div class="modal-sub">Transforma seu teste em uma conta de verdade, sem perder nada que você já fez.</div>
+    <div class="modal-sub">O teste é temporário e não pode ser convertido automaticamente. Crie sua conta para começar com dados permanentes.</div>
     <div class="msg-box" id="upgrade-msg"></div>
     <div class="app-form-group">
       <label class="app-form-label">E-mail</label>
@@ -2090,7 +2142,7 @@ import * as XLSX from 'https://esm.sh/xlsx@0.18.5';
 const SUPA_URL = 'https://fshztvkrvoktuziuhwdi.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzaHp0dmtydm9rdHV6aXVod2RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwMDcyNzQsImV4cCI6MjA5NzU4MzI3NH0.VsCxR3mM5yIvdUaRZCbjB5q_YhfN0jaPfQ0y8y77zUM';
 
-const sb = createClient(SUPA_URL, SUPA_KEY, {
+let sb = createClient(SUPA_URL, SUPA_KEY, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
@@ -2098,6 +2150,10 @@ const sb = createClient(SUPA_URL, SUPA_KEY, {
     storageKey: 'nexus-stock-auth'
   }
 });
+
+const realSupabase = sb;
+let demoActive = false;
+let demoStore = null;
 
 // Garante que sempre temos o usuário real da sessão ativa do client,
 // nunca uma cópia em memória que pode ficar fora de sincronia.
@@ -2453,25 +2509,202 @@ function wireNavBtnEntrar() {
 wireNavBtnEntrar();
 
 // ══════════════════════════════════════════════
-// TEMA CLARO/ESCURO
-// ══════════════════════════════════════════════
-// Preferência vale só pra sessão atual (sem localStorage/sessionStorage
-// de propósito — volta pro tema claro se a página for recarregada).
+// TEMA CLARO/ESCURO — persiste somente a preferência visual local.
+const THEME_KEY = 'conexus:preferencia-tema:v12';
 let currentTheme = 'light';
 function applyTheme(theme) {
-  currentTheme = theme;
-  document.body.setAttribute('data-theme', theme);
+  currentTheme = theme === 'dark' ? 'dark' : 'light';
+  document.body.dataset.theme = currentTheme;
+  document.documentElement.style.colorScheme = currentTheme;
   document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-    btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    btn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+    btn.title = currentTheme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro';
+    btn.setAttribute('aria-label', btn.title);
+    btn.setAttribute('aria-pressed', String(currentTheme === 'dark'));
   });
 }
 function toggleTheme() {
   applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+  try { localStorage.setItem(THEME_KEY, currentTheme); } catch (_) {}
 }
+try { applyTheme(localStorage.getItem(THEME_KEY) || 'light'); }
+catch (_) { applyTheme('light'); }
 document.getElementById('theme-toggle-btn-biz').addEventListener('click', toggleTheme);
 document.getElementById('theme-toggle-btn-app').addEventListener('click', toggleTheme);
 
 // ══════════════════════════════════════════════
+// DEMONSTRAÇÃO LOCAL — isolada da autenticação e do banco de produção.
+// Nenhum dado demonstrativo usa API remota, cookies ou localStorage.
+function demoUuid() {
+  return (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() :
+    'demo-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+}
+function makeDemoData() {
+  const specs = [
+    ['comercio','Comércio','🛒'],['alimenticio','Alimentício','🍔'],
+    ['afiliados','Afiliados','📣'],['ecommerce','E-commerce','🛍️'],
+    ['servicos','Serviços','💼'],['freelancer','Freelancer','👩‍💻'],
+    ['criador_conteudo','Criador de conteúdo','🎬'],['industria','Indústria','🏭'],
+    ['industria_alimenticia','Indústria alimentícia','🥫'],
+    ['industria_farmaceutica','Indústria farmacêutica','💊'],
+    ['logistica','Logística e transportes','🚚'],['farmacia','Farmácia e drogaria','🏥'],
+    ['restaurante','Restaurante e lanchonete','🍽️'],
+    ['tecnologia','Tecnologia e software','💻'],['agronegocio','Agronegócio','🌾'],
+    ['outros','Outros','▣']
+  ];
+  const t = specs.map(([slug,name,icon]) => ({id:'tipo-'+slug,slug,name,icon}));
+  const owner='conexus-demo-local';
+  const now = new Date().toISOString();
+  const b = [
+    ['Loja Modelo','comercio','pequeno'],
+    ['Afiliados Modelo','afiliados','individual'],
+    ['Alimentos Modelo','industria_alimenticia','medio'],
+    ['Farmacêutica Modelo','industria_farmaceutica','medio']
+  ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
+    user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
+  const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
+  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[]};
+  function product(biz,name,quantity,price,cost,category) {
+    const row={id:demoUuid(),user_id:owner,business_id:biz.id,name,quantity,price,cost_price:cost,
+      category,low_stock_threshold:8,created_at:now,updated_at:now};
+    tables.products.push(row); return row;
+  }
+  product(byType.comercio,'Camiseta básica',48,69.9,31,'Vestuário');
+  product(byType.comercio,'Tênis urbano',21,199.9,107,'Calçados');
+  product(byType.comercio,'Boné clássico',6,49.9,17,'Acessórios');
+  product(byType.industria_alimenticia,'Molho de tomate 500 g',110,8.9,3.2,'Alimentos');
+  product(byType.industria_alimenticia,'Biscoito integral 200 g',83,6.5,2.6,'Alimentos');
+  product(byType.industria_farmaceutica,'Produto demonstrativo A',130,24.9,12,'Produtos');
+  product(byType.industria_farmaceutica,'Produto demonstrativo B',52,39.9,18,'Produtos');
+  tables.customers.push({id:demoUuid(),user_id:owner,business_id:byType.comercio.id,name:'Cliente Exemplo',created_at:now});
+  tables.suppliers.push({id:demoUuid(),user_id:owner,business_id:byType.comercio.id,name:'Fornecedor Modelo',created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.afiliados.id,sector_slug:'afiliados',title:'Campanha demonstrativa',
+    fields:{plataforma:'Shopee',produto:'Acessórios de moda',cliques:'320',vendas:'14',comissao:'186.50'},created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.industria_alimenticia.id,sector_slug:'industria_alimenticia',
+    title:'Lote demonstrativo A-001',fields:{produto:'Molho de tomate 500 g',lote:'A-001',status:'Em produção'},created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.industria_farmaceutica.id,sector_slug:'industria_farmaceutica',
+    title:'Lote demonstrativo F-001',fields:{produto:'Produto demonstrativo A',lote:'F-001',status:'Em análise'},created_at:now});
+  tables.revenues.push({id:demoUuid(),user_id:owner,business_id:byType.afiliados.id,description:'Comissões de demonstração',amount:186.5,
+    category:'comissoes',status:'recebido',payment_date:now.slice(0,10),created_at:now});
+  return tables;
+}
+
+class LocalDemoQuery {
+  constructor(db, name) { this.db=db; this.name=name; this.filters=[]; this.operation='read'; this.orderKey=null; this.desc=false; this.max=null; this.one=false; this.payload=null; }
+  select(_cols) { return this; }
+  insert(data) { this.operation='insert'; this.payload=data; return this; }
+  update(data) { this.operation='update'; this.payload=data; return this; }
+  delete() { this.operation='delete'; return this; }
+  eq(key,val) {this.filters.push(r=>r[key]===val);return this;}
+  order(key, opts={}) {this.orderKey=key; this.desc=opts.ascending===false;return this;}
+  limit(n) {this.max=n;return this;}
+  single() {this.one=true;return this;}
+  async execute() {
+    try {
+      const store=this.db[this.name];
+      if(!store) throw Error('Tabela de demonstração desconhecida: '+this.name);
+      const matched=()=>store.filter(r=>this.filters.every(f=>f(r)));
+      let rows=[];
+      if(this.operation==='insert') {
+        const batch=Array.isArray(this.payload)?this.payload:[this.payload];
+        rows=batch.map(item=>({...item,id:item.id||demoUuid(),created_at:item.created_at||new Date().toISOString()}));
+        store.push(...rows);
+      } else if(this.operation==='update') {
+        rows=matched();rows.forEach(r=>Object.assign(r,this.payload));
+      } else if(this.operation==='delete') {
+        rows=matched();for(const r of rows){const i=store.indexOf(r);if(i>=0)store.splice(i,1);}
+      } else {
+        rows=matched();
+        if(this.orderKey) rows.sort((a,b)=>{const av=a[this.orderKey]??'',bv=b[this.orderKey]??'';return (av>bv?1:av<bv?-1:0)*(this.desc?-1:1);});
+        if(this.max!==null) rows=rows.slice(0,this.max);
+      }
+      rows=rows.map(x=>({...x}));
+      if(this.name==='businesses')rows=rows.map(r=>({...r,business_types:this.db.business_types.find(t=>t.id===r.business_type_id)||null}));
+      if(this.name==='sales')rows=rows.map(r=>({...r,customers:this.db.customers.find(c=>c.id===r.customer_id)||null}));
+      if(this.name==='purchases')rows=rows.map(r=>({...r,suppliers:this.db.suppliers.find(s=>s.id===r.supplier_id)||null}));
+      if(this.one && rows.length!==1) return {data:null,error:{message:rows.length?'Resultado não é único':'Registro não encontrado'}};
+      return {data:this.one?rows[0]:rows,error:null};
+    } catch(e) {return {data:null,error:{message:e.message}};}
+  }
+  then(resolve,reject) {return this.execute().then(resolve,reject);}
+}
+function makeDemoClient(store) {
+  const uid='conexus-demo-local';
+  function changeStock(bid,pid,qty,type,reason,isSale=false,unitCost=null){
+    const p=store.products.find(x=>x.id===pid && x.business_id===bid);
+    if(!p)throw Error('Produto não encontrado para esta empresa.');
+    if(!Number.isSafeInteger(qty)||qty<=0)throw Error('Quantidade inválida.');
+    if(type==='saida'&&p.quantity<qty)throw Error('Estoque insuficiente.');
+    p.quantity+=type==='entrada'?qty:-qty;
+    store.stock_movements.push({id:demoUuid(),user_id:uid,business_id:bid,product_id:pid,
+      product_name:p.name,type,quantity:qty,unit_price:p.price,reason:reason||null,is_sale:isSale,unit_cost:unitCost??p.cost_price,created_at:new Date().toISOString()});
+    return p;
+  }
+  function rpc(action,req) {
+    try {
+      const bid=req.p_business_id;
+      if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
+      const now=new Date().toISOString();
+      if(action==='conexus_move_stock')changeStock(bid,req.p_product_id,Number(req.p_quantity),req.p_type,req.p_reason);
+      else if(action==='conexus_record_sale') {
+        const items=req.p_items||[];if(!items.length)throw Error('Venda sem itens.');
+        for(const it of items){const p=store.products.find(p=>p.id===it.id&&p.business_id===bid);if(!p||p.quantity<it.quantity)throw Error('Estoque insuficiente para a venda.');}
+        let subtotal=0;
+        const sale={id:demoUuid(),user_id:uid,business_id:bid,customer_id:req.p_customer_id||null,
+          payment_method:req.p_payment_method||null,discount:Number(req.p_discount||0),status:'concluida',created_at:now};
+        items.forEach(it=>{const p=store.products.find(p=>p.id===it.id);const qty=Number(it.quantity);
+          subtotal+=qty*Number(p.price);store.sale_items.push({id:demoUuid(),user_id:uid,sale_id:sale.id,product_id:p.id,product_name:p.name,quantity:qty,unit_price:p.price,created_at:now});
+          changeStock(bid,p.id,qty,'saida','Venda',true);
+        });
+        sale.subtotal=subtotal;sale.total=Math.max(0,subtotal-sale.discount);store.sales.push(sale);
+      } else if(action==='conexus_record_purchase') {
+        let subtotal=0;const purchase={id:demoUuid(),user_id:uid,business_id:bid,supplier_id:req.p_supplier_id||null,
+          payment_method:req.p_payment_method||null,freight:Number(req.p_freight||0),taxes:Number(req.p_taxes||0),discount:Number(req.p_discount||0),status:'recebida',created_at:now};
+        (req.p_items||[]).forEach(it=>{const p=store.products.find(p=>p.id===it.id&&p.business_id===bid);if(!p)throw Error('Produto não encontrado.');
+          const qty=Number(it.quantity),cost=Number(it.unitCost);if(!Number.isSafeInteger(qty)||qty<1||cost<0)throw Error('Item inválido.');
+          subtotal+=qty*cost;store.purchase_items.push({id:demoUuid(),user_id:uid,purchase_id:purchase.id,product_id:p.id,product_name:p.name,quantity:qty,unit_cost:cost,created_at:now});
+          changeStock(bid,p.id,qty,'entrada','Compra',false,cost);
+        });
+        purchase.subtotal=subtotal;purchase.total=subtotal+purchase.freight+purchase.taxes-purchase.discount;store.purchases.push(purchase);
+      } else if(action==='conexus_record_return') {
+        const sale=store.sales.find(s=>s.id===req.p_sale_id&&s.business_id===bid);if(!sale)throw Error('Venda não encontrada.');
+        for(const it of req.p_items||[]) {
+          const si=store.sale_items.find(s=>s.id===it.saleItemId&&s.sale_id===sale.id);if(!si)throw Error('Item inválido.');
+          const count=store.returns.filter(r=>r.sale_item_id===si.id).reduce((sum,r)=>sum+r.quantity,0);
+          if(it.quantity<1||it.quantity+count>si.quantity)throw Error('Quantidade de devolução maior que a disponível.');
+        }
+        for(const it of req.p_items||[]){const si=store.sale_items.find(s=>s.id===it.saleItemId);
+          store.returns.push({id:demoUuid(),user_id:uid,business_id:bid,sale_id:sale.id,sale_item_id:si.id,product_id:si.product_id,
+            product_name:si.product_name,quantity:it.quantity,unit_price:si.unit_price,reason:req.p_reason||null,created_at:now});
+          if(si.product_id&&store.products.some(p=>p.id===si.product_id))changeStock(bid,si.product_id,Number(it.quantity),'entrada','Devolução');
+        }
+      } else if(action==='add_business_member') {
+        throw Error('Convites de equipe não estão disponíveis na demonstração.');
+      } else throw Error('Operação indisponível na demonstração: '+action);
+      return Promise.resolve({data:null,error:null});
+    }catch(e){return Promise.resolve({data:null,error:{message:e.message}});}
+  }
+  return {from:name=>new LocalDemoQuery(store,name),rpc,auth:{
+    getUser:async()=>({data:{user:{id:uid,email:null,is_anonymous:true}},error:null}),
+    signOut:async()=>{endLocalDemo();return {error:null};}
+  }};
+}
+function startLocalDemo(){
+  demoStore=makeDemoData();sb=makeDemoClient(demoStore);demoActive=true;
+  currentUser={id:'conexus-demo-local',email:null,is_anonymous:true};
+  businessTypes=[];businesses=[];currentBusiness=null;
+}
+function endLocalDemo(){
+  demoActive=false;demoStore=null;sb=realSupabase;
+  currentUser=null;currentBusiness=null;businesses=[];businessTypes=[];
+}
+function exitDemoToSignup(){
+  if(demoActive)endLocalDemo();
+  document.getElementById('modal-upgrade-conta').classList.remove('open');
+  closeApp();showLoggedOutMarketing();
+  document.querySelector('#cadastro')?.scrollIntoView({behavior:'smooth'});
+}
+
 // MODO DE TESTE (login anônimo do Supabase)
 // ══════════════════════════════════════════════
 function updateTestModeBanners() {
@@ -2485,6 +2718,7 @@ document.getElementById('btn-testar-hero').addEventListener('click', () => {
   document.getElementById('modal-teste').classList.add('open');
 });
 document.getElementById('teste-criar-conta').addEventListener('click', () => {
+  if(demoActive)endLocalDemo();
   document.getElementById('modal-teste').classList.remove('open');
   document.getElementById('card-logged').style.display = 'none';
   document.getElementById('card-login').style.display = 'none';
@@ -2496,21 +2730,17 @@ document.getElementById('teste-criar-conta').addEventListener('click', () => {
 
 document.getElementById('teste-comecar').addEventListener('click', async () => {
   hideMsg('teste-msg');
-  setBtn('teste-comecar', true, 'Começar teste', 'Entrando...');
+  setBtn('teste-comecar', true, 'Começar teste', 'Preparando...');
   try {
-    const { error } = await withTimeout(sb.auth.signInAnonymously(), 15000);
-    if (error) {
-      showMsg('teste-msg', 'Não foi possível iniciar o modo de teste. Verifique se "Anonymous Sign-ins" está habilitado nas configurações de Authentication do projeto Supabase. Detalhes: ' + error.message, 'error');
-      return;
-    }
+    // Não exige Anonymous Sign-ins e nunca escreve no Supabase.
+    startLocalDemo();
     document.getElementById('modal-teste').classList.remove('open');
     await openBusinessesShell();
   } catch (err) {
-    console.error('Erro ao iniciar modo de teste:', err);
-    showMsg('teste-msg', 'Não foi possível iniciar o modo de teste. Tente novamente.', 'error');
-  } finally {
-    setBtn('teste-comecar', false, 'Começar teste');
-  }
+    console.error('Falha na demonstração:',err);
+    showMsg('teste-msg', 'Não foi possível preparar a demonstração: '+err.message, 'error');
+    endLocalDemo();
+  } finally { setBtn('teste-comecar', false, 'Começar teste'); }
 });
 
 function openUpgradeModal() {
@@ -2520,8 +2750,8 @@ function openUpgradeModal() {
   document.getElementById('upgrade-senha-confirmar').value = '';
   document.getElementById('modal-upgrade-conta').classList.add('open');
 }
-document.getElementById('test-mode-criar-conta-btn-biz').addEventListener('click', openUpgradeModal);
-document.getElementById('test-mode-criar-conta-btn-app').addEventListener('click', openUpgradeModal);
+document.getElementById('test-mode-criar-conta-btn-biz').addEventListener('click', () => demoActive ? exitDemoToSignup() : openUpgradeModal());
+document.getElementById('test-mode-criar-conta-btn-app').addEventListener('click', () => demoActive ? exitDemoToSignup() : openUpgradeModal());
 document.getElementById('upgrade-cancel').addEventListener('click', () => document.getElementById('modal-upgrade-conta').classList.remove('open'));
 
 document.getElementById('upgrade-confirmar').addEventListener('click', async () => {
@@ -2647,7 +2877,7 @@ document.getElementById('btn-login').addEventListener('click', async function() 
 // Evita perder dados de teste sem querer — só pergunta quando é anônimo.
 function confirmLogoutIfAnonymous() {
   if (currentUser && currentUser.is_anonymous) {
-    return confirm('Você está no modo de teste. Ao sair, os dados desse teste serão perdidos. Deseja continuar?');
+    return confirm('Você está no modo de teste. Ao sair, os dados temporários desta demonstração serão perdidos. Deseja continuar?');
   }
   return true;
 }
@@ -2716,7 +2946,8 @@ document.getElementById('btn-go-app').addEventListener('click', async function()
 
 // ── Manter currentUser sempre sincronizado com a sessão real do client ──
 // (login, logout, refresh de token, restauração de sessão ao recarregar a página)
-sb.auth.onAuthStateChange(function(event, session) {
+realSupabase.auth.onAuthStateChange(function(event, session) {
+  if (demoActive) return;
   if (session && session.user) {
     currentUser = session.user;
     updateTestModeBanners();
@@ -2826,7 +3057,7 @@ function renderBusinessesGrid() {
       '<div class="biz-card-actions">' +
         '<button class="btn-app-primary" data-action="abrir" data-id="' + b.id + '">Abrir gestão</button>' +
         (souDono ? '<button class="icon-btn" title="Editar negócio" data-action="editar-negocio" data-id="' + b.id + '">✎</button>' : '') +
-        (souDono ? '<button class="icon-btn" title="Equipe" data-action="equipe" data-id="' + b.id + '">👥</button>' : '') +
+        (souDono && !demoActive ? '<button class="icon-btn" title="Equipe" data-action="equipe" data-id="' + b.id + '">👥</button>' : '') +
       '</div></div>';
   }).join('') + '</div>';
 
