@@ -1042,6 +1042,43 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 }
 
   :root { color-scheme: dark; background: #10151D; }
+
+/* CONEXUS V15 · módulos de indústria alimentícia (tema escuro fixo) */
+.food-only[hidden]{display:none!important}
+.food-card{padding:22px!important;margin-bottom:18px}
+.food-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;align-items:start}
+.food-cols .app-card{min-width:0}
+.food-card-title{font-size:17px;color:var(--theme-text);margin:0 0 18px;font-weight:750}
+.food-form-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.food-card .app-form-label{display:block;margin:14px 0 7px}
+.food-card .app-form-input,.food-card .app-form-select{width:100%;min-width:0}
+.food-card .btn-app-primary{margin-top:14px}
+.food-hint,.food-info{font-size:12px;line-height:1.6;color:var(--theme-subtext);margin:10px 0}
+.food-info{border-left:3px solid var(--theme-action);padding:9px 13px;background:var(--theme-surface-alt);border-radius:3px;margin:0 0 16px}
+.food-row-head,.food-list-row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.food-row-head{margin-top:14px}
+.food-ingredient-row{display:grid;grid-template-columns:minmax(0,1fr) 110px 36px;gap:8px;align-items:end;margin:7px 0}
+.food-ingredient-row label{margin:3px 0!important;font-size:11px}
+.food-ingredient-row button{min-height:42px;margin:0}
+.food-rule{height:1px;background:var(--theme-border);margin:23px 0}
+.food-item{padding:13px 0;border-bottom:1px solid var(--theme-border);display:grid;gap:7px}
+.food-item:last-child{border-bottom:0}
+.food-item strong{color:var(--theme-text);font-size:13px}
+.food-item small,.food-item p{color:var(--theme-subtext);font-size:12px;margin:0;line-height:1.5}
+.food-pill{display:inline-flex;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:750;border:1px solid var(--theme-border);color:var(--theme-text);background:var(--theme-surface-alt)}
+.food-pill.success{color:var(--theme-action);border-color:var(--theme-action)}
+.food-pill.danger{color:#ffa7a7;border-color:#ad5050}
+.food-pill.warn{color:#ffd68a;border-color:#a8792c}
+.food-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0 20px}
+.food-kpi > div{background:var(--theme-surface);border:1px solid var(--theme-border);border-top:3px solid var(--theme-action);border-radius:6px;padding:17px}
+.food-kpi strong{display:block;color:var(--theme-text);font-size:25px;margin:5px 0}
+.food-kpi span{font-size:12px;color:var(--theme-subtext)}
+.food-data-error{padding:12px;border:1px solid #b66e6e;border-radius:5px;color:#ffd6d6;background:#37252e;margin-bottom:16px}
+.food-empty{color:var(--theme-subtext);font-size:13px;padding:16px 0}
+.food-link-btn{font:inherit;border:0;background:transparent;color:var(--theme-action);text-decoration:underline;cursor:pointer;padding:0}
+@media(max-width:900px){.food-cols{grid-template-columns:1fr}.food-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.food-kpi{grid-template-columns:1fr 1fr}.food-form-grid{grid-template-columns:1fr}.food-ingredient-row{grid-template-columns:minmax(0,1fr) 83px 32px}.food-card{padding:14px!important}}
+
   </style>
 </head>
 <body data-theme="dark">
@@ -1490,6 +1527,12 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       <div class="sidebar-division">GESTÃO</div>
       <div class="app-nav-item active" data-view="view-dashboard">◫ Visão geral</div>
       <div class="app-nav-item" data-view="view-operacoes" id="conexus-operacoes-nav">▦ Operações do setor</div>
+      <div class="sidebar-division food-only" hidden>INDÚSTRIA ALIMENTÍCIA · V15</div>
+      <div class="app-nav-item food-only" hidden data-view="view-food-raw">◈ Estoque de matéria-prima</div>
+      <div class="app-nav-item food-only" hidden data-view="view-food-orders">▣ Ordens de produção</div>
+      <div class="app-nav-item food-only" hidden data-view="view-food-recipes">≡ Fichas técnicas</div>
+      <div class="app-nav-item food-only" hidden data-view="view-food-batches">◇ Lotes e validade</div>
+      <div class="app-nav-item food-only" hidden data-view="view-food-quality">◉ Controle de qualidade</div>
       <div class="app-nav-item" data-view="view-estoque">▣ Estoque</div>
       <div class="app-nav-item" data-view="view-vendas">◈ Vendas</div>
       <div class="app-nav-item" data-view="view-clientes">◌ Clientes</div>
@@ -1524,6 +1567,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
           <button class="btn-app-primary" data-goto="view-adicionar">+ Novo produto</button>
         </div>
 
+        <div class="food-only" id="food-dashboard" hidden></div>
         <div id="dash-alert-slot"></div>
 
         <div class="kpi-grid">
@@ -1563,6 +1607,55 @@ textarea:focus-visible,.app-nav-item:focus-visible {
         <div class="app-view-sub" id="operacoes-descricao">Registros do segmento</div></div>
         <div class="toolbar-actions"><button class="btn-app-secondary" type="button" id="operacoes-exportar">↓ Exportar CSV</button><button class="btn-app-primary" id="operacoes-novo">+ Novo registro</button></div></div>
         <div class="app-card"><div class="app-card-head"><div class="app-card-title">Registros do negócio <span id="operacoes-contagem" class="record-count"></span></div><input class="app-search" type="search" id="operacoes-busca" placeholder="Pesquisar registros…" aria-label="Pesquisar registros do setor" /></div><div id="operacoes-lista"></div></div>
+      </div>
+
+      <!-- CONEXUS V15 · INDÚSTRIA ALIMENTÍCIA -->
+      <div class="app-view" id="view-food-raw">
+        <div class="app-header-row"><div><div class="app-view-title">Estoque de matéria-prima</div><div class="app-view-sub">Insumos cadastrados, saldos disponíveis e alertas de reposição.</div></div>
+        <button class="btn-app-primary" type="button" id="food-new-ingredient">+ Cadastrar insumo</button></div>
+        <div class="app-card food-card"><div class="food-info">As quantidades são unidades inteiras de controle. Utilize a mesma unidade em todas as fichas técnicas de um insumo (por exemplo, pacotes de 1 kg).</div><div id="food-raw-list"></div></div>
+      </div>
+      <div class="app-view" id="view-food-recipes">
+        <div class="app-header-row"><div><div class="app-view-title">Fichas técnicas</div><div class="app-view-sub">Receitas de produção com rendimento e consumo de insumos por batelada.</div></div></div>
+        <div class="food-cols"><div class="app-card food-card">
+          <h3 class="food-card-title">Nova ficha técnica</h3><form id="food-recipe-form">
+          <label class="app-form-label" for="food-recipe-name">Nome da receita</label><input id="food-recipe-name" class="app-form-input" required maxlength="160" placeholder="Ex.: Molho 500 g" />
+          <div class="food-form-grid"><div><label class="app-form-label" for="food-recipe-output">Produto acabado</label><select id="food-recipe-output" class="app-form-select" required></select></div>
+          <div><label class="app-form-label" for="food-recipe-yield">Unidades produzidas por batelada</label><input id="food-recipe-yield" class="app-form-input" type="number" min="1" max="1000000" step="1" required value="10" /></div></div>
+          <div class="food-row-head"><strong>Ingredientes por batelada</strong><button id="food-add-ingredient-row" type="button" class="btn-app-secondary">+ Ingrediente</button></div>
+          <div id="food-ingredient-rows"></div><p class="food-hint">Cadastre cada matéria-prima com a categoria “Matéria-prima” antes de incluí-la na ficha.</p>
+          <button type="submit" id="food-recipe-save" class="btn-app-primary">Salvar ficha técnica</button></form>
+        </div><div class="app-card food-card"><h3 class="food-card-title">Fichas cadastradas</h3><div id="food-recipes-list"></div></div></div>
+      </div>
+      <div class="app-view" id="view-food-orders">
+        <div class="app-header-row"><div><div class="app-view-title">Ordens de produção</div><div class="app-view-sub">Planejamento e baixa atômica de insumos ao concluir a produção.</div></div></div>
+        <div class="food-cols"><div class="app-card food-card">
+          <h3 class="food-card-title">Planejar produção</h3><form id="food-order-form">
+          <label class="app-form-label" for="food-order-code">Código da ordem</label><input class="app-form-input" id="food-order-code" maxlength="80" required placeholder="OP-2026-001" />
+          <div class="food-form-grid"><div><label class="app-form-label" for="food-order-recipe">Ficha técnica</label><select id="food-order-recipe" class="app-form-select" required></select></div>
+          <div><label class="app-form-label" for="food-order-count">Número de bateladas</label><input id="food-order-count" class="app-form-input" type="number" min="1" max="100000" step="1" required value="1" /></div></div>
+          <button id="food-order-save" type="submit" class="btn-app-primary">Criar ordem</button></form>
+          <div class="food-rule"></div><h3 class="food-card-title">Concluir produção</h3><p class="food-hint">Os insumos são consumidos agora. O lote gerado ficará pendente de qualidade e só entrará no estoque após aprovação.</p>
+          <form id="food-finish-form"><label class="app-form-label" for="food-finish-order">Ordem planejada</label><select id="food-finish-order" class="app-form-select" required></select>
+          <label class="app-form-label" for="food-finish-code">Código do lote</label><input id="food-finish-code" class="app-form-input" maxlength="80" required placeholder="LOTE-001" />
+          <div class="food-form-grid"><div><label for="food-finish-date" class="app-form-label">Fabricação</label><input id="food-finish-date" class="app-form-input" type="date" required /></div>
+          <div><label for="food-finish-exp" class="app-form-label">Validade</label><input id="food-finish-exp" class="app-form-input" type="date" required /></div></div>
+          <button id="food-finish-save" type="submit" class="btn-app-primary">Concluir e criar lote</button></form>
+        </div><div class="app-card food-card"><h3 class="food-card-title">Histórico de ordens</h3><div id="food-orders-list"></div></div></div>
+      </div>
+      <div class="app-view" id="view-food-batches">
+        <div class="app-header-row"><div><div class="app-view-title">Lotes e validade</div><div class="app-view-sub">Acompanhe lotes, liberações, bloqueios e vencimentos.</div></div></div>
+        <div class="app-card food-card"><div id="food-batches-list"></div></div>
+      </div>
+      <div class="app-view" id="view-food-quality">
+        <div class="app-header-row"><div><div class="app-view-title">Controle de qualidade</div><div class="app-view-sub">Aprovação ou reprovação de lotes com registro de responsável e observações.</div></div></div>
+        <div class="food-cols"><div class="app-card food-card"><h3 class="food-card-title">Inspecionar lote</h3>
+          <form id="food-quality-form"><label class="app-form-label" for="food-quality-batch">Lote pendente</label><select id="food-quality-batch" class="app-form-select" required></select>
+          <label class="app-form-label" for="food-quality-result">Decisão</label><select id="food-quality-result" class="app-form-select" required><option value="aprovado">Aprovar e liberar ao estoque</option><option value="reprovado">Reprovar e bloquear</option></select>
+          <label class="app-form-label" for="food-quality-notes">Observações / motivo</label><textarea id="food-quality-notes" class="app-form-input" rows="3" maxlength="3000" placeholder="Análises e justificativa da decisão"></textarea>
+          <p class="food-hint">Aprovação disponibiliza o saldo do lote uma única vez. Reprovação exige justificativa e não movimenta o produto acabado.</p>
+          <button id="food-quality-save" class="btn-app-primary" type="submit">Registrar inspeção</button></form></div>
+          <div class="app-card food-card"><h3 class="food-card-title">Histórico de inspeções</h3><div id="food-quality-list"></div></div></div>
       </div>
       <!-- ESTOQUE -->
       <div class="app-view" id="view-estoque">
@@ -2736,9 +2829,13 @@ const MODULOS = [
   ['view-compras','Compras'],['view-fornecedores','Fornecedores'],
   ['view-categorias','Categorias de produtos'],['view-adicionar','Cadastrar produto'],
   ['view-relatorios','Relatórios de produtos'],['view-auditoria','Auditoria'],
-  ['view-movimentacoes','Movimentações'],['view-financas','Financeiro']
+  ['view-movimentacoes','Movimentações'],['view-financas','Financeiro'],
+  ['view-food-raw','Estoque de matéria-prima'],['view-food-orders','Ordens de produção'],
+  ['view-food-recipes','Fichas técnicas'],['view-food-batches','Lotes e validade'],
+  ['view-food-quality','Controle de qualidade']
 ];
-const MODULOS_INVENTARIO = MODULOS.map(m => m[0]);
+const MODULOS_FOOD = ['view-dashboard','view-food-raw','view-food-orders','view-food-recipes','view-food-batches','view-food-quality','view-financas'];
+const MODULOS_INVENTARIO = MODULOS.map(m => m[0]).filter(id => !id.startsWith('view-food-'));
 const MODULOS_SERVICOS = ['view-dashboard','view-operacoes','view-clientes','view-auditoria','view-financas'];
 const MODULOS_DIGITAL = ['view-dashboard','view-operacoes','view-auditoria','view-financas'];
 const TIPOS_DIGITAIS = new Set(['afiliados','criador_conteudo']);
@@ -2792,6 +2889,7 @@ function modeloSetorial(biz = currentBusiness) {
 }
 function defaultModules(biz = currentBusiness) {
   const slug = slugNegocio(biz);
+  if (slug === 'industria_alimenticia') return [...MODULOS_FOOD];
   if (TIPOS_DIGITAIS.has(slug)) return MODULOS_DIGITAL;
   if (TIPOS_SERVICOS.has(slug)) return MODULOS_SERVICOS;
   return MODULOS_INVENTARIO;
@@ -2799,6 +2897,11 @@ function defaultModules(biz = currentBusiness) {
 function enabledModules(biz = currentBusiness) {
   if (!biz) return ['view-dashboard'];
   const prefs = biz.module_preferences;
+  if (slugNegocio(biz) === 'industria_alimenticia') {
+    const valid = new Set(MODULOS.map(([id])=>id));
+    const optional = Array.isArray(prefs?.food_v15_enabled) ? prefs.food_v15_enabled : [];
+    return [...new Set([...MODULOS_FOOD,...optional.filter(id=>valid.has(id)&&!id.startsWith('view-food-'))])];
+  }
   if (prefs && Array.isArray(prefs.enabled)) {
     const validos = new Set(MODULOS.map(m => m[0]));
     return [...new Set(['view-dashboard','view-financas',...prefs.enabled.filter(id => validos.has(id))])];
@@ -2810,7 +2913,11 @@ function hasInventory() { return hasModule('view-estoque'); }
 function configureSectorUI() {
   if (!currentBusiness) return;
   const profile = modeloSetorial();
+  const food = slugNegocio()==='industria_alimenticia';
   const moduloAtivo = new Set(enabledModules());
+  document.querySelectorAll('.food-only:not(.app-nav-item)').forEach(el => {el.hidden=!food;});
+  const rawTitle=document.querySelector('#view-estoque .app-view-title');
+  if(rawTitle) rawTitle.textContent=food?'Estoque geral':'Estoque';
   document.querySelectorAll('.app-nav-item[data-view]').forEach(el => {
     el.hidden = !moduloAtivo.has(el.dataset.view);
   });
@@ -2837,7 +2944,7 @@ function openModulesModal() {
   }
   const enabled = new Set(enabledModules());
   const slot = document.getElementById('modulos-lista');
-  slot.innerHTML = MODULOS.map(([id,label]) => '<label class="module-choice"><input type="checkbox" value="'+id+'" '+(enabled.has(id)?'checked':'')+' '+(id==='view-dashboard'||id==='view-financas'?'disabled':'')+'/><span>'+escapeHtml(label)+'</span></label>').join('');
+  slot.innerHTML = MODULOS.map(([id,label]) => '<label class="module-choice"><input type="checkbox" value="'+id+'" '+(enabled.has(id)?'checked':'')+' '+((slugNegocio()==='industria_alimenticia'?MODULOS_FOOD.includes(id):(id==='view-dashboard'||id==='view-financas'))?'disabled':'')+'/><span>'+escapeHtml(label)+(slugNegocio()==='industria_alimenticia'&&MODULOS_FOOD.includes(id)?' · recomendado':'')+'</span></label>').join('');
   hideMsg('modulos-msg');
   document.getElementById('modal-modulos').classList.add('open');
 }
@@ -2846,10 +2953,10 @@ document.getElementById('modulos-cancelar').addEventListener('click',()=>documen
 document.getElementById('modulos-salvar').addEventListener('click', async () => {
   const btn = document.getElementById('modulos-salvar');
   const enabled = [...document.querySelectorAll('#modulos-lista input:checked')].map(x=>x.value);
-  for (const mandatory of ['view-dashboard','view-financas']) if (!enabled.includes(mandatory)) enabled.push(mandatory);
+  for (const mandatory of (slugNegocio()==='industria_alimenticia'?MODULOS_FOOD:['view-dashboard','view-financas'])) if (!enabled.includes(mandatory)) enabled.push(mandatory);
   btn.disabled = true;
   try {
-    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:{enabled}})
+    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:slugNegocio()==='industria_alimenticia'?{...currentBusiness.module_preferences,food_v15_enabled:enabled.filter(id=>!MODULOS_FOOD.includes(id))}:{...currentBusiness.module_preferences,enabled}})
       .eq('id',currentBusiness.id).eq('user_id',currentUser.id).select('*').single(),15000);
     if (error) throw error;
     currentBusiness = {...currentBusiness,...data};
@@ -3085,7 +3192,7 @@ function makeDemoData() {
   ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
     user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
   const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
-  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[]};
+  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[]};
   function product(biz,name,quantity,price,cost,category) {
     const row={id:demoUuid(),user_id:owner,business_id:biz.id,name,quantity,price,cost_price:cost,
       category,low_stock_threshold:8,created_at:now,updated_at:now};
@@ -3094,7 +3201,9 @@ function makeDemoData() {
   product(byType.comercio,'Camiseta básica',48,69.9,31,'Vestuário');
   product(byType.comercio,'Tênis urbano',21,199.9,107,'Calçados');
   product(byType.comercio,'Boné clássico',6,49.9,17,'Acessórios');
-  product(byType.industria_alimenticia,'Molho de tomate 500 g',110,8.9,3.2,'Alimentos');
+  const foodOut=product(byType.industria_alimenticia,'Molho de tomate 500 g',110,8.9,3.2,'Produto acabado');
+  const foodTomato=product(byType.industria_alimenticia,'Polpa de tomate — pacote 1 kg',58,7.2,5.3,'Matéria-prima');
+  const foodJar=product(byType.industria_alimenticia,'Frasco de vidro — unidade',130,1.5,0.8,'Matéria-prima');
   product(byType.industria_alimenticia,'Biscoito integral 200 g',83,6.5,2.6,'Alimentos');
   product(byType.industria_farmaceutica,'Produto demonstrativo A',130,24.9,12,'Produtos');
   product(byType.industria_farmaceutica,'Produto demonstrativo B',52,39.9,18,'Produtos');
@@ -3102,6 +3211,12 @@ function makeDemoData() {
   product(byType.ecommerce,'Fone com fio',72,39.9,17,'Eletrônicos');
   product(byType.restaurante,'Suco natural 300 ml',60,9.9,3.2,'Bebidas');
   product(byType.restaurante,'Lanche do dia',24,24.9,11,'Refeições');
+  const foodBiz=byType.industria_alimenticia.id;
+  const foodRecipe={id:demoUuid(),user_id:owner,business_id:foodBiz,name:'Molho 500 g · receita-base',output_product_id:foodOut.id,yield_units:10,created_at:now};
+  tables.food_recipes.push(foodRecipe);
+  tables.food_recipe_items.push({id:demoUuid(),user_id:owner,business_id:foodBiz,recipe_id:foodRecipe.id,product_id:foodTomato.id,units_per_batch:4,created_at:now});
+  tables.food_recipe_items.push({id:demoUuid(),user_id:owner,business_id:foodBiz,recipe_id:foodRecipe.id,product_id:foodJar.id,units_per_batch:10,created_at:now});
+  tables.food_production_orders.push({id:demoUuid(),user_id:owner,business_id:foodBiz,recipe_id:foodRecipe.id,code:'OP-2026-001',planned_batches:2,produced_units:0,status:'planejada',created_at:now});
   tables.customers.push({id:demoUuid(),user_id:owner,business_id:byType.comercio.id,name:'Cliente Exemplo',created_at:now});
   tables.suppliers.push({id:demoUuid(),user_id:owner,business_id:byType.comercio.id,name:'Fornecedor Modelo',created_at:now});
   tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.afiliados.id,sector_slug:'afiliados',title:'Campanha demonstrativa',
@@ -3175,6 +3290,7 @@ function makeDemoClient(store) {
     // TODAS as alterações do comando, como acontece com RPCs SQL atômicos.
     const snapshot=Object.fromEntries(Object.entries(store).map(([key,rows])=>[key,structuredClone(rows)]));
     try {
+      let result=null;
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
       const now=new Date().toISOString();
@@ -3245,10 +3361,12 @@ function makeDemoClient(store) {
             product_name:si.product_name,quantity:it.quantity,unit_price:si.unit_price,reason:req.p_reason||null,created_at:now});
           if(si.product_id&&store.products.some(p=>p.id===si.product_id))changeStock(bid,si.product_id,Number(it.quantity),'entrada','Devolução');
         }
+      } else if(action.startsWith('conexus_food_')) {
+        result=demoFoodRpc(action,req,store,uid,changeStock);
       } else if(action==='add_business_member') {
         throw Error('Convites de equipe não estão disponíveis na demonstração.');
       } else throw Error('Operação indisponível na demonstração: '+action);
-      return Promise.resolve({data:null,error:null});
+      return Promise.resolve({data:result,error:null});
     }catch(e){
       for(const [key,rows] of Object.entries(snapshot)) store[key].splice(0,store[key].length,...rows);
       return Promise.resolve({data:null,error:{message:e.message}});
@@ -3736,6 +3854,7 @@ async function openBusiness(biz) {
   customers=[];salesHistory=[];suppliers=[];purchasesHistory=[];salesReturns=[];
   expenses=[];revenues=[];categories=[];auditLogs=[];
   cartItems = [];compraCartItems = [];registrosSetoriais=[];
+  foodData=blankFoodData();foodLoadError='';
   operacoesSearchTerm='';document.getElementById('operacoes-busca').value='';
   updateTestModeBanners();
   document.getElementById('businesses-shell').style.display = 'none';
@@ -3982,7 +4101,7 @@ function closeMobileMenu() {
   document.getElementById('app-menu-backdrop').classList.remove('open');
 }
 function goto(viewId) {
-  if (currentBusiness && !hasModule(viewId)) viewId = 'view-dashboard';
+  if (currentBusiness && !hasModule(viewId) && !(slugNegocio()==='industria_alimenticia' && viewId==='view-adicionar')) viewId = 'view-dashboard';
   closeMobileMenu();
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
   document.getElementById(viewId).classList.add('active');
@@ -3992,6 +4111,7 @@ function goto(viewId) {
   if (viewId === 'view-estoque') renderEstoqueTable();
   if (viewId === 'view-movimentacoes') renderMovimentacoes();
   if (viewId === 'view-financas') renderFinancas(window.__appFinPeriod || 'sem');
+  if (viewId.startsWith('view-food-')) renderFoodUI();
 }
 document.querySelectorAll('.app-nav-item').forEach(item => {
   item.addEventListener('click', () => goto(item.dataset.view));
@@ -4091,6 +4211,8 @@ async function loadAllData() {
     renderPrevisaoEstoque();
     renderAuditoria();
     renderNotifications();
+    if (slugNegocio()==='industria_alimenticia') await loadFoodData(businessAtStart);
+    else {foodData=blankFoodData();foodLoadError='';}
     const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
     if(maybePartial) {
       setDataState('warning','Dados atualizados, porém alguns históricos atingiram o limite de consulta. Relatórios podem não incluir todos os registros.');
@@ -4432,7 +4554,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
     document.getElementById('add-custo').value = '';
 
     await loadAllData();
-    setTimeout(() => goto('view-estoque'), 700);
+    setTimeout(() => goto(slugNegocio()==='industria_alimenticia'?'view-food-raw':'view-estoque'), 700);
   } catch (err) {
     console.error('Erro ao adicionar produto:', err);
     showMsg('add-msg', 'Não foi possível adicionar o produto. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
@@ -6498,6 +6620,221 @@ document.addEventListener('keydown',(e)=>{
     e.preventDefault();document.getElementById('global-search-btn').click();
   }
 });
+
+// ══════════════════════════════════════════════════════════════════════════
+// CONEXUS V15 · INDÚSTRIA ALIMENTÍCIA
+// Estruturas especializadas e operações transacionais no Supabase.
+// Na demonstração, as RPCs são simuladas com rollback em memória.
+// ══════════════════════════════════════════════════════════════════════════
+function blankFoodData(){return {recipes:[],ingredients:[],orders:[],batches:[],checks:[]};}
+let foodData=blankFoodData();
+let foodLoadError='';
+function isFood(){return !!currentBusiness && slugNegocio()==='industria_alimenticia';}
+function foodRawProducts(){return products.filter(p=>['matéria-prima','materia-prima','insumo','insumos'].includes(String(p.category||'').trim().toLowerCase()));}
+function foodFinalProducts(){return products.filter(p=>!foodRawProducts().some(r=>r.id===p.id));}
+function foodProduct(id){return products.find(p=>p.id===id)||{name:'Produto removido',quantity:0};}
+function foodRecipe(id){return foodData.recipes.find(r=>r.id===id);}
+function foodLabelStatus(value){return ({planejada:'Planejada',concluida:'Concluída',pendente:'Pendente de qualidade',aprovado:'Liberado',reprovado:'Bloqueado'})[value]||String(value||'—');}
+function foodPill(value){const tone=value==='aprovado'||value==='concluida'?'success':value==='reprovado'?'danger':'warn';return `<span class="food-pill ${tone}">${escapeHtml(foodLabelStatus(value))}</span>`;}
+function foodDay(value){if(!value)return '—';const dt=new Date(String(value).slice(0,10)+'T12:00:00');return Number.isNaN(dt.getTime())?'—':dt.toLocaleDateString('pt-BR');}
+function foodOptions(items,placeholder,selected){return `<option value="">${escapeHtml(placeholder)}</option>`+items.map(([id,label])=>`<option value="${escapeHtml(id)}" ${id===selected?'selected':''}>${escapeHtml(label)}</option>`).join('');}
+function foodUpdateSelect(id,items,placeholder){const el=document.getElementById(id);const old=el.value;el.innerHTML=foodOptions(items,placeholder,old);}
+function foodListEmpty(t='Nenhum registro cadastrado.'){return `<p class="food-empty">${escapeHtml(t)}</p>`;}
+async function loadFoodData(businessAtStart){
+  foodLoadError='';
+  try{
+    const names=['food_recipes','food_recipe_items','food_production_orders','food_batches','food_quality_checks'];
+    const results=await withTimeout(Promise.all(names.map(name=>sb.from(name).select('*').eq('business_id',businessAtStart).order(name==='food_quality_checks'?'checked_at':'created_at',{ascending:false}).limit(500))),20000);
+    for(let i=0;i<results.length;i++)if(results[i].error)throw new Error(names[i]+': '+results[i].error.message);
+    if(!currentBusiness||currentBusiness.id!==businessAtStart)return;
+    foodData={recipes:results[0].data||[],ingredients:results[1].data||[],orders:results[2].data||[],batches:results[3].data||[],checks:results[4].data||[]};
+    if(results.some(r=>r.data?.length>=500))foodLoadError='O limite de 500 registros por módulo foi atingido. Os indicadores podem estar incompletos.';
+  }catch(e){
+    foodLoadError='O módulo alimentício exige a migração SQL V15: '+(e.message||'Erro de conexão.');
+    console.error('Módulo alimentício:',e);
+  }
+  renderFoodUI();
+}
+function renderFoodDashboard(){
+  const el=document.getElementById('food-dashboard');
+  if(!isFood()){el.hidden=true;return;}
+  el.hidden=false;
+  const pending=foodData.batches.filter(b=>b.quality_status==='pendente').length;
+  const today=new Date().toISOString().slice(0,10);
+  const expSoon=foodData.batches.filter(b=>b.quality_status==='aprovado'&&b.expires_on>=today&&((new Date(b.expires_on+'T12:00:00')-new Date(today+'T12:00:00'))/86400000)<=30).length;
+  const low=foodRawProducts().filter(p=>p.quantity<=Number(p.low_stock_threshold??10)).length;
+  el.innerHTML=(foodLoadError?`<div class="food-data-error" role="alert">${escapeHtml(foodLoadError)}</div>`:'')+`<div class="food-kpi">
+   <div><span>Ordens planejadas</span><strong>${foodData.orders.filter(o=>o.status==='planejada').length}</strong></div>
+   <div><span>Lotes aguardando inspeção</span><strong>${pending}</strong></div>
+   <div><span>Lotes liberados · vencem em 30 dias</span><strong>${expSoon}</strong></div>
+   <div><span>Matérias-primas com estoque baixo</span><strong>${low}</strong></div>
+  </div>`;
+}
+function renderFoodRaw(){
+  const raw=foodRawProducts();
+  document.getElementById('food-raw-list').innerHTML=raw.length?raw.map(p=>`<div class="food-item"><div class="food-list-row"><strong>${escapeHtml(p.name)}</strong>${p.quantity<=Number(p.low_stock_threshold??10)?foodPill('pendente'):foodPill('aprovado')}</div>
+  <p>Saldo: <b>${p.quantity}</b> unidade(s) · Alerta: ${Number(p.low_stock_threshold??10)} · Custo: ${brl(p.cost_price??0)}</p></div>`).join(''):foodListEmpty('Nenhuma matéria-prima cadastrada. Use “Cadastrar insumo”.');
+}
+function renderFoodRecipes(){
+  const raw=foodRawProducts();
+  const finals=foodFinalProducts();
+  foodUpdateSelect('food-recipe-output',finals.map(p=>[p.id,p.name]),'Selecione o produto acabado');
+  document.querySelectorAll('.food-ingredient-product').forEach(sel=>{
+    const old=sel.value;sel.innerHTML=foodOptions(raw.map(p=>[p.id,p.name]),'Escolha um insumo',old);
+  });
+  foodUpdateSelect('food-order-recipe',foodData.recipes.map(r=>[r.id,r.name]),'Selecione uma ficha');
+  const el=document.getElementById('food-recipes-list');
+  el.innerHTML=foodData.recipes.length?foodData.recipes.map(r=>{
+    const lines=foodData.ingredients.filter(i=>i.recipe_id===r.id);
+    return `<article class="food-item"><div class="food-list-row"><strong>${escapeHtml(r.name)}</strong><span class="food-pill">${r.yield_units} un./batelada</span></div>
+    <p>Produto: ${escapeHtml(foodProduct(r.output_product_id).name)}</p><p>Insumos: ${lines.length?lines.map(i=>`${escapeHtml(foodProduct(i.product_id).name)} × ${i.units_per_batch}`).join(' · '):'—'}</p></article>`;
+  }).join(''):foodListEmpty('Cadastre uma ficha com ingredientes e rendimento para criar ordens.');
+}
+function renderFoodOrders(){
+  const planned=foodData.orders.filter(o=>o.status==='planejada');
+  foodUpdateSelect('food-finish-order',planned.map(o=>[o.id,o.code+' · '+(foodRecipe(o.recipe_id)?.name||'Ficha')]),'Selecione uma ordem planejada');
+  document.getElementById('food-orders-list').innerHTML=foodData.orders.length?foodData.orders.map(o=>{
+    const r=foodRecipe(o.recipe_id);return `<article class="food-item"><div class="food-list-row"><strong>${escapeHtml(o.code)}</strong>${foodPill(o.status)}</div>
+    <p>Ficha: ${escapeHtml(r?.name||'—')} · ${o.planned_batches} batelada(s) · ${o.produced_units||0} unidade(s) produzidas</p>
+    <p>Registro: ${foodDay(o.created_at)}${o.completed_at?' · Concluída: '+foodDay(o.completed_at):''}</p></article>`;
+  }).join(''):foodListEmpty('Nenhuma ordem de produção ainda.');
+}
+function renderFoodBatches(){
+  const today=new Date().toISOString().slice(0,10);
+  document.getElementById('food-batches-list').innerHTML=foodData.batches.length?foodData.batches.map(b=>{
+    const expired=b.expires_on<today;
+    return `<article class="food-item"><div class="food-list-row"><strong>${escapeHtml(b.code)}</strong>${foodPill(b.quality_status)}${expired?'<span class="food-pill danger">Vencido</span>':''}</div>
+    <p>Produto: ${escapeHtml(foodProduct(b.product_id).name)} · Quantidade: ${b.quantity}</p>
+    <p>Fabricação: ${foodDay(b.manufactured_on)} · Validade: ${foodDay(b.expires_on)}</p>
+    <p>Ordem: ${escapeHtml(foodData.orders.find(o=>o.id===b.order_id)?.code||'—')}</p></article>`;
+  }).join(''):foodListEmpty('Lotes surgem ao concluir uma ordem de produção.');
+}
+function renderFoodQuality(){
+  const pending=foodData.batches.filter(b=>b.quality_status==='pendente');
+  foodUpdateSelect('food-quality-batch',pending.map(b=>[b.id,b.code+' · '+foodProduct(b.product_id).name]),'Escolha o lote pendente');
+  document.getElementById('food-quality-list').innerHTML=foodData.checks.length?foodData.checks.map(c=>{
+    const b=foodData.batches.find(b=>b.id===c.batch_id);
+    return `<article class="food-item"><div class="food-list-row"><strong>${escapeHtml(b?.code||'Lote')}</strong>${foodPill(c.result)}</div>
+    <p>${foodDay(c.checked_at)} · ${escapeHtml(c.notes||'Sem observações')}</p></article>`;
+  }).join(''):foodListEmpty('Ainda não há inspeções registradas.');
+}
+function renderFoodUI(){
+ if(!isFood())return;
+ renderFoodDashboard();renderFoodRaw();renderFoodRecipes();renderFoodOrders();renderFoodBatches();renderFoodQuality();
+}
+function foodNewIngredientRow(){
+ const el=document.getElementById('food-ingredient-rows');
+ if(el.children.length>=60){toast('O limite é 60 insumos por ficha.',true);return;}
+ const row=document.createElement('div');row.className='food-ingredient-row';
+ row.innerHTML=`<div><label class="app-form-label">Matéria-prima</label><select class="app-form-select food-ingredient-product" required>${foodOptions(foodRawProducts().map(p=>[p.id,p.name]),'Selecione um insumo')}</select></div>
+ <div><label class="app-form-label">Unid./batelada</label><input class="app-form-input food-ingredient-qty" type="number" min="1" step="1" required value="1" /></div><button type="button" class="btn-app-secondary" title="Remover insumo" aria-label="Remover insumo">×</button>`;
+ row.querySelector('button').addEventListener('click',()=>row.remove());
+ el.appendChild(row);
+}
+function foodPositiveInt(value,max=100000000){const n=Number(value);return Number.isSafeInteger(n)&&n>0&&n<=max?n:null;}
+async function foodRun(rpc,params,btnId,success){
+ const btn=document.getElementById(btnId);btn.disabled=true;
+ try{
+   const {error}=await withTimeout(sb.rpc(rpc,params),25000);
+   if(error)throw error;
+   toast(success);await loadAllData();return true;
+ }catch(e){console.error('Operação V15:',e);toast(e.message||'Não foi possível concluir a operação.',true);return false;}
+ finally{btn.disabled=false;}
+}
+document.getElementById('food-new-ingredient').addEventListener('click',()=>{
+ if(!isFood())return;
+ document.getElementById('add-categoria').value='Matéria-prima';
+ document.getElementById('add-nome').focus();goto('view-adicionar');
+});
+document.getElementById('food-add-ingredient-row').addEventListener('click',foodNewIngredientRow);
+foodNewIngredientRow();
+document.getElementById('food-finish-date').value=new Date().toISOString().slice(0,10);
+document.getElementById('food-recipe-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!isFood()||foodLoadError)return toast(foodLoadError||'Empresa incorreta.',true);
+ const name=document.getElementById('food-recipe-name').value.trim();
+ const output=document.getElementById('food-recipe-output').value;
+ const yieldQty=foodPositiveInt(document.getElementById('food-recipe-yield').value,1000000);
+ const ingredients=[...document.querySelectorAll('.food-ingredient-row')].map(r=>({product_id:r.querySelector('select').value,quantity:foodPositiveInt(r.querySelector('input').value)}));
+ if(!name||!output||!yieldQty||!ingredients.length||ingredients.some(i=>!i.product_id||!i.quantity))return toast('Informe produto acabado, rendimento e ingredientes válidos.',true);
+ if(new Set(ingredients.map(i=>i.product_id)).size!==ingredients.length)return toast('Não repita matérias-primas na mesma ficha.',true);
+ if(await foodRun('conexus_food_create_recipe',{p_business_id:currentBusiness.id,p_name:name,p_output_product_id:output,p_yield_units:yieldQty,p_ingredients:ingredients},'food-recipe-save','Ficha técnica cadastrada.')){
+  document.getElementById('food-recipe-form').reset();document.getElementById('food-ingredient-rows').innerHTML='';foodNewIngredientRow();
+ }
+});
+document.getElementById('food-order-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!isFood()||foodLoadError)return toast(foodLoadError||'Empresa incorreta.',true);
+ const code=document.getElementById('food-order-code').value.trim(),recipe=document.getElementById('food-order-recipe').value;
+ const batches=foodPositiveInt(document.getElementById('food-order-count').value,100000);
+ if(!code||!recipe||!batches)return toast('Preencha a ordem corretamente.',true);
+ if(await foodRun('conexus_food_create_order',{p_business_id:currentBusiness.id,p_recipe_id:recipe,p_code:code,p_planned_batches:batches},'food-order-save','Ordem de produção criada.'))document.getElementById('food-order-form').reset();
+});
+document.getElementById('food-finish-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!isFood()||foodLoadError)return toast(foodLoadError||'Empresa incorreta.',true);
+ const order=document.getElementById('food-finish-order').value,code=document.getElementById('food-finish-code').value.trim();
+ const mf=document.getElementById('food-finish-date').value,exp=document.getElementById('food-finish-exp').value;
+ if(!order||code.length<2||!mf||!exp||exp<mf||mf>new Date().toISOString().slice(0,10))return toast('Preencha lote e datas válidas.',true);
+ const data=foodData.orders.find(o=>o.id===order),recipe=foodRecipe(data?.recipe_id);
+ const missing=foodData.ingredients.filter(i=>i.recipe_id===recipe?.id).find(i=>foodProduct(i.product_id).quantity<i.units_per_batch*data.planned_batches);
+ if(missing)return toast('Estoque insuficiente para '+foodProduct(missing.product_id).name+'.',true);
+ if(!confirm('Concluir a produção consome os insumos desta ordem e cria um lote pendente de qualidade. Confirmar?'))return;
+ if(await foodRun('conexus_food_finish_order',{p_business_id:currentBusiness.id,p_order_id:order,p_batch_code:code,p_manufactured_on:mf,p_expires_on:exp},'food-finish-save','Produção concluída. Lote aguardando qualidade.'))document.getElementById('food-finish-form').reset();
+});
+document.getElementById('food-quality-form').addEventListener('submit',async e=>{
+ e.preventDefault();if(!isFood()||foodLoadError)return toast(foodLoadError||'Empresa incorreta.',true);
+ const batch=document.getElementById('food-quality-batch').value,result=document.getElementById('food-quality-result').value,notes=document.getElementById('food-quality-notes').value.trim();
+ if(!batch||!['aprovado','reprovado'].includes(result))return toast('Selecione o lote e a decisão.',true);
+ if(result==='reprovado'&&notes.length<3)return toast('Informe o motivo da reprovação.',true);
+ if(result==='aprovado'&&foodData.batches.find(b=>b.id===batch)?.expires_on<new Date().toISOString().slice(0,10))return toast('Lote vencido não pode ser aprovado.',true);
+ if(!confirm(result==='aprovado'?'Aprovar este lote disponibilizará o produto no estoque. Confirmar?':'Reprovar este lote irá bloqueá-lo. Confirmar?'))return;
+ if(await foodRun('conexus_food_check_batch',{p_business_id:currentBusiness.id,p_batch_id:batch,p_result:result,p_notes:notes},'food-quality-save',result==='aprovado'?'Lote liberado ao estoque.':'Lote reprovado e bloqueado.'))document.getElementById('food-quality-form').reset();
+});
+
+// RPCs locais equivalentes para testar sem conta e sem tocar no Supabase.
+function demoFoodRpc(action,req,store,uid,changeStock){
+ const bid=req.p_business_id,now=new Date().toISOString();
+ const belongs=(name,id)=>store[name].find(x=>x.id===id&&x.business_id===bid);
+ const int=(n,max=100000000)=>{const x=foodPositiveInt(n,max);if(!x)throw Error('Quantidade deve ser um inteiro positivo.');return x;};
+ const product=id=>{const p=belongs('products',id);if(!p)throw Error('Produto não encontrado nesta empresa.');return p;};
+ if(action==='conexus_food_create_recipe'){
+  const name=String(req.p_name||'').trim(),output=product(req.p_output_product_id),qty=int(req.p_yield_units,1000000);
+  const items=req.p_ingredients;
+  if(name.length<2||name.length>160||!Array.isArray(items)||items.length<1||items.length>60)throw Error('Ficha técnica inválida.');
+  if(store.food_recipes.some(r=>r.business_id===bid&&r.name===name))throw Error('Já existe uma ficha com este nome.');
+  const checked=items.map(i=>{const p=product(i.product_id),quantity=int(i.quantity);if(p.id===output.id||!['matéria-prima','materia-prima','insumo','insumos'].includes(String(p.category||'').toLowerCase()))throw Error('Selecione matérias-primas diferentes do produto acabado.');return {product_id:p.id,quantity};});
+  if(new Set(checked.map(i=>i.product_id)).size!==checked.length)throw Error('Ingrediente duplicado.');
+  const id=demoUuid();store.food_recipes.push({id,business_id:bid,user_id:uid,name,output_product_id:output.id,yield_units:qty,created_at:now});
+  checked.forEach(i=>store.food_recipe_items.push({id:demoUuid(),business_id:bid,user_id:uid,recipe_id:id,product_id:i.product_id,units_per_batch:i.quantity,created_at:now}));return id;
+ }
+ if(action==='conexus_food_create_order'){
+  const recipe=belongs('food_recipes',req.p_recipe_id),code=String(req.p_code||'').trim(),count=int(req.p_planned_batches,100000);
+  if(!recipe||code.length<2||code.length>80||store.food_production_orders.some(o=>o.business_id===bid&&o.code===code))throw Error('Ficha inválida ou código de ordem repetido.');
+  const id=demoUuid();store.food_production_orders.push({id,business_id:bid,user_id:uid,recipe_id:recipe.id,code,planned_batches:count,produced_units:0,status:'planejada',created_at:now});return id;
+ }
+ if(action==='conexus_food_finish_order'){
+  const order=belongs('food_production_orders',req.p_order_id),code=String(req.p_batch_code||'').trim(),mf=req.p_manufactured_on,exp=req.p_expires_on;
+  if(!order||order.status!=='planejada'||code.length<2||!mf||!exp||exp<mf||mf>now.slice(0,10)||store.food_batches.some(b=>b.business_id===bid&&b.code===code))throw Error('Ordem, lote ou datas inválidos.');
+  const recipe=belongs('food_recipes',order.recipe_id),lines=store.food_recipe_items.filter(x=>x.recipe_id===recipe.id&&x.business_id===bid);
+  if(!lines.length)throw Error('Ficha técnica sem ingredientes.');
+  const units=recipe.yield_units*order.planned_batches;if(units>2147483647)throw Error('Quantidade excede o limite.');
+  for(const i of lines){const needed=i.units_per_batch*order.planned_batches;if(needed>2147483647||product(i.product_id).quantity<needed)throw Error('Estoque insuficiente: '+product(i.product_id).name);}
+  for(const i of lines)changeStock(bid,i.product_id,i.units_per_batch*order.planned_batches,'saida','Consumo da OP '+order.code);
+  order.status='concluida';order.produced_units=units;order.completed_at=now;
+  const id=demoUuid();store.food_batches.push({id,business_id:bid,user_id:uid,order_id:order.id,product_id:recipe.output_product_id,code,quantity:units,manufactured_on:mf,expires_on:exp,quality_status:'pendente',created_at:now});return id;
+ }
+ if(action==='conexus_food_check_batch'){
+  const batch=belongs('food_batches',req.p_batch_id),result=req.p_result,notes=String(req.p_notes||'').trim();
+  if(!batch||batch.quality_status!=='pendente'||!['aprovado','reprovado'].includes(result)||notes.length>3000)throw Error('Lote indisponível ou inspeção inválida.');
+  if(result==='reprovado'&&notes.length<3)throw Error('Informe a justificativa.');
+  if(result==='aprovado'){
+   if(batch.expires_on<now.slice(0,10))throw Error('Lote vencido não pode ser aprovado.');
+   changeStock(bid,batch.product_id,batch.quantity,'entrada','Liberação do lote '+batch.code);
+  }
+  batch.quality_status=result;
+  store.food_quality_checks.push({id:demoUuid(),business_id:bid,user_id:uid,batch_id:batch.id,result,notes,checked_at:now,created_at:now});return null;
+ }
+ throw Error('Operação não reconhecida.');
+}
+
 </script>
 </body>
 </html>
