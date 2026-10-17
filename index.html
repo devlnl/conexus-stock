@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus – Gestão empresarial por segmento</title>
+  <title>Conexus v21 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1101,7 +1101,32 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 .app-toast,.app-toast.show{background:#263544!important;color:#F5F7F8!important;border:1px solid #4F4053!important;box-shadow:0 10px 32px rgba(0,0,0,.35)!important}
 .app-toast.error,.app-toast.error.show{background:#47262C!important;color:#FFF0F0!important;border-color:#AB5660!important}
 
-  </style>
+  /* CONEXUS V17—V21 · tema único #10151D */
+.v21-panel{padding:22px!important;background:#19212b!important;color:#f0f3ef!important;border:1px solid #4F4053!important;border-radius:12px!important}
+.v21-panel h3{font-size:16px;font-weight:700;margin:0 0 17px;color:#f3f7ec}
+.v21-panel form{display:grid;gap:11px}
+.v21-panel input,.v21-panel textarea,.v21-panel select{background:#10151D!important;color:#fff!important;border-color:#4F4053!important}
+.v21-panel input:focus,.v21-panel select:focus,.v21-panel textarea:focus{border-color:#69D409!important;outline:2px solid #69D40940}
+.v21-panel .app-form-label{margin-bottom:0}
+.v21-two-col{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px}
+.v21-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.v21-grid>div{min-width:0}.v21-product-chooser{display:grid;grid-template-columns:minmax(0,1fr) 88px auto;gap:8px;align-items:center}
+.v21-list{display:grid;gap:10px;max-height:680px;overflow:auto}.v21-record{padding:13px;border:1px solid #4F4053;border-radius:10px;background:#10151D;display:grid;gap:8px;min-width:0}
+.v21-record-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.v21-record strong{color:#f8fbf2;font-size:14px}
+.v21-record small,.v21-help,.v21-empty{color:#a9aeb5;font-size:12px;line-height:1.6;overflow-wrap:anywhere}.v21-record small{font-size:12px}
+.v21-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.v21-actions button{font-size:12px;padding:8px 12px}
+.v21-cart{display:grid;gap:7px}.v21-cart-line{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:9px;background:#10151D;border-radius:8px;font-size:13px}
+.v21-cart button{color:#ffadb0;background:transparent;border:1px solid #89545b;border-radius:6px;cursor:pointer;padding:5px 8px}
+.v21-warning{padding:13px 16px;margin-bottom:15px;background:#3e2930;color:#ffd6d6;border-radius:9px;border:1px solid #8f5c63;font-size:13px}
+.v21-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 22px}.v21-metric{background:#10151D;border:1px solid #4F4053;border-radius:10px;padding:15px;display:grid;gap:8px}
+.v21-metric span{font-size:12px;color:#aeb7bf}.v21-metric strong{font-size:19px;color:#69D409;overflow-wrap:anywhere}
+.v21-scroll{overflow-x:auto}.v21-table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px}.v21-table th,.v21-table td{text-align:left;padding:11px;border-bottom:1px solid #4F4053}.v21-table th{color:#b4c6b0;font-weight:600}.v21-table td{color:#f4f6f4}
+.v21-divider{border-top:1px solid #4F4053;margin:8px 0}.v21-panel .btn-app-primary{background:#69D409!important;color:#10151D!important;font-weight:700}
+.v21-panel button:disabled{opacity:.5;cursor:not-allowed}.v21-inline-select{padding:6px;color:white;background:#10151D;border:1px solid #4F4053;border-radius:7px;max-width:160px}
+@media(max-width:980px){.v21-two-col{grid-template-columns:1fr}.v21-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.v21-grid{grid-template-columns:1fr}.v21-product-chooser{grid-template-columns:minmax(0,1fr) 72px}.v21-product-chooser button{grid-column:1/-1}.v21-metrics{grid-template-columns:1fr 1fr}.v21-panel{padding:14px!important}}
+
+</style>
 </head>
 <body data-theme="dark">
 
@@ -1561,6 +1586,12 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       <div class="app-nav-item food-only" hidden data-view="view-food-recipes">≡ Fichas técnicas</div>
       <div class="app-nav-item food-only" hidden data-view="view-food-batches">◇ Lotes e validade</div>
       <div class="app-nav-item food-only" hidden data-view="view-food-quality">◉ Controle de qualidade</div>
+      <div class="sidebar-division">GESTÃO ADICIONAL</div>
+      <div class="app-nav-item" hidden data-view="view-commerce-orders">▣ Pedidos e entregas</div>
+      <div class="app-nav-item" hidden data-view="view-services">◉ Ordens de serviço</div>
+      <div class="app-nav-item" hidden data-view="view-insights">⌁ Inteligência empresarial</div>
+      <div class="app-nav-item" hidden data-view="view-team">◌ Equipe e permissões</div>
+      <div class="app-nav-item" hidden data-view="view-integrations">↗ Canais e exportações</div>
       <div class="app-nav-item" data-view="view-estoque">▣ Estoque</div>
       <div class="app-nav-item" data-view="view-vendas">◈ Vendas</div>
       <div class="app-nav-item" data-view="view-clientes">◌ Clientes</div>
@@ -1757,6 +1788,64 @@ textarea:focus-visible,.app-nav-item:focus-visible {
           <button id="food-quality-save" class="btn-app-primary" type="submit">Registrar inspeção</button></form></div>
           <div class="app-card food-card"><h3 class="food-card-title">Histórico de inspeções</h3><div id="food-quality-list"></div></div></div>
       </div>
+      <!-- CONEXUS V17: PEDIDOS COMERCIAIS -->
+      <section class="app-view" id="view-commerce-orders">
+        <div class="app-header-row"><div><div class="app-view-title">Pedidos e entregas</div><div class="app-view-sub">Pedidos multicanal com baixa de estoque apenas na confirmação da venda.</div></div></div>
+        <div id="v21-commerce-warning" class="v21-warning" hidden></div>
+        <div class="v21-two-col"><div class="app-card v21-panel">
+          <h3>Novo pedido</h3><form id="v21-order-form">
+          <label class="app-form-label">Código do pedido</label><input name="code" class="app-form-input" maxlength="80" placeholder="WEB-0001" required>
+          <div class="v21-grid"><div><label class="app-form-label">Canal</label><select name="channel" class="app-form-select"><option>Loja física</option><option>Loja online</option><option>WhatsApp</option><option>Instagram</option><option>Mercado Livre</option><option>Shopee</option><option>Outro</option></select></div><div><label class="app-form-label">Pagamento</label><select name="payment" class="app-form-select"><option value="pix">PIX</option><option value="dinheiro">Dinheiro</option><option value="cartao">Cartão</option><option value="boleto">Boleto</option><option value="transferencia">Transferência</option><option value="outra">Outro</option></select></div></div>
+          <label class="app-form-label">Cliente (opcional)</label><select name="customer_id" id="v21-order-customer" class="app-form-select"></select>
+          <label class="app-form-label">Adicionar item ao pedido</label><div class="v21-product-chooser"><select id="v21-order-product" class="app-form-select"></select><input id="v21-order-qty" type="number" class="app-form-input" min="1" max="100000" value="1" step="1" aria-label="Quantidade"><button type="button" id="v21-order-add" class="btn-app-secondary">Adicionar</button></div>
+          <div id="v21-order-cart" class="v21-cart"></div>
+          <label class="app-form-label">Desconto (R$)</label><input name="discount" class="app-form-input" type="number" min="0" step="0.01" value="0">
+          <label class="app-form-label">Observações</label><textarea class="app-form-input" name="notes" maxlength="2000" rows="2"></textarea>
+          <p class="v21-help">Os valores são calculados pelo banco. O estoque só muda depois de confirmar o pedido, que cria uma venda real.</p>
+          <button class="btn-app-primary" type="submit">Salvar pedido pendente</button></form>
+        </div><div class="app-card v21-panel"><h3>Pedidos cadastrados</h3><div id="v21-orders-list" class="v21-list"></div></div></div>
+      </section>
+      <!-- CONEXUS V19: ORDENS DE SERVICO -->
+      <section class="app-view" id="view-services">
+        <div class="app-header-row"><div><div class="app-view-title">Ordens de serviço</div><div class="app-view-sub">Atendimentos, responsáveis, prazos, valores e acompanhamento de execução.</div></div></div>
+        <div id="v21-services-warning" class="v21-warning" hidden></div>
+        <div class="v21-two-col"><div class="app-card v21-panel"><h3>Cadastrar ou atualizar serviço</h3>
+          <form id="v21-service-form"><input type="hidden" name="edit_id">
+          <div class="v21-grid"><div><label class="app-form-label">Código</label><input name="code" class="app-form-input" maxlength="80" required></div><div><label class="app-form-label">Valor (R$)</label><input name="amount" class="app-form-input" type="number" min="0" step="0.01" value="0" required></div></div>
+          <label class="app-form-label">Serviço</label><input name="title" class="app-form-input" minlength="2" maxlength="160" required>
+          <label class="app-form-label">Cliente</label><select name="customer_id" id="v21-service-customer" class="app-form-select"></select>
+          <div class="v21-grid"><div><label class="app-form-label">Responsável</label><input name="responsible" class="app-form-input" maxlength="120"></div><div><label class="app-form-label">Prazo</label><input name="due_date" class="app-form-input" type="date"></div></div>
+          <label class="app-form-label">Situação</label><select name="status" class="app-form-select"><option value="orcamento">Orçamento</option><option value="agendado">Agendado</option><option value="andamento">Em andamento</option><option value="concluido">Concluído</option><option value="cancelado">Cancelado</option></select>
+          <label class="app-form-label">Descrição</label><textarea name="description" class="app-form-input" maxlength="3000" rows="2"></textarea>
+          <div class="v21-actions"><button class="btn-app-primary" type="submit">Salvar serviço</button><button class="btn-app-secondary" type="button" id="v21-service-clear">Limpar</button></div>
+          </form></div><div class="app-card v21-panel"><h3>Histórico de serviços</h3><div id="v21-services-list" class="v21-list"></div></div></div>
+      </section>
+      <!-- CONEXUS V20: INDICADORES -->
+      <section class="app-view" id="view-insights">
+        <div class="app-header-row"><div><div class="app-view-title">Inteligência empresarial</div><div class="app-view-sub">Indicadores calculados a partir dos registros do negócio, sem previsões artificiais.</div></div><button type="button" id="v21-insights-export" class="btn-app-secondary">Exportar CSV</button></div>
+        <div class="app-card v21-panel"><div class="v21-grid"><div><label class="app-form-label">Período</label><select id="v21-insights-period" class="app-form-select"><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="365">Últimos 365 dias</option><option value="all">Todo histórico carregado</option></select></div><div><label class="app-form-label">Origem dos dados</label><div class="v21-help">Vendas, custos dos itens, receitas, despesas e pedidos consultados.</div></div></div>
+        <div id="v21-insights-stats" class="v21-metrics"></div><p class="v21-help">Lucro calculado com custos informados. Não equivale a DRE contábil e pode ser parcial se o histórico atingir os limites de consulta.</p>
+        <h3>Desempenho mensal</h3><div class="v21-scroll"><table class="v21-table"><thead><tr><th>Mês</th><th>Vendas</th><th>Recebimentos avulsos</th><th>Despesas pagas</th><th>Saldo operacional*</th></tr></thead><tbody id="v21-insights-months"></tbody></table></div><p class="v21-help">*Saldo operacional = vendas concluídas + receitas recebidas − despesas pagas; não desconta impostos ou CMV separadamente.</p>
+        </div>
+      </section>
+      <!-- CONEXUS V18: EQUIPE -->
+      <section class="app-view" id="view-team"><div class="app-header-row"><div><div class="app-view-title">Equipe e permissões</div><div class="app-view-sub">Funções: administrador, gerente, operador e somente leitura.</div></div></div>
+        <div class="app-card v21-panel"><h3>Administrar colaboradores</h3><p class="v21-help">Convide colaboradores que já tenham conta no Conexus. A criação e alteração de papéis é restrita ao proprietário. As operações de novos módulos respeitam as permissões no banco de dados.</p><button id="v21-open-team" type="button" class="btn-app-primary">Abrir equipe do negócio</button><p class="v21-help">Observação: algumas telas legadas ainda seguem as permissões anteriores; verifique as regras RLS antigas antes de liberar perfis de leitura em produção.</p></div>
+      </section>
+      <!-- CONEXUS V21: CANAIS -->
+      <section class="app-view" id="view-integrations"><div class="app-header-row"><div><div class="app-view-title">Canais e exportações</div><div class="app-view-sub">Organização de canais e arquivos; APIs externas dependem de autenticação própria.</div></div></div>
+        <div id="v21-channels-warning" class="v21-warning" hidden></div>
+        <div class="v21-two-col"><div class="app-card v21-panel"><h3>Cadastrar canal manual</h3>
+          <form id="v21-channel-form"><label class="app-form-label">Plataforma</label><select class="app-form-select" name="platform"><option>Shopee</option><option>Mercado Livre</option><option>Amazon</option><option>TikTok</option><option>Instagram</option><option>CSV</option><option>Outro</option></select>
+          <label class="app-form-label">Identificação</label><input name="label" class="app-form-input" minlength="2" maxlength="100" required placeholder="Loja / conta / operação">
+          <label class="app-form-label">Endereço público (opcional, HTTPS)</label><input name="source_url" class="app-form-input" type="url" placeholder="https://...">
+          <label class="app-form-label">Observações (sem senhas ou tokens)</label><textarea name="notes" class="app-form-input" maxlength="1500" rows="2"></textarea>
+          <button class="btn-app-primary" type="submit">Salvar canal manual</button></form>
+          <div class="v21-divider"></div><h3>Exportação portátil</h3><div class="v21-actions"><button type="button" class="btn-app-secondary" id="v21-export-customers">Clientes CSV</button><button type="button" class="btn-app-secondary" id="v21-export-orders">Pedidos CSV</button><button type="button" class="btn-app-secondary" id="v21-export-services">Serviços CSV</button></div>
+          <p class="v21-help">CSV gerado no navegador. Nenhuma API externa é conectada automaticamente e nenhuma senha é armazenada.</p>
+        </div><div class="app-card v21-panel"><h3>Canais cadastrados</h3><div id="v21-channels-list" class="v21-list"></div></div></div>
+      </section>
+
       <!-- ESTOQUE -->
       <div class="app-view" id="view-estoque">
         <div class="app-header-row">
@@ -2999,7 +3088,7 @@ function defaultModules(biz = currentBusiness) {
   if (TIPOS_SERVICOS.has(slug)) return MODULOS_SERVICOS;
   return MODULOS_INVENTARIO;
 }
-function enabledModules(biz = currentBusiness) {
+function v16EnabledModules(biz = currentBusiness) {
   if (!biz) return ['view-dashboard'];
   const prefs = biz.module_preferences;
   if (slugNegocio(biz) === 'afiliados') {
@@ -3018,6 +3107,7 @@ function enabledModules(biz = currentBusiness) {
   }
   return defaultModules(biz);
 }
+function enabledModules(biz=currentBusiness) { return [...new Set([...v16EnabledModules(biz),...v21Extras(biz)])]; }
 function hasModule(id) { return enabledModules().includes(id); }
 function hasInventory() { return hasModule('view-estoque'); }
 function configureSectorUI() {
@@ -3036,7 +3126,7 @@ function configureSectorUI() {
   });
   document.getElementById('conexus-sector-label').textContent =
     businessTypes.find(t=>t.id === currentBusiness.business_type_id)?.name || 'Gestão personalizada';
-  document.getElementById('conexus-operacoes-nav').textContent = '▦  ' + profile.titulo;
+  document.getElementById('conexus-operacoes-nav').textContent = '▦  ' + (v21ServiceTypes.has(slugNegocio()) ? 'Registros setoriais (legado)' : profile.titulo);
   document.getElementById('operacoes-titulo').textContent = profile.titulo;
   document.getElementById('operacoes-descricao').textContent = profile.sub || 'Registros específicos deste segmento, sem integração externa.';
   document.getElementById('operacoes-novo').textContent = '+ ' + profile.item;
@@ -3302,7 +3392,7 @@ function makeDemoData() {
   ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
     user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
   const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
-  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_publications:[],affiliate_commissions:[]};
+  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_publications:[],affiliate_commissions:[],commerce_orders:[],service_jobs:[],integration_channels:[]};
   function product(biz,name,quantity,price,cost,category) {
     const row={id:demoUuid(),user_id:owner,business_id:biz.id,name,quantity,price,cost_price:cost,
       category,low_stock_threshold:8,created_at:now,updated_at:now};
@@ -3352,6 +3442,9 @@ function makeDemoData() {
   tables.affiliate_contents.push(ac1,ac2);
   tables.affiliate_publications.push({id:demoUuid(),business_id:ab,user_id:owner,content_id:ac1.id,channel:'TikTok',publication_url:'https://example.com/publicacao-demo',published_at:now,views:1200,clicks:80,created_at:now});
   tables.affiliate_commissions.push({id:demoUuid(),business_id:ab,user_id:owner,product_id:ap1.id,sale_date:now.slice(0,10),quantity:1,gross_amount:149.90,commission_amount:22.49,status:'pendente',created_at:now});
+  const cb=byType.comercio.id,cbProduct=tables.products.find(p=>p.business_id===cb);
+  tables.commerce_orders.push({id:demoUuid(),business_id:cb,user_id:owner,code:'LOJA-DEMO-001',customer_id:null,channel:'Loja física',status:'pendente',items:[{id:cbProduct.id,name:cbProduct.name,quantity:1,price:cbProduct.price}],subtotal:cbProduct.price,discount:0,total:cbProduct.price,payment_method:'pix',created_at:now});
+  tables.service_jobs.push({id:demoUuid(),business_id:byType.servicos.id,user_id:owner,code:'OS-DEMO-001',title:'Instalação demonstrativa',status:'agendado',amount:280,responsible:'Equipe A',created_at:now});
   return tables;
 }
 
@@ -3374,6 +3467,11 @@ class LocalDemoQuery {
       if(this.operation==='insert') {
         const batch=Array.isArray(this.payload)?this.payload:[this.payload];
         rows=batch.map(item=>({...item,id:item.id||demoUuid(),created_at:item.created_at||new Date().toISOString()}));
+        if(['service_jobs','integration_channels'].includes(this.name))for(const row of rows){
+          if(!this.db.businesses.some(b=>b.id===row.business_id&&b.user_id===row.user_id))throw Error('Negócio de demonstração não autorizado.');
+          if(this.name==='service_jobs'&&store.some(r=>r.business_id===row.business_id&&r.code===row.code))throw Error('Código de serviço repetido.');
+          if(this.name==='integration_channels'&&store.some(r=>r.business_id===row.business_id&&r.platform===row.platform&&r.label===row.label))throw Error('Canal já cadastrado.');
+        }
         if(this.name.startsWith('affiliate_')){
           for(const row of rows){
             if(!this.db.businesses.some(b=>b.id===row.business_id&&b.user_id===row.user_id))throw Error('Negócio não autorizado.');
@@ -3491,6 +3589,30 @@ function makeDemoClient(store) {
             product_name:si.product_name,quantity:it.quantity,unit_price:si.unit_price,reason:req.p_reason||null,created_at:now});
           if(si.product_id&&store.products.some(p=>p.id===si.product_id))changeStock(bid,si.product_id,Number(it.quantity),'entrada','Devolução');
         }
+      } else if(action==='conexus_create_commerce_order') {
+        if(!Array.isArray(req.p_items)||!req.p_items.length)throw Error('Pedido vazio.');
+        if(store.commerce_orders.some(o=>o.business_id===bid&&o.code===req.p_code))throw Error('Código já cadastrado.');
+        if(req.p_customer_id&&!store.customers.some(c=>c.id===req.p_customer_id&&c.business_id===bid))throw Error('Cliente de outro negócio.');
+        const seen=new Set(),lines=[];let subtotal=0;
+        for(const it of req.p_items){const pr=store.products.find(p=>p.id===it.id&&p.business_id===bid);const quantity=Number(it.quantity);
+          if(!pr||seen.has(it.id)||!Number.isSafeInteger(quantity)||quantity<1)throw Error('Itens inválidos');
+          seen.add(it.id);lines.push({id:pr.id,name:pr.name,quantity,price:pr.price});subtotal+=quantity*pr.price;
+        }
+        const discount=Number(req.p_discount||0);if(discount<0||discount>subtotal)throw Error('Desconto inválido');
+        const order={id:demoUuid(),user_id:uid,business_id:bid,code:req.p_code,customer_id:req.p_customer_id||null,channel:req.p_channel,payment_method:req.p_payment_method,discount,subtotal,total:subtotal-discount,notes:req.p_notes,items:lines,status:'pendente',created_at:now};
+        store.commerce_orders.push(order);result=order.id;
+      } else if(action==='conexus_commerce_order_action') {
+        const o=store.commerce_orders.find(o=>o.id===req.p_order_id&&o.business_id===bid);if(!o)throw Error('Pedido não encontrado.');
+        const transition={pendente:['confirmar','cancelar'],confirmado:['enviar'],enviado:['entregar']};
+        if(!transition[o.status]?.includes(req.p_action))throw Error('Transição inválida');
+        if(req.p_action==='confirmar'){
+          for(const it of o.items){const pr=store.products.find(p=>p.id===it.id&&p.business_id===bid);if(!pr||pr.price!==it.price||pr.quantity<it.quantity)throw Error('Preço alterado ou estoque insuficiente.');}
+          const sale={id:demoUuid(),user_id:uid,business_id:bid,customer_id:o.customer_id,payment_method:o.payment_method,status:'concluida',subtotal:o.subtotal,discount:o.discount,total:o.total,created_at:now};
+          store.sales.push(sale);for(const it of o.items){store.sale_items.push({id:demoUuid(),user_id:uid,sale_id:sale.id,product_id:it.id,product_name:it.name,quantity:it.quantity,unit_price:it.price});changeStock(bid,it.id,it.quantity,'saida','Pedido comercial',true);}
+          o.sale_id=sale.id;o.status='confirmado';
+        }else if(req.p_action==='cancelar')o.status='cancelado';else if(req.p_action==='enviar'){o.status='enviado';o.tracking_code=req.p_tracking_code||null;}else o.status='entregue';
+      } else if(action==='conexus_set_member_role') {
+        throw Error('A gestão de equipe exige uma conta real.');
       } else if(action.startsWith('conexus_food_')) {
         result=demoFoodRpc(action,req,store,uid,changeStock);
       } else if(action==='add_business_member') {
@@ -3984,7 +4106,7 @@ async function openBusiness(biz) {
   customers=[];salesHistory=[];suppliers=[];purchasesHistory=[];salesReturns=[];
   expenses=[];revenues=[];categories=[];auditLogs=[];
   cartItems = [];compraCartItems = [];registrosSetoriais=[];
-  foodData=blankFoodData();foodLoadError='';affData=affBlank();affLoadError='';
+  foodData=blankFoodData();foodLoadError='';affData=affBlank();affLoadError='';v21Reset();
   operacoesSearchTerm='';document.getElementById('operacoes-busca').value='';
   updateTestModeBanners();
   document.getElementById('businesses-shell').style.display = 'none';
@@ -4040,6 +4162,8 @@ function renderEquipeLista() {
   slot.innerHTML = equipeMembers.map(m =>
     '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--cinza-borda);">' +
       '<span style="font-size:13.5px;">' + escapeHtml(m.member_email) + '</span>' +
+      '<select class="v21-inline-select" aria-label="Papel do colaborador" data-v21-team-role="' + m.id + '">' +
+       ['administrador','gerente','operador','leitura'].map(r=>'<option value="'+r+'" '+((m.role||'operador')===r?'selected':'')+'>'+r+'</option>').join('') + '</select>' +
       '<button class="icon-btn danger" title="Remover" data-remover-membro="' + m.id + '">🗑</button>' +
     '</div>'
   ).join('');
@@ -4049,6 +4173,17 @@ function renderEquipeLista() {
 }
 
 document.getElementById('equipe-close').addEventListener('click', () => document.getElementById('modal-equipe').classList.remove('open'));
+document.getElementById('equipe-lista-slot').addEventListener('change', async e => {
+  const select=e.target.closest('[data-v21-team-role]');if(!select)return;
+  const member=equipeMembers.find(m=>m.id===select.dataset.v21TeamRole);if(!member)return;
+  if(!confirm('Alterar o papel deste colaborador?')){select.value=member.role||'operador';return;}
+  select.disabled=true;
+  try {const {error}=await withTimeout(sb.rpc('conexus_set_member_role',{p_business_id:document.getElementById('equipe-business-id').value,p_member_id:member.id,p_role:select.value}),15000);
+   if(error)throw error;member.role=select.value;toast('Papel atualizado.');}
+  catch(err){select.value=member.role||'operador';toast(err.message||'Não foi possível alterar o papel.',true);}
+  finally{select.disabled=false;}
+});
+
 
 document.getElementById('equipe-convidar').addEventListener('click', async () => {
   const businessId = document.getElementById('equipe-business-id').value;
@@ -4243,6 +4378,7 @@ function goto(viewId) {
   if (viewId === 'view-financas') renderFinancas(window.__appFinPeriod || 'sem');
   if (viewId.startsWith('view-food-')) renderFoodUI();
   if (viewId.startsWith('view-aff-')) renderAffiliateUI();
+  v21RenderView(viewId);
 }
 document.querySelectorAll('.app-nav-item').forEach(item => {
   item.addEventListener('click', () => goto(item.dataset.view));
@@ -4346,6 +4482,7 @@ async function loadAllData() {
     else {foodData=blankFoodData();foodLoadError='';}
     if(isAffiliate()) await loadAffiliateData(businessAtStart);
     else {affData=affBlank();affLoadError='';}
+    await v21Load(businessAtStart);
     const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
     if(maybePartial) {
       setDataState('warning','Dados atualizados, porém alguns históricos atingiram o limite de consulta. Relatórios podem não incluir todos os registros.');
@@ -7112,6 +7249,128 @@ document.getElementById('app-shell').addEventListener('click',event=>{
 document.getElementById('aff-export-products').addEventListener('click',()=>affCsv(affData.products.map(p=>({plataforma:p.platform,id_produto:p.external_id,nome:p.name,categoria:p.category,link_produto:p.product_url,link_afiliado:p.affiliate_url,preco:p.price,comissao_percentual:p.commission_rate,status:affStateLabel(affProductState(p)),conteudos:affData.contents.filter(c=>c.product_id===p.id).length,publicacoes:affData.publications.filter(pub=>affData.contents.some(c=>c.product_id===p.id&&c.id===pub.content_id)).length})),'conexus_afiliados_produtos'));
 document.getElementById('aff-export-report').addEventListener('click',()=>affCsv(affData.products.map(p=>{const cs=affData.contents.filter(c=>c.product_id===p.id),ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));return {id:p.external_id,nome:p.name,plataforma:p.platform,conteudos:cs.length,publicacoes:ps.length,visualizacoes:ps.reduce((s,x)=>s+Number(x.views||0),0),cliques:ps.reduce((s,x)=>s+Number(x.clicks||0),0),comissoes_recebidas:affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((s,x)=>s+Number(x.commission_amount||0),0)};}),'conexus_afiliados_relatorio'));
 affReset('aff-pub-form');affReset('aff-commission-form');
+
+// ════════════════════════════════════════════════════════════════
+// CONEXUS V17—V21 · pedidos, equipe, serviços, indicadores, canais
+// ════════════════════════════════════════════════════════════════
+let v21Orders=[],v21Services=[],v21Channels=[],v21Cart=[],v21Errors={};
+const v21El=id=>document.getElementById(id);
+const v21CommerceTypes=new Set(['comercio','ecommerce','supermercado','moda','farmacia','restaurante','padaria']);
+const v21ServiceTypes=new Set(['servicos','freelancer','consultoria','agencia_marketing','beleza','saude','educacao','imobiliaria','eventos','hotelaria','tecnologia','logistica','fretes','oficina','construcao']);
+const v21Money=x=>Number(x||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const v21Safe=x=>escapeHtml(String(x??''));
+const v21Date=x=>x?String(x).slice(0,10).split('-').reverse().join('/'): '—';
+const v21DateKey=x=>x?String(x).slice(0,10):'';
+const v21Current=()=>currentBusiness?.id;
+const v21Owner=()=>currentBusiness?.user_id===currentUser?.id;
+function v21Extras(biz){if(!biz)return[];const slug=slugNegocio(biz);
+ const ids=['view-insights','view-integrations'];
+ if(v21CommerceTypes.has(slug))ids.push('view-commerce-orders');
+ if(v21ServiceTypes.has(slug))ids.push('view-services');
+ if(biz.user_id===currentUser?.id&&!demoActive)ids.push('view-team');
+ return ids;
+}
+function v21Reset(){v21Orders=[];v21Services=[];v21Channels=[];v21Cart=[];v21Errors={};v21El('v21-order-form').reset();v21El('v21-service-form').reset();v21El('v21-channel-form').reset();}
+async function v21Load(expected=v21Current()){
+ if(!expected||v21Current()!==expected)return;
+ const definitions=[['commerce_orders','v21Orders','orders'],['service_jobs','v21Services','services'],['integration_channels','v21Channels','channels']];
+ const result=await Promise.all(definitions.map(async([table,name,k])=>{
+  try{const r=await withTimeout(sb.from(table).select('*').eq('business_id',expected).order('created_at',{ascending:false}).limit(300),14000);if(r.error)throw r.error;
+   return{k,data:r.data||[],error:r.data?.length>=300?'Histórico limitado a 300 registros. Exporte por períodos.':''};}
+  catch(e){return{k,data:[],error:(e.message||'Falha de sincronização')+' — verifique o SQL da versão 21.'};}
+ }));
+ if(expected!==v21Current())return;
+ for(const r of result){if(r.k==='orders')v21Orders=r.data;else if(r.k==='services')v21Services=r.data;else v21Channels=r.data;v21Errors[r.k]=r.error;}
+ v21Render();
+}
+function v21Warn(id,key){const node=v21El(id);node.hidden=!v21Errors[key];node.textContent=v21Errors[key]||'';}
+function v21Options(){
+ const pop=(id,rows,label,placeholder)=>{const el=v21El(id);const old=el.value;el.innerHTML='<option value="">'+v21Safe(placeholder)+'</option>'+rows.map(r=>`<option value="${v21Safe(r.id)}">${v21Safe(label(r))}</option>`).join('');if(rows.some(x=>x.id===old))el.value=old;};
+ pop('v21-order-customer',customers,x=>x.name,'Cliente não informado');pop('v21-service-customer',customers,x=>x.name,'Cliente não informado');
+ pop('v21-order-product',products,x=>`${x.name} · ${v21Money(x.price)} · saldo ${x.quantity}`,'Selecione um produto');
+}
+function v21Render(){if(!currentBusiness)return;v21Options();v21RenderCart();v21RenderOrders();v21RenderServices();v21RenderChannels();v21RenderInsights();}
+function v21RenderCart(){const slot=v21El('v21-order-cart');const subtotal=v21Cart.reduce((a,i)=>{const p=products.find(p=>p.id===i.id);return a+(p?.price||0)*i.quantity;},0);
+ slot.innerHTML=v21Cart.map(i=>{const p=products.find(p=>p.id===i.id);return `<div class="v21-cart-line"><span>${v21Safe(p?.name||'Produto removido')} · ${i.quantity} × ${v21Money(p?.price)}</span><button type="button" data-v21-remove="${v21Safe(i.id)}">Remover</button></div>`;}).join('')+`<div class="v21-cart-line"><strong>Subtotal estimado</strong><strong>${v21Money(subtotal)}</strong></div>`;
+}
+function v21RenderOrders(){v21Warn('v21-commerce-warning','orders');const node=v21El('v21-orders-list');
+ node.innerHTML=v21Orders.length?v21Orders.map(o=>{const options=o.status==='pendente'?['confirmar','cancelar']:o.status==='confirmado'?['enviar']:o.status==='enviado'?['entregar']:[];
+  return `<article class="v21-record"><div class="v21-record-head"><strong>${v21Safe(o.code)}</strong><span class="aff-pill ${o.status==='entregue'?'green':'muted'}">${v21Safe(o.status)}</span></div><small>${v21Safe(o.channel)} · ${v21Money(o.total)} · ${v21Date(o.created_at)} · ${o.items?.length||0} item(ns)</small><small>${(o.items||[]).map(i=>`${v21Safe(i.name)} × ${Number(i.quantity)}`).join(' · ')}</small>${o.sale_id?`<small>Venda vinculada: ${v21Safe(o.sale_id)}</small>`:''}${o.tracking_code?`<small>Rastreio: ${v21Safe(o.tracking_code)}</small>`:''}<div class="v21-actions">${options.map(a=>`<button type="button" class="btn-app-secondary" data-v21-order-action="${a}" data-id="${v21Safe(o.id)}">${({confirmar:'Confirmar venda',cancelar:'Cancelar pedido',enviar:'Marcar enviado',entregar:'Marcar entregue'})[a]}</button>`).join('')}</div></article>`;
+ }).join(''):'<p class="v21-empty">Nenhum pedido neste negócio.</p>';
+}
+function v21RenderServices(){v21Warn('v21-services-warning','services');const node=v21El('v21-services-list');
+ node.innerHTML=v21Services.length?v21Services.map(o=>`<article class="v21-record"><div class="v21-record-head"><strong>${v21Safe(o.code)} · ${v21Safe(o.title)}</strong><span class="aff-pill muted">${v21Safe(o.status)}</span></div><small>Prazo: ${v21Date(o.due_date)} · ${v21Money(o.amount)}</small><small>Responsável: ${v21Safe(o.responsible||'Não informado')}</small><div class="v21-actions"><button class="btn-app-secondary" type="button" data-v21-service-edit="${v21Safe(o.id)}">Editar</button></div></article>`).join(''):'<p class="v21-empty">Nenhuma ordem de serviço cadastrada.</p>';
+}
+function v21RenderChannels(){v21Warn('v21-channels-warning','channels');const node=v21El('v21-channels-list');
+ node.innerHTML=v21Channels.length?v21Channels.map(x=>`<article class="v21-record"><div class="v21-record-head"><strong>${v21Safe(x.label)}</strong><span class="aff-pill muted">${v21Safe(x.platform)}</span></div><small>Modo manual · sem sincronização externa</small>${x.source_url?`<a href="${v21Safe(x.source_url)}" target="_blank" rel="noopener noreferrer">Abrir link público ↗</a>`:''}${v21Owner()?`<div class="v21-actions"><button type="button" class="btn-app-secondary" data-v21-channel-delete="${v21Safe(x.id)}">Excluir</button></div>`:''}</article>`).join(''):'<p class="v21-empty">Nenhum canal cadastrado.</p>';
+ v21El('v21-channel-form').querySelector('[type="submit"]').disabled=!v21Owner();
+}
+function v21Analytics(){const select=v21El('v21-insights-period').value;const days=select==='all'?Infinity:Number(select);const cutoff=Number.isFinite(days)?Date.now()-days*86400000:0;
+ const inPeriod=x=>{const ts=new Date(x).getTime();return Number.isFinite(ts)&&ts>=cutoff;};
+ const sales=salesHistory.filter(s=>s.status==='concluida'&&inPeriod(s.created_at));
+ const receipts=revenues.filter(r=>r.status==='recebido'&&inPeriod(r.payment_date||r.created_at));
+ const costs=expenses.filter(e=>e.status==='pago'&&inPeriod(e.payment_date||e.created_at));
+ const salesTotal=sales.reduce((n,s)=>n+Number(s.total||0),0),receiptsTotal=receipts.reduce((n,r)=>n+Number(r.amount||0),0),expensesTotal=costs.reduce((n,e)=>n+Number(e.amount||0),0);
+ const monthly={};const add=(date,key,num)=>{const month=String(date).slice(0,7);if(!/^\d{4}-\d{2}$/.test(month))return;monthly[month]??={month,sales:0,receipts:0,expenses:0};monthly[month][key]+=Number(num||0);};
+ sales.forEach(x=>add(x.created_at,'sales',x.total));receipts.forEach(x=>add(x.payment_date||x.created_at,'receipts',x.amount));costs.forEach(x=>add(x.payment_date||x.created_at,'expenses',x.amount));
+ return{sales:sales.length,salesTotal,receiptsTotal,expensesTotal,balance:salesTotal+receiptsTotal-expensesTotal,products:products.length,orders:v21Orders.filter(o=>inPeriod(o.created_at)).length,services:v21Services.filter(s=>inPeriod(s.created_at)).length,monthly:Object.values(monthly).sort((a,b)=>b.month.localeCompare(a.month))};
+}
+function v21RenderInsights(){const a=v21Analytics();v21El('v21-insights-stats').innerHTML=[['Vendas concluídas',a.sales],['Vendas registradas',v21Money(a.salesTotal)],['Outras receitas recebidas',v21Money(a.receiptsTotal)],['Despesas pagas',v21Money(a.expensesTotal)],['Saldo operacional',v21Money(a.balance)],['Produtos',a.products],['Pedidos comerciais',a.orders],['Ordens de serviço',a.services]].map(([label,value])=>`<div class="v21-metric"><span>${v21Safe(label)}</span><strong>${v21Safe(value)}</strong></div>`).join('');
+ v21El('v21-insights-months').innerHTML=a.monthly.length?a.monthly.map(m=>`<tr><td>${v21Safe(m.month)}</td><td>${v21Money(m.sales)}</td><td>${v21Money(m.receipts)}</td><td>${v21Money(m.expenses)}</td><td>${v21Money(m.sales+m.receipts-m.expenses)}</td></tr>`).join(''):'<tr><td colspan="5">Não há movimentação financeira no período.</td></tr>';
+}
+function v21CSV(rows,filename){if(!rows.length)return toast('Não há dados para exportar.',true);
+ const cols=Object.keys(rows[0]);const esc=v=>csvCell(typeof v==='object'?JSON.stringify(v):v);
+ const csv='\ufeff'+[cols.map(esc),...rows.map(r=>cols.map(k=>esc(r[k])))].map(r=>r.join(';')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=filename+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+async function v21SaveRpc(name,payload){const {error,data}=await withTimeout(sb.rpc(name,payload),20000);if(error)throw error;return data;}
+async function v21Requery(){if(!currentBusiness)return;await loadAllData();}
+function v21RenderView(id){if(id==='view-commerce-orders'||id==='view-services'||id==='view-insights'||id==='view-integrations')v21Render();}
+// Acrescenta produto ao carrinho sem alterar o estoque.
+v21El('v21-order-add').addEventListener('click',()=>{const id=v21El('v21-order-product').value;const qty=Number(v21El('v21-order-qty').value);const p=products.find(p=>p.id===id);
+ if(!p||!Number.isSafeInteger(qty)||qty<1||qty>100000)return toast('Selecione produto e quantidade válida.',true);
+ const item=v21Cart.find(i=>i.id===id);if(item)item.quantity+=qty;else v21Cart.push({id,quantity:qty});v21RenderCart();});
+v21El('v21-order-cart').addEventListener('click',e=>{const id=e.target.closest('[data-v21-remove]')?.dataset.v21Remove;if(!id)return;v21Cart=v21Cart.filter(x=>x.id!==id);v21RenderCart();});
+v21El('v21-order-form').addEventListener('submit',async e=>{e.preventDefault();if(!v21Cart.length)return toast('Adicione produtos ao pedido.',true);
+ const form=e.currentTarget,button=form.querySelector('[type="submit"]'),f=new FormData(form);button.disabled=true;
+ try{const discount=Number(f.get('discount'));if(!Number.isFinite(discount)||discount<0)throw Error('Desconto inválido');
+ await v21SaveRpc('conexus_create_commerce_order',{p_business_id:v21Current(),p_code:String(f.get('code')).trim(),p_customer_id:f.get('customer_id')||null,p_channel:f.get('channel'),p_payment_method:f.get('payment'),p_discount:discount,p_items:v21Cart,p_notes:f.get('notes')||null});
+ toast('Pedido salvo como pendente.');form.reset();v21Cart=[];await v21Load();
+ }catch(err){toast(err.message||'Falha ao criar pedido',true);}finally{button.disabled=false;}
+});
+v21El('v21-orders-list').addEventListener('click',async e=>{const button=e.target.closest('[data-v21-order-action]');if(!button)return;const id=button.dataset.id,action=button.dataset.v21OrderAction;
+ if(!confirm((action==='confirmar'?'Confirmar venda e baixar o estoque?':'Executar ação '+action+' neste pedido?')))return;
+ const tracking=action==='enviar'?prompt('Código de rastreio (opcional):',''):null;if(action==='enviar'&&tracking===null)return;
+ button.disabled=true;try{await v21SaveRpc('conexus_commerce_order_action',{p_business_id:v21Current(),p_order_id:id,p_action:action,p_tracking_code:tracking});
+ toast('Pedido atualizado.');await v21Requery();}catch(err){toast(err.message||'Falha ao atualizar pedido.',true);}finally{button.disabled=false;}
+});
+v21El('v21-service-clear').addEventListener('click',()=>v21El('v21-service-form').reset());
+v21El('v21-service-form').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,f=new FormData(form),id=f.get('edit_id'),bid=v21Current(),amount=Number(f.get('amount'));
+ if(!Number.isFinite(amount)||amount<0)return toast('Valor inválido.',true);
+ if(v21Services.some(x=>x.code===String(f.get('code')).trim()&&x.id!==id))return toast('Código já usado nesta empresa.',true);
+ const payload={code:String(f.get('code')).trim(),title:String(f.get('title')).trim(),customer_id:f.get('customer_id')||null,responsible:f.get('responsible')||null,due_date:f.get('due_date')||null,status:f.get('status'),amount,description:f.get('description')||null};
+ const button=form.querySelector('[type="submit"]');button.disabled=true;
+ try{const result=id?await withTimeout(sb.from('service_jobs').update(payload).eq('id',id).eq('business_id',bid).select('id').single(),15000):await withTimeout(sb.from('service_jobs').insert({...payload,user_id:currentUser.id,business_id:bid}).select('id').single(),15000);if(result.error)throw result.error;form.reset();toast('Ordem de serviço salva.');await v21Load(bid);
+ }catch(err){toast(err.message||'Falha ao salvar serviço',true);}finally{button.disabled=false;}
+});
+v21El('v21-services-list').addEventListener('click',e=>{const id=e.target.closest('[data-v21-service-edit]')?.dataset.v21ServiceEdit;const s=v21Services.find(x=>x.id===id);if(!s)return;const f=v21El('v21-service-form');
+ ['edit_id','code','title','customer_id','responsible','due_date','status','amount','description'].forEach(k=>{const input=f.elements.namedItem(k);if(input)input.value=(k==='edit_id'?s.id:(s[k]??''));});f.scrollIntoView({behavior:'smooth',block:'start'});
+});
+v21El('v21-insights-period').addEventListener('change',v21RenderInsights);
+v21El('v21-insights-export').addEventListener('click',()=>{const a=v21Analytics();v21CSV(a.monthly.map(m=>({mes:m.month,vendas:m.sales,outras_receitas:m.receipts,despesas:m.expenses,saldo:m.sales+m.receipts-m.expenses})),'conexus_indicadores_mensais');});
+v21El('v21-open-team').addEventListener('click',()=>{if(v21Owner()&&!demoActive)openEquipeModal(currentBusiness);else toast('Equipe exige conta real e acesso de proprietário.',true);});
+v21El('v21-channel-form').addEventListener('submit',async e=>{e.preventDefault();if(!v21Owner())return toast('Apenas o dono pode cadastrar canais.',true);const form=e.currentTarget,f=new FormData(form),bid=v21Current();
+ const url=String(f.get('source_url')||'').trim();if(url&&!/^https:\/\/[^\s/]+/i.test(url))return toast('Link público deve usar HTTPS.',true);
+ const button=form.querySelector('[type="submit"]');button.disabled=true;
+ try{const res=await withTimeout(sb.from('integration_channels').insert({business_id:bid,user_id:currentUser.id,platform:f.get('platform'),label:String(f.get('label')).trim(),source_url:url||null,notes:f.get('notes')||null}).select('id').single(),15000);if(res.error)throw res.error;form.reset();toast('Canal manual salvo.');await v21Load(bid);
+ }catch(err){toast(err.message||'Falha ao cadastrar canal',true);}finally{button.disabled=false;}
+});
+v21El('v21-channels-list').addEventListener('click',async e=>{const id=e.target.closest('[data-v21-channel-delete]')?.dataset.v21ChannelDelete;if(!id||!v21Owner()||!confirm('Excluir esse canal manual?'))return;
+ try{const bid=v21Current(),r=await withTimeout(sb.from('integration_channels').delete().eq('id',id).eq('business_id',bid),15000);if(r.error)throw r.error;toast('Canal excluído.');await v21Load(bid);}catch(err){toast(err.message||'Falha ao excluir canal',true);}
+});
+v21El('v21-export-customers').addEventListener('click',()=>v21CSV(customers.map(c=>({nome:c.name,telefone:c.phone,email:c.email,documento:c.document})),'conexus_clientes'));
+v21El('v21-export-orders').addEventListener('click',()=>v21CSV(v21Orders.map(o=>({codigo:o.code,canal:o.channel,status:o.status,valor:o.total,pagamento:o.payment_method,rastreio:o.tracking_code,itens:o.items?.map(x=>`${x.name} x${x.quantity}`).join(' | '),data:o.created_at})),'conexus_pedidos'));
+v21El('v21-export-services').addEventListener('click',()=>v21CSV(v21Services.map(s=>({codigo:s.code,servico:s.title,responsavel:s.responsible,situacao:s.status,valor:s.amount,prazo:s.due_date})),'conexus_servicos'));
 
 </script>
 </body>
