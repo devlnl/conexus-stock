@@ -1079,6 +1079,28 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 @media(max-width:900px){.food-cols{grid-template-columns:1fr}.food-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.food-kpi{grid-template-columns:1fr 1fr}.food-form-grid{grid-template-columns:1fr}.food-ingredient-row{grid-template-columns:minmax(0,1fr) 83px 32px}.food-card{padding:14px!important}}
 
+
+/* CONEXUS V16 — módulo Afiliados, tema escuro #10151D */
+.aff-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.aff-two>*{min-width:0}.aff-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.aff-actions .btn-app-primary,.aff-actions .btn-app-secondary{margin-top:0!important}
+.aff-item{border:1px solid var(--theme-border);border-radius:8px;padding:16px;margin:12px 0;background:var(--theme-surface-alt,#1B222A);overflow-wrap:anywhere}
+.aff-item>h4{margin:0;font-size:15px;color:#F5F6F7}.aff-item p{margin:7px 0;font-size:12px;line-height:1.6;color:var(--theme-subtext,#BCC6D2)}
+.aff-item a{color:#A7EA68;text-decoration:underline;text-underline-offset:3px}
+.aff-item .aff-meta{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:8px 0}
+.aff-pill{display:inline-flex;padding:4px 10px;border-radius:5px;border:1px solid #4F4053;color:#ECEAF0;font-size:11px;font-weight:700}
+.aff-pill.green{color:#69D409;border-color:#426E28;background:#223120}.aff-pill.warning{border-color:#8E7743;color:#F2C878}.aff-pill.muted{color:#AAB3C1}
+.aff-item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.aff-item-actions button{padding:7px 10px;font-size:12px}
+.aff-heading{display:flex;justify-content:space-between;gap:10px;align-items:center}.aff-errors{color:#FFC9C9;border:1px solid #A75555;border-radius:7px;padding:12px;background:#4B202A;margin-bottom:15px}
+.aff-info{font-size:12px;color:var(--theme-subtext);padding:12px 14px;border-left:3px solid #69D409;margin:12px 0;background:#1C2833}
+.aff-table{border-collapse:collapse;width:100%;min-width:700px}.aff-table th,.aff-table td{padding:12px;text-align:left;border-bottom:1px solid var(--theme-border);font-size:12px}.aff-table th{color:#B7C1D0}.aff-responsive{overflow-x:auto}
+.aff-stat-head{color:#69D409}.aff-empty{font-size:13px;color:#AAB4C3;padding:24px 0;text-align:center}
+#view-aff-products .app-search{width:100%;min-width:0}
+@media(max-width:700px){.aff-two{grid-template-columns:1fr}.aff-item{padding:12px}.aff-actions>*{flex:1}}
+/* Mensagens de operação contrastantes no tema escuro */
+.app-toast,.app-toast.show{background:#263544!important;color:#F5F7F8!important;border:1px solid #4F4053!important;box-shadow:0 10px 32px rgba(0,0,0,.35)!important}
+.app-toast.error,.app-toast.error.show{background:#47262C!important;color:#FFF0F0!important;border-color:#AB5660!important}
+
   </style>
 </head>
 <body data-theme="dark">
@@ -1527,6 +1549,12 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       <div class="sidebar-division">GESTÃO</div>
       <div class="app-nav-item active" data-view="view-dashboard">◫ Visão geral</div>
       <div class="app-nav-item" data-view="view-operacoes" id="conexus-operacoes-nav">▦ Operações do setor</div>
+      <div class="app-nav-item aff-only" hidden data-view="view-aff-products">▣ Produtos afiliados</div>
+      <div class="app-nav-item aff-only" hidden data-view="view-aff-contents">▧ Conteúdos</div>
+      <div class="app-nav-item aff-only" hidden data-view="view-aff-publications">↗ Divulgações</div>
+      <div class="app-nav-item aff-only" hidden data-view="view-aff-campaigns">◈ Campanhas</div>
+      <div class="app-nav-item aff-only" hidden data-view="view-aff-commissions">◉ Comissões</div>
+      <div class="app-nav-item aff-only" hidden data-view="view-aff-reports">⌁ Relatórios afiliados</div>
       <div class="sidebar-division food-only" hidden>INDÚSTRIA ALIMENTÍCIA · V15</div>
       <div class="app-nav-item food-only" hidden data-view="view-food-raw">◈ Estoque de matéria-prima</div>
       <div class="app-nav-item food-only" hidden data-view="view-food-orders">▣ Ordens de produção</div>
@@ -1607,6 +1635,78 @@ textarea:focus-visible,.app-nav-item:focus-visible {
         <div class="app-view-sub" id="operacoes-descricao">Registros do segmento</div></div>
         <div class="toolbar-actions"><button class="btn-app-secondary" type="button" id="operacoes-exportar">↓ Exportar CSV</button><button class="btn-app-primary" id="operacoes-novo">+ Novo registro</button></div></div>
         <div class="app-card"><div class="app-card-head"><div class="app-card-title">Registros do negócio <span id="operacoes-contagem" class="record-count"></span></div><input class="app-search" type="search" id="operacoes-busca" placeholder="Pesquisar registros…" aria-label="Pesquisar registros do setor" /></div><div id="operacoes-lista"></div></div>
+      </div>
+
+      <!-- CONEXUS V16 · AFILIADOS -->
+      <div class="app-view" id="view-aff-products">
+        <div class="app-header-row"><div><div class="app-view-title">Produtos afiliados</div><div class="app-view-sub">IDs e links de cada plataforma, com controle automático do que já foi produzido ou divulgado.</div></div><button class="btn-app-secondary" type="button" id="aff-export-products">↓ Exportar CSV</button></div>
+        <div id="aff-error-products" class="aff-errors" role="alert" hidden></div>
+        <div class="food-cols">
+          <section class="app-card food-card"><h3 class="food-card-title" id="aff-product-title">Cadastrar produto</h3>
+            <form id="aff-product-form"><input type="hidden" name="edit_id" />
+              <div class="aff-two"><div><label class="app-form-label">Plataforma</label><select class="app-form-select" name="platform" required><option>Shopee</option><option>Amazon</option><option>Mercado Livre</option><option>TikTok Shop</option><option>Outra</option></select></div><div><label class="app-form-label">ID do produto na plataforma</label><input class="app-form-input" name="external_id" required maxlength="120" placeholder="Ex.: AES-NDH-TSB" /></div></div>
+              <label class="app-form-label">Nome do produto</label><input class="app-form-input" name="name" required maxlength="200" placeholder="Ex.: Jaqueta racing preta" />
+              <label class="app-form-label">Categoria</label><input class="app-form-input" name="category" maxlength="100" placeholder="Moda, calçados, eletrônicos..." />
+              <label class="app-form-label">Link original do produto</label><input class="app-form-input" name="product_url" type="url" required maxlength="2000" placeholder="https://..." />
+              <label class="app-form-label">Link de afiliado (opcional)</label><input class="app-form-input" name="affiliate_url" type="url" maxlength="2000" placeholder="https://..." />
+              <div class="aff-two"><div><label class="app-form-label">Preço (R$)</label><input class="app-form-input" name="price" type="number" step="0.01" min="0" placeholder="59,90" /></div><div><label class="app-form-label">Comissão estimada (%)</label><input class="app-form-input" name="commission_rate" type="number" step="0.001" min="0" max="100" placeholder="35" /></div></div>
+              <label class="app-form-label">Observações</label><textarea class="app-form-input" name="notes" maxlength="3000" rows="2"></textarea>
+              <div class="aff-actions"><button class="btn-app-primary" id="aff-product-save" type="submit">Salvar produto</button><button class="btn-app-secondary" id="aff-product-cancel" type="button" hidden>Cancelar edição</button></div>
+            </form></section>
+          <section class="app-card food-card"><div class="aff-heading"><h3 class="food-card-title">Catálogo e situação</h3><span id="aff-products-count" class="record-count"></span></div>
+            <div class="aff-two"><input id="aff-product-search" class="app-search" type="search" aria-label="Pesquisar produtos" placeholder="Buscar por nome, ID ou categoria..."/><select id="aff-product-filter" class="app-form-select" aria-label="Filtrar por situação"><option value="todos">Todos os produtos</option><option value="sem">Sem conteúdo</option><option value="planejado">Conteúdo planejado</option><option value="pronto">Criado e não divulgado</option><option value="divulgado">Já divulgado</option></select></div><div id="aff-products-list"></div>
+          </section>
+        </div>
+      </div>
+      <div class="app-view" id="view-aff-contents">
+        <div class="app-header-row"><div><div class="app-view-title">Conteúdos</div><div class="app-view-sub">Relacione cada vídeo, imagem, montagem ou carrossel ao ID do produto.</div></div></div>
+        <div class="food-cols"><section class="app-card food-card"><h3 class="food-card-title" id="aff-content-title">Novo conteúdo</h3><form id="aff-content-form"><input type="hidden" name="edit_id"/>
+          <label class="app-form-label">Produto</label><select class="app-form-select" name="product_id" required></select>
+          <label class="app-form-label">Título do conteúdo</label><input class="app-form-input" name="title" maxlength="200" required placeholder="Ex.: Review jaqueta racing"/>
+          <div class="aff-two"><div><label class="app-form-label">Formato</label><select class="app-form-select" name="content_type"><option value="video">Vídeo</option><option value="imagem">Imagem</option><option value="carrossel">Carrossel</option><option value="montagem">Montagem</option><option value="texto">Texto</option><option value="outro">Outro</option></select></div><div><label class="app-form-label">Situação</label><select class="app-form-select" name="status"><option value="planejado">Planejado</option><option value="produzido">Produzido</option><option value="arquivado">Arquivado</option></select></div></div>
+          <label class="app-form-label">Campanha (opcional)</label><select class="app-form-select" name="campaign_id"></select>
+          <label class="app-form-label">Link do arquivo / pasta (opcional)</label><input class="app-form-input" name="content_url" type="url" maxlength="2000" placeholder="https://drive.google.com/..."/>
+          <label class="app-form-label">Observações</label><textarea class="app-form-input" name="notes" maxlength="3000" rows="2"></textarea>
+          <div class="aff-actions"><button class="btn-app-primary" type="submit" id="aff-content-save">Salvar conteúdo</button><button class="btn-app-secondary" id="aff-content-cancel" type="button" hidden>Cancelar edição</button></div></form></section>
+          <section class="app-card food-card"><h3 class="food-card-title">Produção de conteúdo</h3><div id="aff-contents-list"></div></section></div>
+      </div>
+      <div class="app-view" id="view-aff-publications">
+        <div class="app-header-row"><div><div class="app-view-title">Divulgações</div><div class="app-view-sub">Registre a publicação real de conteúdos, seus links e métricas coletadas manualmente.</div></div></div>
+        <div class="food-cols"><section class="app-card food-card"><h3 class="food-card-title" id="aff-pub-title">Registrar divulgação</h3><form id="aff-pub-form"><input type="hidden" name="edit_id"/>
+          <label class="app-form-label">Conteúdo produzido</label><select class="app-form-select" name="content_id" required></select>
+          <div class="aff-two"><div><label class="app-form-label">Rede social</label><select class="app-form-select" name="channel"><option>TikTok</option><option>Instagram</option><option>YouTube</option><option>Pinterest</option><option>Facebook</option><option>Outra</option></select></div><div><label class="app-form-label">Data de publicação</label><input class="app-form-input" type="date" name="published_date" required/></div></div>
+          <label class="app-form-label">URL da publicação</label><input class="app-form-input" name="publication_url" type="url" required maxlength="2000" placeholder="https://www.tiktok.com/..."/>
+          <div class="aff-two"><div><label class="app-form-label">Visualizações</label><input class="app-form-input" name="views" type="number" min="0" step="1" value="0" required/></div><div><label class="app-form-label">Cliques</label><input class="app-form-input" name="clicks" type="number" min="0" step="1" value="0" required/></div></div>
+          <div class="aff-actions"><button class="btn-app-primary" id="aff-pub-save" type="submit">Salvar divulgação</button><button class="btn-app-secondary" id="aff-pub-cancel" type="button" hidden>Cancelar edição</button></div></form></section>
+          <section class="app-card food-card"><h3 class="food-card-title">Histórico de publicações</h3><div id="aff-publications-list"></div></section></div>
+      </div>
+      <div class="app-view" id="view-aff-campaigns">
+        <div class="app-header-row"><div><div class="app-view-title">Campanhas</div><div class="app-view-sub">Planejamento, orçamento e agrupamento de conteúdos.</div></div></div>
+        <div class="food-cols"><section class="app-card food-card"><h3 class="food-card-title" id="aff-campaign-title">Nova campanha</h3><form id="aff-campaign-form"><input type="hidden" name="edit_id"/>
+          <label class="app-form-label">Nome</label><input class="app-form-input" name="name" required maxlength="160" placeholder="Ex.: Coleção streetwear outubro"/>
+          <div class="aff-two"><div><label class="app-form-label">Canal</label><select class="app-form-select" name="channel"><option>TikTok</option><option>Instagram</option><option>Shopee</option><option>Multicanal</option><option>Outro</option></select></div><div><label class="app-form-label">Status</label><select class="app-form-select" name="status"><option value="planejada">Planejada</option><option value="ativa">Ativa</option><option value="concluida">Concluída</option><option value="cancelada">Cancelada</option></select></div></div>
+          <div class="aff-two"><div><label class="app-form-label">Início</label><input class="app-form-input" type="date" name="starts_on"/></div><div><label class="app-form-label">Término</label><input class="app-form-input" type="date" name="ends_on"/></div></div>
+          <label class="app-form-label">Orçamento (R$)</label><input class="app-form-input" name="budget" type="number" min="0" step="0.01" value="0"/>
+          <label class="app-form-label">Observações</label><textarea class="app-form-input" name="notes" maxlength="3000" rows="2"></textarea>
+          <div class="aff-actions"><button class="btn-app-primary" id="aff-campaign-save" type="submit">Salvar campanha</button><button class="btn-app-secondary" id="aff-campaign-cancel" type="button" hidden>Cancelar edição</button></div></form></section>
+          <section class="app-card food-card"><h3 class="food-card-title">Campanhas cadastradas</h3><div id="aff-campaigns-list"></div></section></div>
+      </div>
+      <div class="app-view" id="view-aff-commissions">
+        <div class="app-header-row"><div><div class="app-view-title">Comissões</div><div class="app-view-sub">Vendas e valores informados manualmente, separados em pendentes, confirmados, recebidos e cancelados.</div></div></div>
+        <div class="food-cols"><section class="app-card food-card"><h3 class="food-card-title" id="aff-commission-title">Lançar comissão</h3><form id="aff-commission-form"><input type="hidden" name="edit_id"/>
+          <label class="app-form-label">Produto</label><select class="app-form-select" name="product_id" required></select>
+          <label class="app-form-label">ID do pedido / venda (opcional)</label><input class="app-form-input" name="order_ref" maxlength="120" placeholder="Ex.: PED-12345"/>
+          <div class="aff-two"><div><label class="app-form-label">Data da venda</label><input class="app-form-input" name="sale_date" type="date" required/></div><div><label class="app-form-label">Quantidade</label><input class="app-form-input" name="quantity" type="number" min="1" step="1" value="1" required/></div></div>
+          <div class="aff-two"><div><label class="app-form-label">Valor vendido (R$)</label><input class="app-form-input" name="gross_amount" type="number" step="0.01" min="0" value="0" required/></div><div><label class="app-form-label">Comissão (R$)</label><input class="app-form-input" name="commission_amount" type="number" step="0.01" min="0" required/></div></div>
+          <div class="aff-two"><div><label class="app-form-label">Status</label><select class="app-form-select" name="status"><option value="pendente">Pendente</option><option value="confirmada">Confirmada</option><option value="recebida">Recebida</option><option value="cancelada">Cancelada</option></select></div><div><label class="app-form-label">Data de recebimento</label><input class="app-form-input" name="paid_on" type="date"/></div></div>
+          <div class="aff-actions"><button class="btn-app-primary" id="aff-commission-save" type="submit">Salvar comissão</button><button class="btn-app-secondary" id="aff-commission-cancel" type="button" hidden>Cancelar edição</button></div></form></section>
+          <section class="app-card food-card"><h3 class="food-card-title">Histórico de comissões</h3><div id="aff-commissions-list"></div></section></div>
+      </div>
+      <div class="app-view" id="view-aff-reports">
+        <div class="app-header-row"><div><div class="app-view-title">Relatórios de afiliados</div><div class="app-view-sub">Resultados com base apenas nas informações cadastradas — sem sincronização automática das plataformas.</div></div><button id="aff-export-report" class="btn-app-secondary" type="button">↓ Exportar CSV</button></div>
+        <div id="aff-report-stats" class="food-kpi"></div>
+        <div class="app-card food-card"><h3 class="food-card-title">Desempenho por produto</h3><div class="aff-responsive"><table class="aff-table"><thead><tr><th>ID / produto</th><th>Conteúdos</th><th>Publicações</th><th>Visualizações</th><th>Cliques</th><th>Comissões recebidas</th></tr></thead><tbody id="aff-report-tbody"></tbody></table></div></div>
+        <div class="app-card food-card"><h3 class="food-card-title">Observações importantes</h3><p class="food-hint">Visualizações, cliques e comissões são digitados manualmente. A taxa de conversão só deve ser interpretada se o volume de cliques e as vendas cadastradas se referirem ao mesmo período e origem. Receitas de afiliados não são adicionadas automaticamente ao financeiro geral, para evitar duplicidades de lançamentos.</p></div>
       </div>
 
       <!-- CONEXUS V15 · INDÚSTRIA ALIMENTÍCIA -->
@@ -2832,10 +2932,14 @@ const MODULOS = [
   ['view-movimentacoes','Movimentações'],['view-financas','Financeiro'],
   ['view-food-raw','Estoque de matéria-prima'],['view-food-orders','Ordens de produção'],
   ['view-food-recipes','Fichas técnicas'],['view-food-batches','Lotes e validade'],
-  ['view-food-quality','Controle de qualidade']
+  ['view-food-quality','Controle de qualidade'],
+  ['view-aff-products','Produtos afiliados'],['view-aff-contents','Conteúdos'],
+  ['view-aff-publications','Divulgações'],['view-aff-campaigns','Campanhas'],
+  ['view-aff-commissions','Comissões'],['view-aff-reports','Relatórios afiliados']
 ];
 const MODULOS_FOOD = ['view-dashboard','view-food-raw','view-food-orders','view-food-recipes','view-food-batches','view-food-quality','view-financas'];
-const MODULOS_INVENTARIO = MODULOS.map(m => m[0]).filter(id => !id.startsWith('view-food-'));
+const MODULOS_AFF = ['view-dashboard','view-aff-products','view-aff-contents','view-aff-publications','view-aff-campaigns','view-aff-commissions','view-aff-reports','view-financas'];
+const MODULOS_INVENTARIO = MODULOS.map(m => m[0]).filter(id => !id.startsWith('view-food-') && !id.startsWith('view-aff-'));
 const MODULOS_SERVICOS = ['view-dashboard','view-operacoes','view-clientes','view-auditoria','view-financas'];
 const MODULOS_DIGITAL = ['view-dashboard','view-operacoes','view-auditoria','view-financas'];
 const TIPOS_DIGITAIS = new Set(['afiliados','criador_conteudo']);
@@ -2890,6 +2994,7 @@ function modeloSetorial(biz = currentBusiness) {
 function defaultModules(biz = currentBusiness) {
   const slug = slugNegocio(biz);
   if (slug === 'industria_alimenticia') return [...MODULOS_FOOD];
+  if (slug === 'afiliados') return [...MODULOS_AFF];
   if (TIPOS_DIGITAIS.has(slug)) return MODULOS_DIGITAL;
   if (TIPOS_SERVICOS.has(slug)) return MODULOS_SERVICOS;
   return MODULOS_INVENTARIO;
@@ -2897,6 +3002,11 @@ function defaultModules(biz = currentBusiness) {
 function enabledModules(biz = currentBusiness) {
   if (!biz) return ['view-dashboard'];
   const prefs = biz.module_preferences;
+  if (slugNegocio(biz) === 'afiliados') {
+    const valid=new Set(MODULOS.map(([id])=>id));
+    const extras=Array.isArray(prefs?.affiliate_v16_enabled)?prefs.affiliate_v16_enabled:[];
+    return [...new Set([...MODULOS_AFF,...extras.filter(id=>valid.has(id)&&!id.startsWith('view-aff-'))])];
+  }
   if (slugNegocio(biz) === 'industria_alimenticia') {
     const valid = new Set(MODULOS.map(([id])=>id));
     const optional = Array.isArray(prefs?.food_v15_enabled) ? prefs.food_v15_enabled : [];
@@ -2944,7 +3054,7 @@ function openModulesModal() {
   }
   const enabled = new Set(enabledModules());
   const slot = document.getElementById('modulos-lista');
-  slot.innerHTML = MODULOS.map(([id,label]) => '<label class="module-choice"><input type="checkbox" value="'+id+'" '+(enabled.has(id)?'checked':'')+' '+((slugNegocio()==='industria_alimenticia'?MODULOS_FOOD.includes(id):(id==='view-dashboard'||id==='view-financas'))?'disabled':'')+'/><span>'+escapeHtml(label)+(slugNegocio()==='industria_alimenticia'&&MODULOS_FOOD.includes(id)?' · recomendado':'')+'</span></label>').join('');
+  slot.innerHTML = MODULOS.map(([id,label]) => '<label class="module-choice"><input type="checkbox" value="'+id+'" '+(enabled.has(id)?'checked':'')+' '+((slugNegocio()==='industria_alimenticia'?MODULOS_FOOD.includes(id):slugNegocio()==='afiliados'?MODULOS_AFF.includes(id):(id==='view-dashboard'||id==='view-financas'))?'disabled':'')+'/><span>'+escapeHtml(label)+((slugNegocio()==='industria_alimenticia'&&MODULOS_FOOD.includes(id))||(slugNegocio()==='afiliados'&&MODULOS_AFF.includes(id))?' · recomendado':'')+'</span></label>').join('');
   hideMsg('modulos-msg');
   document.getElementById('modal-modulos').classList.add('open');
 }
@@ -2953,10 +3063,10 @@ document.getElementById('modulos-cancelar').addEventListener('click',()=>documen
 document.getElementById('modulos-salvar').addEventListener('click', async () => {
   const btn = document.getElementById('modulos-salvar');
   const enabled = [...document.querySelectorAll('#modulos-lista input:checked')].map(x=>x.value);
-  for (const mandatory of (slugNegocio()==='industria_alimenticia'?MODULOS_FOOD:['view-dashboard','view-financas'])) if (!enabled.includes(mandatory)) enabled.push(mandatory);
+  for (const mandatory of (slugNegocio()==='industria_alimenticia'?MODULOS_FOOD:slugNegocio()==='afiliados'?MODULOS_AFF:['view-dashboard','view-financas'])) if (!enabled.includes(mandatory)) enabled.push(mandatory);
   btn.disabled = true;
   try {
-    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:slugNegocio()==='industria_alimenticia'?{...currentBusiness.module_preferences,food_v15_enabled:enabled.filter(id=>!MODULOS_FOOD.includes(id))}:{...currentBusiness.module_preferences,enabled}})
+    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:slugNegocio()==='industria_alimenticia'?{...currentBusiness.module_preferences,food_v15_enabled:enabled.filter(id=>!MODULOS_FOOD.includes(id))}:slugNegocio()==='afiliados'?{...currentBusiness.module_preferences,affiliate_v16_enabled:enabled.filter(id=>!MODULOS_AFF.includes(id))}:{...currentBusiness.module_preferences,enabled}})
       .eq('id',currentBusiness.id).eq('user_id',currentUser.id).select('*').single(),15000);
     if (error) throw error;
     currentBusiness = {...currentBusiness,...data};
@@ -3192,7 +3302,7 @@ function makeDemoData() {
   ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
     user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
   const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
-  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[]};
+  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_publications:[],affiliate_commissions:[]};
   function product(biz,name,quantity,price,cost,category) {
     const row={id:demoUuid(),user_id:owner,business_id:biz.id,name,quantity,price,cost_price:cost,
       category,low_stock_threshold:8,created_at:now,updated_at:now};
@@ -3231,6 +3341,17 @@ function makeDemoData() {
   tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.restaurante.id,sector_slug:'restaurante',title:'Pedido de demonstração',fields:{pedido:'R-025',canal:'Delivery',status:'Preparando',valor:'24.90'},created_at:now});
   tables.revenues.push({id:demoUuid(),user_id:owner,business_id:byType.afiliados.id,description:'Comissões de demonstração',amount:186.5,
     category:'comissoes',status:'recebido',payment_date:now.slice(0,10),created_at:now});
+  // Dados exclusivamente fictícios de demonstração, nunca enviados ao Supabase.
+  const ab=byType.afiliados.id;
+  const ap1={id:demoUuid(),business_id:ab,user_id:owner,platform:'Shopee',external_id:'DEMO-JAQ-001',name:'Jaqueta racing demonstrativa',category:'Moda',product_url:'https://example.com/jaqueta',affiliate_url:'https://example.com/afiliado/jaqueta',price:149.90,commission_rate:15,created_at:now};
+  const ap2={id:demoUuid(),business_id:ab,user_id:owner,platform:'Shopee',external_id:'DEMO-TEN-002',name:'Tênis urbano demonstrativo',category:'Calçados',product_url:'https://example.com/tenis',price:109.90,commission_rate:10,created_at:now};
+  const ap3={id:demoUuid(),business_id:ab,user_id:owner,platform:'Amazon',external_id:'DEMO-MOC-003',name:'Mochila urbana demonstrativa',category:'Acessórios',product_url:'https://example.com/mochila',price:89.90,commission_rate:8,created_at:now};
+  tables.affiliate_products.push(ap1,ap2,ap3);
+  const ac1={id:demoUuid(),business_id:ab,user_id:owner,product_id:ap1.id,title:'Montagem com jaqueta racing',content_type:'video',status:'produzido',created_at:now};
+  const ac2={id:demoUuid(),business_id:ab,user_id:owner,product_id:ap2.id,title:'Carrossel de tênis',content_type:'carrossel',status:'produzido',created_at:now};
+  tables.affiliate_contents.push(ac1,ac2);
+  tables.affiliate_publications.push({id:demoUuid(),business_id:ab,user_id:owner,content_id:ac1.id,channel:'TikTok',publication_url:'https://example.com/publicacao-demo',published_at:now,views:1200,clicks:80,created_at:now});
+  tables.affiliate_commissions.push({id:demoUuid(),business_id:ab,user_id:owner,product_id:ap1.id,sale_date:now.slice(0,10),quantity:1,gross_amount:149.90,commission_amount:22.49,status:'pendente',created_at:now});
   return tables;
 }
 
@@ -3253,6 +3374,15 @@ class LocalDemoQuery {
       if(this.operation==='insert') {
         const batch=Array.isArray(this.payload)?this.payload:[this.payload];
         rows=batch.map(item=>({...item,id:item.id||demoUuid(),created_at:item.created_at||new Date().toISOString()}));
+        if(this.name.startsWith('affiliate_')){
+          for(const row of rows){
+            if(!this.db.businesses.some(b=>b.id===row.business_id&&b.user_id===row.user_id))throw Error('Negócio não autorizado.');
+            if(this.name==='affiliate_products'&&store.some(p=>p.business_id===row.business_id&&p.platform.toLowerCase()===row.platform.toLowerCase()&&p.external_id.toLowerCase()===row.external_id.toLowerCase()))throw Error('Esse ID já existe nesta plataforma.');
+            if(this.name==='affiliate_contents'&&!this.db.affiliate_products.some(p=>p.id===row.product_id&&p.business_id===row.business_id))throw Error('Produto de outra empresa.');
+            if(this.name==='affiliate_publications'&&(!this.db.affiliate_contents.some(c=>c.id===row.content_id&&c.business_id===row.business_id)||store.some(p=>p.business_id===row.business_id&&p.publication_url===row.publication_url)))throw Error('Publicação duplicada ou conteúdo de outra empresa.');
+            if(this.name==='affiliate_commissions'&&!this.db.affiliate_products.some(p=>p.id===row.product_id&&p.business_id===row.business_id))throw Error('Produto de outra empresa.');
+          }
+        }
         store.push(...rows);
       } else if(this.operation==='update') {
         rows=matched();rows.forEach(r=>Object.assign(r,this.payload));
@@ -3854,7 +3984,7 @@ async function openBusiness(biz) {
   customers=[];salesHistory=[];suppliers=[];purchasesHistory=[];salesReturns=[];
   expenses=[];revenues=[];categories=[];auditLogs=[];
   cartItems = [];compraCartItems = [];registrosSetoriais=[];
-  foodData=blankFoodData();foodLoadError='';
+  foodData=blankFoodData();foodLoadError='';affData=affBlank();affLoadError='';
   operacoesSearchTerm='';document.getElementById('operacoes-busca').value='';
   updateTestModeBanners();
   document.getElementById('businesses-shell').style.display = 'none';
@@ -4112,6 +4242,7 @@ function goto(viewId) {
   if (viewId === 'view-movimentacoes') renderMovimentacoes();
   if (viewId === 'view-financas') renderFinancas(window.__appFinPeriod || 'sem');
   if (viewId.startsWith('view-food-')) renderFoodUI();
+  if (viewId.startsWith('view-aff-')) renderAffiliateUI();
 }
 document.querySelectorAll('.app-nav-item').forEach(item => {
   item.addEventListener('click', () => goto(item.dataset.view));
@@ -4213,6 +4344,8 @@ async function loadAllData() {
     renderNotifications();
     if (slugNegocio()==='industria_alimenticia') await loadFoodData(businessAtStart);
     else {foodData=blankFoodData();foodLoadError='';}
+    if(isAffiliate()) await loadAffiliateData(businessAtStart);
+    else {affData=affBlank();affLoadError='';}
     const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
     if(maybePartial) {
       setDataState('warning','Dados atualizados, porém alguns históricos atingiram o limite de consulta. Relatórios podem não incluir todos os registros.');
@@ -4230,6 +4363,7 @@ async function loadAllData() {
 // DASHBOARD
 // ══════════════════════════════════════════════
 function renderDashboard() {
+  if (isAffiliate()) {renderAffiliateDashboard();return;}
   if (!hasInventory()) {
     const pagos = revenues.filter(r=>r.status==='recebido');
     const recebido = pagos.reduce((acc,r)=>acc+Number(r.amount||0),0);
@@ -6834,6 +6968,150 @@ function demoFoodRpc(action,req,store,uid,changeStock){
  }
  throw Error('Operação não reconhecida.');
 }
+
+// ═══════════════════════════════════════════════════════════
+// CONEXUS V16 · AFILIADOS — CRUD isolado por empresa
+// ═══════════════════════════════════════════════════════════
+const AFF_TABLES = ['affiliate_campaigns','affiliate_products','affiliate_contents','affiliate_publications','affiliate_commissions'];
+function affBlank(){return {campaigns:[],products:[],contents:[],publications:[],commissions:[]};}
+let affData=affBlank(), affLoadError='';
+const isAffiliate=()=>!!currentBusiness && slugNegocio()==='afiliados';
+function affById(table,id){return affData[table].find(r=>r.id===id);}
+function affDate(date){return date ? new Date(String(date).slice(0,10)+'T12:00:00').toLocaleDateString('pt-BR'):'—';}
+function affInt(value,label){let n=Number(value);if(!Number.isSafeInteger(n)||n<0||n>1000000000)throw Error(label+' precisa ser um inteiro válido.');return n;}
+function affNum(value,label,allowNull=false){if(allowNull && String(value).trim()==='')return null;const n=Number(value);if(!Number.isFinite(n)||n<0||n>1000000000)throw Error(label+' inválido.');return Math.round(n*100)/100;}
+function affSafeUrl(value,required=false){const s=String(value||'').trim();if(!s&&!required)return null;try{let u=new URL(s);if(!['http:','https:'].includes(u.protocol)||!u.hostname.includes('.'))throw Error();return u.href;}catch{throw Error('Informe um link válido iniciando com https://');}}
+function affLink(url,title){if(!url)return '';try{const u=new URL(url);if(!['https:','http:'].includes(u.protocol))return '';return `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(u.href)}">${escapeHtml(title)} ↗</a>`;}catch{return '';}}
+function affProductState(p){const cs=affData.contents.filter(c=>c.product_id===p.id);const posted=cs.some(c=>affData.publications.some(a=>a.content_id===c.id));if(posted)return 'divulgado';if(cs.some(c=>c.status==='produzido'))return 'pronto';if(cs.some(c=>c.status==='planejado'))return 'planejado';return 'sem';}
+function affStateLabel(state){return ({sem:'Sem conteúdo',planejado:'Planejado',pronto:'Produzido · não divulgado',divulgado:'Já divulgado'})[state]||state;}
+function affStateTag(state){return `<span class="aff-pill ${state==='divulgado'?'green':state==='pronto'?'warning':'muted'}">${escapeHtml(affStateLabel(state))}</span>`;}
+function affSelect(id,rows,placeholder,getLabel){const el=document.querySelector(`#${id}`);if(!el)return;const old=el.value;el.innerHTML=`<option value="">${escapeHtml(placeholder)}</option>`+rows.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(getLabel(x))}</option>`).join('');if(rows.some(x=>x.id===old))el.value=old;}
+async function loadAffiliateData(expected=currentBusiness?.id){if(!isAffiliate()||currentBusiness?.id!==expected)return;
+  affLoadError='';
+  try{const res=await withTimeout(Promise.all(AFF_TABLES.map(table=>sb.from(table).select('*').eq('business_id',expected).order('created_at',{ascending:false}).limit(1000))),25000);
+    if(res.some(r=>r.error))throw res.find(r=>r.error).error;
+    if(currentBusiness?.id!==expected)return;
+    affData={campaigns:res[0].data||[],products:res[1].data||[],contents:res[2].data||[],publications:res[3].data||[],commissions:res[4].data||[]};
+    if(res.some(r=>r.data?.length===1000))affLoadError='Limite de 1.000 registros por tabela atingido. Os totais podem estar incompletos; exporte os dados por períodos.';
+  }catch(e){if(currentBusiness?.id!==expected)return;affLoadError='Não foi possível carregar Afiliados. Aplique o SQL V16: '+(e.message||'erro desconhecido');affData=affBlank();}
+  renderAffiliateUI();renderDashboard();
+}
+function affValue(form,name){return form.elements.namedItem(name)?.value?.trim()??'';}
+function affReset(formId){const form=document.getElementById(formId);form.reset();form.elements.namedItem('edit_id').value='';
+  const cancel=document.getElementById(formId.replace('-form','-cancel'));if(cancel)cancel.hidden=true;
+  const btn=document.getElementById(formId.replace('-form','-save'));if(btn)btn.textContent=({'aff-product-form':'Salvar produto','aff-content-form':'Salvar conteúdo','aff-pub-form':'Salvar divulgação','aff-campaign-form':'Salvar campanha','aff-commission-form':'Salvar comissão'})[formId];
+  if(formId==='aff-pub-form')form.elements.namedItem('published_date').value=new Date().toISOString().slice(0,10);
+  if(formId==='aff-commission-form')form.elements.namedItem('sale_date').value=new Date().toISOString().slice(0,10);
+}
+async function affWrite(table,form,payload){if(!isAffiliate()||affLoadError)throw Error(affLoadError||'Selecione uma empresa de afiliados.');
+  const bid=currentBusiness.id,edit=affValue(form,'edit_id');let query;
+  if(edit)query=sb.from(table).update(payload).eq('id',edit).eq('business_id',bid).select('id').single();
+  else query=sb.from(table).insert({...payload,business_id:bid,user_id:currentUser.id}).select('id').single();
+  const {error}=await withTimeout(query,18000);if(error)throw error;
+  await loadAffiliateData(bid);
+  return !!edit;
+}
+function affFormBind(formId,table,build){const form=document.getElementById(formId);form.addEventListener('submit',async e=>{
+  e.preventDefault();if(!form.reportValidity())return;
+  const button=form.querySelector('[type="submit"]');button.disabled=true;const text=button.textContent;button.textContent='Salvando...';
+  try{const payload=build(form);const edit=await affWrite(table,form,payload);toast(edit?'Registro atualizado.':'Registro cadastrado.');affReset(formId);}
+  catch(err){console.error('Afiliados / '+table,err);toast((err.code==='23505'?'Este ID ou link já está cadastrado nesta empresa. ':err.message)||'Falha ao salvar.',true);}
+  finally{button.disabled=false;if(form.elements.namedItem('edit_id').value)button.textContent=text;}
+ });const cancel=document.getElementById(formId.replace('-form','-cancel'));cancel?.addEventListener('click',()=>affReset(formId));}
+function affFormEdit(formId,record,fields){const form=document.getElementById(formId);form.elements.namedItem('edit_id').value=record.id;
+ for(const [field,value] of Object.entries(fields))if(form.elements.namedItem(field))form.elements.namedItem(field).value=value??'';
+ document.getElementById(formId.replace('-form','-cancel')).hidden=false;
+ form.querySelector('[type="submit"]').textContent='Atualizar cadastro';
+ form.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function affRows(table,render,empty){document.getElementById('aff-'+table+'-list').innerHTML=affData[table].length?affData[table].map(render).join(''):`<p class="aff-empty">${escapeHtml(empty)}</p>`;}
+function renderAffiliateUI(){if(!isAffiliate())return;
+  const err=document.getElementById('aff-error-products');err.hidden=!affLoadError;err.textContent=affLoadError;
+  const opts=affData.products.map(p=>({...p}));
+  affSelect('aff-content-product',[], '',x=>x.name); // compatibilidade sem efeito (campo nomeado, abaixo)
+  for(const id of ['aff-content-form','aff-commission-form']){
+    const f=document.getElementById(id),el=f.elements.namedItem('product_id'),old=el.value;
+    el.innerHTML='<option value="">Selecione um produto</option>'+opts.map(p=>`<option value="${escapeHtml(p.id)}">${escapeHtml(p.platform+' · '+p.external_id+' · '+p.name)}</option>`).join('');if(opts.some(p=>p.id===old))el.value=old;
+  }
+  const contentEl=document.querySelector('#aff-pub-form [name="content_id"]'),oldContent=contentEl.value;
+  const ready=affData.contents.filter(c=>c.status==='produzido'||affData.publications.some(p=>p.content_id===c.id));
+  contentEl.innerHTML='<option value="">Selecione um conteúdo produzido</option>'+ready.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.title+' · '+(affById('products',c.product_id)?.external_id||''))}</option>`).join('');if(ready.some(c=>c.id===oldContent))contentEl.value=oldContent;
+  const campaignEl=document.querySelector('#aff-content-form [name="campaign_id"]'),oldCampaign=campaignEl.value;
+  campaignEl.innerHTML='<option value="">Sem campanha</option>'+affData.campaigns.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');if(affData.campaigns.some(c=>c.id===oldCampaign))campaignEl.value=oldCampaign;
+  renderAffiliateProducts();renderAffiliateLists();renderAffiliateReports();
+}
+function renderAffiliateProducts(){const search=document.getElementById('aff-product-search').value.toLocaleLowerCase('pt-BR').trim(),filter=document.getElementById('aff-product-filter').value;
+  const matched=affData.products.filter(p=>[p.name,p.external_id,p.category,p.platform].join(' ').toLocaleLowerCase('pt-BR').includes(search)&&(filter==='todos'||affProductState(p)===filter));
+  document.getElementById('aff-products-count').textContent=`${matched.length} de ${affData.products.length}`;
+  document.getElementById('aff-products-list').innerHTML=matched.length?matched.map(p=>{
+    const cs=affData.contents.filter(c=>c.product_id===p.id),posts=affData.publications.filter(pub=>cs.some(c=>c.id===pub.content_id));
+    return `<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(p.name)}</h4>${affStateTag(affProductState(p))}</div>
+    <div class="aff-meta"><span class="aff-pill">${escapeHtml(p.platform)}</span><span class="aff-pill">ID: ${escapeHtml(p.external_id)}</span><span class="aff-pill muted">${escapeHtml(p.category||'Sem categoria')}</span></div>
+    <p>${cs.length} conteúdo(s) · ${posts.length} publicação(ões) · preço ${brl(p.price||0)} · comissão estimada ${Number(p.commission_rate||0).toLocaleString('pt-BR')}%</p>
+    <p>${affLink(p.product_url,'Abrir produto')} ${affLink(p.affiliate_url,'Abrir link de afiliado')}</p>
+    <div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-product" data-id="${p.id}">Editar</button><button class="btn-app-secondary" data-aff-action="new-content" data-id="${p.id}">+ Conteúdo</button></div></article>`;
+  }).join(''):'<p class="aff-empty">Nenhum produto neste filtro.</p>';
+}
+function renderAffiliateLists(){
+ const cList=document.getElementById('aff-contents-list');cList.innerHTML=affData.contents.length?affData.contents.map(c=>{
+ const n=affData.publications.filter(p=>p.content_id===c.id).length;return `<article class="aff-item"><h4>${escapeHtml(c.title)}</h4><div class="aff-meta"><span class="aff-pill">${escapeHtml(c.content_type)}</span><span class="aff-pill ${n?'green':'muted'}">${n?'Publicado '+n+' vez(es)':c.status==='produzido'?'Pronto para divulgar':c.status==='planejado'?'Planejado':'Arquivado'}</span></div><p>${escapeHtml(affById('products',c.product_id)?.name||'Produto excluído')}</p><p>${affLink(c.content_url,'Abrir arquivo')}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-content" data-id="${c.id}">Editar</button>${c.status==='produzido'?`<button class="btn-app-secondary" data-aff-action="publish-content" data-id="${c.id}">+ Divulgação</button>`:''}</div></article>`;}).join(''):'<p class="aff-empty">Nenhum conteúdo cadastrado.</p>';
+ const pList=document.getElementById('aff-publications-list');pList.innerHTML=affData.publications.length?affData.publications.map(p=>`<article class="aff-item"><h4>${escapeHtml(affById('contents',p.content_id)?.title||'Conteúdo')}</h4><div class="aff-meta"><span class="aff-pill green">${escapeHtml(p.channel)}</span><span class="aff-pill">${affDate(p.published_at)}</span></div><p>${Number(p.views||0).toLocaleString('pt-BR')} visualizações · ${Number(p.clicks||0).toLocaleString('pt-BR')} cliques</p><p>${affLink(p.publication_url,'Abrir publicação')}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-publication" data-id="${p.id}">Atualizar métricas</button></div></article>`).join(''):'<p class="aff-empty">Nenhuma divulgação registrada.</p>';
+ const camp=document.getElementById('aff-campaigns-list');camp.innerHTML=affData.campaigns.length?affData.campaigns.map(c=>`<article class="aff-item"><h4>${escapeHtml(c.name)}</h4><div class="aff-meta"><span class="aff-pill">${escapeHtml(c.channel)}</span><span class="aff-pill ${c.status==='ativa'?'green':'muted'}">${escapeHtml(c.status)}</span></div><p>${affDate(c.starts_on)} — ${affDate(c.ends_on)} · Orçamento ${brl(c.budget)}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-campaign" data-id="${c.id}">Editar</button></div></article>`).join(''):'<p class="aff-empty">Nenhuma campanha cadastrada.</p>';
+ const comm=document.getElementById('aff-commissions-list');comm.innerHTML=affData.commissions.length?affData.commissions.map(c=>`<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(affById('products',c.product_id)?.name||'Produto')}</h4><span class="aff-pill ${c.status==='recebida'?'green':'muted'}">${escapeHtml(c.status)}</span></div><p>${affDate(c.sale_date)} · Venda ${brl(c.gross_amount)} · Comissão <strong>${brl(c.commission_amount)}</strong></p><p>${escapeHtml(c.order_ref||'Sem ID de pedido')} · ${c.quantity} un.</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-commission" data-id="${c.id}">Editar status/valor</button></div></article>`).join(''):'<p class="aff-empty">Nenhuma comissão registrada.</p>';
+}
+function affMetrics(){const posts=affData.publications,cs=affData.contents,com=affData.commissions;return {products:affData.products.length,ready:affData.products.filter(p=>affProductState(p)==='pronto').length,posted:affData.products.filter(p=>affProductState(p)==='divulgado').length,publications:posts.length,views:posts.reduce((a,p)=>a+Number(p.views||0),0),clicks:posts.reduce((a,p)=>a+Number(p.clicks||0),0),received:com.filter(x=>x.status==='recebida').reduce((a,x)=>a+Number(x.commission_amount||0),0),pending:com.filter(x=>x.status==='pendente'||x.status==='confirmada').reduce((a,x)=>a+Number(x.commission_amount||0),0),sales:com.filter(x=>x.status!=='cancelada').reduce((a,x)=>a+Number(x.quantity||1),0),contents:cs.length};}
+function renderAffiliateReports(){const s=affMetrics();document.getElementById('aff-report-stats').innerHTML=[['Produtos',s.products],['Prontos sem divulgar',s.ready],['Publicações',s.publications],['Visualizações',s.views.toLocaleString('pt-BR')],['Cliques',s.clicks.toLocaleString('pt-BR')],['Comissões recebidas',brl(s.received)],['Comissões a receber',brl(s.pending)],['Vendas informadas',s.sales]].map(([l,v])=>`<div><span>${escapeHtml(l)}</span><strong>${escapeHtml(String(v))}</strong></div>`).join('');
+ document.getElementById('aff-report-tbody').innerHTML=affData.products.length?affData.products.map(p=>{const cs=affData.contents.filter(c=>c.product_id===p.id);const ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));const paid=affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((a,x)=>a+Number(x.commission_amount||0),0);return `<tr><td>${escapeHtml(p.external_id)} · ${escapeHtml(p.name)}</td><td>${cs.length}</td><td>${ps.length}</td><td>${ps.reduce((a,x)=>a+Number(x.views||0),0)}</td><td>${ps.reduce((a,x)=>a+Number(x.clicks||0),0)}</td><td>${brl(paid)}</td></tr>`;}).join(''):'<tr><td colspan="6">Cadastre produtos para consultar os indicadores.</td></tr>';
+}
+function renderAffiliateDashboard(){const m=affMetrics();const cards=document.querySelectorAll('#view-dashboard .kpi-card');
+ [['Produtos afiliados',m.products,'IDs cadastrados por plataforma'],['Conteúdo não divulgado',m.ready,'Produtos com conteúdo produzido'],['Publicações',m.publications,'TikTok, Instagram e outros'],['Comissões recebidas',brl(m.received),'Valores informados manualmente']].forEach(([label,value,desc],i)=>{cards[i].querySelector('.kpi-label').textContent=label;cards[i].querySelector('.kpi-val').textContent=value;cards[i].querySelector('.kpi-sub').textContent=desc;});
+ document.getElementById('dash-alert-slot').innerHTML=affLoadError?`<div class="aff-errors">${escapeHtml(affLoadError)}</div>`:'';
+ document.querySelector('#dash-top-vendidos').previousElementSibling.querySelector('.app-card-title').textContent='Produtos por situação de divulgação';
+ const counts=['sem','planejado','pronto','divulgado'].map(s=>`${affStateLabel(s)}: ${affData.products.filter(p=>affProductState(p)===s).length}`);
+ document.getElementById('dash-top-vendidos').innerHTML=`<div class="aff-info">${counts.map(x=>escapeHtml(x)).join(' · ')}</div><p class="food-hint">As métricas são preenchidas manualmente. Acompanhe cada produto no módulo Produtos afiliados.</p>`;
+}
+function affCsv(rows,name){if(!rows.length)return toast('Sem registros para exportar.',true);const keys=Object.keys(rows[0]);const quote=x=>'"'+String(x??'').replaceAll('"','""')+'"';const csv='\ufeff'+[keys.join(';'),...rows.map(r=>keys.map(k=>quote(r[k])).join(';'))].join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+// Formulários — sem integrações automáticas ou valores calculados fictícios.
+affFormBind('aff-product-form','affiliate_products',f=>{
+ const platform=affValue(f,'platform'),id=affValue(f,'external_id'),name=affValue(f,'name');if(!id||name.length<2)throw Error('Informe ID e nome do produto.');
+ const current=affValue(f,'edit_id');if(affData.products.some(p=>p.id!==current&&p.platform.toLowerCase()===platform.toLowerCase()&&p.external_id.toLowerCase()===id.toLowerCase()))throw Error('Esse ID já existe para esta plataforma. Abra o produto cadastrado.');
+ return {platform,external_id:id,name,category:affValue(f,'category')||null,product_url:affSafeUrl(affValue(f,'product_url'),true),affiliate_url:affSafeUrl(affValue(f,'affiliate_url')),price:affNum(affValue(f,'price'),'Preço',true),commission_rate:affNum(affValue(f,'commission_rate'),'Percentual de comissão',true),notes:affValue(f,'notes')||null};
+});
+affFormBind('aff-content-form','affiliate_contents',f=>{
+ const pid=affValue(f,'product_id'),title=affValue(f,'title'),campaign=affValue(f,'campaign_id');if(!affById('products',pid)||title.length<2)throw Error('Produto ou título inválido.');if(campaign&&!affById('campaigns',campaign))throw Error('Campanha não pertence a esta empresa.');
+ return {product_id:pid,title,content_type:affValue(f,'content_type'),status:affValue(f,'status'),campaign_id:campaign||null,content_url:affSafeUrl(affValue(f,'content_url')),notes:affValue(f,'notes')||null};
+});
+affFormBind('aff-pub-form','affiliate_publications',f=>{
+ const content=affById('contents',affValue(f,'content_id'));if(!content||!['produzido','arquivado'].includes(content.status))throw Error('Produza o conteúdo antes de registrar uma divulgação.');
+ const url=affSafeUrl(affValue(f,'publication_url'),true),now=affValue(f,'edit_id');if(affData.publications.some(p=>p.id!==now&&p.publication_url.toLowerCase()===url.toLowerCase()))throw Error('Esta publicação já foi cadastrada.');
+ return {content_id:content.id,channel:affValue(f,'channel'),publication_url:url,published_at:affValue(f,'published_date')+'T12:00:00',views:affInt(affValue(f,'views'),'Visualizações'),clicks:affInt(affValue(f,'clicks'),'Cliques')};
+});
+affFormBind('aff-campaign-form','affiliate_campaigns',f=>{
+ const s=affValue(f,'starts_on'),end=affValue(f,'ends_on');if(s&&end&&end<s)throw Error('O término não pode anteceder o início.');
+ return {name:affValue(f,'name'),channel:affValue(f,'channel'),status:affValue(f,'status'),starts_on:s||null,ends_on:end||null,budget:affNum(affValue(f,'budget'),'Orçamento'),notes:affValue(f,'notes')||null};
+});
+affFormBind('aff-commission-form','affiliate_commissions',f=>{
+ const product=affValue(f,'product_id'),ref=affValue(f,'order_ref'),status=affValue(f,'status');if(!affById('products',product))throw Error('Selecione o produto.');
+ if(ref&&affData.commissions.some(c=>c.id!==affValue(f,'edit_id')&&c.order_ref?.toLowerCase()===ref.toLowerCase()))throw Error('Já existe uma comissão com esse ID de pedido.');
+ const qty=affInt(affValue(f,'quantity'),'Quantidade');if(qty===0)throw Error('Quantidade deve ser positiva.');
+ const paid=affValue(f,'paid_on');if(status==='recebida'&&!paid)throw Error('Informe a data de recebimento.');
+ return {product_id:product,order_ref:ref||null,sale_date:affValue(f,'sale_date'),quantity:qty,gross_amount:affNum(affValue(f,'gross_amount'),'Venda'),commission_amount:affNum(affValue(f,'commission_amount'),'Comissão'),status,paid_on:status==='recebida'?paid:null};
+});
+for(const id of ['aff-product-search','aff-product-filter'])document.getElementById(id).addEventListener(id.endsWith('search')?'input':'change',renderAffiliateProducts);
+// Ações delegadas: permite atualizar listas sem reinstalar event listeners.
+document.getElementById('app-shell').addEventListener('click',event=>{
+ const btn=event.target.closest('[data-aff-action]');if(!btn||!isAffiliate())return;const id=btn.dataset.id,a=btn.dataset.affAction;
+ if(a==='edit-product'){const p=affById('products',id);if(!p)return;goto('view-aff-products');affFormEdit('aff-product-form',p,p);}
+ else if(a==='new-content'){goto('view-aff-contents');affReset('aff-content-form');document.querySelector('#aff-content-form [name="product_id"]').value=id;document.getElementById('aff-content-form').scrollIntoView({behavior:'smooth'});}
+ else if(a==='edit-content'){const c=affById('contents',id);if(!c)return;goto('view-aff-contents');affFormEdit('aff-content-form',c,c);}
+ else if(a==='publish-content'){goto('view-aff-publications');affReset('aff-pub-form');document.querySelector('#aff-pub-form [name="content_id"]').value=id;}
+ else if(a==='edit-publication'){const p=affById('publications',id);if(!p)return;goto('view-aff-publications');affFormEdit('aff-pub-form',p,{...p,published_date:String(p.published_at).slice(0,10)});}
+ else if(a==='edit-campaign'){const c=affById('campaigns',id);if(!c)return;goto('view-aff-campaigns');affFormEdit('aff-campaign-form',c,c);}
+ else if(a==='edit-commission'){const c=affById('commissions',id);if(!c)return;goto('view-aff-commissions');affFormEdit('aff-commission-form',c,c);}
+});
+document.getElementById('aff-export-products').addEventListener('click',()=>affCsv(affData.products.map(p=>({plataforma:p.platform,id_produto:p.external_id,nome:p.name,categoria:p.category,link_produto:p.product_url,link_afiliado:p.affiliate_url,preco:p.price,comissao_percentual:p.commission_rate,status:affStateLabel(affProductState(p)),conteudos:affData.contents.filter(c=>c.product_id===p.id).length,publicacoes:affData.publications.filter(pub=>affData.contents.some(c=>c.product_id===p.id&&c.id===pub.content_id)).length})),'conexus_afiliados_produtos'));
+document.getElementById('aff-export-report').addEventListener('click',()=>affCsv(affData.products.map(p=>{const cs=affData.contents.filter(c=>c.product_id===p.id),ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));return {id:p.external_id,nome:p.name,plataforma:p.platform,conteudos:cs.length,publicacoes:ps.length,visualizacoes:ps.reduce((s,x)=>s+Number(x.views||0),0),cliques:ps.reduce((s,x)=>s+Number(x.clicks||0),0),comissoes_recebidas:affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((s,x)=>s+Number(x.commission_amount||0),0)};}),'conexus_afiliados_relatorio'));
+affReset('aff-pub-form');affReset('aff-commission-form');
 
 </script>
 </body>
