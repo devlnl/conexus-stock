@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10151D" />
   <title>Conexus – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -408,7 +409,7 @@
       .biz-switcher-btn span:first-child { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle; }
     }
 
-    /* ══════════════════ TEMA ESCURO (opcional, só na área do app) ══════════════════
+    /* ══════════════════ APARÊNCIA ESCURA ══════════════════
        Bloco 100% aditivo — nenhuma regra acima foi alterada. Ativado via
        atributo data-theme="dark" no <body> (precisa ser no body, não no
        #app-shell, porque os modais ficam fora dele no DOM — são irmãos,
@@ -479,7 +480,6 @@
     body[data-theme="dark"] .notif-item:hover { background: #262B33; }
     body[data-theme="dark"] .venda-busca-item:hover { background: #262B33; }
     body[data-theme="dark"] .app-menu-backdrop { background: rgba(0,0,0,0.65); }
-    .theme-toggle-btn { font-size: 15px; }
 
 /* ── Conexus 10: identidade editorial, produto empresarial ──────────── */
 :root {
@@ -608,13 +608,10 @@ body[data-theme="dark"] .test-mode-banner{background:#312b21;border-color:#916d3
 body[data-theme="dark"] .test-mode-banner span{color:#f3d8a4}
 body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea{color-scheme:dark}
 body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
-.theme-toggle-btn{min-width:38px;min-height:38px;display:inline-flex;align-items:center;justify-content:center}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* Conexus v13 — qualidade de uso e identidade visual também no site público. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.site-theme-toggle{background:transparent;border:1px solid #536179;border-radius:6px;color:#fff;cursor:pointer;font-size:16px;flex:0 0 auto;margin-left:auto;margin-right:10px}
-.site-theme-toggle:hover{background:#283d59}
 .biz-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 23px}
 .biz-tools .app-search{min-width:210px;flex:1 1 220px;max-width:420px}
 .biz-tools .app-form-select{min-width:185px;max-width:240px;width:auto}
@@ -637,7 +634,7 @@ body[data-theme="dark"] #marketing-site .sec-sub-d,body[data-theme="dark"] #mark
 body[data-theme="dark"] #marketing-site .stock-row,body[data-theme="dark"] #marketing-site .chart-container{border-color:#435468!important}
 body[data-theme="dark"] #marketing-site .seg-tag,body[data-theme="dark"] #marketing-site .fin-tab.active{background:#314258!important;border-color:#4c5f77;color:#dce6f3!important}
 body[data-theme="dark"] #marketing-site .fin-tabs{background:#192639!important}
-@media(max-width:680px){.biz-tools .app-search,.biz-tools .app-form-select{max-width:none;flex:1 1 100%;width:100%}.biz-tools .btn-app-secondary{flex:1 1 auto}.data-status-line{justify-content:flex-start}.site-theme-toggle{margin-left:5px;margin-right:5px;width:35px;min-width:35px}}
+@media(max-width:680px){.biz-tools .app-search,.biz-tools .app-form-select{max-width:none;flex:1 1 100%;width:100%}.biz-tools .btn-app-secondary{flex:1 1 auto}.data-status-line{justify-content:flex-start}}
 
 /* ================================================================
    CONEXUS V14 — SISTEMA DE CORES CENTRALIZADO
@@ -727,8 +724,6 @@ nav .nav-links {margin-right:auto}
 .chart-bar,.finance-bar-fill {background:var(--brand-plum)}
 .biz-card:hover {border-color:var(--brand-plum)}
 .biz-card-icon {display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--brand-purple-tint);border-radius:7px}
-.site-theme-toggle {border-color:#566249}
-.site-theme-toggle:hover {background:#292F23}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,.app-nav-item:focus-visible {outline:2px solid var(--brand-plum);outline-offset:3px}
 .btn-google {display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:47px;padding:11px 18px;
   border:1px solid #E0E3DA;background:#FFFFFF;color:var(--brand-carbon);font:700 14px 'Manrope',sans-serif;
@@ -791,9 +786,265 @@ body[data-theme="dark"] .btn-google:hover {background:#EAF0E2}
 body[data-theme="dark"] .mock-card-sub.sg {color:var(--brand-lime)}
 body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea {color-scheme:dark}
 @media(max-width:660px){.btn-google{min-height:45px}}
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONEXUS · APARÊNCIA ESCURA PERMANENTE
+   Ação #69D409 · secundária #4F4053 · fundo #10151D
+   Superfícies neutras complementares garantem legibilidade sem trocar a
+   identidade pedida. Os seletores finais resolvem heranças das versões antigas.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root, body[data-theme="dark"] {
+  --theme-bg:#10151D;
+  --theme-action:#69D409;
+  --theme-action-hover:#7BE51C;
+  --theme-secondary:#4F4053;
+  --theme-surface:#1E2631;
+  --theme-surface-alt:#293241;
+  --theme-border:#445064;
+  --theme-text:#F3F6FA;
+  --theme-subtext:#C0C9D4;
+  --theme-header:#10151D;
+  --theme-on-header:#F3F6FA;
+  --theme-on-action:#10151D;
+  --theme-focus:#69D409;
+  --theme-positive:#90ED34;
+  --theme-soft-accent:#342B3C;
+  --brand-carbon:#10151D;
+  --brand-plum:var(--theme-secondary);
+  --brand-lime:var(--theme-action);
+  --brand-lime-hover:var(--theme-action-hover);
+  --brand-light:var(--theme-bg);
+  --brand-text:var(--theme-text);
+  --brand-muted:var(--theme-subtext);
+  --brand-line:var(--theme-border);
+  --brand-purple-tint:#342B3C;
+  --cinza-11:var(--theme-text);
+  --cinza-21:var(--theme-secondary);
+  --cinza-claro:var(--theme-bg);
+  --cinza-borda:var(--theme-border);
+  --cinza-texto:var(--theme-subtext);
+  --azul:var(--theme-action);
+  --azul-hover:var(--theme-action-hover);
+  --verde:var(--theme-positive);
+}
+body, #marketing-site, #businesses-shell, #app-shell,
+#home, #funcionalidades, #segmentos, #estoque, #financas, #tecnologia, #cadastro {
+  background:var(--theme-bg)!important;
+  color:var(--theme-text);
+}
+#home {background:var(--theme-bg)!important}
+#home .hero-h1, #home .hero-stat-num {color:var(--theme-text)!important}
+#home .hero-h1 em {color:var(--theme-text)!important;text-decoration:underline;text-decoration-color:var(--theme-action);text-underline-offset:.14em}
+#home .hero-sub, #home .hero-stat-label {color:var(--theme-subtext)!important}
+#home .hero-badge {color:var(--theme-text);border-color:var(--theme-secondary);background:var(--theme-surface-alt)}
+#home .hero-stats {border-color:var(--theme-border)}
+#home .btn-hero-s {color:var(--theme-text);border-color:var(--theme-secondary)}
+#home .btn-hero-s:hover {border-color:var(--theme-action)}
+nav,.app-topbar,.biz-topbar {background:var(--theme-header)!important;border-bottom-color:var(--theme-secondary)!important}
+nav .nav-logo,.app-topbar .app-logo,.biz-topbar .biz-logo {color:var(--theme-on-header)!important}
+.nav-logo span,.app-logo span,.biz-logo span,.auth-logo span,.footer-logo span,.mock-logo span {color:var(--theme-action)!important}
+nav .nav-links a,.app-user-email,.nav-user-email {color:#E0E5EC}
+nav .nav-links a:hover {color:#FFFFFF}
+.btn-primary-nav,.btn-nav-app,.btn-hero-p,.btn-app-primary,.btn-form,.btn-form-app,
+.btn-cta,.test-mode-banner button {background:var(--theme-action)!important;color:var(--theme-on-action)!important;border-color:var(--theme-action)!important}
+.btn-primary-nav:hover,.btn-nav-app:hover,.btn-hero-p:hover,.btn-app-primary:hover,.btn-form:hover,
+.btn-form-app:hover,.btn-cta:hover,.test-mode-banner button:hover {background:var(--theme-action-hover)!important;border-color:var(--theme-action-hover)!important}
+/* Ações de exclusão continuam vermelhas, independente da paleta. */
+.btn-app-primary[style*="--vermelho"],.btn-app-primary[style*="--vermelho"]:hover {
+  background:var(--vermelho)!important;border-color:var(--vermelho)!important;color:white!important;
+}
+.btn-app-secondary,.icon-btn,.btn-logout {background:var(--theme-surface)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+.btn-app-secondary:hover,.icon-btn:hover {border-color:var(--theme-secondary)!important;color:var(--theme-text)!important}
+.dashboard-preview {background:var(--theme-secondary)!important}
+.dashboard-preview .sec-title,.dashboard-preview .sec-sub {color:#FFFFFF}
+.dashboard-preview .sec-label {color:#D9F2C4}
+.mock-dashboard,.mock-topbar,.mock-sidebar {background:#10151D!important}
+.mock-card,.mock-chart-box,.mock-content {background:#1E2631!important}
+.mock-nav-item.active {background:var(--theme-secondary)!important;border-left-color:var(--theme-action)!important}
+.mbar:nth-child(odd) {background:var(--theme-action)!important}
+.mbar:nth-child(even) {background:var(--theme-secondary)!important}
+.finance-bar-fill,.chart-bar {background:var(--theme-secondary)!important}
+#cta {background:var(--theme-secondary)!important}
+#cta .cta-title,#cta .cta-sub {color:#FFFFFF!important}
+#cta .btn-cta {background:var(--theme-action)!important;color:#10151D!important}
+footer {background:#10151D!important;border-color:var(--theme-secondary)!important}
+footer .footer-logo {color:#FFFFFF}
+footer .footer-copy {color:#D3D5D8}
+.auth-card,.feat-card,.seg-card,.tech-card,.stock-widget,.finance-widget,
+.kpi-card,.kpi-card.alert,.app-card,.app-card-head,.biz-card,.modal-box,
+.empty-state,.record-card,.modules-chooser,.module-choice,.fin-tabs,.notif-dropdown,
+.cart-qty-input,.app-search,.app-form-input,.app-form-select {
+  background:var(--theme-surface)!important;
+  color:var(--theme-text)!important;
+  border-color:var(--theme-border)!important;
+}
+.app-sidebar {background:var(--theme-surface)!important;border-color:var(--theme-border)!important}
+.app-sidebar .sidebar-sector {background:var(--theme-surface-alt)!important;color:var(--theme-subtext)!important;border-color:var(--theme-secondary)!important}
+.app-sidebar .sidebar-sector strong {color:var(--theme-text)!important}
+.sidebar-settings {border-color:var(--theme-border)!important;color:var(--theme-text)!important}
+.app-nav-item {color:var(--theme-subtext)!important}
+.app-nav-item:hover {background:var(--theme-surface-alt)!important;color:var(--theme-text)!important}
+.app-nav-item.active {background:var(--theme-secondary)!important;color:#FFFFFF!important;border-left:3px solid var(--theme-action)!important}
+.app-view-title,.app-card-title,.kpi-val,.empty-state-title,.move-name,.modal-title,
+.app-form-label,.biz-card-name,.feat-title,.seg-title,.tech-name,.stock-widget-title,
+.fin-metric-val,.sec-title-d,.auth-logo,.record-card strong,.record-detail strong,
+.stock-row,.check-list li {color:var(--theme-text)!important}
+.app-view-sub,.kpi-label,.kpi-sub,.empty-state-sub,.field-hint,.move-meta,.modal-sub,
+.biz-card-type,.feat-desc,.seg-tag,.tech-role,.col-text p,.sec-sub-d,.record-detail span,
+.record-card small,.fin-metric-label,.finance-label,.cat-pill {color:var(--theme-subtext)!important}
+.auth-sub,.auth-footer,.form-label {color:var(--theme-subtext)!important}
+.form-input,.app-form-input,.app-form-select,.app-search,.cart-qty-input,textarea,select {background:var(--theme-surface)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+.form-input::placeholder,.app-form-input::placeholder,.app-search::placeholder {color:var(--theme-subtext)!important;opacity:.8}
+.form-input:focus,.app-form-input:focus,.app-form-select:focus,.app-search:focus {border-color:var(--theme-focus)!important;outline:2px solid var(--theme-focus)!important;outline-offset:1px}
+.module-choice input {accent-color:var(--theme-action)!important}
+.sec-label-d,.auth-section-label {color:var(--theme-text)!important}
+.stock-badge,.cat-pill,.biz-card-icon,.seg-tag,.feat-icon {background:var(--theme-surface-alt)!important;border-color:var(--theme-border)!important}
+.s-ok,.move-icon.in {color:var(--theme-positive)!important;background:var(--theme-surface-alt)!important}
+.move-qty.in,.sg,.c-up {color:var(--theme-positive)!important}
+.fin-tabs {background:var(--theme-surface-alt)!important}
+.fin-tab {color:var(--theme-subtext)!important}
+.fin-tab.active {background:var(--theme-secondary)!important;color:#FFFFFF!important}
+.app-card-head,.move-row,.notif-item,.notif-dropdown-title,.record-card small,.module-choice {
+ border-color:var(--theme-border)!important;
+}
+.app-table th,table.app-table th {background:var(--theme-surface-alt)!important;color:var(--theme-subtext)!important;border-color:var(--theme-border)!important}
+.app-table td,table.app-table td,.app-table tr,table.app-table tr {
+ background:var(--theme-surface)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important;
+}
+.app-table tbody tr:hover td {background:var(--theme-surface-alt)!important}
+.notif-item:hover,.venda-busca-item:hover {background:var(--theme-surface-alt)!important}
+.biz-card:hover,.feat-card:hover,.seg-card:hover,.tech-card:hover {border-color:var(--theme-secondary)!important}
+.kpi-card {border-top:3px solid var(--theme-secondary)!important}
+.kpi-card.alert {border-top-color:var(--amarelo)!important}
+.btn-google {background:#FFFFFF!important;color:#10151D!important;border-color:#999EA7!important}
+.btn-google:hover {background:#EEF4E9!important;border-color:var(--theme-action)!important}
+.test-mode-banner {background:var(--theme-surface-alt)!important;color:var(--theme-text)!important;border-color:var(--theme-secondary)!important}
+.test-mode-banner span {color:var(--theme-text)!important}
+body[data-theme="dark"] .alert-banner-text {color:#FFE8BD!important}
+body[data-theme="dark"] .test-mode-banner .alert-banner-text {color:#FFE8BD!important}
+body[data-theme="dark"] .alert-banner {background:#332D24!important;border-color:#87734E!important}
+body[data-theme="dark"] #dash-alert-slot a {color:#AFE978!important}
+body[data-theme="dark"] .modal-overlay {background:rgba(4,8,14,.79)}
+body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea {color-scheme:dark}
+
+body[data-theme="dark"] .app-sidebar,
+body[data-theme="dark"] #marketing-site .feat-card,
+body[data-theme="dark"] #marketing-site .seg-card,
+body[data-theme="dark"] #marketing-site .tech-card,
+body[data-theme="dark"] #marketing-site .stock-widget,
+body[data-theme="dark"] #marketing-site .finance-widget,
+body[data-theme="dark"] .app-card,
+body[data-theme="dark"] .app-card-head,
+body[data-theme="dark"] .kpi-card,
+body[data-theme="dark"] .biz-card,
+body[data-theme="dark"] .empty-state,
+body[data-theme="dark"] .modal-box,
+body[data-theme="dark"] .record-card,
+body[data-theme="dark"] .app-form-input,
+body[data-theme="dark"] .app-form-select,
+body[data-theme="dark"] .app-search,
+body[data-theme="dark"] .icon-btn,
+body[data-theme="dark"] .btn-app-secondary,
+body[data-theme="dark"] .notif-dropdown,
+body[data-theme="dark"] .cart-qty-input,
+body[data-theme="dark"] .modules-chooser,
+body[data-theme="dark"] .module-choice,
+body[data-theme="dark"] .fin-tabs,
+body[data-theme="dark"] .app-table th,
+body[data-theme="dark"] .app-table td,
+body[data-theme="dark"] .app-table tr {border-color:var(--theme-border)!important}
+@media(max-width:650px){.hero-h1{font-size:clamp(38px,10vw,58px)}}
+
+
+/* Correções de especificidade das regras legadas de tema escuro. */
+body[data-theme="dark"] #home,
+body[data-theme="dark"] #funcionalidades,
+body[data-theme="dark"] #segmentos,
+body[data-theme="dark"] #estoque,
+body[data-theme="dark"] #financas,
+body[data-theme="dark"] #tecnologia,
+body[data-theme="dark"] #cadastro,
+body[data-theme="dark"] #marketing-site,
+body[data-theme="dark"] #businesses-shell,
+body[data-theme="dark"] #app-shell {background:#10151D!important;color:var(--theme-text)!important}
+body[data-theme="dark"] .app-sidebar {background:var(--theme-surface)!important;border-color:var(--theme-border)!important}
+body[data-theme="dark"] .app-nav-item.active {background:var(--theme-secondary)!important;color:#FFF!important;border-left-color:var(--theme-action)!important}
+body[data-theme="dark"] .app-nav-item:hover {background:var(--theme-surface-alt)!important;color:var(--theme-text)!important}
+body[data-theme="dark"] .app-sidebar .sidebar-sector {background:var(--theme-surface-alt)!important;color:var(--theme-subtext)!important;border-color:var(--theme-secondary)!important}
+body[data-theme="dark"] .app-sidebar .sidebar-sector strong {color:var(--theme-text)!important}
+body[data-theme="dark"] .kpi-card,body[data-theme="dark"] .kpi-card.alert,
+body[data-theme="dark"] .app-card,body[data-theme="dark"] .app-card-head,
+body[data-theme="dark"] .biz-card,body[data-theme="dark"] .empty-state,
+body[data-theme="dark"] .modal-box,body[data-theme="dark"] .record-card,
+body[data-theme="dark"] .stock-widget,body[data-theme="dark"] .finance-widget,
+body[data-theme="dark"] .icon-btn,body[data-theme="dark"] .btn-app-secondary,
+body[data-theme="dark"] .notif-dropdown,body[data-theme="dark"] .cart-qty-input,
+body[data-theme="dark"] .app-form-input,body[data-theme="dark"] .app-form-select,
+body[data-theme="dark"] .app-search,body[data-theme="dark"] .modules-chooser,
+body[data-theme="dark"] .module-choice,body[data-theme="dark"] .fin-tabs,
+body[data-theme="dark"] .fin-tab,
+body[data-theme="dark"] #marketing-site .feat-card,
+body[data-theme="dark"] #marketing-site .seg-card,
+body[data-theme="dark"] #marketing-site .tech-card,
+body[data-theme="dark"] #marketing-site .stock-widget,
+body[data-theme="dark"] #marketing-site .finance-widget {
+ background:var(--theme-surface)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important;
+}
+body[data-theme="dark"] table.app-table th,body[data-theme="dark"] .app-table th {background:var(--theme-surface-alt)!important;color:var(--theme-subtext)!important;border-color:var(--theme-border)!important}
+body[data-theme="dark"] table.app-table td,body[data-theme="dark"] .app-table td,
+body[data-theme="dark"] table.app-table tr,body[data-theme="dark"] .app-table tr {background:var(--theme-surface)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+body[data-theme="dark"] .app-table tbody tr:hover td {background:var(--theme-surface-alt)!important}
+body[data-theme="dark"] .app-view-title,body[data-theme="dark"] .app-card-title,
+body[data-theme="dark"] .kpi-val,body[data-theme="dark"] .empty-state-title,
+body[data-theme="dark"] .move-name,body[data-theme="dark"] .modal-title,
+body[data-theme="dark"] .app-form-label,body[data-theme="dark"] .biz-card-name,
+body[data-theme="dark"] #marketing-site .sec-title-d,
+body[data-theme="dark"] #marketing-site .feat-title,
+body[data-theme="dark"] #marketing-site .seg-title,
+body[data-theme="dark"] #marketing-site .tech-name,
+body[data-theme="dark"] #marketing-site .stock-widget-title,
+body[data-theme="dark"] #marketing-site .fin-metric-val {color:var(--theme-text)!important}
+body[data-theme="dark"] .app-view-sub,body[data-theme="dark"] .kpi-sub,
+body[data-theme="dark"] .kpi-label,body[data-theme="dark"] .modal-sub,
+body[data-theme="dark"] .biz-card-type,body[data-theme="dark"] .empty-state-sub,
+body[data-theme="dark"] .record-detail span,body[data-theme="dark"] .field-hint,
+body[data-theme="dark"] #marketing-site .sec-sub-d,
+body[data-theme="dark"] #marketing-site .feat-desc,
+body[data-theme="dark"] #marketing-site .seg-tag,
+body[data-theme="dark"] #marketing-site .tech-role,
+body[data-theme="dark"] #marketing-site .col-text p,
+body[data-theme="dark"] #marketing-site .check-list li {color:var(--theme-subtext)!important}
+body[data-theme="dark"] .fin-tab.active,
+body[data-theme="dark"] #marketing-site .fin-tab.active {background:var(--theme-secondary)!important;color:#FFFFFF!important}
+body[data-theme="dark"] #marketing-site .seg-tag {background:var(--theme-surface-alt)!important;color:var(--theme-subtext)!important;border-color:var(--theme-border)!important}
+body[data-theme="dark"] #marketing-site .fin-tabs {background:var(--theme-surface-alt)!important}
+body[data-theme="dark"] .cat-pill,body[data-theme="dark"] .biz-card-icon {background:var(--theme-surface-alt)!important;color:var(--theme-text)!important}
+body[data-theme="dark"] .btn-app-secondary:hover {color:var(--theme-text)!important;border-color:var(--theme-action)!important}
+body[data-theme="dark"] .move-qty.in,body[data-theme="dark"] .sg,body[data-theme="dark"] .c-up {color:var(--theme-positive)!important}
+body[data-theme="dark"] .biz-results,body[data-theme="dark"] .data-status-line,body[data-theme="dark"] .record-count {color:var(--theme-subtext)!important}
+body[data-theme="dark"] .sidebar-settings {border-color:var(--theme-border)!important;color:var(--theme-text)!important}
+body[data-theme="dark"] .btn-google {background:#FFFFFF!important;color:#10151D!important;border-color:#999EA7!important}
+body[data-theme="dark"] .btn-google:hover {background:#EEF4E9!important}
+/* Estilos de autenticação para o tema escuro fixo. */
+body[data-theme="dark"] .auth-card {background:var(--theme-surface)!important;border-color:var(--theme-border)!important}
+body[data-theme="dark"] .auth-logo {color:var(--theme-text)!important}
+body[data-theme="dark"] #cadastro .auth-section-title {color:var(--theme-text)!important}
+
+
+/* Contraste de textos e links no modo escuro. */
+body[data-theme="dark"] .auth-link {color:#91EC5A!important}
+body[data-theme="dark"] .dashboard-preview .sec-label {color:#C8F2B5!important}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,.app-nav-item:focus-visible {
+ outline:2px solid var(--theme-focus)!important;outline-offset:3px!important;
+}
+
+  :root { color-scheme: dark; background: #10151D; }
   </style>
 </head>
-<body>
+<body data-theme="dark">
 
 <!-- ══════════════════ MARKETING SITE ══════════════════ -->
 <div id="marketing-site">
@@ -809,7 +1060,7 @@ body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="da
     <li><a href="#financas">Finanças</a></li>
     <li><a href="#tecnologia">Tecnologia</a></li>
   </ul>
-  <button id="theme-toggle-btn-site" class="theme-toggle-btn site-theme-toggle" title="Alternar tema" type="button" aria-label="Ativar modo escuro">🌙</button>
+
   <div class="nav-cta" id="nav-cta-area">
     <a href="#cadastro" class="btn-outline" id="nav-btn-entrar">Entrar</a>
     <a href="#cadastro" class="btn-primary-nav">Criar conta</a>
@@ -876,12 +1127,12 @@ body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="da
           <div class="mock-chart-box">
             <div class="mock-chart-title">Produtos mais vendidos (semana)</div>
             <div class="bar-group">
-              <div class="mbar" style="height:85%;background:#0F52BA;animation-delay:.1s"></div>
-              <div class="mbar" style="height:60%;background:#1A6BE0;animation-delay:.2s"></div>
-              <div class="mbar" style="height:75%;background:#0F52BA;animation-delay:.3s"></div>
-              <div class="mbar" style="height:40%;background:#1A6BE0;animation-delay:.4s"></div>
-              <div class="mbar" style="height:55%;background:#0F52BA;animation-delay:.5s"></div>
-              <div class="mbar" style="height:30%;background:#1A6BE0;animation-delay:.6s"></div>
+              <div class="mbar" style="height:85%;animation-delay:.1s"></div>
+              <div class="mbar" style="height:60%;animation-delay:.2s"></div>
+              <div class="mbar" style="height:75%;animation-delay:.3s"></div>
+              <div class="mbar" style="height:40%;animation-delay:.4s"></div>
+              <div class="mbar" style="height:55%;animation-delay:.5s"></div>
+              <div class="mbar" style="height:30%;animation-delay:.6s"></div>
             </div>
           </div>
           <div class="mock-chart-box">
@@ -1175,7 +1426,7 @@ body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="da
       <button class="app-logo conexus-home-logo" type="button" title="Ir para a página inicial" aria-label="Conexus — Página inicial">Con<span>exus</span></button>
     </div>
     <div class="app-topbar-right">
-      <button class="notif-bell-btn theme-toggle-btn" id="theme-toggle-btn-biz" title="Alternar tema">🌙</button>
+
       <span class="app-user-email" id="biz-user-email"></span>
       <button class="btn-app-logout" id="biz-btn-logout">Sair</button>
     </div>
@@ -1217,7 +1468,7 @@ body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="da
       </button>
     </div>
     <div class="app-topbar-right">
-      <button class="notif-bell-btn theme-toggle-btn" id="theme-toggle-btn-app" title="Alternar tema">🌙</button>
+
       <button class="notif-bell-btn" id="global-search-btn" title="Buscar">🔍</button>
       <div style="position:relative;">
         <button class="notif-bell-btn" id="notif-bell-btn" title="Notificações">
@@ -2796,30 +3047,8 @@ document.querySelectorAll('.conexus-home-logo, .auth-logo').forEach(el => {
   });
 });
 
-// ══════════════════════════════════════════════
-// TEMA CLARO/ESCURO — persiste somente a preferência visual local.
-const THEME_KEY = 'conexus:preferencia-tema:v12';
-let currentTheme = 'light';
-function applyTheme(theme) {
-  currentTheme = theme === 'dark' ? 'dark' : 'light';
-  document.body.dataset.theme = currentTheme;
-  document.documentElement.style.colorScheme = currentTheme;
-  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-    btn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-    btn.title = currentTheme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro';
-    btn.setAttribute('aria-label', btn.title);
-    btn.setAttribute('aria-pressed', String(currentTheme === 'dark'));
-  });
-}
-function toggleTheme() {
-  applyTheme(currentTheme === 'light' ? 'dark' : 'light');
-  try { localStorage.setItem(THEME_KEY, currentTheme); } catch (_) {}
-}
-try { applyTheme(localStorage.getItem(THEME_KEY) || 'light'); }
-catch (_) { applyTheme('light'); }
-document.getElementById('theme-toggle-btn-site').addEventListener('click', toggleTheme);
-document.getElementById('theme-toggle-btn-biz').addEventListener('click', toggleTheme);
-document.getElementById('theme-toggle-btn-app').addEventListener('click', toggleTheme);
+// Tema escuro permanente: aplicado no HTML e nas variáveis CSS.
+// Não há alternância e nenhuma preferência de tema é salva no navegador.
 
 // ══════════════════════════════════════════════
 // DEMONSTRAÇÃO LOCAL — isolada da autenticação e do banco de produção.
