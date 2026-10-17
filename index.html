@@ -611,6 +611,186 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
 .theme-toggle-btn{min-width:38px;min-height:38px;display:inline-flex;align-items:center;justify-content:center}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
+/* Conexus v13 — qualidade de uso e identidade visual também no site público. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.site-theme-toggle{background:transparent;border:1px solid #536179;border-radius:6px;color:#fff;cursor:pointer;font-size:16px;flex:0 0 auto;margin-left:auto;margin-right:10px}
+.site-theme-toggle:hover{background:#283d59}
+.biz-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 23px}
+.biz-tools .app-search{min-width:210px;flex:1 1 220px;max-width:420px}
+.biz-tools .app-form-select{min-width:185px;max-width:240px;width:auto}
+.biz-tools .btn-app-secondary{white-space:nowrap;min-height:38px}
+.biz-results{color:#66758a;font-size:12px;margin-right:auto}
+.toolbar-actions{display:flex;flex-wrap:wrap;gap:10px}
+.record-count{color:#8796a8;font-size:11px;font-weight:500;white-space:nowrap;margin-left:6px}
+.data-status-line{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:12px;padding:0 0 14px;color:#687789;font-size:12px}
+.data-status-line .btn-app-secondary{padding:7px 11px;font-size:12px}
+.data-status-line[data-status="error"]{color:#b84245}
+.data-status-line[data-status="loading"]{color:#8c6d36}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,.app-nav-item:focus-visible{outline:2px solid #d87653;outline-offset:3px}
+body[data-theme="dark"] .biz-results,body[data-theme="dark"] .data-status-line,body[data-theme="dark"] .record-count{color:#bfd0e4}
+body[data-theme="dark"] .data-status-line[data-status="error"]{color:#ffaaa8}
+body[data-theme="dark"] #marketing-site{background:#101722;color:#e7edf5}
+body[data-theme="dark"] #funcionalidades,body[data-theme="dark"] #segmentos,body[data-theme="dark"] #estoque,body[data-theme="dark"] #financas,body[data-theme="dark"] #tecnologia{background:#142032!important}
+body[data-theme="dark"] #marketing-site .feat-card,body[data-theme="dark"] #marketing-site .seg-card,body[data-theme="dark"] #marketing-site .tech-card,body[data-theme="dark"] #marketing-site .stock-widget,body[data-theme="dark"] #marketing-site .finance-widget{background:#203047!important;color:#e7edf5!important;border-color:#35475c!important}
+body[data-theme="dark"] #marketing-site .sec-title-d,body[data-theme="dark"] #marketing-site .feat-title,body[data-theme="dark"] #marketing-site .seg-title,body[data-theme="dark"] #marketing-site .tech-name,body[data-theme="dark"] #marketing-site .stock-widget-title,body[data-theme="dark"] #marketing-site .fin-metric-val{color:#f4f5f9!important}
+body[data-theme="dark"] #marketing-site .sec-sub-d,body[data-theme="dark"] #marketing-site .feat-desc,body[data-theme="dark"] #marketing-site .seg-tag,body[data-theme="dark"] #marketing-site .tech-role,body[data-theme="dark"] #marketing-site .col-text p,body[data-theme="dark"] #marketing-site .check-list li{color:#c2cde0!important}
+body[data-theme="dark"] #marketing-site .stock-row,body[data-theme="dark"] #marketing-site .chart-container{border-color:#435468!important}
+body[data-theme="dark"] #marketing-site .seg-tag,body[data-theme="dark"] #marketing-site .fin-tab.active{background:#314258!important;border-color:#4c5f77;color:#dce6f3!important}
+body[data-theme="dark"] #marketing-site .fin-tabs{background:#192639!important}
+@media(max-width:680px){.biz-tools .app-search,.biz-tools .app-form-select{max-width:none;flex:1 1 100%;width:100%}.biz-tools .btn-app-secondary{flex:1 1 auto}.data-status-line{justify-content:flex-start}.site-theme-toggle{margin-left:5px;margin-right:5px;width:35px;min-width:35px}}
+
+/* ================================================================
+   CONEXUS V14 — SISTEMA DE CORES CENTRALIZADO
+   Identidade: carbono #15190F | ameixa #37034B | lima #91E948
+   Verde é cor de ação (fundo) com texto escuro, NUNCA texto em fundo branco.
+   ================================================================ */
+:root {
+  --brand-carbon:#15190F;
+  --brand-plum:#37034B;
+  --brand-lime:#91E948;
+  --brand-lime-hover:#A9F46C;
+  --brand-light:#F6F7F1;
+  --brand-text:#15190F;
+  --brand-muted:#66705F;
+  --brand-line:#D8DECF;
+  --brand-purple-tint:#F1EBF4;
+  --cinza-11:var(--brand-carbon);
+  --cinza-21:var(--brand-plum);
+  --azul:var(--brand-lime);
+  --azul-hover:var(--brand-lime-hover);
+  --cinza-claro:var(--brand-light);
+  --cinza-borda:var(--brand-line);
+  --cinza-texto:var(--brand-muted);
+  --verde:#436B1B;
+}
+body {background:var(--brand-light);color:var(--brand-text)}
+nav,.app-topbar,.biz-topbar {background:var(--brand-carbon)!important;border-bottom:1px solid #414A34}
+.nav-logo span,.app-logo span,.auth-logo span,.biz-logo span,.mock-logo span,.footer-logo span {color:var(--brand-lime)}
+.nav-logo,.app-logo,.footer-logo {background:none;border:0;padding:0;text-align:left;cursor:pointer}
+.conexus-home-logo:hover {opacity:.84}
+.conexus-home-logo:focus-visible,.auth-logo:focus-visible {outline:2px solid var(--brand-lime);outline-offset:6px;border-radius:3px}
+.nav-logo,.app-logo {flex-shrink:0}
+nav .nav-logo {margin-right:26px}
+nav .nav-links {margin-right:auto}
+@media(max-width:900px){nav .nav-logo{margin-right:12px}}
+#home {background:var(--brand-carbon)}
+.hero-h1 em {color:var(--brand-lime)}
+.hero-badge {color:var(--brand-lime);border-color:#567139}
+.hero-sub {color:#CDD4C3}
+.hero-stats {border-color:#464F3E}
+.hero-stat-label {color:#BEC7B3}
+.dashboard-preview {background:var(--brand-plum)}
+.mock-dashboard {background:var(--brand-carbon)}
+.mock-topbar,.mock-sidebar {background:#1E2218}
+.mock-nav-item.active {background:#304022;border-left-color:var(--brand-lime)}
+.mock-content,.mock-card,.mock-chart-box {background:#25291F}
+.mock-card-sub.sg {color:var(--brand-lime)}
+.sec-label,.sec-label-d,.auth-section-label {color:#5B2C70}
+.dashboard-preview .sec-label {color:var(--brand-lime)}
+#cadastro {background:var(--brand-carbon)}
+.auth-section-label {color:var(--brand-lime)}
+.auth-card {background:#24281F;border:1px solid #4A5141}
+#cta {background:var(--brand-plum)}
+.btn-primary-nav,.btn-nav-app,.btn-hero-p,.btn-app-primary,.btn-form,.btn-form-app,
+.btn-cta,.test-mode-banner button {background:var(--brand-lime)!important;color:var(--brand-carbon)!important;border-color:var(--brand-lime)!important}
+.btn-primary-nav:hover,.btn-nav-app:hover,.btn-hero-p:hover,.btn-app-primary:hover,.btn-form:hover,
+.btn-form-app:hover,.btn-cta:hover,.test-mode-banner button:hover {background:var(--brand-lime-hover)!important;border-color:var(--brand-lime-hover)!important}
+.btn-app-primary:disabled,.btn-form:disabled {opacity:.62}
+/* Excluir continua sendo uma ação destrutiva, não usa a cor de confirmação. */
+.btn-app-primary[style*="--vermelho"], .btn-app-primary[style*="--vermelho"]:hover {
+  background:var(--vermelho)!important;border-color:var(--vermelho)!important;color:#FFFFFF!important
+}
+.btn-app-secondary:hover,.icon-btn:hover {border-color:var(--brand-plum);color:var(--brand-plum)}
+.auth-link {color:var(--brand-lime)}
+.hero-btns .btn-hero-s:hover {border-color:var(--brand-lime)}
+#funcionalidades,#financas {background:#EFF1E9}
+#segmentos,#estoque,#tecnologia {background:var(--brand-light)}
+.feat-icon,.seg-card:hover,.tech-card:hover {background:var(--brand-purple-tint)}
+.feat-card:hover,.seg-card:hover,.tech-card:hover {border-color:#744385}
+.seg-tag {border-color:var(--brand-line)}
+.check-list li::before {background:#DFF4CC;color:#345B0F}
+.stock-badge {color:#4A2861;background:#EFE5F3}
+#businesses-shell,#app-shell {background:var(--brand-light)}
+.app-sidebar {background:#FFFFFF;border-right:1px solid var(--brand-line)}
+.app-nav-item.active {color:var(--brand-plum);background:var(--brand-purple-tint)}
+.app-nav-item:hover {background:#F1F2E9}
+.sidebar-sector {background:#F1EBF4;border-left-color:var(--brand-plum);color:#584864}
+.sidebar-sector strong {color:var(--brand-plum)}
+.sidebar-settings:hover {border-color:var(--brand-plum);color:var(--brand-plum)}
+.module-choice input {accent-color:var(--brand-plum)}
+.kpi-card {border-top-color:var(--brand-plum)}
+.kpi-card.alert {border-top-color:#A36D31}
+.app-table th {background:#F0F2EB!important}
+.app-table tr:hover {background:#F2EBF4}
+.app-form-input:focus,.app-form-select:focus,.app-search:focus,.form-input:focus {outline:2px solid #37034B44;border-color:var(--brand-plum)}
+.move-qty.in,.sg,.c-up {color:#436B1B}
+.chart-bar,.finance-bar-fill {background:var(--brand-plum)}
+.biz-card:hover {border-color:var(--brand-plum)}
+.biz-card-icon {display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--brand-purple-tint);border-radius:7px}
+.site-theme-toggle {border-color:#566249}
+.site-theme-toggle:hover {background:#292F23}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,.app-nav-item:focus-visible {outline:2px solid var(--brand-plum);outline-offset:3px}
+.btn-google {display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:47px;padding:11px 18px;
+  border:1px solid #E0E3DA;background:#FFFFFF;color:var(--brand-carbon);font:700 14px 'Manrope',sans-serif;
+  border-radius:6px;cursor:pointer;transition:background .15s,border-color .15s}
+.btn-google:hover:not(:disabled) {background:#F0F3EB;border-color:var(--brand-lime)}
+.btn-google:disabled {opacity:.65;cursor:wait}
+.google-mark {flex-shrink:0}
+.auth-footer {margin-top:18px}
+/* Os modos compartilham as MESMAS variáveis, só as superfícies mudam. */
+body[data-theme="dark"] {
+  --cinza-claro:#171C13;--cinza-borda:#414A37;--cinza-texto:#B5C0AA;
+  color:#F0F4E8;background:var(--brand-carbon);
+}
+body[data-theme="dark"] #marketing-site,
+body[data-theme="dark"] #businesses-shell,
+body[data-theme="dark"] #app-shell {background:var(--brand-carbon)!important;color:#F0F4E8}
+body[data-theme="dark"] #funcionalidades,
+body[data-theme="dark"] #segmentos,
+body[data-theme="dark"] #estoque,
+body[data-theme="dark"] #financas,
+body[data-theme="dark"] #tecnologia {background:#191F15!important}
+body[data-theme="dark"] .app-sidebar {background:#20261C!important;border-color:#3C4534!important}
+body[data-theme="dark"] .app-sidebar .sidebar-sector {background:#312037;border-color:var(--brand-lime);color:#D9C9DD}
+body[data-theme="dark"] .sidebar-sector strong {color:var(--brand-lime)}
+body[data-theme="dark"] .app-nav-item:hover {background:#2B3325;color:#F5F9EF}
+body[data-theme="dark"] .app-nav-item.active {background:#372042!important;color:var(--brand-lime)!important}
+body[data-theme="dark"] .kpi-card,body[data-theme="dark"] .kpi-card.alert,
+body[data-theme="dark"] .app-card,body[data-theme="dark"] .app-card-head,
+body[data-theme="dark"] .biz-card,body[data-theme="dark"] .empty-state,
+body[data-theme="dark"] .modal-box,body[data-theme="dark"] .record-card,
+body[data-theme="dark"] .stock-widget,body[data-theme="dark"] .finance-widget,
+body[data-theme="dark"] .icon-btn,body[data-theme="dark"] .btn-app-secondary,
+body[data-theme="dark"] .notif-dropdown,body[data-theme="dark"] .cart-qty-input,
+body[data-theme="dark"] .app-form-input,body[data-theme="dark"] .app-form-select,
+body[data-theme="dark"] .app-search,body[data-theme="dark"] .modules-chooser,
+body[data-theme="dark"] .module-choice,body[data-theme="dark"] .fin-tabs {background:#242B20!important;color:#F0F5E9!important;border-color:#414B39!important}
+body[data-theme="dark"] .app-table th,body[data-theme="dark"] table.app-table th {background:#2B3226!important;color:#CBD6C2!important;border-color:#414B39!important}
+body[data-theme="dark"] .app-table td,body[data-theme="dark"] table.app-table td,
+body[data-theme="dark"] .app-table tr,body[data-theme="dark"] table.app-table tr {background:#242B20!important;color:#F0F5E9!important;border-color:#414B39!important}
+body[data-theme="dark"] .app-table tbody tr:hover td {background:#343D2D!important}
+body[data-theme="dark"] .cat-pill {background:#392842;color:#EBDAF0}
+body[data-theme="dark"] .biz-card-icon {background:#392842}
+body[data-theme="dark"] .fin-tab.active {background:#4B2A58!important;color:#FFFFFF!important}
+body[data-theme="dark"] .sidebar-settings {border-color:#58664D;color:#D7E0CD}
+body[data-theme="dark"] .sidebar-settings:hover {color:var(--brand-lime)}
+body[data-theme="dark"] .biz-results,body[data-theme="dark"] .data-status-line,
+body[data-theme="dark"] .record-count {color:#C0CFB4}
+body[data-theme="dark"] #marketing-site .feat-card,
+body[data-theme="dark"] #marketing-site .seg-card,
+body[data-theme="dark"] #marketing-site .tech-card,
+body[data-theme="dark"] #marketing-site .stock-widget,
+body[data-theme="dark"] #marketing-site .finance-widget {background:#242B20!important;color:#EAF2E3!important;border-color:#414B39!important}
+body[data-theme="dark"] #marketing-site .seg-tag,body[data-theme="dark"] #marketing-site .fin-tab.active {background:#342A3C!important;color:#E9D8F3!important;border-color:#694573!important}
+body[data-theme="dark"] #marketing-site .fin-tabs {background:#22291D!important}
+body[data-theme="dark"] .sec-label-d {color:var(--brand-lime)}
+body[data-theme="dark"] .move-qty.in,body[data-theme="dark"] .sg,body[data-theme="dark"] .c-up {color:var(--brand-lime)}
+body[data-theme="dark"] .btn-app-secondary:hover {color:var(--brand-lime);border-color:var(--brand-lime)}
+body[data-theme="dark"] .btn-google {background:#F6F8F1;color:var(--brand-carbon);border-color:#C9D7C4}
+body[data-theme="dark"] .btn-google:hover {background:#EAF0E2}
+body[data-theme="dark"] .mock-card-sub.sg {color:var(--brand-lime)}
+body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea {color-scheme:dark}
+@media(max-width:660px){.btn-google{min-height:45px}}
   </style>
 </head>
 <body>
@@ -620,7 +800,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" id="logo-home">Con<span>exus</span></div>
+  <button class="nav-logo conexus-home-logo" id="logo-home" type="button" title="Ir para a página inicial" aria-label="Conexus — Página inicial">Con<span>exus</span></button>
   <ul class="nav-links">
     <li><a href="#home">Início</a></li>
     <li><a href="#funcionalidades">Funcionalidades</a></li>
@@ -629,6 +809,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
     <li><a href="#financas">Finanças</a></li>
     <li><a href="#tecnologia">Tecnologia</a></li>
   </ul>
+  <button id="theme-toggle-btn-site" class="theme-toggle-btn site-theme-toggle" title="Alternar tema" type="button" aria-label="Ativar modo escuro">🌙</button>
   <div class="nav-cta" id="nav-cta-area">
     <a href="#cadastro" class="btn-outline" id="nav-btn-entrar">Entrar</a>
     <a href="#cadastro" class="btn-primary-nav">Criar conta</a>
@@ -924,6 +1105,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
       </div>
       <button class="btn-form" id="btn-signup">Criar conta gratuita</button>
       <div class="divider"><span>ou</span></div>
+      <button class="btn-google" id="btn-google-signup" type="button" aria-label="Continuar com Google"><svg class="google-mark" width="19" height="19" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.39 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.29 5.48-4.83 7.18l7.73 6C44.36 38.01 46.98 31.82 46.98 24.55Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.77-4.59l-7.98-6.2A24 24 0 0 0 0 24c0 3.87.92 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.92-2.13 15.9-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.17 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.2C6.51 42.62 14.62 48 24 48Z"/></svg><span class="google-text">Continuar com Google</span></button>
       <div class="auth-footer">Já tem uma conta? <span class="auth-link" id="go-login">Entrar</span></div>
     </div>
 
@@ -945,6 +1127,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
       </div>
       <button class="btn-form" id="btn-login">Entrar</button>
       <div class="divider"><span>ou</span></div>
+      <button class="btn-google" id="btn-google-login" type="button" aria-label="Continuar com Google"><svg class="google-mark" width="19" height="19" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.39 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.29 5.48-4.83 7.18l7.73 6C44.36 38.01 46.98 31.82 46.98 24.55Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.77-4.59l-7.98-6.2A24 24 0 0 0 0 24c0 3.87.92 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.92-2.13 15.9-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.17 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.2C6.51 42.62 14.62 48 24 48Z"/></svg><span class="google-text">Continuar com Google</span></button>
       <div class="auth-footer">Não tem conta? <span class="auth-link" id="go-signup">Criar conta</span></div>
     </div>
 
@@ -977,7 +1160,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Con<span>exus</span></div>
+  <button class="footer-logo conexus-home-logo" type="button" title="Ir para a página inicial" aria-label="Conexus — Página inicial">Con<span>exus</span></button>
   <div class="footer-copy">© 2025 Conexus. Todos os direitos reservados.</div>
 </footer>
 
@@ -989,7 +1172,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
 <div id="businesses-shell" style="display:none;">
   <div class="app-topbar">
     <div class="app-topbar-left">
-      <div class="app-logo">Con<span>exus</span></div>
+      <button class="app-logo conexus-home-logo" type="button" title="Ir para a página inicial" aria-label="Conexus — Página inicial">Con<span>exus</span></button>
     </div>
     <div class="app-topbar-right">
       <button class="notif-bell-btn theme-toggle-btn" id="theme-toggle-btn-biz" title="Alternar tema">🌙</button>
@@ -1009,6 +1192,16 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
       </div>
       <button class="btn-app-primary" id="btn-add-negocio">+ Adicionar negócio</button>
     </div>
+    <div class="biz-tools" aria-label="Filtros de negócios">
+      <label class="sr-only" for="business-search">Pesquisar empresas</label>
+      <input id="business-search" type="search" class="app-search" placeholder="Pesquisar empresa ou segmento…" autocomplete="off" />
+      <label class="sr-only" for="business-filter">Filtrar por segmento</label>
+      <select id="business-filter" class="app-form-select"><option value="">Todos os segmentos</option></select>
+      <span id="business-results" class="biz-results" role="status" aria-live="polite"></span>
+      <button id="businesses-refresh" class="btn-app-secondary" type="button" title="Atualizar negócios do banco">↻ Atualizar lista</button>
+      <button id="demo-reset" class="btn-app-secondary" style="display:none" type="button" title="Restaurar dados da demonstração">↺ Reiniciar teste</button>
+      <button id="demo-export" class="btn-app-secondary" style="display:none" type="button" title="Exportar os dados da demonstração para JSON">↓ Exportar teste</button>
+    </div>
     <div id="businesses-grid"></div>
   </div>
 </div>
@@ -1018,7 +1211,7 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
   <div class="app-topbar">
     <div class="app-topbar-left">
       <button class="app-menu-toggle" id="app-menu-toggle" title="Abrir menu" aria-label="Abrir menu">☰</button>
-      <div class="app-logo">Con<span>exus</span></div>
+      <button class="app-logo conexus-home-logo" type="button" title="Ir para a página inicial" aria-label="Conexus — Página inicial">Con<span>exus</span></button>
       <button class="biz-switcher-btn" id="biz-switcher-btn" title="Trocar de negócio">
         <span id="biz-switcher-name">Carregando…</span><span class="biz-switcher-caret">▾</span>
       </button>
@@ -1064,6 +1257,10 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
       <div class="test-mode-banner" id="test-mode-banner-app">
         <span>Demonstração temporária: dados não são gravados e serão descartados ao sair.</span>
         <button type="button" id="test-mode-criar-conta-btn-app">Sair e criar conta</button>
+      </div>
+      <div class="data-status-line" role="status" aria-live="polite">
+        <span id="data-load-state">Dados ainda não carregados</span>
+        <button type="button" id="data-refresh-btn" class="btn-app-secondary">↻ Atualizar dados</button>
       </div>
 
       <!-- DASHBOARD -->
@@ -1113,8 +1310,8 @@ body[data-theme="dark"] .modal-overlay{background:rgba(3,8,17,.75)}
       <div class="app-view" id="view-operacoes">
         <div class="app-header-row"><div><div class="app-view-title" id="operacoes-titulo">Operações</div>
         <div class="app-view-sub" id="operacoes-descricao">Registros do segmento</div></div>
-        <button class="btn-app-primary" id="operacoes-novo">+ Novo registro</button></div>
-        <div class="app-card"><div class="app-card-head"><div class="app-card-title">Registros do negócio</div></div><div id="operacoes-lista"></div></div>
+        <div class="toolbar-actions"><button class="btn-app-secondary" type="button" id="operacoes-exportar">↓ Exportar CSV</button><button class="btn-app-primary" id="operacoes-novo">+ Novo registro</button></div></div>
+        <div class="app-card"><div class="app-card-head"><div class="app-card-title">Registros do negócio <span id="operacoes-contagem" class="record-count"></span></div><input class="app-search" type="search" id="operacoes-busca" placeholder="Pesquisar registros…" aria-label="Pesquisar registros do setor" /></div><div id="operacoes-lista"></div></div>
       </div>
       <!-- ESTOQUE -->
       <div class="app-view" id="view-estoque">
@@ -2416,11 +2613,16 @@ document.getElementById('modulos-salvar').addEventListener('click', async () => 
 });
 // CRUD de registros do setor; os campos variam de acordo com o tipo de negócio.
 let registrosSetoriais=[];
+let operacoesSearchTerm='';
+document.getElementById('operacoes-busca').addEventListener('input',e=>{operacoesSearchTerm=e.target.value.trim().toLocaleLowerCase('pt-BR');renderRegistrosSetoriais();});
 function renderRegistrosSetoriais() {
   const slot=document.getElementById('operacoes-lista');
+  const visible=registrosSetoriais.filter(r=>(r.title+' '+Object.values(r.fields||{}).join(' ')).toLocaleLowerCase('pt-BR').includes(operacoesSearchTerm));
+  document.getElementById('operacoes-contagem').textContent='('+visible.length+'/'+registrosSetoriais.length+')';
   if(!registrosSetoriais.length) {slot.innerHTML='<div class="empty-state"><div class="empty-state-title">Sem registros</div><div class="empty-state-sub">Cadastre a primeira operação deste segmento.</div></div>';return;}
+  if(!visible.length){slot.innerHTML='<div class="empty-state"><div class="empty-state-title">Nenhum registro encontrado</div><div class="empty-state-sub">Tente outra palavra-chave.</div></div>';return;}
   const campos=modeloSetorial().campos;
-  slot.innerHTML='<div class="records-grid">'+registrosSetoriais.map(r=>{
+  slot.innerHTML='<div class="records-grid">'+visible.map(r=>{
     const cells=campos.slice(0,4).map(([key,label,type])=>{
       const val=r.fields?.[key];
       const display=type==='money' && val!==undefined && val!=='' ? brl(val) : (val||'—');
@@ -2438,6 +2640,23 @@ function renderRegistrosSetoriais() {
     } catch(e){toast(e.message||'Erro ao excluir.',true);btn.disabled=false;}
   }));
 }
+function csvCell(v){
+  let value=String(v??'');
+  // Escapar fórmulas para não executar conteúdo digitado pelo usuário ao abrir no Excel/LibreOffice.
+  if(/^[\s]*[=+@-]/.test(value)) value="'"+value;
+  return '"'+value.replace(/"/g,'""')+'"';
+}
+document.getElementById('operacoes-exportar').addEventListener('click',()=>{
+  if(!currentBusiness){toast('Escolha uma empresa.',true);return;}
+  if(!registrosSetoriais.length){toast('Não há registros para exportar.',true);return;}
+  const campos=modeloSetorial().campos;
+  const header=['Título',...campos.map(f=>f[1]),'Criado em'];
+  const rows=registrosSetoriais.map(r=>[r.title,...campos.map(([key])=>r.fields?.[key]??''),r.created_at?new Date(r.created_at).toLocaleString('pt-BR'):'']);
+  const csv='\ufeff'+[header,...rows].map(row=>row.map(csvCell).join(';')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='conexus_registros_'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Registros exportados.');
+});
 document.getElementById('operacoes-novo').addEventListener('click',()=>{
   document.getElementById('operacoes-form').reset();hideMsg('operacoes-msg');
   document.getElementById('modal-operacoes').classList.add('open');
@@ -2508,6 +2727,75 @@ function wireNavBtnEntrar() {
 }
 wireNavBtnEntrar();
 
+// LOGIN SOCIAL — login com Google via Supabase Auth.
+// Necessário habilitar Google em Supabase > Authentication > Providers
+// e cadastrar a URL publicada em Authentication > URL Configuration.
+let googleOAuthBusy = false;
+async function loginWithGoogle(origin) {
+  if (googleOAuthBusy) return;
+  const msgId = origin === 'login' ? 'msg-login' : 'msg-signup';
+  hideMsg(msgId);
+  if (demoActive) {
+    showMsg(msgId, 'Saia da demonstração antes de entrar com o Google.', 'error');
+    return;
+  }
+  if (!/^https?:$/.test(window.location.protocol)) {
+    showMsg(msgId, 'O login Google exige um site publicado em HTTPS ou um servidor local HTTP.', 'error');
+    return;
+  }
+  googleOAuthBusy = true;
+  document.querySelectorAll('.btn-google').forEach(btn => {
+    btn.disabled = true;
+    btn.querySelector('.google-text').textContent = 'Conectando…';
+  });
+  try {
+    // Volta para o mesmo index.html após o login; a URL deve estar liberada no Supabase.
+    const callback = new URL(window.location.pathname, window.location.origin);
+    callback.searchParams.set('conexus_auth', 'google');
+    const { error } = await withTimeout(realSupabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: callback.toString() }
+    }), 15000);
+    if (error) throw error;
+  } catch (err) {
+    console.error('Não foi possível iniciar o login Google:', err);
+    showMsg(msgId, 'Não foi possível conectar ao Google: ' + (err.message || 'verifique a configuração do provedor.'), 'error');
+  } finally {
+    googleOAuthBusy = false;
+    document.querySelectorAll('.btn-google').forEach(btn => {
+      btn.disabled = false;
+      btn.querySelector('.google-text').textContent = 'Continuar com Google';
+    });
+  }
+}
+document.getElementById('btn-google-login').addEventListener('click', () => loginWithGoogle('login'));
+document.getElementById('btn-google-signup').addEventListener('click', () => loginWithGoogle('signup'));
+
+// A marca sempre leva ao início sem encerrar a conta real.
+function navigateConexusHome() {
+  if (demoActive) {
+    if (!confirm('Voltar ao início encerrará a demonstração e descartará os dados temporários. Continuar?')) return;
+    endLocalDemo();
+    showLoggedOutMarketing();
+  }
+  closeApp();
+  if (currentUser && !currentUser.is_anonymous) showLoggedMarketing(currentUser.email);
+  try { if (window.history.replaceState) window.history.replaceState(null, '', window.location.pathname + window.location.search); } catch (_) { /* file:// ou prévia sem origem HTTPS */ }
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelectorAll('.conexus-home-logo, .auth-logo').forEach(el => {
+  if (!el.matches('button')) {
+    el.setAttribute('role','button');
+    el.setAttribute('tabindex','0');
+  }
+  el.addEventListener('click', navigateConexusHome);
+  el.addEventListener('keydown', event => {
+    if ((event.key === 'Enter' || event.key === ' ') && !el.matches('button')) {
+      event.preventDefault();navigateConexusHome();
+    }
+  });
+});
+
 // ══════════════════════════════════════════════
 // TEMA CLARO/ESCURO — persiste somente a preferência visual local.
 const THEME_KEY = 'conexus:preferencia-tema:v12';
@@ -2529,6 +2817,7 @@ function toggleTheme() {
 }
 try { applyTheme(localStorage.getItem(THEME_KEY) || 'light'); }
 catch (_) { applyTheme('light'); }
+document.getElementById('theme-toggle-btn-site').addEventListener('click', toggleTheme);
 document.getElementById('theme-toggle-btn-biz').addEventListener('click', toggleTheme);
 document.getElementById('theme-toggle-btn-app').addEventListener('click', toggleTheme);
 
@@ -2559,7 +2848,11 @@ function makeDemoData() {
     ['Loja Modelo','comercio','pequeno'],
     ['Afiliados Modelo','afiliados','individual'],
     ['Alimentos Modelo','industria_alimenticia','medio'],
-    ['Farmacêutica Modelo','industria_farmaceutica','medio']
+    ['Farmacêutica Modelo','industria_farmaceutica','medio'],
+    ['Entregas Modelo','logistica','pequeno'],
+    ['Serviços Modelo','servicos','individual'],
+    ['E-commerce Modelo','ecommerce','pequeno'],
+    ['Restaurante Modelo','restaurante','pequeno']
   ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
     user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
   const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
@@ -2576,6 +2869,10 @@ function makeDemoData() {
   product(byType.industria_alimenticia,'Biscoito integral 200 g',83,6.5,2.6,'Alimentos');
   product(byType.industria_farmaceutica,'Produto demonstrativo A',130,24.9,12,'Produtos');
   product(byType.industria_farmaceutica,'Produto demonstrativo B',52,39.9,18,'Produtos');
+  product(byType.ecommerce,'Mochila casual',35,119.9,54,'Acessórios');
+  product(byType.ecommerce,'Fone com fio',72,39.9,17,'Eletrônicos');
+  product(byType.restaurante,'Suco natural 300 ml',60,9.9,3.2,'Bebidas');
+  product(byType.restaurante,'Lanche do dia',24,24.9,11,'Refeições');
   tables.customers.push({id:demoUuid(),user_id:owner,business_id:byType.comercio.id,name:'Cliente Exemplo',created_at:now});
   tables.suppliers.push({id:demoUuid(),user_id:owner,business_id:byType.comercio.id,name:'Fornecedor Modelo',created_at:now});
   tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.afiliados.id,sector_slug:'afiliados',title:'Campanha demonstrativa',
@@ -2584,6 +2881,10 @@ function makeDemoData() {
     title:'Lote demonstrativo A-001',fields:{produto:'Molho de tomate 500 g',lote:'A-001',status:'Em produção'},created_at:now});
   tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.industria_farmaceutica.id,sector_slug:'industria_farmaceutica',
     title:'Lote demonstrativo F-001',fields:{produto:'Produto demonstrativo A',lote:'F-001',status:'Em análise'},created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.logistica.id,sector_slug:'logistica',title:'Entrega demonstrativa 001',fields:{origem:'Centro de distribuição',destino:'Cliente demonstrativo',motorista:'Equipe A',status:'Em trânsito',frete:'320.00'},created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.servicos.id,sector_slug:'servicos',title:'Instalação demonstrativa',fields:{cliente:'Cliente Modelo',servico:'Instalação',preco:'450.00',status:'Agendado'},created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.ecommerce.id,sector_slug:'ecommerce',title:'Pedido web 1001',fields:{canal:'Loja online',cliente:'Cliente Exemplo',codigo:'1001',status:'Separação',valor:'119.90'},created_at:now});
+  tables.business_records.push({id:demoUuid(),user_id:owner,business_id:byType.restaurante.id,sector_slug:'restaurante',title:'Pedido de demonstração',fields:{pedido:'R-025',canal:'Delivery',status:'Preparando',valor:'24.90'},created_at:now});
   tables.revenues.push({id:demoUuid(),user_id:owner,business_id:byType.afiliados.id,description:'Comissões de demonstração',amount:186.5,
     category:'comissoes',status:'recebido',payment_date:now.slice(0,10),created_at:now});
   return tables;
@@ -2641,6 +2942,9 @@ function makeDemoClient(store) {
     return p;
   }
   function rpc(action,req) {
+    // O ambiente de demonstração simula transações: uma falha desfaz
+    // TODAS as alterações do comando, como acontece com RPCs SQL atômicos.
+    const snapshot=Object.fromEntries(Object.entries(store).map(([key,rows])=>[key,structuredClone(rows)]));
     try {
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
@@ -2648,7 +2952,21 @@ function makeDemoClient(store) {
       if(action==='conexus_move_stock')changeStock(bid,req.p_product_id,Number(req.p_quantity),req.p_type,req.p_reason);
       else if(action==='conexus_record_sale') {
         const items=req.p_items||[];if(!items.length)throw Error('Venda sem itens.');
-        for(const it of items){const p=store.products.find(p=>p.id===it.id&&p.business_id===bid);if(!p||p.quantity<it.quantity)throw Error('Estoque insuficiente para a venda.');}
+        const required=new Map();
+        for(const it of items){
+          const qty=Number(it.quantity);
+          if(!Number.isSafeInteger(qty)||qty<=0)throw Error('A quantidade de venda deve ser um inteiro positivo.');
+          required.set(it.id,(required.get(it.id)||0)+qty);
+        }
+        for(const [pid,qty] of required){const p=store.products.find(p=>p.id===pid&&p.business_id===bid);if(!p||p.quantity<qty)throw Error('Estoque insuficiente para a venda.');}
+        if(req.p_customer_id&&!store.customers.some(c=>c.id===req.p_customer_id&&c.business_id===bid))throw Error('Cliente de outra empresa.');
+        const discount=Number(req.p_discount||0);
+        if(!Number.isFinite(discount)||discount<0)throw Error('Desconto inválido.');
+        const preSubtotal=items.reduce((sum,it)=>{
+          const p=store.products.find(p=>p.id===it.id&&p.business_id===bid);
+          return sum+Number(it.quantity)*Number(p.price);
+        },0);
+        if(discount>preSubtotal)throw Error('O desconto não pode superar o valor da venda.');
         let subtotal=0;
         const sale={id:demoUuid(),user_id:uid,business_id:bid,customer_id:req.p_customer_id||null,
           payment_method:req.p_payment_method||null,discount:Number(req.p_discount||0),status:'concluida',created_at:now};
@@ -2656,8 +2974,19 @@ function makeDemoClient(store) {
           subtotal+=qty*Number(p.price);store.sale_items.push({id:demoUuid(),user_id:uid,sale_id:sale.id,product_id:p.id,product_name:p.name,quantity:qty,unit_price:p.price,created_at:now});
           changeStock(bid,p.id,qty,'saida','Venda',true);
         });
-        sale.subtotal=subtotal;sale.total=Math.max(0,subtotal-sale.discount);store.sales.push(sale);
+        if(discount>subtotal)throw Error('O desconto não pode superar o valor da venda.');
+        sale.subtotal=subtotal;sale.total=subtotal-discount;store.sales.push(sale);
       } else if(action==='conexus_record_purchase') {
+        if(!Array.isArray(req.p_items)||!req.p_items.length)throw Error('Compra sem itens.');
+        for(const it of req.p_items){
+          const p=store.products.find(p=>p.id===it.id&&p.business_id===bid);
+          const qty=Number(it.quantity),cost=Number(it.unitCost);
+          if(!p||!Number.isSafeInteger(qty)||qty<1||!Number.isFinite(cost)||cost<0)throw Error('Item da compra inválido.');
+        }
+        if(req.p_supplier_id&&!store.suppliers.some(s=>s.id===req.p_supplier_id&&s.business_id===bid))throw Error('Fornecedor de outra empresa.');
+        const preCost=req.p_items.reduce((sum,it)=>sum+Number(it.quantity)*Number(it.unitCost),0);
+        const monetary=[req.p_freight||0,req.p_taxes||0,req.p_discount||0].map(Number);
+        if(monetary.some(n=>!Number.isFinite(n)||n<0)||preCost+monetary[0]+monetary[1]-monetary[2]<0)throw Error('Valores da compra inválidos.');
         let subtotal=0;const purchase={id:demoUuid(),user_id:uid,business_id:bid,supplier_id:req.p_supplier_id||null,
           payment_method:req.p_payment_method||null,freight:Number(req.p_freight||0),taxes:Number(req.p_taxes||0),discount:Number(req.p_discount||0),status:'recebida',created_at:now};
         (req.p_items||[]).forEach(it=>{const p=store.products.find(p=>p.id===it.id&&p.business_id===bid);if(!p)throw Error('Produto não encontrado.');
@@ -2665,13 +2994,22 @@ function makeDemoClient(store) {
           subtotal+=qty*cost;store.purchase_items.push({id:demoUuid(),user_id:uid,purchase_id:purchase.id,product_id:p.id,product_name:p.name,quantity:qty,unit_cost:cost,created_at:now});
           changeStock(bid,p.id,qty,'entrada','Compra',false,cost);
         });
-        purchase.subtotal=subtotal;purchase.total=subtotal+purchase.freight+purchase.taxes-purchase.discount;store.purchases.push(purchase);
+        const total=subtotal+purchase.freight+purchase.taxes-purchase.discount;
+        if (![purchase.freight,purchase.taxes,purchase.discount,total].every(Number.isFinite)||[purchase.freight,purchase.taxes,purchase.discount,total].some(n=>n<0))throw Error('Valores da compra inválidos.');
+        purchase.subtotal=subtotal;purchase.total=total;store.purchases.push(purchase);
       } else if(action==='conexus_record_return') {
         const sale=store.sales.find(s=>s.id===req.p_sale_id&&s.business_id===bid);if(!sale)throw Error('Venda não encontrada.');
+        const totals=new Map();
         for(const it of req.p_items||[]) {
-          const si=store.sale_items.find(s=>s.id===it.saleItemId&&s.sale_id===sale.id);if(!si)throw Error('Item inválido.');
+          const qty=Number(it.quantity);
+          if(!Number.isSafeInteger(qty)||qty<1)throw Error('Quantidade da devolução inválida.');
+          totals.set(it.saleItemId,(totals.get(it.saleItemId)||0)+qty);
+        }
+        if(!totals.size)throw Error('Devolução sem itens.');
+        for(const [itemId,qty] of totals) {
+          const si=store.sale_items.find(s=>s.id===itemId&&s.sale_id===sale.id);if(!si)throw Error('Item inválido.');
           const count=store.returns.filter(r=>r.sale_item_id===si.id).reduce((sum,r)=>sum+r.quantity,0);
-          if(it.quantity<1||it.quantity+count>si.quantity)throw Error('Quantidade de devolução maior que a disponível.');
+          if(qty+count>si.quantity)throw Error('Quantidade de devolução maior que a disponível.');
         }
         for(const it of req.p_items||[]){const si=store.sale_items.find(s=>s.id===it.saleItemId);
           store.returns.push({id:demoUuid(),user_id:uid,business_id:bid,sale_id:sale.id,sale_item_id:si.id,product_id:si.product_id,
@@ -2682,7 +3020,10 @@ function makeDemoClient(store) {
         throw Error('Convites de equipe não estão disponíveis na demonstração.');
       } else throw Error('Operação indisponível na demonstração: '+action);
       return Promise.resolve({data:null,error:null});
-    }catch(e){return Promise.resolve({data:null,error:{message:e.message}});}
+    }catch(e){
+      for(const [key,rows] of Object.entries(snapshot)) store[key].splice(0,store[key].length,...rows);
+      return Promise.resolve({data:null,error:{message:e.message}});
+    }
   }
   return {from:name=>new LocalDemoQuery(store,name),rpc,auth:{
     getUser:async()=>({data:{user:{id:uid,email:null,is_anonymous:true}},error:null}),
@@ -2693,11 +3034,41 @@ function startLocalDemo(){
   demoStore=makeDemoData();sb=makeDemoClient(demoStore);demoActive=true;
   currentUser={id:'conexus-demo-local',email:null,is_anonymous:true};
   businessTypes=[];businesses=[];currentBusiness=null;
+  updateDemoToolbar();
 }
 function endLocalDemo(){
   demoActive=false;demoStore=null;sb=realSupabase;
   currentUser=null;currentBusiness=null;businesses=[];businessTypes=[];
+  updateDemoToolbar();
 }
+function updateDemoToolbar(){
+  const mode = demoActive ? 'inline-flex' : 'none';
+  document.getElementById('demo-reset').style.display=mode;
+  document.getElementById('demo-export').style.display=mode;
+}
+function resetLocalDemo(){
+  if (!demoActive) return;
+  if (!confirm('Restaurar todas as empresas e dados de demonstração? As alterações deste teste serão descartadas.')) return;
+  businessSearchTerm='';businessFilterType='';
+  document.getElementById('business-search').value='';
+  document.getElementById('business-filter').value='';
+  startLocalDemo();
+  updateDemoToolbar();
+  openBusinessesShell();
+  toast('Demonstração restaurada.');
+}
+function exportLocalDemo(){
+  if (!demoActive || !demoStore) return;
+  const content=JSON.stringify({version:'conexus-demo-v13',exported_at:new Date().toISOString(),note:'Dados fictícios de demonstração — não são importados automaticamente no banco de produção.',tables:demoStore},null,2);
+  const blob=new Blob([content],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='conexus_demonstracao_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  toast('Dados demonstrativos exportados.');
+}
+document.getElementById('demo-reset').addEventListener('click',resetLocalDemo);
+document.getElementById('demo-export').addEventListener('click',exportLocalDemo);
 function exitDemoToSignup(){
   if(demoActive)endLocalDemo();
   document.getElementById('modal-upgrade-conta').classList.remove('open');
@@ -2887,16 +3258,15 @@ document.getElementById('btn-logout').addEventListener('click', async function()
   if (!confirmLogoutIfAnonymous()) return;
   setBtn('btn-logout', true, 'Sair da conta', 'Saindo...');
   try {
-    await withTimeout(sb.auth.signOut(), 8000);
-  } catch (err) {
-    console.error('Erro ao sair (saindo mesmo assim localmente):', err);
-  } finally {
-    currentUser = null;
-    currentBusiness = null;
-    businesses = [];
-    setBtn('btn-logout', false, 'Sair da conta');
+    const {error}=await withTimeout(sb.auth.signOut(), 8000);
+    if(error)throw error;
+    currentUser = null;currentBusiness = null;businesses = [];
     showLoggedOutMarketing();
-  }
+  } catch(err) {
+    console.error('Falha ao encerrar sessão:',err);
+    toast('Não foi possível confirmar o encerramento da sessão. Tente novamente.',true);
+  } finally {setBtn('btn-logout', false, 'Sair da conta');}
+  
 });
 
 // ── LOGOUT (dentro do app) ──
@@ -2904,17 +3274,15 @@ document.getElementById('app-btn-logout').addEventListener('click', async functi
   if (!confirmLogoutIfAnonymous()) return;
   setBtn('app-btn-logout', true, 'Sair', 'Saindo...');
   try {
-    await withTimeout(sb.auth.signOut(), 8000);
-  } catch (err) {
-    console.error('Erro ao sair (saindo mesmo assim localmente):', err);
-  } finally {
-    currentUser = null;
-    currentBusiness = null;
-    businesses = [];
-    setBtn('app-btn-logout', false, 'Sair');
-    closeApp();
-    showLoggedOutMarketing();
-  }
+    const {error}=await withTimeout(sb.auth.signOut(), 8000);
+    if(error)throw error;
+    currentUser=null;currentBusiness=null;businesses=[];
+    closeApp();showLoggedOutMarketing();
+  } catch(err) {
+    console.error('Falha ao encerrar sessão:',err);
+    toast('Não foi possível confirmar o encerramento da sessão. Tente novamente.',true);
+  } finally {setBtn('app-btn-logout', false, 'Sair');}
+  
 });
 
 // ── LOGOUT (dentro de Meus Negócios) ──
@@ -2922,17 +3290,15 @@ document.getElementById('biz-btn-logout').addEventListener('click', async functi
   if (!confirmLogoutIfAnonymous()) return;
   setBtn('biz-btn-logout', true, 'Sair', 'Saindo...');
   try {
-    await withTimeout(sb.auth.signOut(), 8000);
-  } catch (err) {
-    console.error('Erro ao sair (saindo mesmo assim localmente):', err);
-  } finally {
-    currentUser = null;
-    currentBusiness = null;
-    businesses = [];
-    setBtn('biz-btn-logout', false, 'Sair');
-    closeApp();
-    showLoggedOutMarketing();
-  }
+    const {error}=await withTimeout(sb.auth.signOut(), 8000);
+    if(error)throw error;
+    currentUser=null;currentBusiness=null;businesses=[];
+    closeApp();showLoggedOutMarketing();
+  } catch(err) {
+    console.error('Falha ao encerrar sessão:',err);
+    toast('Não foi possível confirmar o encerramento da sessão. Tente novamente.',true);
+  } finally {setBtn('biz-btn-logout', false, 'Sair');}
+  
 });
 
 document.getElementById('btn-go-app').addEventListener('click', async function() {
@@ -2956,6 +3322,12 @@ realSupabase.auth.onAuthStateChange(function(event, session) {
     if (!appOpen && !bizShellOpen) {
       if (!session.user.is_anonymous) {
         showLoggedMarketing(currentUser.email);
+        // Na volta do Google, apresenta diretamente os negócios da conta.
+        if (new URLSearchParams(window.location.search).get('conexus_auth') === 'google' && !window.__conexusGoogleCallbackHandled) {
+          window.__conexusGoogleCallbackHandled = true;
+          try { window.history.replaceState(null, '', window.location.pathname); } catch (_) {}
+          setTimeout(() => openBusinessesShell().catch(e => console.error('Falha no retorno do OAuth:', e)), 0);
+        }
       }
       // usuário anônimo: o próprio fluxo de "Começar teste" já leva
       // direto pra openBusinessesShell(), não precisa fazer nada aqui.
@@ -2981,6 +3353,10 @@ function closeApp() {
 // NEGÓCIOS — Meus negócios / seleção / criação
 // ══════════════════════════════════════════════
 const PORTE_LABELS = { individual: 'Individual', pequeno: 'Pequeno', medio: 'Médio', grande: 'Grande' };
+let businessSearchTerm='';
+let businessFilterType='';
+document.getElementById('business-search').addEventListener('input',e=>{businessSearchTerm=e.target.value.trim().toLocaleLowerCase('pt-BR');renderBusinessesGrid();});
+document.getElementById('business-filter').addEventListener('change',e=>{businessFilterType=e.target.value;renderBusinessesGrid();});
 
 async function openBusinessesShell() {
   const user = await getAuthedUser();
@@ -2993,6 +3369,7 @@ async function openBusinessesShell() {
   currentUser = user;
   currentBusiness = null;
   updateTestModeBanners();
+  updateDemoToolbar();
   console.log('[Conexus] Sessão ativa. user.id =', user.id, '| email =', user.email);
   document.getElementById('marketing-site').style.display = 'none';
   document.getElementById('app-shell').style.display = 'none';
@@ -3023,16 +3400,55 @@ async function loadBusinessTypes() {
 }
 
 async function loadBusinesses() {
-  const { data, error } = await withTimeout(
+  // A relação incorporada pode não estar visível no cache de esquema do PostgREST.
+  // Neste caso, consulta os negócios sem JOIN e completa o tipo pelo catálogo local.
+  let { data, error } = await withTimeout(
     sb.from('businesses').select('*, business_types(name, icon, slug)').order('created_at', { ascending: true }),
     15000
   );
+  if (error && (error.code === 'PGRST200' || error.code === 'PGRST201')) {
+    ({ data, error } = await withTimeout(
+      sb.from('businesses').select('*').order('created_at', { ascending: true }),
+      15000
+    ));
+  }
   if (error) throw error;
-  businesses = data || [];
+  businesses = (data || []).map(hydrateBusinessType);
+  return businesses;
 }
+function hydrateBusinessType(business) {
+  return {...business, business_types: business.business_types ||
+    businessTypes.find(type => type.id === business.business_type_id) || null};
+}
+function resetBusinessFilters() {
+  businessSearchTerm = '';
+  businessFilterType = '';
+  document.getElementById('business-search').value = '';
+  document.getElementById('business-filter').value = '';
+}
+async function refreshBusinessList() {
+  const btn = document.getElementById('businesses-refresh');
+  btn.disabled = true;
+  try {
+    await loadBusinessTypes();
+    await loadBusinesses();
+    renderBusinessesGrid();
+  } catch (error) {
+    console.error('Falha ao atualizar empresas:', error);
+    toast('Não foi possível atualizar seus negócios: ' + (error.message || 'Tente novamente.'), true);
+  } finally { btn.disabled = false; }
+}
+document.getElementById('businesses-refresh').addEventListener('click', refreshBusinessList);
 
 function renderBusinessesGrid() {
   const grid = document.getElementById('businesses-grid');
+  const filter=document.getElementById('business-filter');
+  const types=[...new Map(businesses.map(b=>[b.business_type_id,{id:b.business_type_id,name:b.business_types?.name||'Sem tipo definido'}])).values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+  if(businessFilterType && !types.some(t=>t.id===businessFilterType))businessFilterType='';
+  filter.innerHTML='<option value="">Todos os segmentos</option>'+types.map(t=>'<option value="'+escapeHtml(t.id||'')+'">'+escapeHtml(t.name)+'</option>').join('');
+  filter.value=businessFilterType;
+  const filtered=businesses.filter(b=>(!businessFilterType||b.business_type_id===businessFilterType)&&(!businessSearchTerm||(b.name+' '+(b.business_types?.name||'')).toLocaleLowerCase('pt-BR').includes(businessSearchTerm)));
+  document.getElementById('business-results').textContent=filtered.length+' de '+businesses.length+' negócio(s)';
 
   if (businesses.length === 0) {
     grid.innerHTML = '<div class="empty-state">' +
@@ -3044,7 +3460,10 @@ function renderBusinessesGrid() {
     return;
   }
 
-  grid.innerHTML = '<div class="biz-grid">' + businesses.map(b => {
+  if(!filtered.length){
+    grid.innerHTML='<div class="empty-state"><div class="empty-state-title">Nenhum negócio corresponde ao filtro</div><div class="empty-state-sub">Altere o nome ou o segmento pesquisado.</div></div>';return;
+  }
+  grid.innerHTML = '<div class="biz-grid">' + filtered.map(b => {
     const tipo = b.business_types;
     const icon = escapeHtml(tipo?.icon || '▣');
     const tipoNome = tipo ? tipo.name : 'Sem tipo definido';
@@ -3088,6 +3507,7 @@ async function openBusiness(biz) {
   customers=[];salesHistory=[];suppliers=[];purchasesHistory=[];salesReturns=[];
   expenses=[];revenues=[];categories=[];auditLogs=[];
   cartItems = [];compraCartItems = [];registrosSetoriais=[];
+  operacoesSearchTerm='';document.getElementById('operacoes-busca').value='';
   updateTestModeBanners();
   document.getElementById('businesses-shell').style.display = 'none';
   document.getElementById('app-shell').style.display = 'block';
@@ -3249,27 +3669,49 @@ document.getElementById('biz-save').addEventListener('click', async () => {
       contact: contato || null, address: endereco || null
     };
 
+    // Solicita ao banco a linha persistida, evitando sucesso falso e mostrando
+    // imediatamente o novo negócio mesmo se a atualização posterior falhar.
+    let persisted;
     if (id) {
-      const { error } = await withTimeout(sb.from('businesses').update({
+      const { data, error } = await withTimeout(sb.from('businesses').update({
         ...payload, updated_at: new Date().toISOString()
-      }).eq('id', id), 15000);
-      if (error) { showMsg('biz-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
+      }).eq('id', id).select('*').single(), 15000);
+      if (error) throw error;
+      if (!data?.id) throw new Error('O banco não confirmou a atualização do negócio.');
+      persisted = hydrateBusinessType(data);
+      businesses = businesses.map(b => b.id === persisted.id ? persisted : b);
       logAudit('editar', 'negócio', nome, null, id);
-      toast('Negócio atualizado com sucesso.');
     } else {
-      const { error } = await withTimeout(sb.from('businesses').insert({
+      const { data, error } = await withTimeout(sb.from('businesses').insert({
         ...payload, user_id: user.id
-      }), 15000);
-      if (error) { showMsg('biz-msg', 'Erro ao criar negócio: ' + error.message, 'error'); return; }
-      toast('Negócio criado com sucesso.');
+      }).select('*').single(), 15000);
+      if (error) throw error;
+      if (!data?.id || data.user_id !== user.id) throw new Error('O banco não confirmou a criação do negócio.');
+      persisted = hydrateBusinessType(data);
+      businesses = [...businesses.filter(b => b.id !== persisted.id), persisted];
     }
 
-    document.getElementById('modal-business').classList.remove('open');
-    await loadBusinesses();
+    // Um filtro anterior podia esconder o negócio mesmo depois de criado.
+    resetBusinessFilters();
     renderBusinessesGrid();
+    document.getElementById('modal-business').classList.remove('open');
+    toast(id ? 'Negócio atualizado com sucesso.' : 'Negócio criado e exibido em Meus negócios.');
+    // Sincroniza com a fonte de verdade e confirma que RLS não oculta o registro.
+    try {
+      const cached = [...businesses];
+      await loadBusinesses();
+      if (!businesses.some(b => b.id === persisted.id)) {
+        businesses = cached;
+        toast('Registro salvo, mas o banco não permitiu consultá-lo novamente. Revise a política RLS de businesses.', true);
+      }
+      renderBusinessesGrid();
+    } catch (refreshError) {
+      console.warn('Não foi possível sincronizar a lista; mantendo linha confirmada:', refreshError);
+      toast('Negócio salvo. A atualização automática está indisponível; use Atualizar lista.', true);
+    }
   } catch (err) {
     console.error('Erro ao salvar negócio:', err);
-    showMsg('biz-msg', 'Não foi possível salvar. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+    showMsg('biz-msg', 'Não foi possível confirmar o cadastro. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
   } finally {
     setBtn('biz-save', false, id ? 'Salvar alterações' : 'Criar negócio');
   }
@@ -3337,8 +3779,16 @@ document.getElementById('app-menu-backdrop').addEventListener('click', closeMobi
 // ══════════════════════════════════════════════
 // CARREGAR DADOS DO SUPABASE
 // ══════════════════════════════════════════════
+function setDataState(status,message){
+  const line=document.querySelector('.data-status-line');
+  line.dataset.status=status;
+  document.getElementById('data-load-state').textContent=message;
+  document.getElementById('data-refresh-btn').disabled=status==='loading';
+}
+document.getElementById('data-refresh-btn').addEventListener('click',()=>{if(currentBusiness)loadAllData();});
 async function loadAllData() {
   if (!currentBusiness) return;
+  setDataState('loading','Sincronizando dados do negócio…');
   try {
     const businessAtStart = currentBusiness.id;
     const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes, auditRes, recordsRes] = await withTimeout(Promise.all([
@@ -3412,8 +3862,15 @@ async function loadAllData() {
     renderPrevisaoEstoque();
     renderAuditoria();
     renderNotifications();
+    const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
+    if(maybePartial) {
+      setDataState('warning','Dados atualizados, porém alguns históricos atingiram o limite de consulta. Relatórios podem não incluir todos os registros.');
+    } else {
+      setDataState('success','Dados atualizados às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
+    }
   } catch (err) {
     console.error('Erro ao carregar dados:', err);
+    setDataState('error','Não foi possível carregar os dados. Verifique a conexão ou o esquema SQL e tente novamente.');
     toast('Não foi possível carregar seus dados. ' + (err.message || ''), true);
   }
 }
@@ -3442,7 +3899,11 @@ function renderDashboard() {
     return;
   }
   const labels=['Produtos cadastrados','Valor em estoque','Estoque baixo','Movimentações (30d)'];
-  document.querySelectorAll('#view-dashboard .kpi-card').forEach((c,i)=>c.querySelector('.kpi-label').textContent=labels[i]);
+  const descriptions=['0 unidades em estoque','Soma de qtd × preço','produtos no limite ou abaixo','entradas e saídas'];
+  document.querySelectorAll('#view-dashboard .kpi-card').forEach((c,i)=>{
+    c.querySelector('.kpi-label').textContent=labels[i];
+    c.querySelector('.kpi-sub').textContent=descriptions[i];
+  });
   document.querySelector('#dash-top-vendidos').previousElementSibling.querySelector('.app-card-title').textContent='Mais vendidos';
   const totalProdutos = products.length;
   const totalUnidades = products.reduce((s, p) => s + Number(p.quantity), 0);
@@ -5797,6 +6258,17 @@ function exportarFinancas() {
 document.getElementById('btn-export-estoque').addEventListener('click', exportarEstoque);
 document.getElementById('btn-export-movs').addEventListener('click', exportarMovimentacoes);
 document.getElementById('btn-export-financas').addEventListener('click', exportarFinancas);
+// Acessibilidade: atalhos não interferem em campos em edição.
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'){
+    const opened=[...document.querySelectorAll('.modal-overlay.open')];
+    if(opened.length){opened[opened.length-1].classList.remove('open');e.preventDefault();return;}
+    closeNotifDropdown();closeMobileMenu();return;
+  }
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k' && document.getElementById('app-shell').style.display==='block'){
+    e.preventDefault();document.getElementById('global-search-btn').click();
+  }
+});
 </script>
 </body>
 </html>
