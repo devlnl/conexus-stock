@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus v21 – Gestão empresarial por segmento</title>
+  <title>Conexus v22 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1126,6 +1126,22 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 @media(max-width:980px){.v21-two-col{grid-template-columns:1fr}.v21-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.v21-grid{grid-template-columns:1fr}.v21-product-chooser{grid-template-columns:minmax(0,1fr) 72px}.v21-product-chooser button{grid-column:1/-1}.v21-metrics{grid-template-columns:1fr 1fr}.v21-panel{padding:14px!important}}
 
+
+/* CONEXUS V22 — busca de clientes e acessibilidade */
+.conexus-linked-select{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;opacity:0!important;pointer-events:none!important}
+.conexus-client-picker{position:relative;min-width:0}
+.conexus-suggestion-list{position:relative;z-index:20;background:#202834;border:1px solid #4F4053;border-radius:9px;margin-top:5px;max-height:220px;overflow-y:auto;box-shadow:0 12px 25px #0007}
+.conexus-suggestion-list[hidden]{display:none!important}
+.conexus-suggestion-list button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;background:transparent;border:0;border-bottom:1px solid #4F405355;color:#E7EAF0;padding:10px 12px;text-align:left;cursor:pointer;font:inherit;font-size:13px}
+.conexus-suggestion-list button:hover,.conexus-suggestion-list button:focus{background:#334153;outline:1px solid #69D409}
+.conexus-suggestion-list small{color:#B3B8C3}
+.conexus-suggestion-empty{font-size:12px;color:#C2C6CF;padding:10px 12px}
+
+    /* Links legais do Conexus */
+    .legal-inline{margin:13px auto 4px;text-align:center;max-width:370px;color:#aab4c2;font-size:12px;line-height:1.7}
+    .legal-inline a,.footer-legal a{color:#8ee83a;text-decoration:underline;text-underline-offset:3px}
+    .legal-inline a:hover,.footer-legal a:hover{color:#c3fc87}
+    .footer-legal{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:13px}
 </style>
 </head>
 <body data-theme="dark">
@@ -1441,6 +1457,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       <button class="btn-form" id="btn-signup">Criar conta gratuita</button>
       <div class="divider"><span>ou</span></div>
       <button class="btn-google" id="btn-google-signup" type="button" aria-label="Continuar com Google"><svg class="google-mark" width="19" height="19" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.39 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.29 5.48-4.83 7.18l7.73 6C44.36 38.01 46.98 31.82 46.98 24.55Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.77-4.59l-7.98-6.2A24 24 0 0 0 0 24c0 3.87.92 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.92-2.13 15.9-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.17 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.2C6.51 42.62 14.62 48 24 48Z"/></svg><span class="google-text">Continuar com Google</span></button>
+      <div class="legal-inline">Ao criar sua conta, você declara que leu os <a href="https://devlnl.github.io/termos-sevico-conexus/" target="_blank" rel="noopener noreferrer">Termos de Serviço</a>. Saiba como tratamos dados na <a href="https://devlnl.github.io/politica-privacidade-conexus/" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.</div>
       <div class="auth-footer">Já tem uma conta? <span class="auth-link" id="go-login">Entrar</span></div>
     </div>
 
@@ -1463,6 +1480,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       <button class="btn-form" id="btn-login">Entrar</button>
       <div class="divider"><span>ou</span></div>
       <button class="btn-google" id="btn-google-login" type="button" aria-label="Continuar com Google"><svg class="google-mark" width="19" height="19" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.39 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.29 5.48-4.83 7.18l7.73 6C44.36 38.01 46.98 31.82 46.98 24.55Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.77-4.59l-7.98-6.2A24 24 0 0 0 0 24c0 3.87.92 7.53 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.92-2.13 15.9-5.8l-7.73-6c-2.14 1.44-4.89 2.3-8.17 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.2C6.51 42.62 14.62 48 24 48Z"/></svg><span class="google-text">Continuar com Google</span></button>
+      <div class="legal-inline">Ao continuar, consulte nossa <a href="https://devlnl.github.io/politica-privacidade-conexus/" target="_blank" rel="noopener noreferrer">Política de Privacidade</a> e os <a href="https://devlnl.github.io/termos-sevico-conexus/" target="_blank" rel="noopener noreferrer">Termos de Serviço</a>.</div>
       <div class="auth-footer">Não tem conta? <span class="auth-link" id="go-signup">Criar conta</span></div>
     </div>
 
@@ -1496,7 +1514,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 <!-- FOOTER -->
 <footer>
   <button class="footer-logo conexus-home-logo" type="button" title="Ir para a página inicial" aria-label="Conexus — Página inicial">Con<span>exus</span></button>
-  <div class="footer-copy">© 2025 Conexus. Todos os direitos reservados.</div>
+  <div class="footer-copy">© 2026 Conexus. Todos os direitos reservados.<div class="footer-legal"><a href="https://devlnl.github.io/politica-privacidade-conexus/" target="_blank" rel="noopener noreferrer">Política de Privacidade</a><a href="https://devlnl.github.io/termos-sevico-conexus/" target="_blank" rel="noopener noreferrer">Termos de Serviço</a></div></div>
 </footer>
 
 </div>
@@ -1824,8 +1842,8 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       <section class="app-view" id="view-insights">
         <div class="app-header-row"><div><div class="app-view-title">Inteligência empresarial</div><div class="app-view-sub">Indicadores calculados a partir dos registros do negócio, sem previsões artificiais.</div></div><button type="button" id="v21-insights-export" class="btn-app-secondary">Exportar CSV</button></div>
         <div class="app-card v21-panel"><div class="v21-grid"><div><label class="app-form-label">Período</label><select id="v21-insights-period" class="app-form-select"><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="365">Últimos 365 dias</option><option value="all">Todo histórico carregado</option></select></div><div><label class="app-form-label">Origem dos dados</label><div class="v21-help">Vendas, custos dos itens, receitas, despesas e pedidos consultados.</div></div></div>
-        <div id="v21-insights-stats" class="v21-metrics"></div><p class="v21-help">Lucro calculado com custos informados. Não equivale a DRE contábil e pode ser parcial se o histórico atingir os limites de consulta.</p>
-        <h3>Desempenho mensal</h3><div class="v21-scroll"><table class="v21-table"><thead><tr><th>Mês</th><th>Vendas</th><th>Recebimentos avulsos</th><th>Despesas pagas</th><th>Saldo operacional*</th></tr></thead><tbody id="v21-insights-months"></tbody></table></div><p class="v21-help">*Saldo operacional = vendas concluídas + receitas recebidas − despesas pagas; não desconta impostos ou CMV separadamente.</p>
+        <p id="v21-insights-data-warning" class="v21-warning" hidden></p><div id="v21-insights-stats" class="v21-metrics"></div><p class="v21-help">Lucro calculado com custos informados. Não equivale a DRE contábil e pode ser parcial se o histórico atingir os limites de consulta.</p>
+        <h3>Desempenho mensal</h3><div class="v21-scroll"><table class="v21-table"><thead><tr><th>Mês</th><th>Vendas brutas</th><th>Devoluções</th><th>Recebimentos avulsos</th><th>Despesas pagas</th><th>Saldo operacional*</th></tr></thead><tbody id="v21-insights-months"></tbody></table></div><p class="v21-help">*Saldo operacional = vendas − devoluções + receitas avulsas − despesas. Indicador gerencial, não substitui contabilidade.</p>
         </div>
       </section>
       <!-- CONEXUS V18: EQUIPE -->
@@ -1901,7 +1919,11 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <div class="app-form-row">
               <div class="app-form-group">
                 <label class="app-form-label">Cliente (opcional)</label>
-                <select class="app-form-select" id="venda-cliente">
+                <div class="conexus-client-picker" data-picker-select="venda-cliente">
+                  <input type="text" class="app-form-input conexus-client-search" placeholder="Digite João para buscar..." autocomplete="off" aria-label="Buscar cliente da venda" />
+                  <div class="conexus-suggestion-list" role="listbox" hidden></div>
+                </div>
+                <select class="app-form-select conexus-linked-select" id="venda-cliente" aria-label="Cliente selecionado">
                   <option value="">Sem cliente</option>
                 </select>
               </div>
@@ -1953,7 +1975,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
         <div class="app-card">
           <div class="app-card-head">
             <div class="app-card-title">Clientes cadastrados</div>
-            <input type="text" class="app-search" id="clientes-search" placeholder="Buscar cliente..." />
+            <input type="text" class="app-search" id="clientes-search" placeholder="Digite um nome, por exemplo João" autocomplete="off" aria-label="Buscar clientes pelo nome" /><div id="clientes-sugestoes" class="conexus-suggestion-list" role="listbox" hidden></div>
           </div>
           <div id="clientes-table-slot"></div>
         </div>
@@ -2525,17 +2547,17 @@ textarea:focus-visible,.app-nav-item:focus-visible {
     <div class="app-form-row">
       <div class="app-form-group">
         <label class="app-form-label">CNPJ (opcional)</label>
-        <input type="text" class="app-form-input" id="fornecedor-documento" />
+        <input type="text" class="app-form-input" id="fornecedor-documento"  inputmode="numeric" maxlength="18" placeholder="00.000.000/0000-00"/>
       </div>
       <div class="app-form-group">
         <label class="app-form-label">Contato (opcional)</label>
-        <input type="text" class="app-form-input" id="fornecedor-contato" />
+        <input type="text" class="app-form-input" id="fornecedor-contato"  maxlength="80" placeholder="(00) 99999-9999 ou e-mail"/>
       </div>
     </div>
     <div class="app-form-row">
       <div class="app-form-group">
         <label class="app-form-label">Telefone (opcional)</label>
-        <input type="text" class="app-form-input" id="fornecedor-telefone" />
+        <input type="text" class="app-form-input" id="fornecedor-telefone"  inputmode="tel" maxlength="15" placeholder="(00) 99999-9999"/>
       </div>
       <div class="app-form-group">
         <label class="app-form-label">E-mail (opcional)</label>
@@ -2646,7 +2668,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 <!-- Preferências de módulos -->
 <div class="modal-overlay" id="modal-modulos"><div class="modal-box" style="max-width:650px">
   <div class="modal-title">Personalizar módulos</div>
-  <div class="modal-sub">Escolha as ferramentas disponíveis neste negócio. Visão geral e Financeiro são permanentes.</div>
+  <div class="modal-sub">Ative ou remova módulos recomendados e opcionais. Apenas Visão geral permanece essencial. As escolhas ficam salvas por empresa.</div>
   <div class="msg-box" id="modulos-msg"></div><div class="modules-chooser" id="modulos-lista"></div>
   <div class="modal-actions"><button class="btn-app-secondary" id="modulos-cancelar">Cancelar</button><button class="btn-app-primary" id="modulos-salvar">Salvar módulos</button></div>
 </div></div>
@@ -2694,11 +2716,11 @@ textarea:focus-visible,.app-nav-item:focus-visible {
     <div class="app-form-row">
       <div class="app-form-group">
         <label class="app-form-label">Documento fiscal (opcional)</label>
-        <input type="text" class="app-form-input" id="biz-documento" placeholder="CNPJ ou CPF" />
+        <input type="text" class="app-form-input" id="biz-documento" placeholder="CNPJ ou CPF"  inputmode="numeric" maxlength="18" placeholder="000.000.000-00 ou 00.000.000/0000-00"/>
       </div>
       <div class="app-form-group">
         <label class="app-form-label">Contato (opcional)</label>
-        <input type="text" class="app-form-input" id="biz-contato" placeholder="Telefone ou e-mail" />
+        <input type="text" class="app-form-input" id="biz-contato" placeholder="Telefone ou e-mail"  maxlength="80" placeholder="(00) 99999-9999 ou e-mail"/>
       </div>
     </div>
     <div class="app-form-group">
@@ -2740,11 +2762,11 @@ textarea:focus-visible,.app-nav-item:focus-visible {
     <div class="app-form-row">
       <div class="app-form-group">
         <label class="app-form-label">CPF/CNPJ (opcional)</label>
-        <input type="text" class="app-form-input" id="cliente-documento" />
+        <input type="text" class="app-form-input" id="cliente-documento"  inputmode="numeric" maxlength="18" placeholder="000.000.000-00 ou 00.000.000/0000-00"/>
       </div>
       <div class="app-form-group">
         <label class="app-form-label">Telefone (opcional)</label>
-        <input type="text" class="app-form-input" id="cliente-telefone" />
+        <input type="text" class="app-form-input" id="cliente-telefone"  inputmode="tel" maxlength="15" placeholder="(00) 99999-9999"/>
       </div>
     </div>
     <div class="app-form-group">
@@ -2928,6 +2950,17 @@ function setBtn(id, loading, label, loadingLabel) {
   b.disabled = loading;
   b.textContent = loading ? (loadingLabel || 'Aguarde...') : label;
 }
+
+function conexusDatabaseHint(error,operation){
+ const msg=String(error?.message||'Erro desconhecido');const code=String(error?.code||'');
+ if (/TIMEOUT|demorou demais/i.test(msg)) return 'A resposta do servidor demorou. Antes de repetir a operação, consulte o histórico para evitar registros duplicados. Detalhe: '+msg;
+ if(code==='PGRST202'||/function.*does not exist|schema cache/i.test(msg))return 'O banco precisa da atualização SQL V22.1. Execute a migração indicada no pacote e tente novamente. Detalhe: '+msg;
+ if(code==='42501'||/permission denied|row-level security|policy|recursion/i.test(msg))return 'Acesso bloqueado por permissões do banco. Verifique a sessão, a empresa selecionada e as políticas RLS. Detalhe: '+msg;
+ if(code==='23514')return 'Um valor viola uma regra do cadastro. Confira quantidade, preço e categoria. Detalhe: '+msg;
+ if(code==='23505')return 'Já existe um registro com a mesma identificação. Detalhe: '+msg;
+ return 'Erro ao '+operation+': '+msg;
+}
+
 function brl(n) {
   return (Number(n) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -3026,6 +3059,12 @@ const MODULOS = [
   ['view-aff-publications','Divulgações'],['view-aff-campaigns','Campanhas'],
   ['view-aff-commissions','Comissões'],['view-aff-reports','Relatórios afiliados']
 ];
+const MODULOS_V21 = [
+ ['view-commerce-orders','Pedidos comerciais'],['view-services','Ordens de serviço'],
+ ['view-team','Equipe e permissões'],['view-insights','Indicadores empresariais'],
+ ['view-integrations','Canais e exportações']
+];
+const CONEXUS_ALL_MODULES = new Set([...MODULOS,...MODULOS_V21].map(([id])=>id));
 const MODULOS_FOOD = ['view-dashboard','view-food-raw','view-food-orders','view-food-recipes','view-food-batches','view-food-quality','view-financas'];
 const MODULOS_AFF = ['view-dashboard','view-aff-products','view-aff-contents','view-aff-publications','view-aff-campaigns','view-aff-commissions','view-aff-reports','view-financas'];
 const MODULOS_INVENTARIO = MODULOS.map(m => m[0]).filter(id => !id.startsWith('view-food-') && !id.startsWith('view-aff-'));
@@ -3090,24 +3129,31 @@ function defaultModules(biz = currentBusiness) {
 }
 function v16EnabledModules(biz = currentBusiness) {
   if (!biz) return ['view-dashboard'];
-  const prefs = biz.module_preferences;
+  const prefs = biz.module_preferences || {};
+  const allowed = new Set(MODULOS.map(([id]) => id));
+  // V22: escolha explícita, inclusive para módulos antes considerados obrigatórios.
+  // Preferências antigas continuam aceitas enquanto o negócio não for reconfigurado.
+  if (Array.isArray(prefs.enabled)) {
+    return [...new Set(['view-dashboard', ...prefs.enabled.filter(id => allowed.has(id))])];
+  }
   if (slugNegocio(biz) === 'afiliados') {
-    const valid=new Set(MODULOS.map(([id])=>id));
-    const extras=Array.isArray(prefs?.affiliate_v16_enabled)?prefs.affiliate_v16_enabled:[];
-    return [...new Set([...MODULOS_AFF,...extras.filter(id=>valid.has(id)&&!id.startsWith('view-aff-'))])];
+    const optional = Array.isArray(prefs.affiliate_v16_enabled) ? prefs.affiliate_v16_enabled : [];
+    return [...new Set([...MODULOS_AFF, ...optional.filter(id => allowed.has(id))])];
   }
   if (slugNegocio(biz) === 'industria_alimenticia') {
-    const valid = new Set(MODULOS.map(([id])=>id));
-    const optional = Array.isArray(prefs?.food_v15_enabled) ? prefs.food_v15_enabled : [];
-    return [...new Set([...MODULOS_FOOD,...optional.filter(id=>valid.has(id)&&!id.startsWith('view-food-'))])];
-  }
-  if (prefs && Array.isArray(prefs.enabled)) {
-    const validos = new Set(MODULOS.map(m => m[0]));
-    return [...new Set(['view-dashboard','view-financas',...prefs.enabled.filter(id => validos.has(id))])];
+    const optional = Array.isArray(prefs.food_v15_enabled) ? prefs.food_v15_enabled : [];
+    return [...new Set([...MODULOS_FOOD, ...optional.filter(id => allowed.has(id))])];
   }
   return defaultModules(biz);
 }
-function enabledModules(biz=currentBusiness) { return [...new Set([...v16EnabledModules(biz),...v21Extras(biz)])]; }
+function enabledModules(biz=currentBusiness) {
+  if (!biz) return ['view-dashboard'];
+  const prefs = biz.module_preferences || {};
+  // Prioridade total às preferências do proprietário. Nenhum módulo setorial
+  // é reativado automaticamente depois de ser desmarcado.
+  if (Array.isArray(prefs.enabled)) return [...new Set(['view-dashboard', ...prefs.enabled.filter(id => CONEXUS_ALL_MODULES.has(id))])];
+  return [...new Set([...v16EnabledModules(biz), ...v21Extras(biz)])];
+}
 function hasModule(id) { return enabledModules().includes(id); }
 function hasInventory() { return hasModule('view-estoque'); }
 function configureSectorUI() {
@@ -3142,32 +3188,45 @@ function openModulesModal() {
   if (!currentBusiness || currentBusiness.user_id !== currentUser?.id) {
     toast('Somente o proprietário pode configurar módulos.', true); return;
   }
-  const enabled = new Set(enabledModules());
-  const slot = document.getElementById('modulos-lista');
-  slot.innerHTML = MODULOS.map(([id,label]) => '<label class="module-choice"><input type="checkbox" value="'+id+'" '+(enabled.has(id)?'checked':'')+' '+((slugNegocio()==='industria_alimenticia'?MODULOS_FOOD.includes(id):slugNegocio()==='afiliados'?MODULOS_AFF.includes(id):(id==='view-dashboard'||id==='view-financas'))?'disabled':'')+'/><span>'+escapeHtml(label)+((slugNegocio()==='industria_alimenticia'&&MODULOS_FOOD.includes(id))||(slugNegocio()==='afiliados'&&MODULOS_AFF.includes(id))?' · recomendado':'')+'</span></label>').join('');
+  const active = new Set(enabledModules());
+  const suggested = new Set([...defaultModules(currentBusiness),...v21Extras(currentBusiness)]);
+  const available = [...MODULOS,...MODULOS_V21];
+  const slug = slugNegocio();
+  document.getElementById('modulos-lista').innerHTML = available.map(([id,label]) => {
+    const exclusive = id.startsWith('view-food-') && slug !== 'industria_alimenticia'
+      || id.startsWith('view-aff-') && slug !== 'afiliados'
+      || id === 'view-team' && (demoActive || currentBusiness.user_id !== currentUser.id);
+    const fixed = id === 'view-dashboard';
+    return '<label class="module-choice"'+(exclusive?' style="opacity:.45"':'')+'>'+
+      '<input type="checkbox" value="'+id+'" '+(active.has(id)?'checked ':'')+
+      (fixed || exclusive ? 'disabled ' : '')+'aria-label="'+escapeHtml(label)+'"/>'+
+      '<span>'+escapeHtml(label)+(suggested.has(id)?' <small style="color:var(--theme-action)">· recomendado</small>':'')+
+      (fixed?' <small>· essencial</small>':'')+'</span></label>';
+  }).join('');
   hideMsg('modulos-msg');
   document.getElementById('modal-modulos').classList.add('open');
 }
 document.getElementById('modulos-abre').addEventListener('click', openModulesModal);
 document.getElementById('modulos-cancelar').addEventListener('click',()=>document.getElementById('modal-modulos').classList.remove('open'));
 document.getElementById('modulos-salvar').addEventListener('click', async () => {
-  const btn = document.getElementById('modulos-salvar');
-  const enabled = [...document.querySelectorAll('#modulos-lista input:checked')].map(x=>x.value);
-  for (const mandatory of (slugNegocio()==='industria_alimenticia'?MODULOS_FOOD:slugNegocio()==='afiliados'?MODULOS_AFF:['view-dashboard','view-financas'])) if (!enabled.includes(mandatory)) enabled.push(mandatory);
-  btn.disabled = true;
+  if (!currentBusiness || currentBusiness.user_id !== currentUser?.id) return;
+  const button = document.getElementById('modulos-salvar');
+  const enabled = [...document.querySelectorAll('#modulos-lista input:checked')]
+    .map(x=>x.value).filter(id=>CONEXUS_ALL_MODULES.has(id));
+  if (!enabled.includes('view-dashboard')) enabled.unshift('view-dashboard');
+  button.disabled = true;
   try {
-    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:slugNegocio()==='industria_alimenticia'?{...currentBusiness.module_preferences,food_v15_enabled:enabled.filter(id=>!MODULOS_FOOD.includes(id))}:slugNegocio()==='afiliados'?{...currentBusiness.module_preferences,affiliate_v16_enabled:enabled.filter(id=>!MODULOS_AFF.includes(id))}:{...currentBusiness.module_preferences,enabled}})
+    const newPrefs = {...(currentBusiness.module_preferences || {}), enabled};
+    const {data,error} = await withTimeout(sb.from('businesses').update({module_preferences:newPrefs})
       .eq('id',currentBusiness.id).eq('user_id',currentUser.id).select('*').single(),15000);
     if (error) throw error;
-    currentBusiness = {...currentBusiness,...data};
-    businesses = businesses.map(b=>b.id===currentBusiness.id?{...b,...data}:b);
-    configureSectorUI();
-    goto('view-dashboard');
-    renderDashboard();
+    currentBusiness={...currentBusiness,...data,module_preferences:newPrefs};
+    businesses=businesses.map(b=>b.id===currentBusiness.id?{...b,...currentBusiness}:b);
+    configureSectorUI();goto('view-dashboard');renderDashboard();
     document.getElementById('modal-modulos').classList.remove('open');
-    toast('Módulos atualizados.');
-  } catch(e) {showMsg('modulos-msg',e.message||'Falha ao salvar módulos.','error');}
-  finally {btn.disabled=false;}
+    toast('Módulos atualizados. Você pode ativá-los novamente a qualquer momento.');
+  } catch(e) {showMsg('modulos-msg', e.message || 'Falha ao salvar módulos.', 'error');}
+  finally {button.disabled=false;}
 });
 // CRUD de registros do setor; os campos variam de acordo com o tipo de negócio.
 let registrosSetoriais=[];
@@ -3392,7 +3451,7 @@ function makeDemoData() {
   ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
     user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
   const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
-  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_publications:[],affiliate_commissions:[],commerce_orders:[],service_jobs:[],integration_channels:[]};
+  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_publications:[],affiliate_commissions:[],commerce_orders:[],service_jobs:[],integration_channels:[],conexus_sale_requests:[]};
   function product(biz,name,quantity,price,cost,category) {
     const row={id:demoUuid(),user_id:owner,business_id:biz.id,name,quantity,price,cost_price:cost,
       category,low_stock_threshold:8,created_at:now,updated_at:now};
@@ -3518,11 +3577,32 @@ function makeDemoClient(store) {
     // TODAS as alterações do comando, como acontece com RPCs SQL atômicos.
     const snapshot=Object.fromEntries(Object.entries(store).map(([key,rows])=>[key,structuredClone(rows)]));
     try {
+      if(action==='conexus_record_sale_once') {
+        const existing=store.conexus_sale_requests.find(x=>x.business_id===req.p_business_id&&x.request_key===req.p_request_key);
+        const signature=JSON.stringify([req.p_business_id,req.p_customer_id,req.p_payment_method,req.p_discount,req.p_items]);
+        if(existing) {
+          if(existing.signature!==signature) throw Error('Esta chave foi utilizada com outros dados.');
+          return Promise.resolve({data:existing.sale_id,error:null});
+        }
+        const result=rpc('conexus_record_sale',req);
+        // Result is a resolved promise, so register it with the same snapshot guarantee.
+        return result.then(r=>{
+          if(!r.error) store.conexus_sale_requests.push({business_id:req.p_business_id,request_key:req.p_request_key,signature,sale_id:r.data});
+          return r;
+        });
+      }
       let result=null;
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
       const now=new Date().toISOString();
-      if(action==='conexus_move_stock')changeStock(bid,req.p_product_id,Number(req.p_quantity),req.p_type,req.p_reason);
+      if(action==='conexus_register_product_v22') {
+        const qty=Number(req.p_quantity),price=Number(req.p_price),threshold=Number(req.p_threshold),cost=req.p_cost==null?null:Number(req.p_cost);
+        if(!req.p_name||!String(req.p_name).trim()||!Number.isSafeInteger(qty)||qty<0||!Number.isFinite(price)||price<0||!Number.isSafeInteger(threshold)||threshold<0||cost!==null&&(!Number.isFinite(cost)||cost<0))throw Error('Dados do produto inválidos.');
+        const p={id:demoUuid(),user_id:uid,business_id:bid,name:String(req.p_name).trim(),quantity:qty,price,category:req.p_category||'Geral',low_stock_threshold:threshold,cost_price:cost,created_at:now,updated_at:now};
+        store.products.push(p);
+        if(qty>0)store.stock_movements.push({id:demoUuid(),user_id:uid,business_id:bid,product_id:p.id,product_name:p.name,type:'entrada',quantity:qty,unit_price:price,unit_cost:cost,is_sale:false,reason:'estoque_inicial',created_at:now});
+        result=p.id;
+      } else if(action==='conexus_move_stock')changeStock(bid,req.p_product_id,Number(req.p_quantity),req.p_type,req.p_reason);
       else if(action==='conexus_record_sale') {
         const items=req.p_items||[];if(!items.length)throw Error('Venda sem itens.');
         const required=new Map();
@@ -3541,14 +3621,18 @@ function makeDemoClient(store) {
         },0);
         if(discount>preSubtotal)throw Error('O desconto não pode superar o valor da venda.');
         let subtotal=0;
+        const ratio=preSubtotal>0?(preSubtotal-discount)/preSubtotal:1;
         const sale={id:demoUuid(),user_id:uid,business_id:bid,customer_id:req.p_customer_id||null,
           payment_method:req.p_payment_method||null,discount:Number(req.p_discount||0),status:'concluida',created_at:now};
         items.forEach(it=>{const p=store.products.find(p=>p.id===it.id);const qty=Number(it.quantity);
-          subtotal+=qty*Number(p.price);store.sale_items.push({id:demoUuid(),user_id:uid,sale_id:sale.id,product_id:p.id,product_name:p.name,quantity:qty,unit_price:p.price,created_at:now});
+          subtotal+=qty*Number(p.price);
+          const allocatedPrice=Math.round(Number(p.price)*ratio*1000000)/1000000;
+          store.sale_items.push({id:demoUuid(),user_id:uid,sale_id:sale.id,product_id:p.id,product_name:p.name,quantity:qty,unit_price:allocatedPrice,created_at:now});
           changeStock(bid,p.id,qty,'saida','Venda',true);
+          store.stock_movements[store.stock_movements.length-1].unit_price=allocatedPrice;
         });
         if(discount>subtotal)throw Error('O desconto não pode superar o valor da venda.');
-        sale.subtotal=subtotal;sale.total=subtotal-discount;store.sales.push(sale);
+        sale.subtotal=subtotal;sale.total=subtotal-discount;store.sales.push(sale);result=sale.id;
       } else if(action==='conexus_record_purchase') {
         if(!Array.isArray(req.p_items)||!req.p_items.length)throw Error('Compra sem itens.');
         for(const it of req.p_items){
@@ -4101,6 +4185,9 @@ function renderBusinessesGrid() {
 
 async function openBusiness(biz) {
   currentBusiness = biz;
+  window.__conexusCriticalDataReady = false;
+  window.__conexusPartialHistory = false;
+  document.getElementById('venda-finalizar').disabled = true;
   products = [];
   movements = [];
   customers=[];salesHistory=[];suppliers=[];purchasesHistory=[];salesReturns=[];
@@ -4233,8 +4320,8 @@ function openBusinessModal(biz) {
     document.getElementById('biz-nome').value = biz.name;
     document.getElementById('biz-porte').value = biz.size || 'individual';
     document.getElementById('biz-logo').value = biz.logo_url || '';
-    document.getElementById('biz-documento').value = biz.document_number || '';
-    document.getElementById('biz-contato').value = biz.contact || '';
+    document.getElementById('biz-documento').value = conexusMaskDocument(biz.document_number || '');
+    document.getElementById('biz-contato').value = conexusMaskContact(biz.contact || '');
     document.getElementById('biz-endereco').value = biz.address || '';
     if (biz.business_type_id) select.value = biz.business_type_id;
     document.getElementById('biz-delete-trigger').style.display = 'block';
@@ -4269,6 +4356,8 @@ document.getElementById('biz-save').addEventListener('click', async () => {
   hideMsg('biz-msg');
   if (!nome) { showMsg('biz-msg', 'Informe o nome do negócio.', 'error'); return; }
   if (!tipoId) { showMsg('biz-msg', 'Escolha um tipo de negócio.', 'error'); return; }
+  if (!conexusDocValid(documento)) {showMsg('biz-msg','Informe CPF (11 dígitos) ou CNPJ (14 dígitos) completo.','error');return;}
+  if (contato && !contato.includes('@') && !conexusPhoneValid(contato)) {showMsg('biz-msg','Contato telefônico precisa de DDD e 10 ou 11 dígitos.','error');return;}
 
   setBtn('biz-save', true, id ? 'Salvar alterações' : 'Criar negócio');
 
@@ -4407,7 +4496,7 @@ async function loadAllData() {
   setDataState('loading','Sincronizando dados do negócio…');
   try {
     const businessAtStart = currentBusiness.id;
-    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes, expRes, revRes, catRes, auditRes, recordsRes] = await withTimeout(Promise.all([
+    const queries = [
       sb.from('products').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }),
       sb.from('stock_movements').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('customers').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
@@ -4420,34 +4509,34 @@ async function loadAllData() {
       sb.from('categories').select('*').eq('business_id', currentBusiness.id).order('name', { ascending: true }),
       sb.from('audit_logs').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(200),
       sb.from('business_records').select('*').eq('business_id', currentBusiness.id).order('created_at', { ascending: false }).limit(300)
-    ]), 15000);
-
-    if (prodRes.error) throw prodRes.error;
-    if (movRes.error) throw movRes.error;
-    if (custRes.error) throw custRes.error;
-    if (salesRes.error) throw salesRes.error;
-    if (suppRes.error) throw suppRes.error;
-    if (purchRes.error) throw purchRes.error;
-    if (returnsRes.error) throw returnsRes.error;
-    if (expRes.error) throw expRes.error;
-    if (revRes.error) throw revRes.error;
-    if (catRes.error) throw catRes.error;
-    if (auditRes.error) throw auditRes.error;
-    if (recordsRes.error) throw recordsRes.error;
+    ];
+    // O resultado das consultas é independente: erros opcionais não anulam as demais.
+    const settled = await Promise.allSettled(queries.map(q => withTimeout(Promise.resolve(q), 15000)));
     if (!currentBusiness || businessAtStart !== currentBusiness.id) return;
-
-    products = prodRes.data || [];
-    movements = movRes.data || [];
-    customers = custRes.data || [];
-    salesHistory = salesRes.data || [];
-    suppliers = suppRes.data || [];
-    purchasesHistory = purchRes.data || [];
-    salesReturns = returnsRes.data || [];
-    expenses = expRes.data || [];
-    revenues = revRes.data || [];
-    categories = catRes.data || [];
-    auditLogs = auditRes.data || [];
-    registrosSetoriais = recordsRes.data || [];
+    const labels = ['produtos','movimentações','clientes','vendas','fornecedores','compras',
+      'devoluções','despesas','receitas','categorias','auditoria','operações setoriais'];
+    const values = settled.map((r,i) => {
+      if (r.status !== 'fulfilled') return {data:null,error:r.reason || new Error('Falha de conexão')};
+      return r.value?.error ? {data:null,error:r.value.error} : {data:r.value?.data || [],error:null};
+    });
+    const failures = values.flatMap((r,i) => r.error ? [labels[i]+': '+(r.error.message||'não disponível')] : []);
+    const [prodRes, movRes, custRes, salesRes, suppRes, purchRes, returnsRes,
+      expRes, revRes, catRes, auditRes, recordsRes] = values;
+    // A ausência de produtos bloqueia novas vendas: não usar cache potencialmente antigo.
+    window.__conexusCriticalDataReady = !prodRes.error && !salesRes.error;
+    document.getElementById('venda-finalizar').disabled = !window.__conexusCriticalDataReady;
+    if (!prodRes.error) products = prodRes.data;
+    if (!movRes.error) movements = movRes.data;
+    if (!custRes.error) customers = custRes.data;
+    if (!salesRes.error) salesHistory = salesRes.data;
+    if (!suppRes.error) suppliers = suppRes.data;
+    if (!purchRes.error) purchasesHistory = purchRes.data;
+    if (!returnsRes.error) salesReturns = returnsRes.data;
+    if (!expRes.error) expenses = expRes.data;
+    if (!revRes.error) revenues = revRes.data;
+    if (!catRes.error) categories = catRes.data;
+    if (!auditRes.error) auditLogs = auditRes.data;
+    if (!recordsRes.error) registrosSetoriais = recordsRes.data;
     renderRegistrosSetoriais();
 
     renderDashboard();
@@ -4484,8 +4573,17 @@ async function loadAllData() {
     else {affData=affBlank();affLoadError='';}
     await v21Load(businessAtStart);
     const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
-    if(maybePartial) {
-      setDataState('warning','Dados atualizados, porém alguns históricos atingiram o limite de consulta. Relatórios podem não incluir todos os registros.');
+    window.__conexusPartialHistory = maybePartial || Boolean(failures.length);
+    const reportsNotice = document.getElementById('v21-insights-data-warning');
+    if (reportsNotice) {
+      reportsNotice.hidden = !window.__conexusPartialHistory;
+      reportsNotice.textContent = window.__conexusPartialHistory
+        ? 'Atenção: há históricos incompletos ou consultas com erro. Os indicadores abaixo são parciais, não use como fechamento financeiro.' : '';
+    }
+    if(failures.length) {
+      setDataState('warning','Sincronização parcial. Problemas: '+failures.join(' | '));
+    } else if(maybePartial) {
+      setDataState('warning','Históricos limitados: os totais exibidos podem estar incompletos.');
     } else {
       setDataState('success','Dados atualizados às '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
     }
@@ -4735,7 +4833,7 @@ function openMoveModal(p, type) {
   document.getElementById('move-title').textContent = type === 'entrada' ? 'Registrar entrada' : 'Registrar saída';
   document.getElementById('move-sub').textContent = p.name + ' — estoque atual: ' + p.quantity + ' unidades';
   document.getElementById('move-hint').textContent = type === 'saida'
-    ? 'Saída simples sem motivo conta como venda. Escolha um motivo para uma baixa operacional.'
+    ? 'Saída manual é ajuste de estoque, não uma venda. Para faturar, utilize o módulo Vendas.'
     : 'Entradas aumentam a quantidade disponível em estoque.';
   document.getElementById('move-confirm').textContent = type === 'entrada' ? 'Registrar entrada' : 'Registrar saída';
   document.getElementById('modal-move').classList.add('open');
@@ -4761,7 +4859,7 @@ document.getElementById('move-confirm').addEventListener('click', async () => {
     document.getElementById('modal-move').classList.remove('open');
     toast('Movimentação registrada.');
     await loadAllData();
-  }catch(e){showMsg('move-msg',e.message||'Erro ao movimentar estoque.','error');}
+  }catch(e){console.error('Falha ao movimentar estoque:',e);showMsg('move-msg',conexusDatabaseHint(e,'movimentar estoque'),'error');}
   finally{setBtn('move-confirm',false,'Confirmar');}
 });
 
@@ -4795,24 +4893,19 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
       return;
     }
 
-    const { error } = await withTimeout(sb.from('products').insert({
-      user_id: user.id,
-      business_id: currentBusiness.id,
-      name: nome,
-      quantity: qtd,
-      price: preco,
-      category: categoria,
-      low_stock_threshold: limite,
-      cost_price: custo
-    }), 15000);
+    const { error } = await withTimeout(sb.rpc('conexus_register_product_v22', {
+      p_business_id: currentBusiness.id,
+      p_name: nome,
+      p_quantity: qtd,
+      p_price: preco,
+      p_category: categoria,
+      p_threshold: limite,
+      p_cost: custo
+    }), 20000);
 
     if (error) {
-      console.error('Erro ao adicionar produto. user.id enviado:', user.id, 'Detalhes:', error);
-      if (error.code === '42501' || (error.message || '').includes('row-level security')) {
-        showMsg('add-msg', 'Erro de permissão ao salvar. Saia da conta, entre novamente e tente de novo. Se persistir, as políticas de segurança do banco precisam ser revisadas.', 'error');
-      } else {
-        showMsg('add-msg', 'Erro ao adicionar produto: ' + error.message, 'error');
-      }
+      console.error('Falha no cadastro de produto:', {code:error.code,message:error.message,details:error.details});
+      showMsg('add-msg', conexusDatabaseHint(error,'cadastrar produto'), 'error');
       return;
     }
 
@@ -4828,7 +4921,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
     setTimeout(() => goto(slugNegocio()==='industria_alimenticia'?'view-food-raw':'view-estoque'), 700);
   } catch (err) {
     console.error('Erro ao adicionar produto:', err);
-    showMsg('add-msg', 'Não foi possível adicionar o produto. ' + (err && err.message ? err.message : 'Tente novamente.'), 'error');
+    showMsg('add-msg', conexusDatabaseHint(err, 'cadastrar produto'), 'error');
   } finally {
     setBtn('btn-add-produto', false, 'Adicionar ao estoque');
   }
@@ -5030,8 +5123,8 @@ function openCustomerModal(cliente) {
     document.getElementById('cliente-save').textContent = 'Salvar alterações';
     document.getElementById('cliente-id').value = cliente.id;
     document.getElementById('cliente-nome').value = cliente.name;
-    document.getElementById('cliente-documento').value = cliente.document || '';
-    document.getElementById('cliente-telefone').value = cliente.phone || '';
+    document.getElementById('cliente-documento').value = conexusMaskDocument(cliente.document || '');
+    document.getElementById('cliente-telefone').value = conexusMaskPhone(cliente.phone || '');
     document.getElementById('cliente-email').value = cliente.email || '';
     document.getElementById('cliente-endereco').value = cliente.address || '';
     document.getElementById('cliente-obs').value = cliente.notes || '';
@@ -5062,6 +5155,8 @@ document.getElementById('cliente-save').addEventListener('click', async () => {
 
   hideMsg('cliente-msg');
   if (!nome) { showMsg('cliente-msg', 'Informe o nome do cliente.', 'error'); return; }
+  if (!conexusDocValid(documento)) {showMsg('cliente-msg','Informe CPF com 11 dígitos ou CNPJ com 14 dígitos.','error');return;}
+  if (!conexusPhoneValid(telefone)) {showMsg('cliente-msg','Telefone deve ter DDD e 10 ou 11 dígitos.','error');return;}
 
   setBtn('cliente-save', true, id ? 'Salvar alterações' : 'Criar cliente');
   try {
@@ -5128,6 +5223,7 @@ function populateVendaClienteSelect() {
   select.innerHTML = '<option value="">Sem cliente</option>' +
     customers.map(c => '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>').join('');
   if (customers.some(c => c.id === currentVal)) select.value = currentVal;
+  conexusSyncClientPickers();
 }
 
 // ══════════════════════════════════════════════
@@ -5247,6 +5343,31 @@ function renderVendaTotals() {
 document.getElementById('venda-desconto').addEventListener('input', renderVendaTotals);
 
 
+function conexusCreateRequestUUID() {
+  if (typeof crypto==='undefined' || typeof crypto.getRandomValues!=='function') {
+    throw new Error('Este navegador não oferece geração segura de identificadores. Use HTTPS ou um navegador atualizado.');
+  }
+  if (typeof crypto.randomUUID==='function') return crypto.randomUUID();
+  const b=new Uint8Array(16);crypto.getRandomValues(b);
+  b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;
+  const h=[...b].map(v=>v.toString(16).padStart(2,'0')).join('');
+  return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);
+}
+function conexusSaleIdempotencyKey(businessId, payload) {
+  const normalized = {...payload, p_items:[...payload.p_items].sort((a,b)=>a.id.localeCompare(b.id))};
+  const signature = JSON.stringify(normalized);
+  const storageKey = 'conexus_pending_sale_'+businessId;
+  try {
+    const old = JSON.parse(sessionStorage.getItem(storageKey) || 'null');
+    if (old && old.signature === signature && old.key) return old.key;
+    const key = conexusCreateRequestUUID();
+    sessionStorage.setItem(storageKey, JSON.stringify({signature,key}));
+    return key;
+  } catch (_) { return conexusCreateRequestUUID(); }
+}
+function conexusConfirmSale(businessId) {
+  try { sessionStorage.removeItem('conexus_pending_sale_'+businessId); } catch (_) {}
+}
 document.getElementById('venda-finalizar').addEventListener('click', async () => {
   hideMsg('venda-msg');
   if (!cartItems.length) {showMsg('venda-msg','Adicione produtos ao carrinho.','error');return;}
@@ -5255,21 +5376,36 @@ document.getElementById('venda-finalizar').addEventListener('click', async () =>
   if(cartItems.some(i=>!Number.isSafeInteger(Number(i.quantity))||Number(i.quantity)<1)){
     showMsg('venda-msg','Revise as quantidades.','error');return;
   }
+  if (!window.__conexusCriticalDataReady) {
+    showMsg('venda-msg','Aguarde a sincronização de produtos e vendas antes de finalizar.','error');return;
+  }
+  if (window.__conexusVendaEmAndamento) return;
+  window.__conexusVendaEmAndamento=true;
+  const businessId=currentBusiness.id;
+  const payload={
+    p_business_id:businessId,
+    p_customer_id:document.getElementById('venda-cliente').value||null,
+    p_payment_method:document.getElementById('venda-pagamento').value||null,
+    p_discount:discount,
+    p_items:cartItems.map(i=>({id:i.id,quantity:Number(i.quantity)}))
+  };
   setBtn('venda-finalizar',true,'Finalizar venda');
   try {
-    const {error}=await withTimeout(sb.rpc('conexus_record_sale',{
-      p_business_id:currentBusiness.id,
-      p_customer_id:document.getElementById('venda-cliente').value||null,
-      p_payment_method:document.getElementById('venda-pagamento').value||null,
-      p_discount:discount,
-      p_items:cartItems.map(i=>({id:i.id,quantity:Number(i.quantity)}))
+    const {error}=await withTimeout(sb.rpc('conexus_record_sale_once',{
+      ...payload,p_request_key:conexusSaleIdempotencyKey(businessId,payload)
     }),25000);
     if(error)throw error;
+    conexusConfirmSale(businessId);
     cartItems=[];
     document.getElementById('venda-desconto').value='';
     await loadAllData();switchVendaSubtab('historico');toast('Venda concluída.');
-  }catch(e){showMsg('venda-msg',e.message||'Erro ao finalizar a venda.','error');}
-  finally{setBtn('venda-finalizar',false,'Finalizar venda');}
+  }catch(e){console.error('Falha ao finalizar venda:',e);
+    showMsg('venda-msg',conexusDatabaseHint(e,'finalizar venda')+' Se a conexão caiu, tente novamente com o mesmo carrinho; a operação não será duplicada.','error');
+  } finally {
+    window.__conexusVendaEmAndamento=false;
+    setBtn('venda-finalizar',false,'Finalizar venda');
+    if (!window.__conexusCriticalDataReady) document.getElementById('venda-finalizar').disabled=true;
+  }
 });
 
 function renderSalesHistory() {
@@ -5456,9 +5592,9 @@ function openSupplierModal(fornecedor) {
     document.getElementById('fornecedor-save').textContent = 'Salvar alterações';
     document.getElementById('fornecedor-id').value = fornecedor.id;
     document.getElementById('fornecedor-nome').value = fornecedor.name;
-    document.getElementById('fornecedor-documento').value = fornecedor.document || '';
-    document.getElementById('fornecedor-contato').value = fornecedor.contact || '';
-    document.getElementById('fornecedor-telefone').value = fornecedor.phone || '';
+    document.getElementById('fornecedor-documento').value = conexusMaskDocument(fornecedor.document || '');
+    document.getElementById('fornecedor-contato').value = conexusMaskContact(fornecedor.contact || '');
+    document.getElementById('fornecedor-telefone').value = conexusMaskPhone(fornecedor.phone || '');
     document.getElementById('fornecedor-email').value = fornecedor.email || '';
     document.getElementById('fornecedor-endereco').value = fornecedor.address || '';
     document.getElementById('fornecedor-condicoes').value = fornecedor.payment_terms || '';
@@ -5491,6 +5627,9 @@ document.getElementById('fornecedor-save').addEventListener('click', async () =>
 
   hideMsg('fornecedor-msg');
   if (!nome) { showMsg('fornecedor-msg', 'Informe o nome do fornecedor.', 'error'); return; }
+  if (!conexusDocValid(documento)) {showMsg('fornecedor-msg','CPF/CNPJ deve estar completo (11 ou 14 dígitos).','error');return;}
+  if (!conexusPhoneValid(telefone)) {showMsg('fornecedor-msg','Telefone deve ter DDD e 10 ou 11 dígitos.','error');return;}
+  if(contato && !contato.includes('@') && !conexusPhoneValid(contato)) {showMsg('fornecedor-msg','Contato deve ser e-mail ou telefone completo.','error');return;}
 
   setBtn('fornecedor-save', true, id ? 'Salvar alterações' : 'Criar fornecedor');
   try {
@@ -7288,6 +7427,7 @@ function v21Options(){
  const pop=(id,rows,label,placeholder)=>{const el=v21El(id);const old=el.value;el.innerHTML='<option value="">'+v21Safe(placeholder)+'</option>'+rows.map(r=>`<option value="${v21Safe(r.id)}">${v21Safe(label(r))}</option>`).join('');if(rows.some(x=>x.id===old))el.value=old;};
  pop('v21-order-customer',customers,x=>x.name,'Cliente não informado');pop('v21-service-customer',customers,x=>x.name,'Cliente não informado');
  pop('v21-order-product',products,x=>`${x.name} · ${v21Money(x.price)} · saldo ${x.quantity}`,'Selecione um produto');
+ conexusSyncClientPickers();
 }
 function v21Render(){if(!currentBusiness)return;v21Options();v21RenderCart();v21RenderOrders();v21RenderServices();v21RenderChannels();v21RenderInsights();}
 function v21RenderCart(){const slot=v21El('v21-order-cart');const subtotal=v21Cart.reduce((a,i)=>{const p=products.find(p=>p.id===i.id);return a+(p?.price||0)*i.quantity;},0);
@@ -7305,18 +7445,47 @@ function v21RenderChannels(){v21Warn('v21-channels-warning','channels');const no
  node.innerHTML=v21Channels.length?v21Channels.map(x=>`<article class="v21-record"><div class="v21-record-head"><strong>${v21Safe(x.label)}</strong><span class="aff-pill muted">${v21Safe(x.platform)}</span></div><small>Modo manual · sem sincronização externa</small>${x.source_url?`<a href="${v21Safe(x.source_url)}" target="_blank" rel="noopener noreferrer">Abrir link público ↗</a>`:''}${v21Owner()?`<div class="v21-actions"><button type="button" class="btn-app-secondary" data-v21-channel-delete="${v21Safe(x.id)}">Excluir</button></div>`:''}</article>`).join(''):'<p class="v21-empty">Nenhum canal cadastrado.</p>';
  v21El('v21-channel-form').querySelector('[type="submit"]').disabled=!v21Owner();
 }
-function v21Analytics(){const select=v21El('v21-insights-period').value;const days=select==='all'?Infinity:Number(select);const cutoff=Number.isFinite(days)?Date.now()-days*86400000:0;
+function v21Analytics(){
+ const select=v21El('v21-insights-period').value;
+ const days=select==='all'?Infinity:Number(select);
+ const cutoff=Number.isFinite(days)?Date.now()-days*86400000:0;
  const inPeriod=x=>{const ts=new Date(x).getTime();return Number.isFinite(ts)&&ts>=cutoff;};
- const sales=salesHistory.filter(s=>s.status==='concluida'&&inPeriod(s.created_at));
+ const sales=salesHistory.filter(s=>s.status!=='cancelada'&&inPeriod(s.created_at));
+ const refunds=salesReturns.filter(r=>inPeriod(r.created_at));
  const receipts=revenues.filter(r=>r.status==='recebido'&&inPeriod(r.payment_date||r.created_at));
  const costs=expenses.filter(e=>e.status==='pago'&&inPeriod(e.payment_date||e.created_at));
- const salesTotal=sales.reduce((n,s)=>n+Number(s.total||0),0),receiptsTotal=receipts.reduce((n,r)=>n+Number(r.amount||0),0),expensesTotal=costs.reduce((n,e)=>n+Number(e.amount||0),0);
- const monthly={};const add=(date,key,num)=>{const month=String(date).slice(0,7);if(!/^\d{4}-\d{2}$/.test(month))return;monthly[month]??={month,sales:0,receipts:0,expenses:0};monthly[month][key]+=Number(num||0);};
- sales.forEach(x=>add(x.created_at,'sales',x.total));receipts.forEach(x=>add(x.payment_date||x.created_at,'receipts',x.amount));costs.forEach(x=>add(x.payment_date||x.created_at,'expenses',x.amount));
- return{sales:sales.length,salesTotal,receiptsTotal,expensesTotal,balance:salesTotal+receiptsTotal-expensesTotal,products:products.length,orders:v21Orders.filter(o=>inPeriod(o.created_at)).length,services:v21Services.filter(s=>inPeriod(s.created_at)).length,monthly:Object.values(monthly).sort((a,b)=>b.month.localeCompare(a.month))};
+ const gross=sales.reduce((n,s)=>n+Number(s.total||0),0);
+ const returned=refunds.reduce((n,r)=>n+Number(r.quantity||0)*Number(r.unit_price||0),0);
+ const salesTotal=gross-returned;
+ const receiptsTotal=receipts.reduce((n,r)=>n+Number(r.amount||0),0);
+ const expensesTotal=costs.reduce((n,e)=>n+Number(e.amount||0),0);
+ const monthly={};
+ const add=(date,key,num)=>{
+  const month=String(date).slice(0,7);if(!/^\d{4}-\d{2}$/.test(month))return;
+  monthly[month]??={month,sales:0,refunds:0,receipts:0,expenses:0};
+  monthly[month][key]+=Number(num||0);
+ };
+ sales.forEach(x=>add(x.created_at,'sales',x.total));
+ refunds.forEach(x=>add(x.created_at,'refunds',Number(x.quantity)*Number(x.unit_price)));
+ receipts.forEach(x=>add(x.payment_date||x.created_at,'receipts',x.amount));
+ costs.forEach(x=>add(x.payment_date||x.created_at,'expenses',x.amount));
+ return{sales:sales.length,gross,returned,salesTotal,receiptsTotal,expensesTotal,
+ balance:salesTotal+receiptsTotal-expensesTotal,products:products.length,
+ orders:v21Orders.filter(o=>inPeriod(o.created_at)).length,
+ services:v21Services.filter(s=>inPeriod(s.created_at)).length,
+ monthly:Object.values(monthly).sort((a,b)=>b.month.localeCompare(a.month))};
 }
-function v21RenderInsights(){const a=v21Analytics();v21El('v21-insights-stats').innerHTML=[['Vendas concluídas',a.sales],['Vendas registradas',v21Money(a.salesTotal)],['Outras receitas recebidas',v21Money(a.receiptsTotal)],['Despesas pagas',v21Money(a.expensesTotal)],['Saldo operacional',v21Money(a.balance)],['Produtos',a.products],['Pedidos comerciais',a.orders],['Ordens de serviço',a.services]].map(([label,value])=>`<div class="v21-metric"><span>${v21Safe(label)}</span><strong>${v21Safe(value)}</strong></div>`).join('');
- v21El('v21-insights-months').innerHTML=a.monthly.length?a.monthly.map(m=>`<tr><td>${v21Safe(m.month)}</td><td>${v21Money(m.sales)}</td><td>${v21Money(m.receipts)}</td><td>${v21Money(m.expenses)}</td><td>${v21Money(m.sales+m.receipts-m.expenses)}</td></tr>`).join(''):'<tr><td colspan="5">Não há movimentação financeira no período.</td></tr>';
+function v21RenderInsights(){const a=v21Analytics();
+ v21El('v21-insights-stats').innerHTML=[
+ ['Vendas registradas',a.sales],['Vendas brutas',v21Money(a.gross)],
+ ['Devoluções',v21Money(a.returned)],['Vendas líquidas',v21Money(a.salesTotal)],
+ ['Outras receitas recebidas',v21Money(a.receiptsTotal)],['Despesas pagas',v21Money(a.expensesTotal)],
+ ['Saldo operacional',v21Money(a.balance)],['Produtos',a.products],
+ ['Pedidos comerciais',a.orders],['Ordens de serviço',a.services]
+ ].map(([label,value])=>`<div class="v21-metric"><span>${v21Safe(label)}</span><strong>${v21Safe(value)}</strong></div>`).join('');
+ v21El('v21-insights-months').innerHTML=a.monthly.length?a.monthly.map(m=>
+ `<tr><td>${v21Safe(m.month)}</td><td>${v21Money(m.sales)}</td><td>${v21Money(m.refunds)}</td><td>${v21Money(m.receipts)}</td><td>${v21Money(m.expenses)}</td><td>${v21Money(m.sales-m.refunds+m.receipts-m.expenses)}</td></tr>`
+ ).join(''):'<tr><td colspan="6">Não há movimentação financeira no período.</td></tr>';
 }
 function v21CSV(rows,filename){if(!rows.length)return toast('Não há dados para exportar.',true);
  const cols=Object.keys(rows[0]);const esc=v=>csvCell(typeof v==='object'?JSON.stringify(v):v);
@@ -7357,7 +7526,7 @@ v21El('v21-services-list').addEventListener('click',e=>{const id=e.target.closes
  ['edit_id','code','title','customer_id','responsible','due_date','status','amount','description'].forEach(k=>{const input=f.elements.namedItem(k);if(input)input.value=(k==='edit_id'?s.id:(s[k]??''));});f.scrollIntoView({behavior:'smooth',block:'start'});
 });
 v21El('v21-insights-period').addEventListener('change',v21RenderInsights);
-v21El('v21-insights-export').addEventListener('click',()=>{const a=v21Analytics();v21CSV(a.monthly.map(m=>({mes:m.month,vendas:m.sales,outras_receitas:m.receipts,despesas:m.expenses,saldo:m.sales+m.receipts-m.expenses})),'conexus_indicadores_mensais');});
+v21El('v21-insights-export').addEventListener('click',()=>{const a=v21Analytics();v21CSV(a.monthly.map(m=>({mes:m.month,vendas_brutas:m.sales,devolucoes:m.refunds,outras_receitas:m.receipts,despesas:m.expenses,saldo:m.sales-m.refunds+m.receipts-m.expenses})),'conexus_indicadores_mensais');});
 v21El('v21-open-team').addEventListener('click',()=>{if(v21Owner()&&!demoActive)openEquipeModal(currentBusiness);else toast('Equipe exige conta real e acesso de proprietário.',true);});
 v21El('v21-channel-form').addEventListener('submit',async e=>{e.preventDefault();if(!v21Owner())return toast('Apenas o dono pode cadastrar canais.',true);const form=e.currentTarget,f=new FormData(form),bid=v21Current();
  const url=String(f.get('source_url')||'').trim();if(url&&!/^https:\/\/[^\s/]+/i.test(url))return toast('Link público deve usar HTTPS.',true);
@@ -7371,6 +7540,103 @@ v21El('v21-channels-list').addEventListener('click',async e=>{const id=e.target.
 v21El('v21-export-customers').addEventListener('click',()=>v21CSV(customers.map(c=>({nome:c.name,telefone:c.phone,email:c.email,documento:c.document})),'conexus_clientes'));
 v21El('v21-export-orders').addEventListener('click',()=>v21CSV(v21Orders.map(o=>({codigo:o.code,canal:o.channel,status:o.status,valor:o.total,pagamento:o.payment_method,rastreio:o.tracking_code,itens:o.items?.map(x=>`${x.name} x${x.quantity}`).join(' | '),data:o.created_at})),'conexus_pedidos'));
 v21El('v21-export-services').addEventListener('click',()=>v21CSV(v21Services.map(s=>({codigo:s.code,servico:s.title,responsavel:s.responsible,situacao:s.status,valor:s.amount,prazo:s.due_date})),'conexus_servicos'));
+
+
+// CONEXUS V22 — máscaras brasileiras e busca de clientes (sem bibliotecas externas).
+function conexusDigits(value,max=14){return String(value||'').replace(/\D/g,'').slice(0,max);}
+function conexusMaskDocument(value){const d=conexusDigits(value,14);
+ if(d.length<=11)return d.replace(/^(\d{3})(\d)/,'$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1-$2');
+ return d.replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');
+}
+function conexusMaskPhone(value){const d=conexusDigits(value,11);if(!d)return '';
+ if(d.length<=2)return '('+d;
+ const prefix='('+d.slice(0,2)+') ';
+ const rest=d.slice(2), cut=d.length>10?5:4;
+ return prefix+rest.slice(0,cut)+(rest.length>cut?'-'+rest.slice(cut):'');
+}
+function conexusMaskContact(value){const v=String(value||'').trimStart();return /[@a-zA-Z]/.test(v)?v:conexusMaskPhone(v);}
+function conexusDocValid(value){
+ const d=conexusDigits(value);if(!d.length)return true;
+ if(d.length!==11&&d.length!==14)return false;
+ if(/^(\d)\1+$/.test(d))return false;
+ if(d.length===11){
+  const digit=limit=>{let sum=0;for(let i=0;i<limit;i++)sum+=Number(d[i])*(limit+1-i);const rem=(sum*10)%11;return rem===10?0:rem;};
+  return Number(d[9])===digit(9)&&Number(d[10])===digit(10);
+ }
+ const weights=[5,4,3,2,9,8,7,6,5,4,3,2];
+ const calc=arr=>{const sum=arr.reduce((s,w,i)=>s+Number(d[i])*w,0);const rem=sum%11;return rem<2?0:11-rem;};
+ return Number(d[12])===calc(weights)&&Number(d[13])===calc([6,...weights]);
+}
+function conexusPhoneValid(value){const d=conexusDigits(value,11);return !d.length||d.length===10||d.length===11;}
+function conexusCustomerMatches(query){const term=String(query||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+ if(!term)return [];
+ return customers.filter(c=>(c.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(term)).slice(0,8);
+}
+function conexusPaintCustomerSuggestions(target,search,onPick){
+ const matches=conexusCustomerMatches(search),safe=x=>escapeHtml(String(x??''));
+ target.hidden=false;
+ target.innerHTML=matches.length?matches.map(c=>'<button type="button" role="option" data-client-id="'+safe(c.id)+'"><span>'+safe(c.name)+'</span><small>'+safe(c.phone||c.email||'')+'</small></button>').join(''):
+ '<div class="conexus-suggestion-empty">Nenhum cliente encontrado.</div>';
+ target.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{
+  const c=customers.find(x=>x.id===btn.dataset.clientId);if(c){onPick(c);target.hidden=true;}
+ }));
+}
+function conexusSyncClientPickers(){
+ document.querySelectorAll('.conexus-client-picker').forEach(wrap=>{
+  const input=wrap.querySelector('input'),select=document.getElementById(wrap.dataset.pickerSelect);
+  if(!select)return;
+  const chosen=customers.find(c=>c.id===select.value);
+  input.value=chosen?chosen.name:'';
+  wrap.querySelector('.conexus-suggestion-list').hidden=true;
+ });
+}
+function conexusAddClientPicker(select){
+ if(!select||select.closest('.conexus-client-picker'))return;
+ const wrapper=document.createElement('div');wrapper.className='conexus-client-picker';
+ wrapper.dataset.pickerSelect=select.id;
+ wrapper.innerHTML='<input type="text" class="app-form-input conexus-client-search" placeholder="Digite o nome do cliente..." aria-label="Pesquisar cliente" autocomplete="off"/><div class="conexus-suggestion-list" role="listbox" hidden></div>';
+ select.parentNode.insertBefore(wrapper,select);select.classList.add('conexus-linked-select');
+}
+function conexusWireClientPickers(){
+ ['v21-order-customer','v21-service-customer'].forEach(id=>conexusAddClientPicker(document.getElementById(id)));
+ document.querySelectorAll('.conexus-client-picker').forEach(wrapper=>{
+  const input=wrapper.querySelector('input'),list=wrapper.querySelector('.conexus-suggestion-list'),select=document.getElementById(wrapper.dataset.pickerSelect);
+  input.addEventListener('input',()=>{
+   select.value='';if(!input.value.trim()){list.hidden=true;return;}
+   conexusPaintCustomerSuggestions(list,input.value,c=>{select.value=c.id;input.value=c.name;});
+  });
+  input.addEventListener('focus',()=>{if(input.value.trim())conexusPaintCustomerSuggestions(list,input.value,c=>{select.value=c.id;input.value=c.name;});});
+  input.addEventListener('keydown',e=>{if(e.key==='Escape')list.hidden=true;
+   if(e.key==='Enter'&&!list.hidden){const first=list.querySelector('button');if(first){e.preventDefault();first.click();}}});
+  input.addEventListener('blur',()=>setTimeout(()=>{list.hidden=true;
+   if(select.value&&!customers.some(c=>c.id===select.value))select.value='';
+  },150));
+ });
+}
+// Funciona na tela Clientes e nas seleções de Venda/Pedido/Serviço.
+const conexusClientsSearch=document.getElementById('clientes-search');
+const conexusClientsSuggestions=document.getElementById('clientes-sugestoes');
+conexusClientsSearch.addEventListener('input',()=>{
+ if(!conexusClientsSearch.value.trim()){conexusClientsSuggestions.hidden=true;return;}
+ conexusPaintCustomerSuggestions(conexusClientsSuggestions,conexusClientsSearch.value,c=>{
+  conexusClientsSearch.value=c.name;renderClientesTable();
+ });
+});
+conexusClientsSearch.addEventListener('keydown',e=>{
+ if(e.key==='Escape')conexusClientsSuggestions.hidden=true;
+ if(e.key==='Enter'){const first=conexusClientsSuggestions.querySelector('button');if(first&&!conexusClientsSuggestions.hidden){e.preventDefault();first.click();}}
+});
+const conexusMaskIDs={
+ 'biz-documento':conexusMaskDocument,'cliente-documento':conexusMaskDocument,'fornecedor-documento':conexusMaskDocument,
+ 'cliente-telefone':conexusMaskPhone,'fornecedor-telefone':conexusMaskPhone,
+ 'biz-contato':conexusMaskContact,'fornecedor-contato':conexusMaskContact
+};
+Object.entries(conexusMaskIDs).forEach(([id,mask])=>{
+ const element=document.getElementById(id);if(!element)return;
+ element.addEventListener('input',()=>{element.value=mask(element.value);});
+ element.addEventListener('focus',()=>{element.value=mask(element.value);});
+});
+conexusWireClientPickers();
 
 </script>
 </body>
