@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus v22 – Gestão empresarial por segmento</title>
+  <title>Conexus v23 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1142,7 +1142,18 @@ textarea:focus-visible,.app-nav-item:focus-visible {
     .legal-inline a,.footer-legal a{color:#8ee83a;text-decoration:underline;text-underline-offset:3px}
     .legal-inline a:hover,.footer-legal a:hover{color:#c3fc87}
     .footer-legal{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:13px}
-</style>
+    /* Conexus V23 — hierarquia de categorias */
+    .cx-category-toolbar { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
+    .cx-category-parent td { font-weight:600; }
+    .cx-category-child td:first-child { padding-left:38px; }
+    .cx-category-child td:first-child::before { content:'↳'; margin-right:9px; color:#69D409; }
+    .cx-category-count { font-weight:800; font-variant-numeric:tabular-nums; }
+    .cx-category-total { padding:14px 20px; font-size:13px; color:#a7b0bc; border-bottom:1px solid #36404b; }
+    .cx-subhint { font-size:12px; color:#a7b0bc; margin-top:5px; }
+    .cx-category-unnamed { opacity:.8; font-style:italic; }
+    .cx-category-table-wrapper { width:100%; overflow-x:auto; }
+    .cx-category-select:disabled { opacity:.65; cursor:not-allowed; }
+  </style>
 </head>
 <body data-theme="dark">
 
@@ -2089,9 +2100,12 @@ textarea:focus-visible,.app-nav-item:focus-visible {
         <div class="app-header-row">
           <div>
             <div class="app-view-title">Categorias</div>
-            <div class="app-view-sub">Organize categorias e veja quantos produtos pertencem a cada uma</div>
+            <div class="app-view-sub">Crie categorias e subcategorias. Veja a quantidade de produtos cadastrados em cada grupo.</div>
           </div>
-          <button class="btn-app-primary" id="btn-add-categoria">+ Nova categoria</button>
+          <div class="cx-category-toolbar">
+            <button class="btn-app-secondary" id="btn-add-subcategoria" type="button">+ Nova subcategoria</button>
+            <button class="btn-app-primary" id="btn-add-categoria" type="button">+ Nova categoria</button>
+          </div>
         </div>
         <div class="app-card">
           <div id="categorias-table-slot"></div>
@@ -2126,13 +2140,18 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <div class="app-form-row">
               <div class="app-form-group">
                 <label class="app-form-label">Categoria</label>
-                <input type="text" class="app-form-input" id="add-categoria" placeholder="Ex: Roupas" list="categorias-datalist" />
+                <select class="app-form-select cx-category-select" id="add-categoria" required><option value="">Selecione uma categoria</option></select>
               </div>
               <div class="app-form-group">
                 <label class="app-form-label">Alertar quando qtd ≤</label>
                 <input type="number" class="app-form-input" id="add-limite" min="0" step="1" placeholder="10" />
                 <div class="field-hint">Você recebe um alerta quando o estoque chega nesse número.</div>
               </div>
+            </div>
+            <div class="app-form-group">
+              <label class="app-form-label">Subcategoria (opcional)</label>
+              <select class="app-form-select cx-category-select" id="add-subcategoria" disabled><option value="">Sem subcategoria</option></select>
+              <div class="cx-subhint">Primeiro selecione a categoria principal.</div>
             </div>
             <div class="app-form-group">
               <label class="app-form-label">Custo de aquisição (R$, opcional)</label>
@@ -2487,9 +2506,14 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 <div class="modal-overlay" id="modal-categoria">
   <div class="modal-box">
     <div class="modal-title" id="categoria-modal-title">Adicionar categoria</div>
-    <div class="modal-sub">Será usada no cadastro de produtos e nas opções de categoria</div>
+    <div class="modal-sub" id="categoria-modal-descricao">Organize o catálogo de produtos deste negócio</div>
     <div class="msg-box" id="categoria-msg"></div>
     <input type="hidden" id="categoria-id" />
+    <input type="hidden" id="categoria-kind" value="root" />
+    <div class="app-form-group" id="categoria-parent-wrap" style="display:none">
+      <label class="app-form-label">Categoria principal</label>
+      <select class="app-form-select" id="categoria-parent"></select>
+    </div>
     <div class="app-form-group">
       <label class="app-form-label">Nome da categoria</label>
       <input type="text" class="app-form-input" id="categoria-nome" placeholder="Ex: Roupas" />
@@ -2505,7 +2529,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 <div class="modal-overlay" id="modal-delete-categoria">
   <div class="modal-box">
     <div class="modal-title">Excluir categoria?</div>
-    <div class="modal-sub">Exclui a categoria da lista. Categorias que estão em uso por produtos não podem ser excluídas.</div>
+    <div class="modal-sub">Só é possível excluir uma categoria ou subcategoria sem produtos vinculados. Categorias com subcategorias também não podem ser excluídas.</div>
     <input type="hidden" id="delete-categoria-id" />
     <div class="modal-actions">
       <button class="btn-app-secondary" id="delete-categoria-cancel">Cancelar</button>
@@ -2819,8 +2843,12 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       </div>
       <div class="app-form-group">
         <label class="app-form-label">Categoria</label>
-        <input type="text" class="app-form-input" id="edit-categoria" list="categorias-datalist" />
+        <select class="app-form-select cx-category-select" id="edit-categoria" required><option value="">Selecione uma categoria</option></select>
       </div>
+    </div>
+    <div class="app-form-group">
+      <label class="app-form-label">Subcategoria (opcional)</label>
+      <select class="app-form-select cx-category-select" id="edit-subcategoria" disabled><option value="">Sem subcategoria</option></select>
     </div>
     <div class="app-form-group">
       <label class="app-form-label">Alertar quando qtd ≤</label>
@@ -3470,6 +3498,15 @@ function makeDemoData() {
   product(byType.ecommerce,'Fone com fio',72,39.9,17,'Eletrônicos');
   product(byType.restaurante,'Suco natural 300 ml',60,9.9,3.2,'Bebidas');
   product(byType.restaurante,'Lanche do dia',24,24.9,11,'Refeições');
+  // Catálogo demonstrativo com categorias principais criadas a partir do estoque.
+  const demoRoots = new Set();
+  for (const prod of tables.products) {
+    const key=prod.business_id+'|'+prod.category.toLocaleLowerCase('pt-BR');
+    if (demoRoots.has(key)) continue;
+    demoRoots.add(key);
+    tables.categories.push({id:demoUuid(),business_id:prod.business_id,user_id:owner,
+      name:prod.category,parent_id:null,created_at:now});
+  }
   const foodBiz=byType.industria_alimenticia.id;
   const foodRecipe={id:demoUuid(),user_id:owner,business_id:foodBiz,name:'Molho 500 g · receita-base',output_product_id:foodOut.id,yield_units:10,created_at:now};
   tables.food_recipes.push(foodRecipe);
@@ -3599,10 +3636,10 @@ function makeDemoClient(store) {
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
       const now=new Date().toISOString();
-      if(action==='conexus_register_product_v22') {
+      if(action==='conexus_register_product_v22' || action==='conexus_register_product_v23') {
         const qty=Number(req.p_quantity),price=Number(req.p_price),threshold=Number(req.p_threshold),cost=req.p_cost==null?null:Number(req.p_cost);
         if(!req.p_name||!String(req.p_name).trim()||!Number.isSafeInteger(qty)||qty<0||!Number.isFinite(price)||price<0||!Number.isSafeInteger(threshold)||threshold<0||cost!==null&&(!Number.isFinite(cost)||cost<0))throw Error('Dados do produto inválidos.');
-        const p={id:demoUuid(),user_id:uid,business_id:bid,name:String(req.p_name).trim(),quantity:qty,price,category:req.p_category||'Geral',low_stock_threshold:threshold,cost_price:cost,created_at:now,updated_at:now};
+        const p={id:demoUuid(),user_id:uid,business_id:bid,name:String(req.p_name).trim(),quantity:qty,price,category:req.p_category||'Geral',subcategory:req.p_subcategory||null,low_stock_threshold:threshold,cost_price:cost,created_at:now,updated_at:now};
         store.products.push(p);
         if(qty>0)store.stock_movements.push({id:demoUuid(),user_id:uid,business_id:bid,product_id:p.id,product_name:p.name,type:'entrada',quantity:qty,unit_price:price,unit_cost:cost,is_sale:false,reason:'estoque_inicial',created_at:now});
         result=p.id;
@@ -4472,6 +4509,7 @@ function goto(viewId) {
   });
   if (viewId === 'view-estoque') renderEstoqueTable();
   if (viewId === 'view-categorias') void refreshCategoryCounts();
+  if (viewId === 'view-adicionar') { fillCategorySelector('add-categoria'); fillSubcategorySelector('add-categoria','add-subcategoria'); }
   if (viewId === 'view-movimentacoes') renderMovimentacoes();
   if (viewId === 'view-financas') renderFinancas(window.__appFinPeriod || 'sem');
   if (viewId.startsWith('view-food-')) renderFoodUI();
@@ -4570,6 +4608,8 @@ async function loadAllData() {
     categoryLiveRequestId++;
     renderCategoriasTable();
     populateCategoriasDatalist();
+    fillCategorySelector('add-categoria');
+    if (!document.getElementById('modal-edit').classList.contains('open')) fillCategorySelector('edit-categoria');
     if (document.getElementById('view-categorias').classList.contains('active')) {
       await refreshCategoryCounts();
     }
@@ -4736,7 +4776,7 @@ function renderEstoqueTable(filterText) {
   list.forEach(p => {
     html += '<tr>' +
       '<td><strong>' + escapeHtml(p.name) + '</strong></td>' +
-      '<td><span class="cat-pill">' + escapeHtml(p.category || 'Geral') + '</span></td>' +
+      '<td><span class="cat-pill">' + escapeHtml(p.category || 'Geral') + '</span>' + (p.subcategory ? '<div class="cx-subhint">↳ ' + escapeHtml(p.subcategory) + '</div>' : '') + '</td>' +
       '<td>' + p.quantity + '</td>' +
       '<td>' + brl(p.price) + '</td>' +
       '<td>' + statusBadge(p) + '</td>' +
@@ -4771,7 +4811,8 @@ function openEditModal(p) {
   document.getElementById('edit-id').value = p.id;
   document.getElementById('edit-nome').value = p.name;
   document.getElementById('edit-preco').value = p.price;
-  document.getElementById('edit-categoria').value = p.category || '';
+  fillCategorySelector('edit-categoria', p.category || '');
+  fillSubcategorySelector('edit-categoria', 'edit-subcategoria', p.subcategory || '');
   document.getElementById('edit-limite').value = p.low_stock_threshold;
   document.getElementById('edit-custo').value = p.cost_price != null ? p.cost_price : '';
   hideMsg('edit-msg');
@@ -4782,13 +4823,16 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   const id = document.getElementById('edit-id').value;
   const name = document.getElementById('edit-nome').value.trim();
   const price = parseFloat(document.getElementById('edit-preco').value);
-  const category = normalizedProductCategory(document.getElementById('edit-categoria').value);
+  const category = document.getElementById('edit-categoria').value;
+  const subcategory = document.getElementById('edit-subcategoria').value || null;
+  const validCategory = catalogRootByName(category);
+  const validSub = !subcategory || catalogChildren(validCategory?.id).some(c => c.name === subcategory);
   const limite = Number(document.getElementById('edit-limite').value);
   const custoRaw = document.getElementById('edit-custo').value;
   const custo = custoRaw === '' ? null : parseFloat(custoRaw);
 
   if (!name) { showMsg('edit-msg', 'O nome do produto é obrigatório.', 'error'); return; }
-  if (category.length > 100) { showMsg('edit-msg', 'A categoria deve ter no máximo 100 caracteres.', 'error'); return; }
+  if (!validCategory || !validSub) { showMsg('edit-msg', 'Selecione uma categoria e subcategoria cadastradas neste negócio.', 'error'); return; }
   if (!Number.isFinite(price) || price < 0) { showMsg('edit-msg', 'Informe um preço válido.', 'error'); return; }
   if (!Number.isSafeInteger(limite) || limite < 0) { showMsg('edit-msg', 'Informe um limite válido para alerta de estoque.', 'error'); return; }
   if (custo !== null && (!Number.isFinite(custo) || custo < 0)) { showMsg('edit-msg', 'Informe um custo válido.', 'error'); return; }
@@ -4796,12 +4840,11 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   setBtn('edit-save', true, 'Salvar alterações');
   try {
     const { error } = await withTimeout(sb.from('products').update({
-      name, price, category, low_stock_threshold: limite, cost_price: custo, updated_at: new Date().toISOString()
+      name, price, category, subcategory, low_stock_threshold: limite, cost_price: custo, updated_at: new Date().toISOString()
     }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
 
     if (error) { showMsg('edit-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
 
-    await ensureProductCategoryRegistered(category, await getAuthedUser(), currentBusiness.id);
     logAudit('editar', 'produto', name, 'Preço: ' + brl(price) + (custo !== null ? ' · Custo: ' + brl(custo) : ''));
     document.getElementById('modal-edit').classList.remove('open');
     toast('Produto atualizado com sucesso.');
@@ -4887,7 +4930,10 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
   const nome = document.getElementById('add-nome').value.trim();
   const qtd = Number(document.getElementById('add-qtd').value);
   const preco = parseFloat(document.getElementById('add-preco').value);
-  const categoria = normalizedProductCategory(document.getElementById('add-categoria').value);
+  const categoria = document.getElementById('add-categoria').value;
+  const subcategoria = document.getElementById('add-subcategoria').value || null;
+  const root = catalogRootByName(categoria);
+  const validSub = !subcategoria || catalogChildren(root?.id).some(c => c.name === subcategoria);
   const limiteRaw = document.getElementById('add-limite').value;
   const limite = limiteRaw === '' ? 10 : Number(limiteRaw);
   const custoRaw = document.getElementById('add-custo').value;
@@ -4896,7 +4942,7 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
   hideMsg('add-msg');
 
   if (!nome) { showMsg('add-msg', 'Informe o nome do produto.', 'error'); return; }
-  if (categoria.length > 100) { showMsg('add-msg', 'A categoria deve ter no máximo 100 caracteres.', 'error'); return; }
+  if (!root || !validSub) { showMsg('add-msg', 'Selecione uma categoria cadastrada e uma subcategoria válida.', 'error'); return; }
   if (!Number.isSafeInteger(qtd) || qtd < 0) { showMsg('add-msg', 'Informe uma quantidade válida.', 'error'); return; }
   if (!Number.isFinite(preco) || preco < 0) { showMsg('add-msg', 'Informe um preço válido.', 'error'); return; }
   if (!Number.isSafeInteger(limite) || limite < 0) { showMsg('add-msg', 'Informe um limite de alerta válido.', 'error'); return; }
@@ -4911,12 +4957,13 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
       return;
     }
 
-    const { error } = await withTimeout(sb.rpc('conexus_register_product_v22', {
+    const { error } = await withTimeout(sb.rpc('conexus_register_product_v23', {
       p_business_id: currentBusiness.id,
       p_name: nome,
       p_quantity: qtd,
       p_price: preco,
       p_category: categoria,
+      p_subcategory: subcategoria,
       p_threshold: limite,
       p_cost: custo
     }), 20000);
@@ -4927,12 +4974,12 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
       return;
     }
 
-    await ensureProductCategoryRegistered(categoria, user, currentBusiness.id);
     showMsg('add-msg', '✅ Produto adicionado com sucesso!', 'success');
     document.getElementById('add-nome').value = '';
     document.getElementById('add-qtd').value = '';
     document.getElementById('add-preco').value = '';
     document.getElementById('add-categoria').value = '';
+    fillSubcategorySelector('add-categoria','add-subcategoria');
     document.getElementById('add-limite').value = '';
     document.getElementById('add-custo').value = '';
 
@@ -6363,253 +6410,300 @@ function renderFluxoCaixa(period) {
 });
 
 // ══════════════════════════════════════════════
-// CATEGORIAS — gestão por negócio
+// CATEGORIAS E SUBCATEGORIAS — v23 (catálogo por empresa)
 // ══════════════════════════════════════════════
 function categoryKey(name) {
-  return String(name || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('pt-BR');
+  return String(name || '').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
 }
-function categoryName(name) {
-  return String(name || '').trim().replace(/\s+/g, ' ');
-}
+function categoryName(name) { return String(name || '').trim().replace(/\s+/g,' '); }
 function normalizedProductCategory(raw) {
-  const name = categoryName(raw) || 'Geral';
-  return categories.find(c=>categoryKey(c.name)===categoryKey(name))?.name || name;
+  const name=categoryName(raw) || 'Geral';
+  return categories.find(c=>!c.parent_id && categoryKey(c.name)===categoryKey(name))?.name || name;
 }
-async function ensureProductCategoryRegistered(name, user, businessId) {
-  if (!businessId || !user?.id || !name || categories.some(c=>categoryKey(c.name)===categoryKey(name))) return;
-  const {error} = await withTimeout(sb.from('categories').insert({
-    name, business_id:businessId, user_id:user.id
-  }),15000);
-  // A categoria já pode ter sido criada simultaneamente por outro usuário.
-  if (error && error.code!=='23505') {
-    toast('Produto salvo, mas a categoria não foi incluída nas sugestões: '+error.message,true);
-  }
+function catalogRoots(){ return categories.filter(c=>!c.parent_id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')); }
+function catalogChildren(parentId) { return categories.filter(c=>c.parent_id===parentId).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')); }
+function catalogRootByName(name) { return catalogRoots().find(c=>categoryKey(c.name)===categoryKey(name)); }
+function fillCategorySelector(id, selected) {
+  const select=document.getElementById(id);
+  if(!select) return;
+  const target=selected!==undefined ? selected : select.value;
+  select.innerHTML='<option value="">Selecione uma categoria</option>'+catalogRoots()
+    .map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('');
+  select.value=catalogRootByName(target)?.name || '';
 }
-// Contagem independente do cache de estoque. O PostgREST limita a quantidade
-// de registros por resposta, por isso a leitura precisa de paginação.
+function fillSubcategorySelector(catId,subId,selected) {
+  const cat=document.getElementById(catId),select=document.getElementById(subId);
+  if(!cat||!select) return;
+  const root=catalogRootByName(cat.value);
+  const available=catalogChildren(root?.id);
+  const target=selected!==undefined ? selected : select.value;
+  select.innerHTML='<option value="">Sem subcategoria</option>'+available
+    .map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('');
+  select.value=available.find(c=>categoryKey(c.name)===categoryKey(target))?.name || '';
+  select.disabled=!root || !available.length;
+}
+document.getElementById('add-categoria').addEventListener('change',()=>fillSubcategorySelector('add-categoria','add-subcategoria',''));
+document.getElementById('edit-categoria').addEventListener('change',()=>fillSubcategorySelector('edit-categoria','edit-subcategoria',''));
+
 let categoryLiveSnapshot = null;
 let categoryLiveRequestId = 0;
 function categoryVisibleProducts() {
-  return categoryLiveSnapshot?.status === 'ready' && categoryLiveSnapshot.businessId === currentBusiness?.id
+  return categoryLiveSnapshot?.status==='ready' && categoryLiveSnapshot.businessId===currentBusiness?.id
     ? categoryLiveSnapshot.products : products;
 }
-function categoryProductCount(name) {
-  const key = categoryKey(name);
-  return categoryVisibleProducts().filter(p => categoryKey(p.category || 'Geral') === key).length;
+function categoryProductCount(name, parentName=null) {
+  const key=categoryKey(name);
+  const source=categoryVisibleProducts();
+  return parentName===null
+    ? source.filter(p=>categoryKey(p.category || 'Geral')===key).length
+    : source.filter(p=>categoryKey(p.category || 'Geral')===categoryKey(parentName)
+      && categoryKey(p.subcategory)===key).length;
 }
 async function refreshCategoryCounts() {
   if (!currentBusiness?.id) return;
-  const businessId = currentBusiness.id;
-  const requestId = ++categoryLiveRequestId;
-  categoryLiveSnapshot = {businessId, status:'loading', products:[], catalog:[]};
+  const bid=currentBusiness.id;
+  const token=++categoryLiveRequestId;
+  categoryLiveSnapshot={businessId:bid,status:'loading',products:[],catalog:[]};
   renderCategoriasTable();
   try {
-    const pageSize = 500;
-    const maxPages = 200; // Bloqueia totais parciais, evitando exibir contagem incorreta.
-    const allProducts = [];
-    let complete = false;
-    for (let page = 0; page < maxPages; page++) {
-      const from = page * pageSize;
-      const {data, error} = await withTimeout(sb.from('products')
-        .select('id,category').eq('business_id',businessId)
-        .order('id',{ascending:true}).range(from,from+pageSize-1),15000);
-      if (error) throw new Error('Falha ao consultar produtos: '+error.message);
-      if (!Array.isArray(data)) throw new Error('A lista de produtos não foi retornada pelo banco.');
-      allProducts.push(...data);
-      if (data.length < pageSize) { complete = true; break; }
+    // Paginação para evitar resultados truncados pelo limite do PostgREST.
+    const fetched=[];
+    let complete=false;
+    for(let i=0;i<200;i++) {
+      const {data,error}=await withTimeout(sb.from('products')
+        .select('id,category,subcategory').eq('business_id',bid)
+        .order('id',{ascending:true}).range(i*500,i*500+499),15000);
+      if(error) throw new Error('Consulta de produtos: '+error.message);
+      if(!Array.isArray(data)) throw new Error('Resposta inválida ao consultar produtos.');
+      fetched.push(...data);
+      if(data.length<500){complete=true;break;}
     }
-    if (!complete) throw new Error('Limite de leitura excedido. Não é possível garantir uma contagem completa.');
-    const {data:catalog,error:catalogError} = await withTimeout(sb.from('categories')
-      .select('id,name').eq('business_id',businessId).order('name',{ascending:true}),15000);
-    if (catalogError) throw new Error('Falha ao consultar categorias: '+catalogError.message);
-    if (requestId !== categoryLiveRequestId || currentBusiness?.id !== businessId) return;
-    categoryLiveSnapshot = {businessId,status:'ready',products:allProducts,catalog:catalog||[]};
-    categories = catalog || [];
+    if(!complete) throw new Error('Há produtos demais para garantir a contagem completa.');
+    const {data:catalog,error}=await withTimeout(sb.from('categories')
+      .select('id,name,parent_id').eq('business_id',bid).order('name',{ascending:true}),15000);
+    if(error) throw new Error('Consulta de categorias: '+error.message+' — execute o SQL V23.');
+    if(token!==categoryLiveRequestId || currentBusiness?.id!==bid) return;
+    categories=catalog||[];
+    categoryLiveSnapshot={businessId:bid,status:'ready',products:fetched,catalog:categories};
     renderCategoriasTable();
     populateCategoriasDatalist();
-  } catch (error) {
-    if (requestId !== categoryLiveRequestId || currentBusiness?.id !== businessId) return;
-    console.error('Falha ao atualizar a contagem das categorias:',error);
-    categoryLiveSnapshot = {businessId,status:'error',error:error?.message || 'Erro de conexão.'};
+    fillCategorySelector('add-categoria');
+  } catch(err) {
+    if(token!==categoryLiveRequestId || currentBusiness?.id!==bid) return;
+    categoryLiveSnapshot={businessId:bid,status:'error',error:err?.message||'Falha de conexão'};
     renderCategoriasTable();
   }
 }
 function populateCategoriasDatalist() {
-  const datalist = document.getElementById('categorias-datalist');
-  if (!datalist) return;
-  // Inclui categorias de produtos antigos ainda não cadastradas em categories.
-  const names = new Map();
-  [...categories.map(c => c.name), ...products.map(p => p.category)].forEach(raw => {
-    const name = categoryName(raw);
-    if (name && !names.has(categoryKey(name))) names.set(categoryKey(name), name);
-  });
-  datalist.innerHTML = [...names.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'))
-    .map(name => '<option value="' + escapeHtml(name) + '"></option>').join('');
+  const list=document.getElementById('categorias-datalist');
+  if(!list) return;
+  list.innerHTML=catalogRoots().map(c=>'<option value="'+escapeHtml(c.name)+'"></option>').join('');
 }
 function renderCategoriasTable() {
-  const slot = document.getElementById('categorias-table-slot');
-  if (!slot) return;
-  const live = categoryLiveSnapshot?.businessId === currentBusiness?.id ? categoryLiveSnapshot : null;
-  if (live?.status === 'loading') {
-    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔄</div>' +
-      '<div class="empty-state-title">Atualizando contagem...</div>' +
-      '<div class="empty-state-sub">Consultando os produtos desta empresa.</div></div>';
+  const slot=document.getElementById('categorias-table-slot');
+  if(!slot)return;
+  const snapshot=categoryLiveSnapshot?.businessId===currentBusiness?.id ? categoryLiveSnapshot : null;
+  if(snapshot?.status==='loading') {
+    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">🔄</div><div class="empty-state-title">Atualizando categorias e contagens...</div></div>';
     return;
   }
-  const failed = live?.status === 'error';
-  const catalog = live?.status === 'ready' ? live.catalog : categories;
-  const sourceProducts = live?.status === 'ready' ? live.products : products;
-  const all = new Map();
-  catalog.forEach(c => {
-    const name = categoryName(c.name);
-    if(name) all.set(categoryKey(name), {name, id:c.id, registered:true});
-  });
-  sourceProducts.forEach(p => {
-    const name = categoryName(p.category) || 'Geral';
-    const key = categoryKey(name);
-    if(!all.has(key)) all.set(key,{name, id:null, registered:false});
-  });
-  const warning = failed
-    ? '<div role="alert" style="padding:12px;margin-bottom:14px;border:1px solid var(--vermelho);border-radius:8px;">' +
-      '<strong>Não foi possível conferir os totais no banco.</strong> ' + escapeHtml(live.error) +
-      ' <button class="btn-app-secondary" id="categorias-retry" type="button">Tentar novamente</button></div>'
-    : '';
-  if (!all.size) {
-    slot.innerHTML = warning + '<div class="empty-state"><div class="empty-state-icon">🏷️</div>' +
-      '<div class="empty-state-title">Nenhuma categoria cadastrada</div>' +
-      '<div class="empty-state-sub">Crie categorias para organizar os produtos deste negócio.</div>' +
-      '<button class="btn-app-primary" id="empty-add-categoria-btn">+ Nova categoria</button></div>';
-    document.getElementById('empty-add-categoria-btn').addEventListener('click', () => openCategoryModal());
-  } else {
-    const data=[...all.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
-    slot.innerHTML = warning + '<table class="app-table"><thead><tr><th>Categoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>' +
-      data.map((c,i) => '<tr><td><strong>' + escapeHtml(c.name) + '</strong>' +
-        (c.registered?'':' <small title="Categoria usada no estoque, ainda não cadastrada">(não cadastrada)</small>') +
-        '</td><td>' + (failed ? '—' : categoryProductCount(c.name)) + '</td><td><div class="row-actions">' +
-        (c.registered
-          ? '<button class="icon-btn" title="Editar" data-categoria-action="editar" data-index="'+i+'">✎</button>' +
-            '<button class="icon-btn danger" title="Excluir" data-categoria-action="excluir" data-index="'+i+'">🗑</button>'
-          : '<button class="btn-app-secondary" data-categoria-action="cadastrar" data-index="'+i+'">Cadastrar</button>') +
-        '</div></td></tr>').join('') + '</tbody></table>';
-    slot.querySelectorAll('[data-categoria-action]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cat=data[Number(btn.dataset.index)];
-        if(!cat) return;
-        if(btn.dataset.categoriaAction==='cadastrar') return openCategoryModal(null,cat.name);
-        const registered=categories.find(c=>String(c.id)===String(cat.id));
-        if(!registered) return;
-        if(btn.dataset.categoriaAction==='editar') openCategoryModal(registered);
-        else openDeleteCategoryModal(registered);
-      });
-    });
+  if(snapshot?.status==='error') {
+    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">⚠️</div>'+
+      '<div class="empty-state-title">Não foi possível carregar as categorias</div>'+
+      '<div class="empty-state-sub">'+escapeHtml(snapshot.error)+'</div>'+
+      '<button class="btn-app-secondary" id="categorias-retry" type="button">Tentar novamente</button></div>';
+    document.getElementById('categorias-retry').addEventListener('click',()=>void refreshCategoryCounts());
+    return;
   }
-  const retry=document.getElementById('categorias-retry');
-  if(retry) retry.addEventListener('click',()=>void refreshCategoryCounts());
+  const catalog=snapshot?.status==='ready' ? snapshot.catalog : categories;
+  const inStock=snapshot?.status==='ready' ? snapshot.products : products;
+  const roots=catalog.filter(c=>!c.parent_id).map(c=>({...c,registered:true}));
+  const map=new Map(roots.map(c=>[categoryKey(c.name),c]));
+  // Produtos legados com categorias ainda não cadastradas permanecem visíveis.
+  inStock.forEach(p=>{
+    const label=categoryName(p.category)||'Geral';
+    if(!map.has(categoryKey(label)))map.set(categoryKey(label),{id:null,name:label,registered:false});
+  });
+  const allRoots=[...map.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+  if(!allRoots.length) {
+    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">🏷️</div><div class="empty-state-title">Nenhuma categoria cadastrada</div>'+
+      '<div class="empty-state-sub">Crie uma categoria para começar a cadastrar produtos.</div></div>';
+    return;
+  }
+  const total=inStock.length;
+  const actions=[];
+  let html='<div class="cx-category-total">'+total+' produto(s) cadastrado(s) nesta empresa • Categorias: '+allRoots.length+'</div>'+
+    '<div class="cx-category-table-wrapper"><table class="app-table"><thead><tr><th>Categoria / subcategoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>';
+  allRoots.forEach(root=>{
+    const n=categoryProductCount(root.name);
+    const rootIdx=actions.push({type:'root',cat:root})-1;
+    html+='<tr class="cx-category-parent"><td>▣ '+escapeHtml(root.name)+
+      (root.registered?'':' <small class="cx-category-unnamed">(não cadastrada)</small>')+
+      '</td><td class="cx-category-count">'+n+'</td><td><div class="row-actions">'+
+      (root.registered
+        ? '<button class="icon-btn" title="Editar" data-cx-action="edit" data-cx-index="'+rootIdx+'">✎</button>'+
+          '<button class="icon-btn danger" title="Excluir" data-cx-action="delete" data-cx-index="'+rootIdx+'">🗑</button>'+
+          '<button class="btn-app-secondary" type="button" data-cx-action="new-sub" data-cx-index="'+rootIdx+'">+ Subcategoria</button>'
+        : '<button class="btn-app-secondary" data-cx-action="register" data-cx-index="'+rootIdx+'">Cadastrar</button>')+
+      '</div></td></tr>';
+    const children=catalog.filter(c=>c.parent_id===root.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+    const subs=new Map(children.map(c=>[categoryKey(c.name),{...c,registered:true}]));
+    inStock.filter(p=>categoryKey(p.category)===categoryKey(root.name)&&categoryName(p.subcategory))
+      .forEach(p=>{
+        const name=categoryName(p.subcategory);
+        if(!subs.has(categoryKey(name)))subs.set(categoryKey(name),{id:null,name,registered:false,parent_id:root.id});
+      });
+    const noSub=inStock.filter(p=>categoryKey(p.category)===categoryKey(root.name)&&!categoryName(p.subcategory)).length;
+    if(noSub){
+      html+='<tr class="cx-category-child"><td><span class="cx-category-unnamed">Sem subcategoria</span></td><td class="cx-category-count">'+noSub+'</td><td>—</td></tr>';
+    }
+    for(const child of [...subs.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'))) {
+      const j=actions.push({type:'sub',cat:child,parent:root})-1;
+      html+='<tr class="cx-category-child"><td>'+escapeHtml(child.name)+
+        (child.registered?'':' <small>(não cadastrada)</small>')+
+        '</td><td class="cx-category-count">'+categoryProductCount(child.name,root.name)+
+        '</td><td><div class="row-actions">'+(child.registered
+        ? '<button class="icon-btn" title="Editar subcategoria" data-cx-action="edit" data-cx-index="'+j+'">✎</button>'+
+          '<button class="icon-btn danger" title="Excluir subcategoria" data-cx-action="delete" data-cx-index="'+j+'">🗑</button>'
+        : '<button class="btn-app-secondary" data-cx-action="register-sub" data-cx-index="'+j+'">Cadastrar</button>')+
+        '</div></td></tr>';
+    }
+  });
+  html+='</tbody></table></div>';
+  slot.innerHTML=html;
+  slot.querySelectorAll('[data-cx-action]').forEach(btn=>btn.addEventListener('click',()=>{
+    const chosen=actions[Number(btn.dataset.cxIndex)];if(!chosen)return;
+    const {type,cat,parent}=chosen;
+    const cmd=btn.dataset.cxAction;
+    if(cmd==='new-sub') return openCategoryModal(null,'sub','',cat.id);
+    if(cmd==='register') return openCategoryModal(null,'root',cat.name);
+    if(cmd==='register-sub') return openCategoryModal(null,'sub',cat.name,parent.id);
+    const fresh=categories.find(c=>c.id===cat.id);
+    if(!fresh)return;
+    if(cmd==='edit')openCategoryModal(fresh,type);
+    if(cmd==='delete')openDeleteCategoryModal(fresh);
+  }));
 }
-function openCategoryModal(cat, suggestedName = '') {
+function openCategoryModal(cat=null,kind='root',suggestedName='',parentId='') {
+  const edit=Boolean(cat);
+  const isSub=kind==='sub' || Boolean(cat?.parent_id);
+  document.getElementById('categoria-id').value=cat?.id||'';
+  document.getElementById('categoria-kind').value=isSub?'sub':'root';
+  document.getElementById('categoria-modal-title').textContent=(edit?'Editar ':'Adicionar ')+(isSub?'subcategoria':'categoria');
+  document.getElementById('categoria-modal-descricao').textContent=isSub?'Subcategoria vinculada a uma categoria principal':'Categoria principal do negócio';
+  document.getElementById('categoria-save').textContent=edit?'Salvar alterações':'Criar';
+  document.getElementById('categoria-nome').value=cat?.name||suggestedName;
+  const wrap=document.getElementById('categoria-parent-wrap');
+  const select=document.getElementById('categoria-parent');
+  wrap.style.display=isSub?'block':'none';
+  select.innerHTML='<option value="">Selecione a categoria principal</option>'+catalogRoots()
+    .map(c=>'<option value="'+escapeHtml(c.id)+'">'+escapeHtml(c.name)+'</option>').join('');
+  select.value=cat?.parent_id||parentId||'';
+  select.disabled=edit; // Mudar hierarquia de uma subcategoria existente exige reclassificar os produtos.
   hideMsg('categoria-msg');
-  document.getElementById('categoria-modal-title').textContent = cat ? 'Editar categoria' : 'Adicionar categoria';
-  document.getElementById('categoria-save').textContent = cat ? 'Salvar alterações' : 'Criar categoria';
-  document.getElementById('categoria-id').value = cat?.id || '';
-  document.getElementById('categoria-nome').value = cat?.name || suggestedName;
   document.getElementById('modal-categoria').classList.add('open');
   document.getElementById('categoria-nome').focus();
 }
-document.getElementById('btn-add-categoria').addEventListener('click', () => openCategoryModal());
-document.getElementById('categoria-cancel').addEventListener('click',
-  () => document.getElementById('modal-categoria').classList.remove('open'));
-
-document.getElementById('categoria-save').addEventListener('click', async () => {
-  const id = document.getElementById('categoria-id').value;
-  const nome = categoryName(document.getElementById('categoria-nome').value);
+document.getElementById('btn-add-categoria').addEventListener('click',()=>openCategoryModal());
+document.getElementById('btn-add-subcategoria').addEventListener('click',()=>{
+  if(!catalogRoots().length){toast('Crie uma categoria principal primeiro.',true);return;}
+  openCategoryModal(null,'sub');
+});
+document.getElementById('categoria-cancel').addEventListener('click',()=>document.getElementById('modal-categoria').classList.remove('open'));
+document.getElementById('categoria-save').addEventListener('click',async()=>{
+  const id=document.getElementById('categoria-id').value;
+  const kind=document.getElementById('categoria-kind').value;
+  const parentId=kind==='sub'?document.getElementById('categoria-parent').value:null;
+  const name=categoryName(document.getElementById('categoria-nome').value);
+  const bid=currentBusiness?.id;
   hideMsg('categoria-msg');
-  if (!currentBusiness?.id) { showMsg('categoria-msg', 'Selecione um negócio.', 'error'); return; }
-  if (!nome || nome.length > 100) {
-    showMsg('categoria-msg', 'Informe um nome de 1 a 100 caracteres.', 'error'); return;
+  if(!bid){showMsg('categoria-msg','Selecione uma empresa.','error');return;}
+  if(!name||name.length>100){showMsg('categoria-msg','Nome deve ter de 1 a 100 caracteres.','error');return;}
+  if(kind==='sub' && !catalogRoots().some(r=>r.id===parentId)){
+    showMsg('categoria-msg','Selecione uma categoria principal válida.','error');return;
   }
-  if (categories.some(c => String(c.id) !== id && categoryKey(c.name) === categoryKey(nome))) {
-    showMsg('categoria-msg', 'Já existe uma categoria com esse nome.', 'error'); return;
+  if(categories.some(c=>c.id!==id && categoryKey(c.name)===categoryKey(name))){
+    showMsg('categoria-msg','Esse nome já existe no catálogo. Use um nome diferente.','error');return;
   }
-  const businessId = currentBusiness.id;
-  setBtn('categoria-save', true, id ? 'Salvar alterações' : 'Criar categoria');
+  setBtn('categoria-save',true,id?'Salvar alterações':'Criar');
   try {
-    const user = await getAuthedUser();
-    if (!user) throw new Error('Sessão expirada. Entre novamente.');
-    if (id) {
-      const current = categories.find(c => String(c.id) === id);
-      if (!current) throw new Error('Categoria não encontrada. Atualize os dados.');
-      const antigo = current.name;
-      // Atualiza primeiro os produtos vinculados e desfaz se o cadastro falhar.
-      const linked = categoryVisibleProducts().filter(p => categoryKey(p.category) === categoryKey(antigo));
-      if (antigo !== nome && linked.length) {
-        const {error: pe} = await withTimeout(sb.from('products').update({category:nome})
-          .eq('business_id',businessId).in('id',linked.map(p=>p.id)),15000);
-        if (pe) throw new Error('Não foi possível atualizar os produtos: ' + pe.message);
+    const user=await getAuthedUser();if(!user)throw Error('Sua sessão expirou.');
+    if(id){
+      const old=categories.find(c=>c.id===id);if(!old)throw Error('Categoria não encontrada.');
+      if(categoryLiveSnapshot?.status!=='ready')throw Error('Atualize as contagens antes de editar.');
+      const linked=categoryVisibleProducts().filter(p=>old.parent_id
+        ? categoryKey(p.subcategory)===categoryKey(old.name) && categoryKey(p.category)===categoryKey(categories.find(c=>c.id===old.parent_id)?.name)
+        : categoryKey(p.category)===categoryKey(old.name));
+      const field=old.parent_id?'subcategory':'category';
+      if(old.name!==name && linked.length){
+        const {error}=await withTimeout(sb.from('products').update({[field]:name})
+          .eq('business_id',bid).in('id',linked.map(p=>p.id)),15000);
+        if(error)throw Error('Não foi possível atualizar os produtos: '+error.message);
       }
-      const {data, error} = await withTimeout(sb.from('categories').update({name:nome})
-        .eq('id',id).eq('business_id',businessId).select('id'),15000);
-      if (error || !data?.length) {
-        if (antigo !== nome && linked.length) {
-          const rollback = await withTimeout(sb.from('products').update({category:antigo})
-            .eq('business_id',businessId).in('id',linked.map(p=>p.id)),15000);
-          if (rollback.error) throw new Error('Falha ao salvar e ao reverter os produtos. Atualize a página e revise as categorias.');
+      const {data,error}=await withTimeout(sb.from('categories').update({name})
+        .eq('id',id).eq('business_id',bid).select('id'),15000);
+      if(error||!data?.length){
+        if(old.name!==name && linked.length){
+          const rollback=await withTimeout(sb.from('products').update({[field]:old.name})
+            .eq('business_id',bid).in('id',linked.map(p=>p.id)),15000);
+          if(rollback.error)throw Error('Falha ao reverter produtos após erro. Recarregue e revise os dados.');
         }
-        throw new Error(error?.message || 'Atualização não autorizada pelo banco.');
+        throw Error(error?.message||'Alteração não autorizada pelo banco.');
       }
-      toast('Categoria atualizada.');
-    } else {
-      const {data,error} = await withTimeout(sb.from('categories')
-        .insert({name:nome,user_id:user.id,business_id:businessId}).select('id'),15000);
-      if (error || !data?.length) throw new Error(error?.message || 'Cadastro não autorizado pelo banco.');
-      toast('Categoria criada.');
+    }else{
+      const {data,error}=await withTimeout(sb.from('categories').insert({
+        name,parent_id:parentId,business_id:bid,user_id:user.id
+      }).select('id'),15000);
+      if(error||!data?.length)throw Error(error?.message||'O banco não confirmou a criação.');
     }
     document.getElementById('modal-categoria').classList.remove('open');
-    if (currentBusiness?.id === businessId) await loadAllData();
-  } catch(err) {
-    showMsg('categoria-msg', err?.code === '23505' ? 'Essa categoria já existe.' :
-      'Não foi possível salvar: ' + (err?.message || 'Erro desconhecido.'), 'error');
-  } finally {
-    setBtn('categoria-save', false, id ? 'Salvar alterações' : 'Criar categoria');
-  }
+    toast(id?'Categoria atualizada.':'Categoria criada.');
+    if(currentBusiness?.id===bid)await loadAllData();
+  }catch(err){showMsg('categoria-msg','Não foi possível salvar: '+(err?.message||'Erro desconhecido.'),'error');}
+  finally{setBtn('categoria-save',false,id?'Salvar alterações':'Criar');}
 });
-function openDeleteCategoryModal(cat) {
-  if (categoryLiveSnapshot?.status !== 'ready' || categoryLiveSnapshot.businessId !== currentBusiness?.id) {
-    toast('Atualize a contagem antes de excluir uma categoria.',true);
-    void refreshCategoryCounts();
-    return;
+function openDeleteCategoryModal(cat){
+  if(categoryLiveSnapshot?.status!=='ready'||categoryLiveSnapshot.businessId!==currentBusiness?.id){
+    toast('Atualize a lista de categorias antes de excluir.',true);void refreshCategoryCounts();return;
   }
-  const qtd = categoryProductCount(cat.name);
-  if (qtd) {
-    toast('Esta categoria possui ' + qtd + ' produto(s). Reclassifique os produtos antes de excluir.', true);
-    return;
+  const parent=cat.parent_id?categories.find(c=>c.id===cat.parent_id):null;
+  if(categories.some(c=>c.parent_id===cat.id)){
+    toast('Exclua as subcategorias desta categoria antes.',true);return;
   }
-  document.getElementById('delete-categoria-id').value = cat.id;
+  const count=parent?categoryProductCount(cat.name,parent.name):categoryProductCount(cat.name);
+  if(count){toast('Categoria em uso por '+count+' produto(s). Reclassifique antes de excluir.',true);return;}
+  document.getElementById('delete-categoria-id').value=cat.id;
   document.getElementById('modal-delete-categoria').classList.add('open');
 }
-document.getElementById('delete-categoria-cancel').addEventListener('click',
-  () => document.getElementById('modal-delete-categoria').classList.remove('open'));
-document.getElementById('delete-categoria-confirm').addEventListener('click', async () => {
-  const id = document.getElementById('delete-categoria-id').value;
-  const cat = categories.find(c => String(c.id) === id);
-  if (!cat || !currentBusiness?.id) return;
-  const businessId = currentBusiness.id;
-  setBtn('delete-categoria-confirm', true, 'Excluir categoria');
-  try {
-    const {data:linked,error:readError} = await withTimeout(sb.from('products')
-      .select('id').eq('business_id', businessId).ilike('category', cat.name),15000);
-    if (readError) throw readError;
-    if (linked?.length) throw new Error('Há produtos nesta categoria. Reclassifique-os antes de excluir.');
-    const {data,error} = await withTimeout(sb.from('categories').delete()
-      .eq('id',id).eq('business_id',businessId).select('id'),15000);
-    if (error || !data?.length) throw new Error(error?.message || 'Exclusão não autorizada pelo banco.');
+document.getElementById('delete-categoria-cancel').addEventListener('click',()=>document.getElementById('modal-delete-categoria').classList.remove('open'));
+document.getElementById('delete-categoria-confirm').addEventListener('click',async()=>{
+  const id=document.getElementById('delete-categoria-id').value;
+  const cat=categories.find(c=>c.id===id);
+  if(!cat||!currentBusiness?.id)return;
+  const bid=currentBusiness.id;
+  setBtn('delete-categoria-confirm',true,'Excluir');
+  try{
+    if(cat.parent_id){
+      const par=categories.find(c=>c.id===cat.parent_id);
+      const {data,error}=await withTimeout(sb.from('products').select('id').eq('business_id',bid)
+        .ilike('category',par.name).ilike('subcategory',cat.name).limit(1),15000);
+      if(error)throw error;
+      if(data?.length)throw Error('Há produtos nessa subcategoria.');
+    }else{
+      if(categories.some(c=>c.parent_id===id))throw Error('Exclua primeiro as subcategorias.');
+      const {data,error}=await withTimeout(sb.from('products').select('id').eq('business_id',bid)
+        .ilike('category',cat.name).limit(1),15000);
+      if(error)throw error;
+      if(data?.length)throw Error('Há produtos nessa categoria.');
+    }
+    const {data,error}=await withTimeout(sb.from('categories').delete().eq('id',id)
+      .eq('business_id',bid).select('id'),15000);
+    if(error||!data?.length)throw Error(error?.message||'Exclusão não autorizada.');
     document.getElementById('modal-delete-categoria').classList.remove('open');
     toast('Categoria excluída.');
-    if (currentBusiness?.id === businessId) await loadAllData();
-  } catch(err) {
-    toast('Não foi possível excluir: ' + (err?.message || 'Erro desconhecido.'), true);
-  } finally {
-    setBtn('delete-categoria-confirm', false, 'Excluir categoria');
-  }
+    if(currentBusiness?.id===bid)await loadAllData();
+  }catch(err){toast('Não foi possível excluir: '+(err?.message||'Erro desconhecido.'),true);}
+  finally{setBtn('delete-categoria-confirm',false,'Excluir categoria');}
 });
 // ══════════════════════════════════════════════
 // RELATÓRIOS
