@@ -3508,7 +3508,7 @@ function makeDemoData() {
 }
 
 class LocalDemoQuery {
-  constructor(db, name) { this.db=db; this.name=name; this.filters=[]; this.operation='read'; this.orderKey=null; this.desc=false; this.max=null; this.one=false; this.payload=null; }
+  constructor(db, name) { this.db=db; this.name=name; this.filters=[]; this.operation='read'; this.orderKey=null; this.desc=false; this.max=null; this.rangeFrom=null; this.rangeTo=null; this.one=false; this.payload=null; }
   select(_cols) { return this; }
   insert(data) { this.operation='insert'; this.payload=data; return this; }
   update(data) { this.operation='update'; this.payload=data; return this; }
@@ -3518,6 +3518,7 @@ class LocalDemoQuery {
   ilike(key,pattern) {const val=String(pattern).toLocaleLowerCase('pt-BR');this.filters.push(r=>String(r[key]??'').toLocaleLowerCase('pt-BR')===val);return this;}
   order(key, opts={}) {this.orderKey=key; this.desc=opts.ascending===false;return this;}
   limit(n) {this.max=n;return this;}
+  range(from,to) {this.rangeFrom=from;this.rangeTo=to;return this;}
   single() {this.one=true;return this;}
   async execute() {
     try {
@@ -3550,7 +3551,8 @@ class LocalDemoQuery {
       } else {
         rows=matched();
         if(this.orderKey) rows.sort((a,b)=>{const av=a[this.orderKey]??'',bv=b[this.orderKey]??'';return (av>bv?1:av<bv?-1:0)*(this.desc?-1:1);});
-        if(this.max!==null) rows=rows.slice(0,this.max);
+        if(this.rangeFrom!==null) rows=rows.slice(this.rangeFrom,this.rangeTo+1);
+        else if(this.max!==null) rows=rows.slice(0,this.max);
       }
       rows=rows.map(x=>({...x}));
       if(this.name==='businesses')rows=rows.map(r=>({...r,business_types:this.db.business_types.find(t=>t.id===r.business_type_id)||null}));
@@ -4187,6 +4189,8 @@ function renderBusinessesGrid() {
 
 async function openBusiness(biz) {
   currentBusiness = biz;
+  categoryLiveSnapshot = null;
+  categoryLiveRequestId++;
   window.__conexusCriticalDataReady = false;
   window.__conexusPartialHistory = false;
   document.getElementById('venda-finalizar').disabled = true;
@@ -4467,6 +4471,7 @@ function goto(viewId) {
     item.classList.toggle('active', item.dataset.view === viewId);
   });
   if (viewId === 'view-estoque') renderEstoqueTable();
+  if (viewId === 'view-categorias') void refreshCategoryCounts();
   if (viewId === 'view-movimentacoes') renderMovimentacoes();
   if (viewId === 'view-financas') renderFinancas(window.__appFinPeriod || 'sem');
   if (viewId.startsWith('view-food-')) renderFoodUI();
@@ -4560,8 +4565,14 @@ async function loadAllData() {
     renderReceitasTable();
     renderContasReceber();
     renderFluxoCaixa(window.__fluxoPeriod || 'sem');
+    // Limpa totais anteriores, para não apresentar valores desatualizados.
+    categoryLiveSnapshot = null;
+    categoryLiveRequestId++;
     renderCategoriasTable();
     populateCategoriasDatalist();
+    if (document.getElementById('view-categorias').classList.contains('active')) {
+      await refreshCategoryCounts();
+    }
     renderMaisVendidosRelatorio(window.__relatorioVendidosPeriod || 'sem');
     renderProdutosParados(window.__relatorioParadosDias || 30);
     renderMargemProduto();
@@ -6374,9 +6385,54 @@ async function ensureProductCategoryRegistered(name, user, businessId) {
     toast('Produto salvo, mas a categoria não foi incluída nas sugestões: '+error.message,true);
   }
 }
+// Contagem independente do cache de estoque. O PostgREST limita a quantidade
+// de registros por resposta, por isso a leitura precisa de paginação.
+let categoryLiveSnapshot = null;
+let categoryLiveRequestId = 0;
+function categoryVisibleProducts() {
+  return categoryLiveSnapshot?.status === 'ready' && categoryLiveSnapshot.businessId === currentBusiness?.id
+    ? categoryLiveSnapshot.products : products;
+}
 function categoryProductCount(name) {
   const key = categoryKey(name);
-  return products.filter(p => categoryKey(p.category) === key).length;
+  return categoryVisibleProducts().filter(p => categoryKey(p.category || 'Geral') === key).length;
+}
+async function refreshCategoryCounts() {
+  if (!currentBusiness?.id) return;
+  const businessId = currentBusiness.id;
+  const requestId = ++categoryLiveRequestId;
+  categoryLiveSnapshot = {businessId, status:'loading', products:[], catalog:[]};
+  renderCategoriasTable();
+  try {
+    const pageSize = 500;
+    const maxPages = 200; // Bloqueia totais parciais, evitando exibir contagem incorreta.
+    const allProducts = [];
+    let complete = false;
+    for (let page = 0; page < maxPages; page++) {
+      const from = page * pageSize;
+      const {data, error} = await withTimeout(sb.from('products')
+        .select('id,category').eq('business_id',businessId)
+        .order('id',{ascending:true}).range(from,from+pageSize-1),15000);
+      if (error) throw new Error('Falha ao consultar produtos: '+error.message);
+      if (!Array.isArray(data)) throw new Error('A lista de produtos não foi retornada pelo banco.');
+      allProducts.push(...data);
+      if (data.length < pageSize) { complete = true; break; }
+    }
+    if (!complete) throw new Error('Limite de leitura excedido. Não é possível garantir uma contagem completa.');
+    const {data:catalog,error:catalogError} = await withTimeout(sb.from('categories')
+      .select('id,name').eq('business_id',businessId).order('name',{ascending:true}),15000);
+    if (catalogError) throw new Error('Falha ao consultar categorias: '+catalogError.message);
+    if (requestId !== categoryLiveRequestId || currentBusiness?.id !== businessId) return;
+    categoryLiveSnapshot = {businessId,status:'ready',products:allProducts,catalog:catalog||[]};
+    categories = catalog || [];
+    renderCategoriasTable();
+    populateCategoriasDatalist();
+  } catch (error) {
+    if (requestId !== categoryLiveRequestId || currentBusiness?.id !== businessId) return;
+    console.error('Falha ao atualizar a contagem das categorias:',error);
+    categoryLiveSnapshot = {businessId,status:'error',error:error?.message || 'Erro de conexão.'};
+    renderCategoriasTable();
+  }
 }
 function populateCategoriasDatalist() {
   const datalist = document.getElementById('categorias-datalist');
@@ -6393,46 +6449,62 @@ function populateCategoriasDatalist() {
 function renderCategoriasTable() {
   const slot = document.getElementById('categorias-table-slot');
   if (!slot) return;
+  const live = categoryLiveSnapshot?.businessId === currentBusiness?.id ? categoryLiveSnapshot : null;
+  if (live?.status === 'loading') {
+    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔄</div>' +
+      '<div class="empty-state-title">Atualizando contagem...</div>' +
+      '<div class="empty-state-sub">Consultando os produtos desta empresa.</div></div>';
+    return;
+  }
+  const failed = live?.status === 'error';
+  const catalog = live?.status === 'ready' ? live.catalog : categories;
+  const sourceProducts = live?.status === 'ready' ? live.products : products;
   const all = new Map();
-  categories.forEach(c => {
+  catalog.forEach(c => {
     const name = categoryName(c.name);
     if(name) all.set(categoryKey(name), {name, id:c.id, registered:true});
   });
-  // Produtos de versões antigas podem ter categoria sem registro na tabela categories.
-  products.forEach(p => {
+  sourceProducts.forEach(p => {
     const name = categoryName(p.category) || 'Geral';
     const key = categoryKey(name);
     if(!all.has(key)) all.set(key,{name, id:null, registered:false});
   });
+  const warning = failed
+    ? '<div role="alert" style="padding:12px;margin-bottom:14px;border:1px solid var(--vermelho);border-radius:8px;">' +
+      '<strong>Não foi possível conferir os totais no banco.</strong> ' + escapeHtml(live.error) +
+      ' <button class="btn-app-secondary" id="categorias-retry" type="button">Tentar novamente</button></div>'
+    : '';
   if (!all.size) {
-    slot.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🏷️</div>' +
+    slot.innerHTML = warning + '<div class="empty-state"><div class="empty-state-icon">🏷️</div>' +
       '<div class="empty-state-title">Nenhuma categoria cadastrada</div>' +
       '<div class="empty-state-sub">Crie categorias para organizar os produtos deste negócio.</div>' +
       '<button class="btn-app-primary" id="empty-add-categoria-btn">+ Nova categoria</button></div>';
     document.getElementById('empty-add-categoria-btn').addEventListener('click', () => openCategoryModal());
-    return;
-  }
-  const data=[...all.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
-  slot.innerHTML = '<table class="app-table"><thead><tr><th>Categoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>' +
-    data.map((c,i) => '<tr><td><strong>' + escapeHtml(c.name) + '</strong>' +
-      (c.registered?'':' <small title="Categoria usada no estoque, ainda não cadastrada">(não cadastrada)</small>') +
-      '</td><td>' + categoryProductCount(c.name) + '</td><td><div class="row-actions">' +
-      (c.registered
-        ? '<button class="icon-btn" title="Editar" data-categoria-action="editar" data-index="'+i+'">✎</button>' +
-          '<button class="icon-btn danger" title="Excluir" data-categoria-action="excluir" data-index="'+i+'">🗑</button>'
-        : '<button class="btn-app-secondary" data-categoria-action="cadastrar" data-index="'+i+'">Cadastrar</button>') +
-      '</div></td></tr>').join('') + '</tbody></table>';
-  slot.querySelectorAll('[data-categoria-action]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat=data[Number(btn.dataset.index)];
-      if(!cat) return;
-      if(btn.dataset.categoriaAction==='cadastrar') return openCategoryModal(null,cat.name);
-      const registered=categories.find(c=>String(c.id)===String(cat.id));
-      if(!registered) return;
-      if(btn.dataset.categoriaAction==='editar') openCategoryModal(registered);
-      else openDeleteCategoryModal(registered);
+  } else {
+    const data=[...all.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+    slot.innerHTML = warning + '<table class="app-table"><thead><tr><th>Categoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>' +
+      data.map((c,i) => '<tr><td><strong>' + escapeHtml(c.name) + '</strong>' +
+        (c.registered?'':' <small title="Categoria usada no estoque, ainda não cadastrada">(não cadastrada)</small>') +
+        '</td><td>' + (failed ? '—' : categoryProductCount(c.name)) + '</td><td><div class="row-actions">' +
+        (c.registered
+          ? '<button class="icon-btn" title="Editar" data-categoria-action="editar" data-index="'+i+'">✎</button>' +
+            '<button class="icon-btn danger" title="Excluir" data-categoria-action="excluir" data-index="'+i+'">🗑</button>'
+          : '<button class="btn-app-secondary" data-categoria-action="cadastrar" data-index="'+i+'">Cadastrar</button>') +
+        '</div></td></tr>').join('') + '</tbody></table>';
+    slot.querySelectorAll('[data-categoria-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat=data[Number(btn.dataset.index)];
+        if(!cat) return;
+        if(btn.dataset.categoriaAction==='cadastrar') return openCategoryModal(null,cat.name);
+        const registered=categories.find(c=>String(c.id)===String(cat.id));
+        if(!registered) return;
+        if(btn.dataset.categoriaAction==='editar') openCategoryModal(registered);
+        else openDeleteCategoryModal(registered);
+      });
     });
-  });
+  }
+  const retry=document.getElementById('categorias-retry');
+  if(retry) retry.addEventListener('click',()=>void refreshCategoryCounts());
 }
 function openCategoryModal(cat, suggestedName = '') {
   hideMsg('categoria-msg');
@@ -6468,7 +6540,7 @@ document.getElementById('categoria-save').addEventListener('click', async () => 
       if (!current) throw new Error('Categoria não encontrada. Atualize os dados.');
       const antigo = current.name;
       // Atualiza primeiro os produtos vinculados e desfaz se o cadastro falhar.
-      const linked = products.filter(p => categoryKey(p.category) === categoryKey(antigo));
+      const linked = categoryVisibleProducts().filter(p => categoryKey(p.category) === categoryKey(antigo));
       if (antigo !== nome && linked.length) {
         const {error: pe} = await withTimeout(sb.from('products').update({category:nome})
           .eq('business_id',businessId).in('id',linked.map(p=>p.id)),15000);
@@ -6501,6 +6573,11 @@ document.getElementById('categoria-save').addEventListener('click', async () => 
   }
 });
 function openDeleteCategoryModal(cat) {
+  if (categoryLiveSnapshot?.status !== 'ready' || categoryLiveSnapshot.businessId !== currentBusiness?.id) {
+    toast('Atualize a contagem antes de excluir uma categoria.',true);
+    void refreshCategoryCounts();
+    return;
+  }
   const qtd = categoryProductCount(cat.name);
   if (qtd) {
     toast('Esta categoria possui ' + qtd + ' produto(s). Reclassifique os produtos antes de excluir.', true);
