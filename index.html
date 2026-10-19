@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus v23 – Gestão empresarial por segmento</title>
+  <title>Conexus V25 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -3657,7 +3657,31 @@ function makeDemoClient(store) {
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
       const now=new Date().toISOString();
-      if(action==='conexus_register_product_v22' || action==='conexus_register_product_v23') {
+      if(action==='conexus_category_action_v25') {
+        // V25: replica a operação transacional real para testes sem Supabase.
+        const cat=store.categories.find(c=>c.id===req.p_category_id && c.business_id===bid);
+        if(!cat)throw Error('Categoria inexistente nesta empresa.');
+        const parent=cat.parent_id?store.categories.find(c=>c.id===cat.parent_id&&c.business_id===bid):null;
+        if(cat.parent_id&&!parent)throw Error('Categoria principal inexistente.');
+        const norm=x=>String(x||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
+        const rows=[...store.products,...store.affiliate_products];
+        const matched=p=>p.business_id===bid && (parent
+          ? norm(p.category)===norm(parent.name)&&norm(p.subcategory)===norm(cat.name)
+          : norm(p.category)===norm(cat.name));
+        if(req.p_action==='rename') {
+          const next=String(req.p_new_name||'').trim().replace(/\s+/g,' ');
+          if(next.length<1||next.length>100)throw Error('Nome inválido.');
+          if(store.categories.some(c=>c.id!==cat.id&&c.business_id===bid&&norm(c.name)===norm(next)))
+            throw Error('Nome de categoria já utilizado neste negócio.');
+          for(const p of rows.filter(matched))p[parent?'subcategory':'category']=next;
+          cat.name=next;
+        }else if(req.p_action==='delete') {
+          if(store.categories.some(c=>c.parent_id===cat.id))throw Error('Exclua as subcategorias primeiro.');
+          if(rows.some(matched))throw Error('Existem produtos vinculados à categoria ou subcategoria.');
+          const i=store.categories.indexOf(cat);store.categories.splice(i,1);
+        }else throw Error('Ação inválida.');
+        result=null;
+      } else       if(action==='conexus_register_product_v22' || action==='conexus_register_product_v23') {
         const qty=Number(req.p_quantity),price=Number(req.p_price),threshold=Number(req.p_threshold),cost=req.p_cost==null?null:Number(req.p_cost);
         if(!req.p_name||!String(req.p_name).trim()||!Number.isSafeInteger(qty)||qty<0||!Number.isFinite(price)||price<0||!Number.isSafeInteger(threshold)||threshold<0||cost!==null&&(!Number.isFinite(cost)||cost<0))throw Error('Dados do produto inválidos.');
         const p={id:demoUuid(),user_id:uid,business_id:bid,name:String(req.p_name).trim(),quantity:qty,price,category:req.p_category||'Geral',subcategory:req.p_subcategory||null,low_stock_threshold:threshold,cost_price:cost,created_at:now,updated_at:now};
@@ -6687,25 +6711,13 @@ document.getElementById('categoria-save').addEventListener('click',async()=>{
     if(id){
       const old=categories.find(c=>c.id===id);if(!old)throw Error('Categoria não encontrada.');
       if(categoryLiveSnapshot?.status!=='ready')throw Error('Atualize as contagens antes de editar.');
-      const linked=categoryVisibleProducts().filter(p=>old.parent_id
-        ? categoryKey(p.subcategory)===categoryKey(old.name) && categoryKey(p.category)===categoryKey(categories.find(c=>c.id===old.parent_id)?.name)
-        : categoryKey(p.category)===categoryKey(old.name));
-      const field=old.parent_id?'subcategory':'category';
-      if(old.name!==name && linked.length){
-        const {error}=await withTimeout(sb.from('products').update({[field]:name})
-          .eq('business_id',bid).in('id',linked.map(p=>p.id)),15000);
-        if(error)throw Error('Não foi possível atualizar os produtos: '+error.message);
-      }
-      const {data,error}=await withTimeout(sb.from('categories').update({name})
-        .eq('id',id).eq('business_id',bid).select('id'),15000);
-      if(error||!data?.length){
-        if(old.name!==name && linked.length){
-          const rollback=await withTimeout(sb.from('products').update({[field]:old.name})
-            .eq('business_id',bid).in('id',linked.map(p=>p.id)),15000);
-          if(rollback.error)throw Error('Falha ao reverter produtos após erro. Recarregue e revise os dados.');
-        }
-        throw Error(error?.message||'Alteração não autorizada pelo banco.');
-      }
+      // V25: uma transação no banco renomeia categoria E todos os produtos vinculados,
+      // incluindo affiliate_products; a operação é revertida integralmente se falhar.
+      const {error}=await withTimeout(sb.rpc('conexus_category_action_v25',{
+        p_business_id:bid,p_category_id:id,p_action:'rename',p_new_name:name
+      }),20000);
+      if(error)throw Error('Não foi possível atualizar a categoria: '+error.message);
+
     }else{
       const {data,error}=await withTimeout(sb.from('categories').insert({
         name,parent_id:parentId,business_id:bid,user_id:user.id
@@ -6722,12 +6734,13 @@ function openDeleteCategoryModal(cat){
   if(categoryLiveSnapshot?.status!=='ready'||categoryLiveSnapshot.businessId!==currentBusiness?.id){
     toast('Atualize a lista de categorias antes de excluir.',true);void refreshCategoryCounts();return;
   }
-  const parent=cat.parent_id?categories.find(c=>c.id===cat.parent_id):null;
   if(categories.some(c=>c.parent_id===cat.id)){
-    toast('Exclua as subcategorias desta categoria antes.',true);return;
+    toast('Exclua primeiro as subcategorias desta categoria.',true);return;
   }
+  const parent=cat.parent_id?categories.find(c=>c.id===cat.parent_id):null;
   const count=parent?categoryProductCount(cat.name,parent.name):categoryProductCount(cat.name);
-  if(count){toast('Categoria em uso por '+count+' produto(s). Reclassifique antes de excluir.',true);return;}
+  // V25: o total vem do snapshot das duas tabelas e é novamente conferido na RPC.
+  if(count>0){toast('Categoria em uso por '+count+' produto(s). Reclassifique antes de excluir.',true);return;}
   document.getElementById('delete-categoria-id').value=cat.id;
   document.getElementById('modal-delete-categoria').classList.add('open');
 }
@@ -6739,22 +6752,12 @@ document.getElementById('delete-categoria-confirm').addEventListener('click',asy
   const bid=currentBusiness.id;
   setBtn('delete-categoria-confirm',true,'Excluir');
   try{
-    if(cat.parent_id){
-      const par=categories.find(c=>c.id===cat.parent_id);
-      const {data,error}=await withTimeout(sb.from('products').select('id').eq('business_id',bid)
-        .ilike('category',par.name).ilike('subcategory',cat.name).limit(1),15000);
-      if(error)throw error;
-      if(data?.length)throw Error('Há produtos nessa subcategoria.');
-    }else{
-      if(categories.some(c=>c.parent_id===id))throw Error('Exclua primeiro as subcategorias.');
-      const {data,error}=await withTimeout(sb.from('products').select('id').eq('business_id',bid)
-        .ilike('category',cat.name).limit(1),15000);
-      if(error)throw error;
-      if(data?.length)throw Error('Há produtos nessa categoria.');
-    }
-    const {data,error}=await withTimeout(sb.from('categories').delete().eq('id',id)
-      .eq('business_id',bid).select('id'),15000);
-    if(error||!data?.length)throw Error(error?.message||'Exclusão não autorizada.');
+    // V25: exclusão atômica verifica products e affiliate_products no próprio banco.
+    // Isso evita apagar uma subcategoria usada por afiliados ou depender de cache antigo.
+    const {error}=await withTimeout(sb.rpc('conexus_category_action_v25',{
+      p_business_id:bid,p_category_id:id,p_action:'delete',p_new_name:null
+    }),20000);
+    if(error)throw Error(error.message);
     document.getElementById('modal-delete-categoria').classList.remove('open');
     toast('Categoria excluída.');
     if(currentBusiness?.id===bid)await loadAllData();
@@ -7647,7 +7650,7 @@ function renderAffiliateDashboard(){const m=affMetrics();const cards=document.qu
  const counts=['sem','planejado','pronto','divulgado'].map(s=>`${affStateLabel(s)}: ${affData.products.filter(p=>affProductState(p)===s).length}`);
  document.getElementById('dash-top-vendidos').innerHTML=`<div class="aff-info">${counts.map(x=>escapeHtml(x)).join(' · ')}</div><p class="food-hint">As métricas são preenchidas manualmente. Acompanhe cada produto no módulo Produtos afiliados.</p>`;
 }
-function affCsv(rows,name){if(!rows.length)return toast('Sem registros para exportar.',true);const keys=Object.keys(rows[0]);const quote=x=>'"'+String(x??'').replaceAll('"','""')+'"';const csv='\ufeff'+[keys.join(';'),...rows.map(r=>keys.map(k=>quote(r[k])).join(';'))].join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+function affCsv(rows,name){if(!rows.length)return toast('Sem registros para exportar.',true);const keys=Object.keys(rows[0]);const quote=x=>{let v=String(x??'');if(/^[\s]*[=+@-]/.test(v))v="'"+v;return '"'+v.replaceAll('"','""')+'"';}; // V25: previne fórmulas executadas ao abrir CSV em planilhas.const csv='\ufeff'+[keys.join(';'),...rows.map(r=>keys.map(k=>quote(r[k])).join(';'))].join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
 // Formulários — sem integrações automáticas ou valores calculados fictícios.
 affFormBind('aff-product-form','affiliate_products',f=>{
  const platform=affValue(f,'platform'),id=affValue(f,'external_id'),name=affValue(f,'name');if(!id||name.length<2)throw Error('Informe ID e nome do produto.');
