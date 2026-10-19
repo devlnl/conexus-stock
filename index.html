@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus V25 – Gestão empresarial por segmento</title>
+  <title>Conexus V25.1 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -3382,10 +3382,23 @@ function wireNavBtnEntrar() {
 }
 wireNavBtnEntrar();
 
-// LOGIN SOCIAL — login com Google via Supabase Auth.
-// Necessário habilitar Google em Supabase > Authentication > Providers
-// e cadastrar a URL publicada em Authentication > URL Configuration.
+// LOGIN SOCIAL — Google OAuth (V25.1).
+// CORREÇÃO: evita ?conexus_auth=google na redirectTo, que poderia divergir
+// das URLs permitidas no Supabase. A volta agora é identificada por sessionStorage.
+const CONEXUS_GOOGLE_PENDING_KEY = 'conexus_oauth_google_pending_v1';
 let googleOAuthBusy = false;
+function conexusPendingGoogle(getOrSet, value) {
+  try {
+    if (getOrSet === 'get') return sessionStorage.getItem(CONEXUS_GOOGLE_PENDING_KEY) === '1';
+    if (getOrSet === 'clear') sessionStorage.removeItem(CONEXUS_GOOGLE_PENDING_KEY);
+    if (getOrSet === 'set') sessionStorage.setItem(CONEXUS_GOOGLE_PENDING_KEY, '1');
+  } catch (error) {
+    // Navegadores com armazenamento bloqueado ainda podem fazer login;
+    // apenas o redirecionamento automático ao painel pode ficar indisponível.
+    console.warn('SessionStorage indisponível para OAuth:', error);
+  }
+  return false;
+}
 async function loginWithGoogle(origin) {
   if (googleOAuthBusy) return;
   const msgId = origin === 'login' ? 'msg-login' : 'msg-signup';
@@ -3394,37 +3407,57 @@ async function loginWithGoogle(origin) {
     showMsg(msgId, 'Saia da demonstração antes de entrar com o Google.', 'error');
     return;
   }
-  if (!/^https?:$/.test(window.location.protocol)) {
-    showMsg(msgId, 'O login Google exige um site publicado em HTTPS ou um servidor local HTTP.', 'error');
+  if (window.location.protocol !== 'https:' &&
+      !(['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.protocol === 'http:')) {
+    showMsg(msgId, 'Para entrar com Google, abra o Conexus pelo endereço HTTPS publicado.', 'error');
     return;
   }
   googleOAuthBusy = true;
   document.querySelectorAll('.btn-google').forEach(btn => {
     btn.disabled = true;
-    btn.querySelector('.google-text').textContent = 'Conectando…';
+    const label = btn.querySelector('.google-text');
+    if (label) label.textContent = 'Conectando…';
   });
   try {
-    // Volta para o mesmo index.html após o login; a URL deve estar liberada no Supabase.
-    const callback = new URL(window.location.pathname, window.location.origin);
-    callback.searchParams.set('conexus_auth', 'google');
+    // V25.1: URL estável; sem query/hash. Precisa existir em Supabase > URL Configuration.
+    // Para a instalação atual: https://devlnl.github.io/conexus-stock/
+    const redirectTo = new URL(window.location.pathname, window.location.origin).toString();
+    conexusPendingGoogle('set');
     const { error } = await withTimeout(realSupabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: callback.toString() }
+      options: { redirectTo }
     }), 15000);
     if (error) throw error;
   } catch (err) {
-    console.error('Não foi possível iniciar o login Google:', err);
-    showMsg(msgId, 'Não foi possível conectar ao Google: ' + (err.message || 'verifique a configuração do provedor.'), 'error');
+    conexusPendingGoogle('clear');
+    console.error('Falha ao iniciar o OAuth Google:', err);
+    showMsg(msgId, 'Não foi possível iniciar o login Google: ' + (err?.message || 'Verifique a configuração do Google no Supabase.'), 'error');
   } finally {
     googleOAuthBusy = false;
     document.querySelectorAll('.btn-google').forEach(btn => {
       btn.disabled = false;
-      btn.querySelector('.google-text').textContent = 'Continuar com Google';
+      const label = btn.querySelector('.google-text');
+      if (label) label.textContent = 'Continuar com Google';
     });
   }
 }
 document.getElementById('btn-google-login').addEventListener('click', () => loginWithGoogle('login'));
 document.getElementById('btn-google-signup').addEventListener('click', () => loginWithGoogle('signup'));
+
+// V25.1: se o Google/Supabase devolver um erro na URL, mostrá-lo em vez
+// de deixar a tela parada sem explicação. textContent é usado via showMsg.
+function conexusShowGoogleCallbackError() {
+  const query = new URLSearchParams(window.location.search);
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  const description = query.get('error_description') || hash.get('error_description');
+  const code = query.get('error_code') || hash.get('error_code') || query.get('error') || hash.get('error');
+  if (!description && !code) return;
+  conexusPendingGoogle('clear');
+  showLoginCard();
+  showMsg('msg-login', 'Falha no login Google: ' + (description || code).replace(/\+/g, ' '), 'error');
+  try { window.history.replaceState(null, '', window.location.pathname); } catch (_) {}
+}
+conexusShowGoogleCallbackError();
 
 // A marca sempre leva ao início sem encerrar a conta real.
 function navigateConexusHome() {
@@ -4092,8 +4125,13 @@ realSupabase.auth.onAuthStateChange(function(event, session) {
       if (!session.user.is_anonymous) {
         showLoggedMarketing(currentUser.email);
         // Na volta do Google, apresenta diretamente os negócios da conta.
-        if (new URLSearchParams(window.location.search).get('conexus_auth') === 'google' && !window.__conexusGoogleCallbackHandled) {
+        // V25.1: reconhece retorno de Google pela sessão desta aba.
+        // Mantém suporte ao marcador antigo enquanto o navegador ainda o tiver.
+        const googleReturned = conexusPendingGoogle('get') ||
+          new URLSearchParams(window.location.search).get('conexus_auth') === 'google';
+        if (googleReturned && !window.__conexusGoogleCallbackHandled) {
           window.__conexusGoogleCallbackHandled = true;
+          conexusPendingGoogle('clear');
           try { window.history.replaceState(null, '', window.location.pathname); } catch (_) {}
           setTimeout(() => openBusinessesShell().catch(e => console.error('Falha no retorno do OAuth:', e)), 0);
         }
@@ -7650,7 +7688,23 @@ function renderAffiliateDashboard(){const m=affMetrics();const cards=document.qu
  const counts=['sem','planejado','pronto','divulgado'].map(s=>`${affStateLabel(s)}: ${affData.products.filter(p=>affProductState(p)===s).length}`);
  document.getElementById('dash-top-vendidos').innerHTML=`<div class="aff-info">${counts.map(x=>escapeHtml(x)).join(' · ')}</div><p class="food-hint">As métricas são preenchidas manualmente. Acompanhe cada produto no módulo Produtos afiliados.</p>`;
 }
-function affCsv(rows,name){if(!rows.length)return toast('Sem registros para exportar.',true);const keys=Object.keys(rows[0]);const quote=x=>{let v=String(x??'');if(/^[\s]*[=+@-]/.test(v))v="'"+v;return '"'+v.replaceAll('"','""')+'"';}; // V25: previne fórmulas executadas ao abrir CSV em planilhas.const csv='\ufeff'+[keys.join(';'),...rows.map(r=>keys.map(k=>quote(r[k])).join(';'))].join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+function affCsv(rows, name) {
+  if (!rows.length) return toast('Sem registros para exportar.', true);
+  const keys = Object.keys(rows[0]);
+  // V25.1: Corrige comentário que ocultava o código da exportação na V25.
+  const quote = value => {
+    let v = String(value ?? '');
+    if (/^\s*[=+@-]/.test(v)) v = "'" + v; // Neutraliza fórmulas em CSV.
+    return '"' + v.replaceAll('"', '""') + '"';
+  };
+  const csv = '\ufeff' + [keys.join(';'), ...rows.map(r => keys.map(k => quote(r[k])).join(';'))].join('\r\n');
+  const url = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name + '.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
 // Formulários — sem integrações automáticas ou valores calculados fictícios.
 affFormBind('aff-product-form','affiliate_products',f=>{
  const platform=affValue(f,'platform'),id=affValue(f,'external_id'),name=affValue(f,'name');if(!id||name.length<2)throw Error('Informe ID e nome do produto.');
