@@ -1706,7 +1706,17 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <form id="aff-product-form"><input type="hidden" name="edit_id" />
               <div class="aff-two"><div><label class="app-form-label">Plataforma</label><select class="app-form-select" name="platform" required><option>Shopee</option><option>Amazon</option><option>Mercado Livre</option><option>TikTok Shop</option><option>Outra</option></select></div><div><label class="app-form-label">ID do produto na plataforma</label><input class="app-form-input" name="external_id" required maxlength="120" placeholder="Ex.: AES-NDH-TSB" /></div></div>
               <label class="app-form-label">Nome do produto</label><input class="app-form-input" name="name" required maxlength="200" placeholder="Ex.: Jaqueta racing preta" />
-              <label class="app-form-label">Categoria</label><input class="app-form-input" name="category" maxlength="100" placeholder="Moda, calçados, eletrônicos..." />
+              <div class="aff-two">
+                <div><label class="app-form-label" for="aff-product-categoria">Categoria principal</label>
+                  <select class="app-form-select" id="aff-product-categoria" name="category" required>
+                    <option value="">Selecione uma categoria</option>
+                  </select></div>
+                <div><label class="app-form-label" for="aff-product-subcategoria">Subcategoria (opcional)</label>
+                  <select class="app-form-select" id="aff-product-subcategoria" name="subcategory" disabled>
+                    <option value="">Sem subcategoria</option>
+                  </select></div>
+              </div>
+              <p class="food-hint">Cadastre categorias e subcategorias na aba Categorias antes de selecionar.</p>
               <label class="app-form-label">Link original do produto</label><input class="app-form-input" name="product_url" type="url" required maxlength="2000" placeholder="https://..." />
               <label class="app-form-label">Link de afiliado (opcional)</label><input class="app-form-input" name="affiliate_url" type="url" maxlength="2000" placeholder="https://..." />
               <div class="aff-two"><div><label class="app-form-label">Preço (R$)</label><input class="app-form-input" name="price" type="number" step="0.01" min="0" placeholder="59,90" /></div><div><label class="app-form-label">Comissão estimada (%)</label><input class="app-form-input" name="commission_rate" type="number" step="0.001" min="0" max="100" placeholder="35" /></div></div>
@@ -3094,7 +3104,7 @@ const MODULOS_V21 = [
 ];
 const CONEXUS_ALL_MODULES = new Set([...MODULOS,...MODULOS_V21].map(([id])=>id));
 const MODULOS_FOOD = ['view-dashboard','view-food-raw','view-food-orders','view-food-recipes','view-food-batches','view-food-quality','view-financas'];
-const MODULOS_AFF = ['view-dashboard','view-aff-products','view-aff-contents','view-aff-publications','view-aff-campaigns','view-aff-commissions','view-aff-reports','view-financas'];
+const MODULOS_AFF = ['view-dashboard','view-categorias','view-aff-products','view-aff-contents','view-aff-publications','view-aff-campaigns','view-aff-commissions','view-aff-reports','view-financas'];
 const MODULOS_INVENTARIO = MODULOS.map(m => m[0]).filter(id => !id.startsWith('view-food-') && !id.startsWith('view-aff-'));
 const MODULOS_SERVICOS = ['view-dashboard','view-operacoes','view-clientes','view-auditoria','view-financas'];
 const MODULOS_DIGITAL = ['view-dashboard','view-operacoes','view-auditoria','view-financas'];
@@ -3533,6 +3543,17 @@ function makeDemoData() {
   const ap2={id:demoUuid(),business_id:ab,user_id:owner,platform:'Shopee',external_id:'DEMO-TEN-002',name:'Tênis urbano demonstrativo',category:'Calçados',product_url:'https://example.com/tenis',price:109.90,commission_rate:10,created_at:now};
   const ap3={id:demoUuid(),business_id:ab,user_id:owner,platform:'Amazon',external_id:'DEMO-MOC-003',name:'Mochila urbana demonstrativa',category:'Acessórios',product_url:'https://example.com/mochila',price:89.90,commission_rate:8,created_at:now};
   tables.affiliate_products.push(ap1,ap2,ap3);
+  tables.affiliate_products.push({id:demoUuid(),business_id:ab,user_id:owner,platform:'Shopee',external_id:'DEMO-CAM-004',name:'Camiseta demonstrativa',category:'Camisetas',subcategory:null,product_url:'https://example.com/camiseta',price:59.90,commission_rate:10,created_at:now});
+  // Categorias próprias da empresa Afiliados para testar o fluxo completo.
+  const existingAffRoots=new Set(tables.categories.filter(c=>c.business_id===ab).map(c=>c.name.toLowerCase()));
+  for(const name of ['Moda','Calçados','Acessórios','Roupas']) {
+    if(!existingAffRoots.has(name.toLowerCase())) {
+      tables.categories.push({id:demoUuid(),business_id:ab,user_id:owner,name,parent_id:null,created_at:now});
+      existingAffRoots.add(name.toLowerCase());
+    }
+  }
+  const clothesRoot=tables.categories.find(c=>c.business_id===ab && c.name==='Roupas');
+  tables.categories.push({id:demoUuid(),business_id:ab,user_id:owner,name:'Camisetas',parent_id:clothesRoot.id,created_at:now});
   const ac1={id:demoUuid(),business_id:ab,user_id:owner,product_id:ap1.id,title:'Montagem com jaqueta racing',content_type:'video',status:'produzido',created_at:now};
   const ac2={id:demoUuid(),business_id:ab,user_id:owner,product_id:ap2.id,title:'Carrossel de tênis',content_type:'carrossel',status:'produzido',created_at:now};
   tables.affiliate_contents.push(ac1,ac2);
@@ -6416,6 +6437,21 @@ function categoryKey(name) {
   return String(name || '').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
 }
 function categoryName(name) { return String(name || '').trim().replace(/\s+/g,' '); }
+// Adapta produtos afiliados legados que guardavam "Camisetas" diretamente como
+// categoria, antes de existir o vínculo Roupas > Camisetas.
+// Não modifica o banco; a migração V24 normaliza esses registros permanentemente.
+function normalizedCategoryPath(item, catalog=categories) {
+  const rootName=categoryName(item?.category);
+  const subName=categoryName(item?.subcategory);
+  if(!rootName) return {...item,category:'Geral',subcategory:subName || null};
+  if(subName) return {...item,category:rootName,subcategory:subName};
+  if(catalog.some(c=>!c.parent_id && categoryKey(c.name)===categoryKey(rootName)))
+    return {...item,category:rootName,subcategory:null};
+  const sub=catalog.find(c=>c.parent_id && categoryKey(c.name)===categoryKey(rootName));
+  if(!sub) return {...item,category:rootName,subcategory:null};
+  const parent=catalog.find(c=>c.id===sub.parent_id && !c.parent_id);
+  return parent ? {...item,category:parent.name,subcategory:sub.name} : {...item,category:rootName,subcategory:null};
+}
 function normalizedProductCategory(raw) {
   const name=categoryName(raw) || 'Geral';
   return categories.find(c=>!c.parent_id && categoryKey(c.name)===categoryKey(name))?.name || name;
@@ -6444,12 +6480,18 @@ function fillSubcategorySelector(catId,subId,selected) {
 }
 document.getElementById('add-categoria').addEventListener('change',()=>fillSubcategorySelector('add-categoria','add-subcategoria',''));
 document.getElementById('edit-categoria').addEventListener('change',()=>fillSubcategorySelector('edit-categoria','edit-subcategoria',''));
+document.getElementById('aff-product-categoria').addEventListener('change',()=>fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria',''));
 
 let categoryLiveSnapshot = null;
 let categoryLiveRequestId = 0;
 function categoryVisibleProducts() {
-  return categoryLiveSnapshot?.status==='ready' && categoryLiveSnapshot.businessId===currentBusiness?.id
-    ? categoryLiveSnapshot.products : products;
+  if(categoryLiveSnapshot?.status==='ready' && categoryLiveSnapshot.businessId===currentBusiness?.id)
+    return categoryLiveSnapshot.products;
+  const bid=currentBusiness?.id;
+  const local=(products||[]).filter(p=>p.business_id===bid);
+  // Os produtos de afiliados estão em outra tabela, não em "products".
+  const affiliate=isAffiliate() ? affData.products.filter(p=>p.business_id===bid) : [];
+  return [...local,...affiliate].map(p=>normalizedCategoryPath(p));
 }
 function categoryProductCount(name, parentName=null) {
   const key=categoryKey(name);
@@ -6479,15 +6521,29 @@ async function refreshCategoryCounts() {
       if(data.length<500){complete=true;break;}
     }
     if(!complete) throw new Error('Há produtos demais para garantir a contagem completa.');
+    if(isAffiliate()) {
+      let completeAffiliate=false;
+      for(let i=0;i<200;i++) {
+        const {data,error}=await withTimeout(sb.from('affiliate_products')
+          .select('id,category,subcategory').eq('business_id',bid)
+          .order('id',{ascending:true}).range(i*500,i*500+499),15000);
+        if(error) throw new Error('Consulta de produtos afiliados: '+error.message+' — execute o SQL V24.');
+        if(!Array.isArray(data)) throw new Error('Resposta inválida ao consultar produtos afiliados.');
+        fetched.push(...data);
+        if(data.length<500){completeAffiliate=true;break;}
+      }
+      if(!completeAffiliate) throw new Error('Há produtos afiliados demais para garantir a contagem completa.');
+    }
     const {data:catalog,error}=await withTimeout(sb.from('categories')
       .select('id,name,parent_id').eq('business_id',bid).order('name',{ascending:true}),15000);
     if(error) throw new Error('Consulta de categorias: '+error.message+' — execute o SQL V23.');
     if(token!==categoryLiveRequestId || currentBusiness?.id!==bid) return;
     categories=catalog||[];
-    categoryLiveSnapshot={businessId:bid,status:'ready',products:fetched,catalog:categories};
+    categoryLiveSnapshot={businessId:bid,status:'ready',products:fetched.map(p=>normalizedCategoryPath(p,categories)),catalog:categories};
     renderCategoriasTable();
     populateCategoriasDatalist();
     fillCategorySelector('add-categoria');
+    if(isAffiliate()) { fillCategorySelector('aff-product-categoria'); fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria'); }
   } catch(err) {
     if(token!==categoryLiveRequestId || currentBusiness?.id!==bid) return;
     categoryLiveSnapshot={businessId:bid,status:'error',error:err?.message||'Falha de conexão'};
@@ -6516,7 +6572,7 @@ function renderCategoriasTable() {
     return;
   }
   const catalog=snapshot?.status==='ready' ? snapshot.catalog : categories;
-  const inStock=snapshot?.status==='ready' ? snapshot.products : products;
+  const inStock=categoryVisibleProducts();
   const roots=catalog.filter(c=>!c.parent_id).map(c=>({...c,registered:true}));
   const map=new Map(roots.map(c=>[categoryKey(c.name),c]));
   // Produtos legados com categorias ainda não cadastradas permanecem visíveis.
@@ -6532,7 +6588,7 @@ function renderCategoriasTable() {
   }
   const total=inStock.length;
   const actions=[];
-  let html='<div class="cx-category-total">'+total+' produto(s) cadastrado(s) nesta empresa • Categorias: '+allRoots.length+'</div>'+
+  let html='<div class="cx-category-total">'+total+' produto(s) cadastrado(s) nesta empresa'+(isAffiliate()?' (incluindo afiliados)':'')+' • Categorias: '+allRoots.length+'</div>'+
     '<div class="cx-category-table-wrapper"><table class="app-table"><thead><tr><th>Categoria / subcategoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>';
   allRoots.forEach(root=>{
     const n=categoryProductCount(root.name);
@@ -7511,6 +7567,7 @@ function affValue(form,name){return form.elements.namedItem(name)?.value?.trim()
 function affReset(formId){const form=document.getElementById(formId);form.reset();form.elements.namedItem('edit_id').value='';
   const cancel=document.getElementById(formId.replace('-form','-cancel'));if(cancel)cancel.hidden=true;
   const btn=document.getElementById(formId.replace('-form','-save'));if(btn)btn.textContent=({'aff-product-form':'Salvar produto','aff-content-form':'Salvar conteúdo','aff-pub-form':'Salvar divulgação','aff-campaign-form':'Salvar campanha','aff-commission-form':'Salvar comissão'})[formId];
+  if(formId==='aff-product-form'){fillCategorySelector('aff-product-categoria','');fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria','');}
   if(formId==='aff-pub-form')form.elements.namedItem('published_date').value=new Date().toISOString().slice(0,10);
   if(formId==='aff-commission-form')form.elements.namedItem('sale_date').value=new Date().toISOString().slice(0,10);
 }
@@ -7520,6 +7577,8 @@ async function affWrite(table,form,payload){if(!isAffiliate()||affLoadError)thro
   else query=sb.from(table).insert({...payload,business_id:bid,user_id:currentUser.id}).select('id').single();
   const {error}=await withTimeout(query,18000);if(error)throw error;
   await loadAffiliateData(bid);
+  categoryLiveSnapshot=null;categoryLiveRequestId++;
+  if(document.getElementById('view-categorias').classList.contains('active')) await refreshCategoryCounts();
   return !!edit;
 }
 function affFormBind(formId,table,build){const form=document.getElementById(formId);form.addEventListener('submit',async e=>{
@@ -7530,13 +7589,20 @@ function affFormBind(formId,table,build){const form=document.getElementById(form
   finally{button.disabled=false;if(form.elements.namedItem('edit_id').value)button.textContent=text;}
  });const cancel=document.getElementById(formId.replace('-form','-cancel'));cancel?.addEventListener('click',()=>affReset(formId));}
 function affFormEdit(formId,record,fields){const form=document.getElementById(formId);form.elements.namedItem('edit_id').value=record.id;
+ if(formId==='aff-product-form')fields={...fields,...normalizedCategoryPath(record)};
  for(const [field,value] of Object.entries(fields))if(form.elements.namedItem(field))form.elements.namedItem(field).value=value??'';
+ if(formId==='aff-product-form'){
+   fillCategorySelector('aff-product-categoria',fields.category);
+   fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria',fields.subcategory);
+ }
  document.getElementById(formId.replace('-form','-cancel')).hidden=false;
  form.querySelector('[type="submit"]').textContent='Atualizar cadastro';
  form.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function affRows(table,render,empty){document.getElementById('aff-'+table+'-list').innerHTML=affData[table].length?affData[table].map(render).join(''):`<p class="aff-empty">${escapeHtml(empty)}</p>`;}
 function renderAffiliateUI(){if(!isAffiliate())return;
+  fillCategorySelector('aff-product-categoria');
+  fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria');
   const err=document.getElementById('aff-error-products');err.hidden=!affLoadError;err.textContent=affLoadError;
   const opts=affData.products.map(p=>({...p}));
   affSelect('aff-content-product',[], '',x=>x.name); // compatibilidade sem efeito (campo nomeado, abaixo)
@@ -7552,12 +7618,12 @@ function renderAffiliateUI(){if(!isAffiliate())return;
   renderAffiliateProducts();renderAffiliateLists();renderAffiliateReports();
 }
 function renderAffiliateProducts(){const search=document.getElementById('aff-product-search').value.toLocaleLowerCase('pt-BR').trim(),filter=document.getElementById('aff-product-filter').value;
-  const matched=affData.products.filter(p=>[p.name,p.external_id,p.category,p.platform].join(' ').toLocaleLowerCase('pt-BR').includes(search)&&(filter==='todos'||affProductState(p)===filter));
+  const matched=affData.products.filter(p=>[p.name,p.external_id,p.category,p.subcategory,p.platform].join(' ').toLocaleLowerCase('pt-BR').includes(search)&&(filter==='todos'||affProductState(p)===filter));
   document.getElementById('aff-products-count').textContent=`${matched.length} de ${affData.products.length}`;
   document.getElementById('aff-products-list').innerHTML=matched.length?matched.map(p=>{
     const cs=affData.contents.filter(c=>c.product_id===p.id),posts=affData.publications.filter(pub=>cs.some(c=>c.id===pub.content_id));
     return `<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(p.name)}</h4>${affStateTag(affProductState(p))}</div>
-    <div class="aff-meta"><span class="aff-pill">${escapeHtml(p.platform)}</span><span class="aff-pill">ID: ${escapeHtml(p.external_id)}</span><span class="aff-pill muted">${escapeHtml(p.category||'Sem categoria')}</span></div>
+    <div class="aff-meta"><span class="aff-pill">${escapeHtml(p.platform)}</span><span class="aff-pill">ID: ${escapeHtml(p.external_id)}</span><span class="aff-pill muted">${escapeHtml((()=>{const path=normalizedCategoryPath(p);return path.category+(path.subcategory?' › '+path.subcategory:'');})())}</span></div>
     <p>${cs.length} conteúdo(s) · ${posts.length} publicação(ões) · preço ${brl(p.price||0)} · comissão estimada ${Number(p.commission_rate||0).toLocaleString('pt-BR')}%</p>
     <p>${affLink(p.product_url,'Abrir produto')} ${affLink(p.affiliate_url,'Abrir link de afiliado')}</p>
     <div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-product" data-id="${p.id}">Editar</button><button class="btn-app-secondary" data-aff-action="new-content" data-id="${p.id}">+ Conteúdo</button></div></article>`;
@@ -7586,7 +7652,12 @@ function affCsv(rows,name){if(!rows.length)return toast('Sem registros para expo
 affFormBind('aff-product-form','affiliate_products',f=>{
  const platform=affValue(f,'platform'),id=affValue(f,'external_id'),name=affValue(f,'name');if(!id||name.length<2)throw Error('Informe ID e nome do produto.');
  const current=affValue(f,'edit_id');if(affData.products.some(p=>p.id!==current&&p.platform.toLowerCase()===platform.toLowerCase()&&p.external_id.toLowerCase()===id.toLowerCase()))throw Error('Esse ID já existe para esta plataforma. Abra o produto cadastrado.');
- return {platform,external_id:id,name,category:affValue(f,'category')||null,product_url:affSafeUrl(affValue(f,'product_url'),true),affiliate_url:affSafeUrl(affValue(f,'affiliate_url')),price:affNum(affValue(f,'price'),'Preço',true),commission_rate:affNum(affValue(f,'commission_rate'),'Percentual de comissão',true),notes:affValue(f,'notes')||null};
+ const root=catalogRootByName(affValue(f,'category'));
+ if(!root)throw Error('Selecione uma categoria principal cadastrada na aba Categorias.');
+ const subName=affValue(f,'subcategory');
+ const sub=subName?catalogChildren(root.id).find(c=>categoryKey(c.name)===categoryKey(subName)):null;
+ if(subName&&!sub)throw Error('A subcategoria não pertence à categoria selecionada.');
+ return {platform,external_id:id,name,category:root.name,subcategory:sub?.name||null,product_url:affSafeUrl(affValue(f,'product_url'),true),affiliate_url:affSafeUrl(affValue(f,'affiliate_url')),price:affNum(affValue(f,'price'),'Preço',true),commission_rate:affNum(affValue(f,'commission_rate'),'Percentual de comissão',true),notes:affValue(f,'notes')||null};
 });
 affFormBind('aff-content-form','affiliate_contents',f=>{
  const pid=affValue(f,'product_id'),title=affValue(f,'title'),campaign=affValue(f,'campaign_id');if(!affById('products',pid)||title.length<2)throw Error('Produto ou título inválido.');if(campaign&&!affById('campaigns',campaign))throw Error('Campanha não pertence a esta empresa.');
