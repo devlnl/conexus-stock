@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus V25.1 – Gestão empresarial por segmento</title>
+  <title>Conexus V28.1 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1153,7 +1153,43 @@ textarea:focus-visible,.app-nav-item:focus-visible {
     .cx-category-unnamed { opacity:.8; font-style:italic; }
     .cx-category-table-wrapper { width:100%; overflow-x:auto; }
     .cx-category-select:disabled { opacity:.65; cursor:not-allowed; }
-  </style>
+
+    /* V26: filtros e totais, preservando o tema escuro. */
+    .cx-category-filters{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid #36404b}
+    .cx-category-filters .app-search{max-width:420px;flex:1;min-width:220px}
+    .cx-only-used{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#c4ccd6;cursor:pointer}
+    .cx-only-used input{accent-color:#69D409;width:16px;height:16px}
+    .cx-category-stats{display:flex;gap:18px;flex-wrap:wrap;padding:13px 20px;color:#b8c5d4;font-size:13px;border-bottom:1px solid #36404b}
+    .cx-category-stats strong{color:#69D409;font-size:15px;font-variant-numeric:tabular-nums}
+    .cx-category-no-results{padding:28px 20px;color:#b8c5d4;text-align:center}
+    .cx-category-legacy{font-size:11px;opacity:.8}
+  
+/* V27: filtros leves e revisão da importação, sem estilos globais invasivos. */
+.cx-v27-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin:12px 0 8px}
+.cx-v27-filters input,.cx-v27-filters select{min-width:0;width:100%}
+.cx-v27-mini{font-size:12px;color:var(--cinza-texto);line-height:1.55;margin:8px 0}
+.cx-v27-import-box{max-width:740px;width:min(94vw,740px);max-height:90vh;overflow:auto}
+.cx-v27-import-preview{max-height:260px;overflow:auto;font-size:12px;line-height:1.6;padding:12px;border:1px solid var(--cinza-borda);border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.cx-v27-duplicate{display:inline-block;padding:2px 6px;margin:3px 0;font-size:10px;border-radius:6px;color:#b45309;background:#fef3c7}
+.cx-v27-note{border-left:3px solid var(--amarelo);padding:8px 12px;margin-top:9px;font-size:12px}
+
+/* V28 — Componentes de controle e governança, tema escuro */
+#view-dashboard .kpi-card[hidden]{display:none!important}
+.cx28-section{padding:16px 18px;margin:14px 0;background:#19212b;color:#f0f5ec;border:1px solid #4F4053;border-radius:12px}
+.cx28-section h3{font-size:16px;margin:0 0 12px;color:#b5fa73}
+.cx28-muted{font-size:12px;color:#afbbc1;line-height:1.6}
+.cx28-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}
+.cx28-choice{display:flex;gap:10px;align-items:center;border:1px solid #4F4053;border-radius:8px;padding:10px;cursor:pointer;font-size:13px;color:#fff}
+.cx28-choice input{accent-color:#69D409}
+.cx28-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.cx28-status{font-size:12px;color:#b5fa73}
+.cx28-table-wrap{overflow-x:auto;max-height:380px;overflow-y:auto}
+.cx28-table{width:100%;border-collapse:collapse;min-width:550px;font-size:12px;color:#e6e9e8}
+.cx28-table th,.cx28-table td{padding:10px;border-bottom:1px solid #4F4053;text-align:left}
+.cx28-alert{border:1px solid #8d5652;border-radius:9px;padding:10px;background:#392528;color:#ffced0;font-size:13px}
+.cx28-role-chip{display:inline-block;border-radius:99px;background:#372042;color:#aaf470;padding:5px 10px;font-size:12px}
+@media(max-width:620px){.cx28-section{padding:12px}.cx28-grid{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body data-theme="dark">
 
@@ -1592,7 +1628,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
           <div id="notif-list-slot"></div>
         </div>
       </div>
-      <span class="app-user-email" id="app-user-email"></span>
+      <span class="cx28-role-chip" id="cx28-app-role">Verificando perfil</span><span class="app-user-email" id="app-user-email"></span>
       <button class="btn-app-logout" id="app-btn-logout">Sair</button>
     </div>
   </div>
@@ -1655,6 +1691,19 @@ textarea:focus-visible,.app-nav-item:focus-visible {
           <button class="btn-app-primary" data-goto="view-adicionar">+ Novo produto</button>
         </div>
 
+        <!-- V28: Preferências persistentes por usuário, não altera valores contábeis -->
+        <details class="cx28-section" id="cx28-dashboard-settings">
+          <summary style="cursor:pointer;font-weight:700">⚙ Personalizar indicadores do painel</summary>
+          <p class="cx28-muted">Escolha os cartões exibidos. Cada usuário pode ter sua configuração para cada empresa.</p>
+          <div class="cx28-grid" id="cx28-dashboard-options">
+            <label class="cx28-choice"><input type="checkbox" value="products" checked> Produtos</label>
+            <label class="cx28-choice"><input type="checkbox" value="value" checked> Valor em estoque</label>
+            <label class="cx28-choice"><input type="checkbox" value="low" checked> Estoque baixo</label>
+            <label class="cx28-choice"><input type="checkbox" value="moves" checked> Movimentações</label>
+          </div>
+          <div class="cx28-actions"><button class="btn-app-primary" type="button" id="cx28-dashboard-save">Salvar painel</button>
+            <span class="cx28-status" id="cx28-dashboard-msg" role="status"></span></div>
+        </details>
         <div class="food-only" id="food-dashboard" hidden></div>
         <div id="dash-alert-slot"></div>
 
@@ -1699,7 +1748,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 
       <!-- CONEXUS V16 · AFILIADOS -->
       <div class="app-view" id="view-aff-products">
-        <div class="app-header-row"><div><div class="app-view-title">Produtos afiliados</div><div class="app-view-sub">IDs e links de cada plataforma, com controle automático do que já foi produzido ou divulgado.</div></div><button class="btn-app-secondary" type="button" id="aff-export-products">↓ Exportar CSV</button></div>
+        <div class="app-header-row"><div><div class="app-view-title">Produtos afiliados</div><div class="app-view-sub">IDs e links de cada plataforma, com controle automático do que já foi produzido ou divulgado.</div></div><button class="btn-app-secondary" type="button" id="aff-export-products">↓ Exportar CSV</button><button class="btn-app-primary" id="cx-v27-open-aff" type="button">↑ Importar CSV/Excel</button></div>
         <div id="aff-error-products" class="aff-errors" role="alert" hidden></div>
         <div class="food-cols">
           <section class="app-card food-card"><h3 class="food-card-title" id="aff-product-title">Cadastrar produto</h3>
@@ -1724,7 +1773,13 @@ textarea:focus-visible,.app-nav-item:focus-visible {
               <div class="aff-actions"><button class="btn-app-primary" id="aff-product-save" type="submit">Salvar produto</button><button class="btn-app-secondary" id="aff-product-cancel" type="button" hidden>Cancelar edição</button></div>
             </form></section>
           <section class="app-card food-card"><div class="aff-heading"><h3 class="food-card-title">Catálogo e situação</h3><span id="aff-products-count" class="record-count"></span></div>
-            <div class="aff-two"><input id="aff-product-search" class="app-search" type="search" aria-label="Pesquisar produtos" placeholder="Buscar por nome, ID ou categoria..."/><select id="aff-product-filter" class="app-form-select" aria-label="Filtrar por situação"><option value="todos">Todos os produtos</option><option value="sem">Sem conteúdo</option><option value="planejado">Conteúdo planejado</option><option value="pronto">Criado e não divulgado</option><option value="divulgado">Já divulgado</option></select></div><div id="aff-products-list"></div>
+            <div class="aff-two"><input id="aff-product-search" class="app-search" type="search" aria-label="Pesquisar produtos" placeholder="Buscar por nome, ID ou categoria..."/><select id="aff-product-filter" class="app-form-select" aria-label="Filtrar por situação"><option value="todos">Todos os produtos</option><option value="sem">Sem conteúdo</option><option value="planejado">Conteúdo planejado</option><option value="pronto">Criado e não divulgado</option><option value="divulgado">Já divulgado</option></select></div><div class="cx-v27-filters">
+              <select id="cx-v27-aff-category" class="app-form-select" aria-label="Filtrar categoria de afiliados"><option value="">Todas as categorias</option></select>
+              <select id="cx-v27-aff-subcategory" class="app-form-select" aria-label="Filtrar subcategoria de afiliados"><option value="">Todas as subcategorias</option></select>
+              <input id="cx-v27-aff-price-max" class="app-form-input" type="number" min="0" step="0.01" placeholder="Preço máximo" aria-label="Preço máximo do afiliado" />
+              <button class="btn-app-secondary" type="button" id="cx-v27-aff-clear">Limpar filtros</button>
+            </div><p class="cx-v27-mini" id="cx-v27-aff-summary" aria-live="polite"></p>
+            <div id="aff-products-list"></div>
           </section>
         </div>
       </div>
@@ -1869,7 +1924,14 @@ textarea:focus-visible,.app-nav-item:focus-visible {
       </section>
       <!-- CONEXUS V18: EQUIPE -->
       <section class="app-view" id="view-team"><div class="app-header-row"><div><div class="app-view-title">Equipe e permissões</div><div class="app-view-sub">Funções: administrador, gerente, operador e somente leitura.</div></div></div>
-        <div class="app-card v21-panel"><h3>Administrar colaboradores</h3><p class="v21-help">Convide colaboradores que já tenham conta no Conexus. A criação e alteração de papéis é restrita ao proprietário. As operações de novos módulos respeitam as permissões no banco de dados.</p><button id="v21-open-team" type="button" class="btn-app-primary">Abrir equipe do negócio</button><p class="v21-help">Observação: algumas telas legadas ainda seguem as permissões anteriores; verifique as regras RLS antigas antes de liberar perfis de leitura em produção.</p></div>
+        <div class="app-card v21-panel"><h3>Administrar colaboradores</h3><p class="v21-help">Convide colaboradores que já tenham conta no Conexus. A criação e alteração de papéis é restrita ao proprietário. As operações de novos módulos respeitam as permissões no banco de dados.</p><button id="v21-open-team" type="button" class="btn-app-primary">Abrir equipe do negócio</button><div class="cx28-section"><h3>Permissões por função</h3>
+  <p class="cx28-muted" id="cx28-current-role">Carregando suas permissões...</p>
+  <div class="cx28-table-wrap"><table class="cx28-table"><thead><tr><th>Papel</th><th>Consultar dados</th><th>Alterar registros</th><th>Financeiro</th><th>Equipe</th></tr></thead>
+  <tbody><tr><td>Proprietário</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td></tr>
+  <tr><td>Administrador / gerente</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Não</td></tr>
+  <tr><td>Operador</td><td>Sim</td><td>Sim</td><td>Não</td><td>Não</td></tr>
+  <tr><td>Somente leitura</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr></tbody></table></div>
+  <p class="cx28-muted">A V28 restringe acessos por RLS. Funções SQL legadas com privilégios elevados ainda exigem auditoria adicional.</p></div><p class="v21-help">Observação: algumas telas legadas ainda seguem as permissões anteriores; verifique as regras RLS antigas antes de liberar perfis de leitura em produção.</p></div>
       </section>
       <!-- CONEXUS V21: CANAIS -->
       <section class="app-view" id="view-integrations"><div class="app-header-row"><div><div class="app-view-title">Canais e exportações</div><div class="app-view-sub">Organização de canais e arquivos; APIs externas dependem de autenticação própria.</div></div></div>
@@ -1893,7 +1955,7 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <div class="app-view-sub">Todos os produtos cadastrados na sua empresa</div>
           </div>
           <div style="display:flex; gap:10px;">
-            <button class="btn-app-secondary" id="btn-export-estoque">⬇ Exportar planilha</button>
+            <button class="btn-app-secondary" id="btn-export-estoque">⬇ Exportar planilha</button><button class="btn-app-secondary" id="cx-v27-open-stock" type="button">↑ Importar CSV/Excel</button>
             <button class="btn-app-primary" data-goto="view-adicionar">+ Novo produto</button>
           </div>
         </div>
@@ -1902,6 +1964,15 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <div class="app-card-title">Produtos em estoque</div>
             <input type="text" class="app-search" id="estoque-search" placeholder="Buscar produto..." />
           </div>
+          <!-- V27: filtros combinados, sem alterar as consultas de outras telas. -->
+          <div class="cx-v27-filters">
+            <select id="cx-v27-stock-category" class="app-form-select" aria-label="Filtrar categoria"><option value="">Todas as categorias</option></select>
+            <select id="cx-v27-stock-subcategory" class="app-form-select" aria-label="Filtrar subcategoria"><option value="">Todas as subcategorias</option></select>
+            <select id="cx-v27-stock-status" class="app-form-select" aria-label="Filtrar estoque"><option value="">Qualquer estoque</option><option value="ok">Em estoque</option><option value="low">Estoque baixo</option><option value="out">Sem estoque</option></select>
+            <input id="cx-v27-stock-price-min" class="app-form-input" type="number" min="0" step="0.01" placeholder="Preço mínimo" aria-label="Preço mínimo" />
+            <input id="cx-v27-stock-price-max" class="app-form-input" type="number" min="0" step="0.01" placeholder="Preço máximo" aria-label="Preço máximo" />
+            <button class="btn-app-secondary" type="button" id="cx-v27-stock-clear">Limpar filtros</button>
+          </div><p class="cx-v27-mini" id="cx-v27-stock-summary" aria-live="polite"></p>
           <div id="estoque-table-slot"></div>
         </div>
       </div>
@@ -2113,12 +2184,19 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <div class="app-view-sub">Crie categorias e subcategorias. Veja a quantidade de produtos cadastrados em cada grupo.</div>
           </div>
           <div class="cx-category-toolbar">
+            <!-- V26: os totais são agregados no Supabase; atualização sob demanda. -->
+            <button class="btn-app-secondary" id="btn-refresh-categorias" type="button" title="Consultar contagens atualizadas">↻ Atualizar</button>
+            <button class="btn-app-secondary" id="btn-export-categorias" type="button">↓ Exportar CSV</button>
             <button class="btn-app-secondary" id="btn-add-subcategoria" type="button">+ Nova subcategoria</button>
             <button class="btn-app-primary" id="btn-add-categoria" type="button">+ Nova categoria</button>
           </div>
         </div>
         <div class="app-card">
-          <div id="categorias-table-slot"></div>
+          <div class="cx-category-filters">
+            <input id="cx-category-search" class="app-search" type="search" placeholder="Pesquisar categoria ou subcategoria…" aria-label="Pesquisar categorias" maxlength="100" />
+            <label class="cx-only-used"><input id="cx-category-used" type="checkbox" /> Somente com produtos</label>
+          </div>
+          <div id="categorias-table-slot" aria-live="polite"></div>
         </div>
       </div>
 
@@ -2281,7 +2359,10 @@ textarea:focus-visible,.app-nav-item:focus-visible {
             <div class="app-view-sub">Histórico de edições e exclusões sensíveis neste negócio</div>
           </div>
         </div>
-        <div class="app-card"><div id="auditoria-table-slot"></div></div>
+        <div class="app-card"><div id="auditoria-table-slot"></div></div><div class="cx28-section" id="cx28-events-panel"><h3>Histórico verificado pelo servidor</h3>
+  <p class="cx28-muted">Registra inserções, edições e exclusões em tabelas críticas. Não armazena dados pessoais ou valores antigos.</p>
+  <button class="btn-app-secondary" type="button" id="cx28-refresh-events">↻ Atualizar histórico</button>
+  <div class="cx28-table-wrap" id="cx28-events-table" aria-live="polite"></div></div>
       </div>
 
       <!-- FINANÇAS -->
@@ -2690,7 +2771,9 @@ textarea:focus-visible,.app-nav-item:focus-visible {
     <div class="app-form-group" style="margin-top:16px;">
       <label class="app-form-label">Adicionar membro por e-mail</label>
       <input type="email" class="app-form-input" id="equipe-email" placeholder="email@exemplo.com" />
-      <div class="field-hint">A pessoa precisa já ter uma conta no Conexus com esse e-mail. Ela ganha acesso completo a este negócio, exceto excluí-lo, editar as configurações ou gerenciar a equipe.</div>
+      <label class="app-form-label" for="cx28-invite-role" style="margin-top:10px">Função do novo membro</label>
+      <select id="cx28-invite-role" class="app-form-select"><option value="leitura">Somente leitura</option><option value="operador">Operador</option><option value="gerente">Gerente</option><option value="administrador">Administrador</option></select>
+      <div class="field-hint">A pessoa precisa ter uma conta no Conexus. O papel escolhido define os acessos no Supabase.</div>
     </div>
     <div class="modal-actions">
       <button class="btn-app-secondary" id="equipe-close">Fechar</button>
@@ -2919,6 +3002,18 @@ textarea:focus-visible,.app-nav-item:focus-visible {
   </div>
 </div>
 
+<div class="modal-overlay" id="cx-v27-import-modal" role="dialog" aria-modal="true" aria-label="Importar produtos">
+  <div class="modal-box cx-v27-import-box">
+    <div class="modal-title">Importar produtos — V27</div>
+    <div class="modal-sub" id="cx-v27-import-kind">Importação de estoque ou afiliados</div>
+    <p class="cx-v27-mini">Aceita CSV UTF-8 (separador ; ou ,) e planilhas .xlsx/.xls. Registros duplicados são ignorados, sem substituir produtos existentes.</p>
+    <div class="app-form-group"><label class="app-form-label" for="cx-v27-import-file">Selecione a planilha</label>
+      <input type="file" class="app-form-input" id="cx-v27-import-file" accept=".csv,.xlsx,.xls" /><button class="btn-app-secondary" type="button" id="cx-v27-import-template" style="margin-top:8px">↓ Baixar modelo CSV</button></div>
+    <div class="cx-v27-import-preview" id="cx-v27-import-preview" aria-live="polite">Nenhum arquivo selecionado.</div>
+    <div class="modal-actions"><button class="btn-app-secondary" id="cx-v27-import-close" type="button">Cancelar</button>
+    <button class="btn-app-primary" id="cx-v27-import-confirm" type="button" disabled>Importar produtos</button></div>
+  </div>
+</div>
 <div class="app-toast" id="app-toast"></div>
 
 <script type="module">
@@ -3189,8 +3284,10 @@ function enabledModules(biz=currentBusiness) {
   const prefs = biz.module_preferences || {};
   // Prioridade total às preferências do proprietário. Nenhum módulo setorial
   // é reativado automaticamente depois de ser desmarcado.
-  if (Array.isArray(prefs.enabled)) return [...new Set(['view-dashboard', ...prefs.enabled.filter(id => CONEXUS_ALL_MODULES.has(id))])];
-  return [...new Set([...v16EnabledModules(biz), ...v21Extras(biz)])];
+  const extras=['view-auditoria']; // V28: auditoria é um módulo transversal.
+  if (biz.user_id===currentUser?.id && !demoActive) extras.push('view-team');
+  if (Array.isArray(prefs.enabled)) return [...new Set(['view-dashboard', ...prefs.enabled.filter(id => CONEXUS_ALL_MODULES.has(id)), ...extras])];
+  return [...new Set([...v16EnabledModules(biz), ...v21Extras(biz), ...extras])];
 }
 function hasModule(id) { return enabledModules().includes(id); }
 function hasInventory() { return hasModule('view-estoque'); }
@@ -3260,7 +3357,8 @@ document.getElementById('modulos-salvar').addEventListener('click', async () => 
     if (error) throw error;
     currentBusiness={...currentBusiness,...data,module_preferences:newPrefs};
     businesses=businesses.map(b=>b.id===currentBusiness.id?{...b,...currentBusiness}:b);
-    configureSectorUI();goto('view-dashboard');renderDashboard();
+    configureSectorUI();cx28GateNav(); // V28.1: refaz permissões após mudar módulos.
+    goto('view-dashboard');renderDashboard();
     document.getElementById('modal-modulos').classList.remove('open');
     toast('Módulos atualizados. Você pode ativá-los novamente a qualquer momento.');
   } catch(e) {showMsg('modulos-msg', e.message || 'Falha ao salvar módulos.', 'error');}
@@ -3382,22 +3480,51 @@ function wireNavBtnEntrar() {
 }
 wireNavBtnEntrar();
 
-// LOGIN SOCIAL — Google OAuth (V25.1).
-// CORREÇÃO: evita ?conexus_auth=google na redirectTo, que poderia divergir
-// das URLs permitidas no Supabase. A volta agora é identificada por sessionStorage.
-const CONEXUS_GOOGLE_PENDING_KEY = 'conexus_oauth_google_pending_v1';
+// LOGIN SOCIAL — Google OAuth V25.2.
+// CORREÇÃO: destino público canônico, mesmo que usuário abra /index.html;
+// usa fluxo explícito para não deixar o navegador com botão congelado e
+// evita reabrir o painel por tentativas antigas ou após login por senha.
+const CONEXUS_PUBLIC_HOME = 'https://devlnl.github.io/conexus-stock/';
+const CONEXUS_GOOGLE_PENDING_KEY = 'conexus_oauth_google_pending_v2';
+const CONEXUS_GOOGLE_PENDING_TTL = 10 * 60 * 1000; // 10 minutos
 let googleOAuthBusy = false;
-function conexusPendingGoogle(getOrSet, value) {
-  try {
-    if (getOrSet === 'get') return sessionStorage.getItem(CONEXUS_GOOGLE_PENDING_KEY) === '1';
-    if (getOrSet === 'clear') sessionStorage.removeItem(CONEXUS_GOOGLE_PENDING_KEY);
-    if (getOrSet === 'set') sessionStorage.setItem(CONEXUS_GOOGLE_PENDING_KEY, '1');
-  } catch (error) {
-    // Navegadores com armazenamento bloqueado ainda podem fazer login;
-    // apenas o redirecionamento automático ao painel pode ficar indisponível.
-    console.warn('SessionStorage indisponível para OAuth:', error);
+let conexusGoogleCallbackFailed = false;
+
+function conexusGoogleRedirectTo() {
+  const here = new URL(window.location.href);
+  const localhost = ['localhost', '127.0.0.1'].includes(here.hostname);
+  // Evita uso de file:// e HTTP fora do computador local.
+  if (here.protocol !== 'https:' && !(localhost && here.protocol === 'http:')) {
+    throw new Error('Abra o Conexus no site HTTPS antes de entrar com Google.');
   }
-  return false;
+  // Único endereço público configurado para esta implantação do GitHub Pages.
+  // /conexus-stock/index.html e /conexus-stock/ agora sempre usam o mesmo retorno.
+  if (here.origin === 'https://devlnl.github.io' &&
+      /^\/conexus-stock\/(?:index\.html)?$/i.test(here.pathname)) {
+    return CONEXUS_PUBLIC_HOME;
+  }
+  // Suporta desenvolvimento local, desde que a URL também seja permitida no Supabase.
+  if (localhost) return new URL(here.pathname.replace(/index\.html$/i, ''), here.origin).toString();
+  throw new Error('Este endereço do Conexus não está configurado para o login Google. Abra ' + CONEXUS_PUBLIC_HOME);
+}
+function conexusPendingGoogle(action) {
+  try {
+    if (action === 'clear') { sessionStorage.removeItem(CONEXUS_GOOGLE_PENDING_KEY); return false; }
+    if (action === 'set') {
+      sessionStorage.setItem(CONEXUS_GOOGLE_PENDING_KEY, JSON.stringify({started: Date.now()}));
+      return true;
+    }
+    const value = JSON.parse(sessionStorage.getItem(CONEXUS_GOOGLE_PENDING_KEY) || 'null');
+    const valid = Number.isFinite(value?.started) && Date.now() >= value.started &&
+      Date.now() - value.started < CONEXUS_GOOGLE_PENDING_TTL;
+    if (!valid) sessionStorage.removeItem(CONEXUS_GOOGLE_PENDING_KEY);
+    return valid;
+  } catch (error) {
+    // Armazenamento privado ou bloqueado: OAuth ainda pode ser iniciado,
+    // mas o redirecionamento automático a Meus negócios fica indisponível.
+    console.warn('[Conexus] Estado temporário de OAuth indisponível:', error);
+    return false;
+  }
 }
 async function loginWithGoogle(origin) {
   if (googleOAuthBusy) return;
@@ -3407,11 +3534,10 @@ async function loginWithGoogle(origin) {
     showMsg(msgId, 'Saia da demonstração antes de entrar com o Google.', 'error');
     return;
   }
-  if (window.location.protocol !== 'https:' &&
-      !(['localhost', '127.0.0.1'].includes(window.location.hostname) && window.location.protocol === 'http:')) {
-    showMsg(msgId, 'Para entrar com Google, abra o Conexus pelo endereço HTTPS publicado.', 'error');
-    return;
-  }
+  let redirectTo;
+  try { redirectTo = conexusGoogleRedirectTo(); }
+  catch (error) { showMsg(msgId, error.message, 'error'); return; }
+
   googleOAuthBusy = true;
   document.querySelectorAll('.btn-google').forEach(btn => {
     btn.disabled = true;
@@ -3419,19 +3545,27 @@ async function loginWithGoogle(origin) {
     if (label) label.textContent = 'Conectando…';
   });
   try {
-    // V25.1: URL estável; sem query/hash. Precisa existir em Supabase > URL Configuration.
-    // Para a instalação atual: https://devlnl.github.io/conexus-stock/
-    const redirectTo = new URL(window.location.pathname, window.location.origin).toString();
-    conexusPendingGoogle('set');
-    const { error } = await withTimeout(realSupabase.auth.signInWithOAuth({
+    // skipBrowserRedirect garante que somente navegamos após validar a resposta.
+    // Nenhum Client Secret do Google pertence a este HTML.
+    const {data, error} = await withTimeout(realSupabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo }
+      options: {redirectTo, skipBrowserRedirect: true}
     }), 15000);
     if (error) throw error;
-  } catch (err) {
+    if (!data?.url) throw new Error('O Supabase não retornou a URL de autenticação. Confira o provedor Google.');
+    const destination = new URL(data.url);
+    // Segurança: o destino inicial deve ser o próprio servidor de Auth Supabase.
+    if (destination.protocol !== 'https:' || destination.origin !== new URL(SUPA_URL).origin ||
+        !destination.pathname.startsWith('/auth/v1/authorize')) {
+      throw new Error('Endereço de autenticação inesperado. O redirecionamento foi bloqueado.');
+    }
+    conexusPendingGoogle('set');
+    window.location.assign(destination.toString());
+  } catch (error) {
     conexusPendingGoogle('clear');
-    console.error('Falha ao iniciar o OAuth Google:', err);
-    showMsg(msgId, 'Não foi possível iniciar o login Google: ' + (err?.message || 'Verifique a configuração do Google no Supabase.'), 'error');
+    console.error('[Conexus] Falha ao iniciar Google OAuth:', error);
+    showMsg(msgId, 'Não foi possível entrar com Google: ' +
+      (error?.message || 'Verifique as configurações de autenticação no Supabase.'), 'error');
   } finally {
     googleOAuthBusy = false;
     document.querySelectorAll('.btn-google').forEach(btn => {
@@ -3444,18 +3578,20 @@ async function loginWithGoogle(origin) {
 document.getElementById('btn-google-login').addEventListener('click', () => loginWithGoogle('login'));
 document.getElementById('btn-google-signup').addEventListener('click', () => loginWithGoogle('signup'));
 
-// V25.1: se o Google/Supabase devolver um erro na URL, mostrá-lo em vez
-// de deixar a tela parada sem explicação. textContent é usado via showMsg.
+// Exibe erros do provedor/Supabase sem expor os parâmetros OAuth na barra de URL.
 function conexusShowGoogleCallbackError() {
   const query = new URLSearchParams(window.location.search);
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
   const description = query.get('error_description') || hash.get('error_description');
   const code = query.get('error_code') || hash.get('error_code') || query.get('error') || hash.get('error');
-  if (!description && !code) return;
+  if (!description && !code) return false;
+  conexusGoogleCallbackFailed = true;
   conexusPendingGoogle('clear');
   showLoginCard();
-  showMsg('msg-login', 'Falha no login Google: ' + (description || code).replace(/\+/g, ' '), 'error');
+  // showMsg escreve via textContent; mensagens externas não são interpretadas como HTML.
+  showMsg('msg-login', 'Falha no login Google: ' + String(description || code).slice(0, 300), 'error');
   try { window.history.replaceState(null, '', window.location.pathname); } catch (_) {}
+  return true;
 }
 conexusShowGoogleCallbackError();
 
@@ -3690,7 +3826,110 @@ function makeDemoClient(store) {
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
       const now=new Date().toISOString();
-      if(action==='conexus_category_action_v25') {
+      if (action==='conexus_register_product_v27') {
+        const root=store.categories.find(c=>c.id===req.p_category_id&&c.business_id===bid&&!c.parent_id);
+        const sub=req.p_subcategory_id?store.categories.find(c=>c.id===req.p_subcategory_id&&c.parent_id===root?.id&&c.business_id===bid):null;
+        if(!root||(req.p_subcategory_id&&!sub))throw Error('Classificação inválida para esta empresa.');
+        return rpc('conexus_register_product_v23', {...req,p_category:root.name,p_subcategory:sub?.name||null})
+          .then(res=>{if(!res.error){const row=store.products.find(p=>p.id===res.data);if(row){row.category_id=root.id;row.subcategory_id=sub?.id||null;}}return res;});
+      } else if(action==='conexus_import_products_v27') {
+        let inserted=0,skipped=0;
+        if(!Array.isArray(req.p_rows)||req.p_rows.length<1||req.p_rows.length>100)throw Error('Lote inválido.');
+        const base=req.p_kind==='afiliados'?store.affiliate_products:store.products;
+        for(const item of req.p_rows){
+          const root=store.categories.find(c=>c.id===item.category_id&&c.business_id===bid&&!c.parent_id);
+          const sub=item.subcategory_id?store.categories.find(c=>c.id===item.subcategory_id&&c.parent_id===root?.id&&c.business_id===bid):null;
+          if(!root||(item.subcategory_id&&!sub))throw Error('Classificação inválida.');
+          const dup=base.some(p=>p.business_id===bid&&(req.p_kind==='afiliados'
+            ? categoryKey(p.platform)===categoryKey(item.platform)&&categoryKey(p.external_id)===categoryKey(item.external_id)
+            : categoryKey(p.name)===categoryKey(item.name)));
+          if(dup){skipped++;continue;}
+          const common={id:demoUuid(),user_id:uid,business_id:bid,category:root.name,subcategory:sub?.name||null,category_id:root.id,subcategory_id:sub?.id||null,created_at:now};
+          if(req.p_kind==='estoque'){
+            const product={...common,name:item.name,quantity:Number(item.quantity||0),price:Number(item.price||0),low_stock_threshold:Number(item.threshold||10),cost_price:item.cost==null?null:Number(item.cost)};
+            base.push(product);
+            if(product.quantity>0)store.stock_movements.push({id:demoUuid(),business_id:bid,user_id:uid,product_id:product.id,product_name:product.name,type:'entrada',quantity:product.quantity,unit_price:product.price,is_sale:false,reason:'estoque_inicial',created_at:now});
+          } else base.push({...common,...item,platform:item.platform,external_id:item.external_id,name:item.name,product_url:item.product_url});
+          inserted++;
+        }
+        result={inserted,skipped};
+      } else if(action==='conexus_category_mutate_v27') {
+        // V27: usa IDs, preserva os IDs dos produtos em renomeações e transferências.
+        const norm=x=>String(x||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
+        const list=store.categories.filter(c=>c.business_id===bid);
+        const old=list.find(c=>c.id===req.p_category_id);
+        const parent=req.p_parent_id?list.find(c=>c.id===req.p_parent_id&&!c.parent_id):null;
+        const next=String(req.p_name||'').trim().replace(/\s+/g,' ');
+        const rows=[...store.products,...store.affiliate_products].filter(p=>p.business_id===bid);
+        if(['create','update'].includes(req.p_action)){
+          if(next.length<1||next.length>100)throw Error('Nome inválido.');
+          if(req.p_parent_id&&!parent)throw Error('Categoria principal inválida.');
+          if(list.some(c=>c.id!==old?.id&&norm(c.name)===norm(next)))throw Error('Nome duplicado.');
+        }
+        if(req.p_action==='create'){
+          result=demoUuid();store.categories.push({id:result,business_id:bid,user_id:uid,name:next,parent_id:parent?.id||null});
+        }else if(req.p_action==='update'){
+          if(!old)throw Error('Categoria não encontrada.');
+          if(Boolean(old.parent_id)!==Boolean(req.p_parent_id))throw Error('Mudança de tipo de categoria inválida.');
+          old.name=next;old.parent_id=parent?.id||null;
+          for(const p of rows){if(old.parent_id ? p.subcategory_id===old.id : p.category_id===old.id){
+            p.category=old.parent_id?parent.name:next;
+            if(old.parent_id){p.subcategory=next;p.category_id=parent.id;}
+          }}result=old.id;
+        }else if(req.p_action==='delete'){
+          if(!old)throw Error('Categoria não encontrada.');
+          if(list.some(c=>c.parent_id===old.id))throw Error('Subcategorias existentes.');
+          if(rows.some(p=>p.category_id===old.id||p.subcategory_id===old.id))throw Error('Categoria em uso.');
+          store.categories.splice(store.categories.indexOf(old),1);result=old.id;
+        }else throw Error('Ação inválida.');
+      } else if(action==='conexus_category_snapshot_v26') {
+        // V26: espelha o retorno agregado da função PostgreSQL sem usar rede.
+        const grouped=new Map();
+        for(const p of [...store.products,...store.affiliate_products].filter(p=>p.business_id===bid)){
+          const key=JSON.stringify([p.category||null,p.subcategory||null]);
+          const old=grouped.get(key)||{category:p.category||null,subcategory:p.subcategory||null,total:0};
+          old.total++;grouped.set(key,old);
+        }
+        result={catalog:store.categories.filter(c=>c.business_id===bid).map(c=>({id:c.id,name:c.name,parent_id:c.parent_id||null})),groups:[...grouped.values()]};
+      } else if(action==='conexus_category_mutate_v26') {
+        const norm=x=>String(x||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
+        const list=store.categories.filter(c=>c.business_id===bid);
+        const old=list.find(c=>c.id===req.p_category_id);
+        const next=String(req.p_name||'').trim().replace(/\s+/g,' ');
+        const parent=req.p_parent_id?list.find(c=>c.id===req.p_parent_id && !c.parent_id):null;
+        const rows=[...store.products,...store.affiliate_products].filter(p=>p.business_id===bid);
+        if(req.p_action==='create'||req.p_action==='update'){
+          if(next.length<1||next.length>100)throw Error('Nome inválido.');
+          if(req.p_parent_id&&!parent)throw Error('Categoria principal inválida.');
+          if(list.some(c=>c.id!==old?.id&&norm(c.name)===norm(next)))throw Error('Nome já cadastrado.');
+        }
+        if(req.p_action==='create'){
+          result=demoUuid();
+          store.categories.push({id:result,business_id:bid,user_id:uid,name:next,parent_id:parent?.id||null});
+        }else if(req.p_action==='update'){
+          if(!old)throw Error('Categoria não encontrada.');
+          if(!old.parent_id&&req.p_parent_id)throw Error('Não é permitido converter categoria principal em subcategoria.');
+          if(old.parent_id&&!parent)throw Error('Subcategoria exige categoria principal.');
+          const former=old.parent_id?list.find(c=>c.id===old.parent_id):null;
+          if(old.parent_id&&!former)throw Error('Categoria pai não encontrada.');
+          for(const p of rows){
+            if(former){
+              if(norm(p.category)===norm(former.name)&&norm(p.subcategory)===norm(old.name)){
+                p.category=parent.name;p.subcategory=next;
+              }
+            } else if(norm(p.category)===norm(old.name))p.category=next;
+          }
+          old.name=next;old.parent_id=parent?.id||null;result=old.id;
+        }else if(req.p_action==='delete'){
+          if(!old)throw Error('Categoria não encontrada.');
+          if(list.some(c=>c.parent_id===old.id))throw Error('Exclua as subcategorias primeiro.');
+          const former=old.parent_id?list.find(c=>c.id===old.parent_id):null;
+          if(rows.some(p=>former?
+            norm(p.category)===norm(former.name)&&norm(p.subcategory)===norm(old.name):norm(p.category)===norm(old.name)))
+            throw Error('Categoria possui produtos vinculados.');
+          store.categories.splice(store.categories.indexOf(old),1);result=old.id;
+        }else throw Error('Ação inválida.');
+      } else       if(action==='conexus_category_action_v25') {
         // V25: replica a operação transacional real para testes sem Supabase.
         const cat=store.categories.find(c=>c.id===req.p_category_id && c.business_id===bid);
         if(!cat)throw Error('Categoria inexistente nesta empresa.');
@@ -3833,7 +4072,18 @@ function makeDemoClient(store) {
   }};
 }
 function startLocalDemo(){
-  demoStore=makeDemoData();sb=makeDemoClient(demoStore);demoActive=true;
+  demoStore=makeDemoData();
+  // V27: também reconcilia a classificação dos dados de demonstração legados.
+  for(const row of [...demoStore.products,...demoStore.affiliate_products]){
+    const catalog=demoStore.categories.filter(c=>c.business_id===row.business_id);
+    let root=catalog.find(c=>!c.parent_id&&String(c.name).toLowerCase()===String(row.category||'').toLowerCase());
+    let sub=null;
+    if(root)sub=catalog.find(c=>c.parent_id===root.id&&String(c.name).toLowerCase()===String(row.subcategory||'').toLowerCase());
+    if(!root){sub=catalog.find(c=>c.parent_id&&String(c.name).toLowerCase()===String(row.category||'').toLowerCase());
+      root=sub?catalog.find(c=>c.id===sub.parent_id):null;}
+    if(root){row.category_id=root.id;row.subcategory_id=sub?.id||null;row.category=root.name;row.subcategory=sub?.name||null;}
+  }
+  sb=makeDemoClient(demoStore);demoActive=true;
   currentUser={id:'conexus-demo-local',email:null,is_anonymous:true};
   businessTypes=[];businesses=[];currentBusiness=null;
   updateDemoToolbar();
@@ -4127,13 +4377,21 @@ realSupabase.auth.onAuthStateChange(function(event, session) {
         // Na volta do Google, apresenta diretamente os negócios da conta.
         // V25.1: reconhece retorno de Google pela sessão desta aba.
         // Mantém suporte ao marcador antigo enquanto o navegador ainda o tiver.
-        const googleReturned = conexusPendingGoogle('get') ||
-          new URLSearchParams(window.location.search).get('conexus_auth') === 'google';
+        // Somente uma autenticação Google recém-iniciada abre o painel.
+        // Eventos como TOKEN_REFRESHED não provocam navegações inesperadas.
+        const googleReturned = !conexusGoogleCallbackFailed &&
+          (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') &&
+          conexusPendingGoogle('get') &&
+          (session.user.app_metadata?.provider === 'google' ||
+            session.user.identities?.some(identity => identity.provider === 'google'));
         if (googleReturned && !window.__conexusGoogleCallbackHandled) {
           window.__conexusGoogleCallbackHandled = true;
           conexusPendingGoogle('clear');
           try { window.history.replaceState(null, '', window.location.pathname); } catch (_) {}
-          setTimeout(() => openBusinessesShell().catch(e => console.error('Falha no retorno do OAuth:', e)), 0);
+          setTimeout(() => openBusinessesShell().catch(error => {
+            console.error('[Conexus] Não foi possível abrir Meus negócios após OAuth:', error);
+            toast('Login realizado, mas não foi possível abrir Meus negócios. Clique em Abrir painel.', true);
+          }), 0);
         }
       }
       // usuário anônimo: o próprio fluxo de "Começar teste" já leva
@@ -4309,6 +4567,7 @@ function renderBusinessesGrid() {
 
 async function openBusiness(biz) {
   currentBusiness = biz;
+  cx28Role = null;cx28Alerts=null;cx28BusinessId=null; // V28: impede mostrar dados da empresa anterior
   categoryLiveSnapshot = null;
   categoryLiveRequestId++;
   window.__conexusCriticalDataReady = false;
@@ -4333,7 +4592,7 @@ async function openBusiness(biz) {
 }
 
 function backToBusinesses() {
-  currentBusiness=null;
+  currentBusiness=null;cx28Role=null;cx28Alerts=null;cx28BusinessId=null;
   document.getElementById('app-shell').style.display = 'none';
   renderBusinessesGrid(); // reflete qualquer edição feita ao negócio
   document.getElementById('businesses-shell').style.display = 'block';
@@ -4391,7 +4650,7 @@ document.getElementById('equipe-lista-slot').addEventListener('change', async e 
   const member=equipeMembers.find(m=>m.id===select.dataset.v21TeamRole);if(!member)return;
   if(!confirm('Alterar o papel deste colaborador?')){select.value=member.role||'operador';return;}
   select.disabled=true;
-  try {const {error}=await withTimeout(sb.rpc('conexus_set_member_role',{p_business_id:document.getElementById('equipe-business-id').value,p_member_id:member.id,p_role:select.value}),15000);
+  try {const {error}=await withTimeout(sb.rpc('conexus_v28_manage_member',{p_business_id:document.getElementById('equipe-business-id').value,p_action:'role',p_member_id:member.id,p_role:select.value}),15000);
    if(error)throw error;member.role=select.value;toast('Papel atualizado.');}
   catch(err){select.value=member.role||'operador';toast(err.message||'Não foi possível alterar o papel.',true);}
   finally{select.disabled=false;}
@@ -4406,7 +4665,7 @@ document.getElementById('equipe-convidar').addEventListener('click', async () =>
 
   setBtn('equipe-convidar', true, 'Adicionar');
   try {
-    const { error } = await withTimeout(sb.rpc('add_business_member', { p_business_id: businessId, p_email: email }), 15000);
+    const { error } = await withTimeout(sb.rpc('conexus_v28_manage_member', {p_business_id:businessId,p_action:'invite',p_email:email,p_role:document.getElementById('cx28-invite-role').value}), 15000);
     if (error) { showMsg('equipe-msg', error.message, 'error'); return; }
     toast('Membro adicionado com sucesso.');
     document.getElementById('equipe-email').value = '';
@@ -4422,7 +4681,7 @@ document.getElementById('equipe-convidar').addEventListener('click', async () =>
 
 async function removerMembro(id) {
   try {
-    const { error } = await withTimeout(sb.from('business_members').delete().eq('id', id), 15000);
+    const { error } = await withTimeout(sb.rpc('conexus_v28_manage_member',{p_business_id:document.getElementById('equipe-business-id').value,p_action:'remove',p_member_id:id}), 15000);
     if (error) { toast('Erro ao remover: ' + error.message, true); return; }
     toast('Membro removido.');
     equipeMembers = equipeMembers.filter(m => m.id !== id);
@@ -4583,6 +4842,7 @@ function closeMobileMenu() {
   document.getElementById('app-menu-backdrop').classList.remove('open');
 }
 function goto(viewId) {
+  if (currentBusiness && !cx28AllowedView(viewId)) viewId='view-dashboard'; // V28: ocultar áreas restritas
   if (currentBusiness && !hasModule(viewId) && !(slugNegocio()==='industria_alimenticia' && viewId==='view-adicionar')) viewId = 'view-dashboard';
   closeMobileMenu();
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
@@ -4598,6 +4858,8 @@ function goto(viewId) {
   if (viewId.startsWith('view-food-')) renderFoodUI();
   if (viewId.startsWith('view-aff-')) renderAffiliateUI();
   v21RenderView(viewId);
+  if (viewId==='view-auditoria') void cx28LoadEvents();
+  if (viewId==='view-team') cx28RoleBanner();
 }
 document.querySelectorAll('.app-nav-item').forEach(item => {
   item.addEventListener('click', () => goto(item.dataset.view));
@@ -4655,18 +4917,20 @@ async function loadAllData() {
     // A ausência de produtos bloqueia novas vendas: não usar cache potencialmente antigo.
     window.__conexusCriticalDataReady = !prodRes.error && !salesRes.error;
     document.getElementById('venda-finalizar').disabled = !window.__conexusCriticalDataReady;
-    if (!prodRes.error) products = prodRes.data;
-    if (!movRes.error) movements = movRes.data;
-    if (!custRes.error) customers = custRes.data;
-    if (!salesRes.error) salesHistory = salesRes.data;
-    if (!suppRes.error) suppliers = suppRes.data;
-    if (!purchRes.error) purchasesHistory = purchRes.data;
-    if (!returnsRes.error) salesReturns = returnsRes.data;
-    if (!expRes.error) expenses = expRes.data;
-    if (!revRes.error) revenues = revRes.data;
-    if (!catRes.error) categories = catRes.data;
-    if (!auditRes.error) auditLogs = auditRes.data;
-    if (!recordsRes.error) registrosSetoriais = recordsRes.data;
+    // V28.1: falhas não reutilizam dados potencialmente desatualizados de sessão anterior.
+    // O usuário vê o aviso de sincronização parcial, nunca o cache antigo.
+    products = prodRes.error ? [] : prodRes.data;
+    movements = movRes.error ? [] : movRes.data;
+    customers = custRes.error ? [] : custRes.data;
+    salesHistory = salesRes.error ? [] : salesRes.data;
+    suppliers = suppRes.error ? [] : suppRes.data;
+    purchasesHistory = purchRes.error ? [] : purchRes.data;
+    salesReturns = returnsRes.error ? [] : returnsRes.data;
+    expenses = expRes.error ? [] : expRes.data;
+    revenues = revRes.error ? [] : revRes.data;
+    categories = catRes.error ? [] : catRes.data;
+    auditLogs = auditRes.error ? [] : auditRes.data;
+    registrosSetoriais = recordsRes.error ? [] : recordsRes.data;
     renderRegistrosSetoriais();
 
     renderDashboard();
@@ -4710,6 +4974,7 @@ async function loadAllData() {
     if(isAffiliate()) await loadAffiliateData(businessAtStart);
     else {affData=affBlank();affLoadError='';}
     await v21Load(businessAtStart);
+    await cx28AfterDataLoad(businessAtStart); // V28: permissões, alertas e painel sem usar cache de empresa anterior.
     const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
     window.__conexusPartialHistory = maybePartial || Boolean(failures.length);
     const reportsNotice = document.getElementById('v21-insights-data-warning');
@@ -4835,7 +5100,9 @@ function statusBadge(p) {
 function renderEstoqueTable(filterText) {
   const slot = document.getElementById('estoque-table-slot');
   const term = (filterText || document.getElementById('estoque-search').value || '').toLowerCase().trim();
-  const list = products.filter(p => p.name.toLowerCase().includes(term));
+  const list = products.filter(p => p.name.toLowerCase().includes(term) && cxV27StockMatches(p));
+  const duplicateNames=cxV27DuplicateKeys(products,'estoque');
+  document.getElementById('cx-v27-stock-summary').textContent=list.length+' de '+products.length+' produto(s) exibido(s)';
 
   if (products.length === 0) {
     slot.innerHTML = '<div class="empty-state">' +
@@ -4858,7 +5125,7 @@ function renderEstoqueTable(filterText) {
 
   list.forEach(p => {
     html += '<tr>' +
-      '<td><strong>' + escapeHtml(p.name) + '</strong></td>' +
+      '<td><strong>' + escapeHtml(p.name) + '</strong>'+(duplicateNames.get(categoryKey(p.name))>1?'<small class="cx-v27-duplicate">Possível duplicata</small>':'')+'</td>' +
       '<td><span class="cat-pill">' + escapeHtml(p.category || 'Geral') + '</span>' + (p.subcategory ? '<div class="cx-subhint">↳ ' + escapeHtml(p.subcategory) + '</div>' : '') + '</td>' +
       '<td>' + p.quantity + '</td>' +
       '<td>' + brl(p.price) + '</td>' +
@@ -4923,7 +5190,7 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   setBtn('edit-save', true, 'Salvar alterações');
   try {
     const { error } = await withTimeout(sb.from('products').update({
-      name, price, category, subcategory, low_stock_threshold: limite, cost_price: custo, updated_at: new Date().toISOString()
+      name, price, category, subcategory, category_id:validCategory.id, subcategory_id:subcategory ? catalogChildren(validCategory.id).find(c=>c.name===subcategory)?.id : null, low_stock_threshold: limite, cost_price: custo, updated_at: new Date().toISOString()
     }).eq('id', id).eq('business_id', currentBusiness.id), 15000);
 
     if (error) { showMsg('edit-msg', 'Erro ao salvar: ' + error.message, 'error'); return; }
@@ -5040,13 +5307,13 @@ document.getElementById('btn-add-produto').addEventListener('click', async () =>
       return;
     }
 
-    const { error } = await withTimeout(sb.rpc('conexus_register_product_v23', {
+    const { error } = await withTimeout(sb.rpc('conexus_register_product_v27', {
       p_business_id: currentBusiness.id,
       p_name: nome,
       p_quantity: qtd,
       p_price: preco,
-      p_category: categoria,
-      p_subcategory: subcategoria,
+      p_category_id: root.id,
+      p_subcategory_id: subcategoria ? catalogChildren(root.id).find(c => c.name === subcategoria)?.id : null,
       p_threshold: limite,
       p_cost: custo
     }), 20000);
@@ -6493,15 +6760,14 @@ function renderFluxoCaixa(period) {
 });
 
 // ══════════════════════════════════════════════
-// CATEGORIAS E SUBCATEGORIAS — v23 (catálogo por empresa)
+// CATEGORIAS E SUBCATEGORIAS — V26 (RPCs autorizadas por empresa)
 // ══════════════════════════════════════════════
 function categoryKey(name) {
   return String(name || '').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
 }
 function categoryName(name) { return String(name || '').trim().replace(/\s+/g,' '); }
-// Adapta produtos afiliados legados que guardavam "Camisetas" diretamente como
-// categoria, antes de existir o vínculo Roupas > Camisetas.
-// Não modifica o banco; a migração V24 normaliza esses registros permanentemente.
+// V26: compatibilidade com registros legados que guardavam uma subcategoria
+// (ex.: Camisetas) no campo category, sem os IDs do catálogo.
 function normalizedCategoryPath(item, catalog=categories) {
   const rootName=categoryName(item?.category);
   const subName=categoryName(item?.subcategory);
@@ -6544,231 +6810,236 @@ document.getElementById('add-categoria').addEventListener('change',()=>fillSubca
 document.getElementById('edit-categoria').addEventListener('change',()=>fillSubcategorySelector('edit-categoria','edit-subcategoria',''));
 document.getElementById('aff-product-categoria').addEventListener('change',()=>fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria',''));
 
-let categoryLiveSnapshot = null;
-let categoryLiveRequestId = 0;
+let categoryLiveSnapshot=null;
+let categoryLiveRequestId=0;
+// V26: agrupa contagens sem transferir milhares de produtos ao navegador.
+// O payload vem de public.conexus_category_snapshot_v26, protegido com permissão de leitura.
+function v26GroupCounts(groups, catalog) {
+  const acc=new Map();
+  for(const row of groups||[]) {
+    const count=Number(row.total);
+    if(!Number.isSafeInteger(count)||count<0)throw Error('Contagem de categorias inválida.');
+    const normalized=normalizedCategoryPath(row,catalog);
+    const root=categoryName(normalized.category)||'Geral';
+    const sub=categoryName(normalized.subcategory);
+    const key=categoryKey(root)+'\u0000'+categoryKey(sub);
+    const old=acc.get(key);
+    acc.set(key,{category:old?.category||root,subcategory:old?.subcategory||sub||null,total:(old?.total||0)+count});
+  }
+  return [...acc.values()];
+}
 function categoryVisibleProducts() {
-  if(categoryLiveSnapshot?.status==='ready' && categoryLiveSnapshot.businessId===currentBusiness?.id)
-    return categoryLiveSnapshot.products;
   const bid=currentBusiness?.id;
   const local=(products||[]).filter(p=>p.business_id===bid);
-  // Os produtos de afiliados estão em outra tabela, não em "products".
-  const affiliate=isAffiliate() ? affData.products.filter(p=>p.business_id===bid) : [];
+  const affiliate=isAffiliate() ? (affData?.products||[]).filter(p=>p.business_id===bid) : [];
   return [...local,...affiliate].map(p=>normalizedCategoryPath(p));
 }
-function categoryProductCount(name, parentName=null) {
-  const key=categoryKey(name);
-  const source=categoryVisibleProducts();
-  return parentName===null
-    ? source.filter(p=>categoryKey(p.category || 'Geral')===key).length
-    : source.filter(p=>categoryKey(p.category || 'Geral')===categoryKey(parentName)
-      && categoryKey(p.subcategory)===key).length;
+function categoryGroups() {
+  if(categoryLiveSnapshot?.status==='ready'&&categoryLiveSnapshot.businessId===currentBusiness?.id)
+    return categoryLiveSnapshot.groups;
+  // Fallback exclusivo para o período anterior à consulta / modo de demonstração.
+  return v26GroupCounts(categoryVisibleProducts().map(p=>({...p,total:1})),categories);
+}
+function categoryProductCount(name,parentName=null) {
+  const key=categoryKey(name),source=categoryGroups();
+  return source.reduce((sum,row)=>sum+(parentName===null
+    ? (categoryKey(row.category)===key ? row.total:0)
+    : (categoryKey(row.category)===categoryKey(parentName)&&categoryKey(row.subcategory)===key ? row.total:0)),0);
 }
 async function refreshCategoryCounts() {
-  if (!currentBusiness?.id) return;
-  const bid=currentBusiness.id;
-  const token=++categoryLiveRequestId;
-  categoryLiveSnapshot={businessId:bid,status:'loading',products:[],catalog:[]};
+  if(!currentBusiness?.id)return;
+  const bid=currentBusiness.id,token=++categoryLiveRequestId;
+  categoryLiveSnapshot={businessId:bid,status:'loading'};
   renderCategoriasTable();
   try {
-    // Paginação para evitar resultados truncados pelo limite do PostgREST.
-    const fetched=[];
-    let complete=false;
-    for(let i=0;i<200;i++) {
-      const {data,error}=await withTimeout(sb.from('products')
-        .select('id,category,subcategory').eq('business_id',bid)
-        .order('id',{ascending:true}).range(i*500,i*500+499),15000);
-      if(error) throw new Error('Consulta de produtos: '+error.message);
-      if(!Array.isArray(data)) throw new Error('Resposta inválida ao consultar produtos.');
-      fetched.push(...data);
-      if(data.length<500){complete=true;break;}
-    }
-    if(!complete) throw new Error('Há produtos demais para garantir a contagem completa.');
-    if(isAffiliate()) {
-      let completeAffiliate=false;
-      for(let i=0;i<200;i++) {
-        const {data,error}=await withTimeout(sb.from('affiliate_products')
-          .select('id,category,subcategory').eq('business_id',bid)
-          .order('id',{ascending:true}).range(i*500,i*500+499),15000);
-        if(error) throw new Error('Consulta de produtos afiliados: '+error.message+' — execute o SQL V24.');
-        if(!Array.isArray(data)) throw new Error('Resposta inválida ao consultar produtos afiliados.');
-        fetched.push(...data);
-        if(data.length<500){completeAffiliate=true;break;}
-      }
-      if(!completeAffiliate) throw new Error('Há produtos afiliados demais para garantir a contagem completa.');
-    }
-    const {data:catalog,error}=await withTimeout(sb.from('categories')
-      .select('id,name,parent_id').eq('business_id',bid).order('name',{ascending:true}),15000);
-    if(error) throw new Error('Consulta de categorias: '+error.message+' — execute o SQL V23.');
-    if(token!==categoryLiveRequestId || currentBusiness?.id!==bid) return;
-    categories=catalog||[];
-    categoryLiveSnapshot={businessId:bid,status:'ready',products:fetched.map(p=>normalizedCategoryPath(p,categories)),catalog:categories};
+    // V26: uma consulta agregada no PostgreSQL, com estoque e afiliados juntos.
+    const {data,error}=await withTimeout(sb.rpc('conexus_category_snapshot_v26',{p_business_id:bid}),20000);
+    if(error)throw Error(error.message+' — verifique se o SQL V26 foi executado.');
+    if(!data || !Array.isArray(data.catalog) || !Array.isArray(data.groups))
+      throw Error('Resposta inválida do banco para categorias.');
+    if(token!==categoryLiveRequestId||currentBusiness?.id!==bid)return;
+    categories=data.catalog;
+    cxV27RefreshFilters();
+    categoryLiveSnapshot={businessId:bid,status:'ready',catalog:categories,groups:v26GroupCounts(data.groups,categories)};
     renderCategoriasTable();
     populateCategoriasDatalist();
+    // Não apagar seleções que o usuário está preenchendo.
     fillCategorySelector('add-categoria');
-    if(isAffiliate()) { fillCategorySelector('aff-product-categoria'); fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria'); }
-  } catch(err) {
-    if(token!==categoryLiveRequestId || currentBusiness?.id!==bid) return;
+    fillSubcategorySelector('add-categoria','add-subcategoria');
+    if(isAffiliate()){
+      fillCategorySelector('aff-product-categoria');
+      fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria');
+    }
+  }catch(err){
+    if(token!==categoryLiveRequestId||currentBusiness?.id!==bid)return;
     categoryLiveSnapshot={businessId:bid,status:'error',error:err?.message||'Falha de conexão'};
     renderCategoriasTable();
   }
 }
 function populateCategoriasDatalist() {
   const list=document.getElementById('categorias-datalist');
-  if(!list) return;
-  list.innerHTML=catalogRoots().map(c=>'<option value="'+escapeHtml(c.name)+'"></option>').join('');
+  if(list)list.innerHTML=catalogRoots().map(c=>'<option value="'+escapeHtml(c.name)+'"></option>').join('');
+}
+const v26CategoryFilter={search:'',onlyUsed:false};
+function v26CategoryRows(catalog,groups,filter=v26CategoryFilter) {
+  const roots=catalog.filter(c=>!c.parent_id).map(c=>({...c,registered:true}));
+  const byName=new Map(roots.map(c=>[categoryKey(c.name),c]));
+  for(const row of groups){
+    const name=categoryName(row.category)||'Geral';
+    if(!byName.has(categoryKey(name)))byName.set(categoryKey(name),{id:null,name,registered:false});
+  }
+  const rootsWithChildren=[];
+  for(const root of [...byName.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'))){
+    const count=groups.filter(p=>categoryKey(p.category)===categoryKey(root.name)).reduce((n,p)=>n+p.total,0);
+    const children=catalog.filter(c=>c.parent_id===root.id).map(c=>({...c,registered:true}));
+    const byChild=new Map(children.map(c=>[categoryKey(c.name),c]));
+    const mine=groups.filter(g=>categoryKey(g.category)===categoryKey(root.name));
+    for(const group of mine){
+      if(!group.subcategory)continue;
+      if(!byChild.has(categoryKey(group.subcategory)))byChild.set(categoryKey(group.subcategory),{
+        id:null,name:group.subcategory,registered:false,parent_id:root.id});
+    }
+    const subs=[...byChild.values()].map(child=>({...child,count:mine.filter(g=>categoryKey(g.subcategory)===categoryKey(child.name)).reduce((sum,g)=>sum+g.total,0)}))
+      .sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+    const ungrouped=mine.filter(g=>!categoryName(g.subcategory)).reduce((sum,g)=>sum+g.total,0);
+    const search=categoryKey(filter.search);
+    const rootMatch=!search||categoryKey(root.name).includes(search);
+    const filteredSubs=subs.filter(child=>(!search||rootMatch||categoryKey(child.name).includes(search))&&(!filter.onlyUsed||child.count>0));
+    if(filter.onlyUsed&&count===0)continue;
+    if(search&&!rootMatch&&!filteredSubs.length)continue;
+    rootsWithChildren.push({...root,count,ungrouped,subs:filteredSubs});
+  }
+  return rootsWithChildren;
 }
 function renderCategoriasTable() {
-  const slot=document.getElementById('categorias-table-slot');
-  if(!slot)return;
-  const snapshot=categoryLiveSnapshot?.businessId===currentBusiness?.id ? categoryLiveSnapshot : null;
-  if(snapshot?.status==='loading') {
-    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">🔄</div><div class="empty-state-title">Atualizando categorias e contagens...</div></div>';
+  const slot=document.getElementById('categorias-table-slot');if(!slot)return;
+  const snapshot=categoryLiveSnapshot?.businessId===currentBusiness?.id?categoryLiveSnapshot:null;
+  if(snapshot?.status==='loading'){
+    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">🔄</div><div class="empty-state-title">Consultando categorias e contagens...</div></div>';
     return;
   }
-  if(snapshot?.status==='error') {
-    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">⚠️</div>'+
-      '<div class="empty-state-title">Não foi possível carregar as categorias</div>'+
-      '<div class="empty-state-sub">'+escapeHtml(snapshot.error)+'</div>'+
+  if(snapshot?.status==='error'){
+    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">⚠️</div>'+ 
+      '<div class="empty-state-title">Falha ao carregar categorias</div><div class="empty-state-sub">'+escapeHtml(snapshot.error)+'</div>'+ 
       '<button class="btn-app-secondary" id="categorias-retry" type="button">Tentar novamente</button></div>';
-    document.getElementById('categorias-retry').addEventListener('click',()=>void refreshCategoryCounts());
-    return;
+    document.getElementById('categorias-retry').addEventListener('click',()=>void refreshCategoryCounts());return;
   }
-  const catalog=snapshot?.status==='ready' ? snapshot.catalog : categories;
-  const inStock=categoryVisibleProducts();
-  const roots=catalog.filter(c=>!c.parent_id).map(c=>({...c,registered:true}));
-  const map=new Map(roots.map(c=>[categoryKey(c.name),c]));
-  // Produtos legados com categorias ainda não cadastradas permanecem visíveis.
-  inStock.forEach(p=>{
-    const label=categoryName(p.category)||'Geral';
-    if(!map.has(categoryKey(label)))map.set(categoryKey(label),{id:null,name:label,registered:false});
-  });
-  const allRoots=[...map.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
-  if(!allRoots.length) {
-    slot.innerHTML='<div class="empty-state"><div class="empty-state-icon">🏷️</div><div class="empty-state-title">Nenhuma categoria cadastrada</div>'+
-      '<div class="empty-state-sub">Crie uma categoria para começar a cadastrar produtos.</div></div>';
-    return;
-  }
-  const total=inStock.length;
+  const catalog=snapshot?.status==='ready'?snapshot.catalog:categories;
+  const groups=categoryGroups(),list=v26CategoryRows(catalog,groups);
+  const total=groups.reduce((n,g)=>n+g.total,0);
   const actions=[];
-  let html='<div class="cx-category-total">'+total+' produto(s) cadastrado(s) nesta empresa'+(isAffiliate()?' (incluindo afiliados)':'')+' • Categorias: '+allRoots.length+'</div>'+
-    '<div class="cx-category-table-wrapper"><table class="app-table"><thead><tr><th>Categoria / subcategoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>';
-  allRoots.forEach(root=>{
-    const n=categoryProductCount(root.name);
-    const rootIdx=actions.push({type:'root',cat:root})-1;
-    html+='<tr class="cx-category-parent"><td>▣ '+escapeHtml(root.name)+
-      (root.registered?'':' <small class="cx-category-unnamed">(não cadastrada)</small>')+
-      '</td><td class="cx-category-count">'+n+'</td><td><div class="row-actions">'+
-      (root.registered
-        ? '<button class="icon-btn" title="Editar" data-cx-action="edit" data-cx-index="'+rootIdx+'">✎</button>'+
-          '<button class="icon-btn danger" title="Excluir" data-cx-action="delete" data-cx-index="'+rootIdx+'">🗑</button>'+
-          '<button class="btn-app-secondary" type="button" data-cx-action="new-sub" data-cx-index="'+rootIdx+'">+ Subcategoria</button>'
-        : '<button class="btn-app-secondary" data-cx-action="register" data-cx-index="'+rootIdx+'">Cadastrar</button>')+
-      '</div></td></tr>';
-    const children=catalog.filter(c=>c.parent_id===root.id).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
-    const subs=new Map(children.map(c=>[categoryKey(c.name),{...c,registered:true}]));
-    inStock.filter(p=>categoryKey(p.category)===categoryKey(root.name)&&categoryName(p.subcategory))
-      .forEach(p=>{
-        const name=categoryName(p.subcategory);
-        if(!subs.has(categoryKey(name)))subs.set(categoryKey(name),{id:null,name,registered:false,parent_id:root.id});
-      });
-    const noSub=inStock.filter(p=>categoryKey(p.category)===categoryKey(root.name)&&!categoryName(p.subcategory)).length;
-    if(noSub){
-      html+='<tr class="cx-category-child"><td><span class="cx-category-unnamed">Sem subcategoria</span></td><td class="cx-category-count">'+noSub+'</td><td>—</td></tr>';
+  let html='<div class="cx-category-stats"><span><strong>'+total+'</strong> produtos cadastrados</span>'+ 
+    '<span><strong>'+catalog.filter(c=>!c.parent_id).length+'</strong> categorias principais</span>'+ 
+    '<span><strong>'+catalog.filter(c=>Boolean(c.parent_id)).length+'</strong> subcategorias</span></div>';
+  if(!list.length){
+    slot.innerHTML=html+'<div class="cx-category-no-results">Nenhuma categoria corresponde aos filtros. Ajuste a pesquisa ou crie uma categoria.</div>';return;
+  }
+  html+='<div class="cx-category-table-wrapper"><table class="app-table"><thead><tr><th>Categoria / subcategoria</th><th>Produtos</th><th>Ações</th></tr></thead><tbody>';
+  for(const root of list){
+    const i=actions.push({type:'root',cat:root})-1;
+    html+='<tr class="cx-category-parent"><td>▣ '+escapeHtml(root.name)+(root.registered?'':' <small class="cx-category-legacy">(cadastro pendente)</small>')+
+      '</td><td class="cx-category-count">'+root.count+'</td><td><div class="row-actions">'+(root.registered
+      ?'<button class="icon-btn" type="button" title="Editar categoria" data-cx-action="edit" data-cx-index="'+i+'">✎</button>'+ 
+       '<button class="icon-btn danger" type="button" title="Excluir categoria" data-cx-action="delete" data-cx-index="'+i+'">🗑</button>'+ 
+       '<button class="btn-app-secondary" type="button" data-cx-action="new-sub" data-cx-index="'+i+'">+ Subcategoria</button>'
+      :'<button class="btn-app-secondary" type="button" data-cx-action="register" data-cx-index="'+i+'">Cadastrar</button>')+'</div></td></tr>';
+    if(root.ungrouped>0 && (!v26CategoryFilter.search||categoryKey(root.name).includes(categoryKey(v26CategoryFilter.search))))
+      html+='<tr class="cx-category-child"><td>Sem subcategoria</td><td class="cx-category-count">'+root.ungrouped+'</td><td>—</td></tr>';
+    for(const sub of root.subs){
+      const j=actions.push({type:'sub',cat:sub,parent:root})-1;
+      html+='<tr class="cx-category-child"><td>'+escapeHtml(sub.name)+(sub.registered?'':' <small class="cx-category-legacy">(cadastro pendente)</small>')+
+        '</td><td class="cx-category-count">'+sub.count+'</td><td><div class="row-actions">'+(sub.registered
+        ?'<button class="icon-btn" type="button" title="Editar ou mover subcategoria" data-cx-action="edit" data-cx-index="'+j+'">✎</button>'+ 
+          '<button class="icon-btn danger" type="button" title="Excluir subcategoria" data-cx-action="delete" data-cx-index="'+j+'">🗑</button>'
+        :'<button class="btn-app-secondary" type="button" data-cx-action="register-sub" data-cx-index="'+j+'">Cadastrar</button>')+'</div></td></tr>';
     }
-    for(const child of [...subs.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'))) {
-      const j=actions.push({type:'sub',cat:child,parent:root})-1;
-      html+='<tr class="cx-category-child"><td>'+escapeHtml(child.name)+
-        (child.registered?'':' <small>(não cadastrada)</small>')+
-        '</td><td class="cx-category-count">'+categoryProductCount(child.name,root.name)+
-        '</td><td><div class="row-actions">'+(child.registered
-        ? '<button class="icon-btn" title="Editar subcategoria" data-cx-action="edit" data-cx-index="'+j+'">✎</button>'+
-          '<button class="icon-btn danger" title="Excluir subcategoria" data-cx-action="delete" data-cx-index="'+j+'">🗑</button>'
-        : '<button class="btn-app-secondary" data-cx-action="register-sub" data-cx-index="'+j+'">Cadastrar</button>')+
-        '</div></td></tr>';
-    }
-  });
-  html+='</tbody></table></div>';
-  slot.innerHTML=html;
+  }
+  html+='</tbody></table></div>';slot.innerHTML=html;
   slot.querySelectorAll('[data-cx-action]').forEach(btn=>btn.addEventListener('click',()=>{
-    const chosen=actions[Number(btn.dataset.cxIndex)];if(!chosen)return;
-    const {type,cat,parent}=chosen;
-    const cmd=btn.dataset.cxAction;
-    if(cmd==='new-sub') return openCategoryModal(null,'sub','',cat.id);
-    if(cmd==='register') return openCategoryModal(null,'root',cat.name);
-    if(cmd==='register-sub') return openCategoryModal(null,'sub',cat.name,parent.id);
-    const fresh=categories.find(c=>c.id===cat.id);
-    if(!fresh)return;
-    if(cmd==='edit')openCategoryModal(fresh,type);
-    if(cmd==='delete')openDeleteCategoryModal(fresh);
+    const choice=actions[Number(btn.dataset.cxIndex)];if(!choice)return;
+    const {type,cat,parent}=choice,action=btn.dataset.cxAction;
+    if(action==='new-sub')return openCategoryModal(null,'sub','',cat.id);
+    if(action==='register')return openCategoryModal(null,'root',cat.name);
+    if(action==='register-sub')return openCategoryModal(null,'sub',cat.name,parent.id);
+    const fresh=categories.find(c=>c.id===cat.id);if(!fresh)return;
+    if(action==='edit')openCategoryModal(fresh,type);
+    if(action==='delete')openDeleteCategoryModal(fresh);
   }));
 }
+document.getElementById('cx-category-search').addEventListener('input',ev=>{
+  v26CategoryFilter.search=ev.target.value;renderCategoriasTable();
+});
+document.getElementById('cx-category-used').addEventListener('change',ev=>{
+  v26CategoryFilter.onlyUsed=ev.target.checked;renderCategoriasTable();
+});
+document.getElementById('btn-refresh-categorias').addEventListener('click',()=>void refreshCategoryCounts());
+document.getElementById('btn-export-categorias').addEventListener('click',()=>{
+  const snap=categoryLiveSnapshot;
+  if(!snap||snap.status!=='ready'||snap.businessId!==currentBusiness?.id){toast('Atualize as contagens antes de exportar.',true);return;}
+  // V26: exportação segura contra interpretação de fórmulas em Excel e Sheets.
+  const safe=value=>{
+    let cell=String(value??'').replace(/\r|\n/g,' ');
+    if(/^[\s\u0000-\u001f]*[=+@\-]/.test(cell))cell="'"+cell;
+    return '"'+cell.replace(/"/g,'""')+'"';
+  };
+  const rows=[['Categoria','Subcategoria','Produtos'],...v26CategoryRows(snap.catalog,snap.groups,{search:'',onlyUsed:false})
+    .flatMap(root=>[[root.name,'',root.count],...root.subs.map(c=>[root.name,c.name,c.count])])];
+  const csv='\uFEFF'+rows.map(row=>row.map(safe).join(';')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download='conexus_categorias.csv';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
 function openCategoryModal(cat=null,kind='root',suggestedName='',parentId='') {
-  const edit=Boolean(cat);
-  const isSub=kind==='sub' || Boolean(cat?.parent_id);
+  const edit=Boolean(cat),isSub=kind==='sub'||Boolean(cat?.parent_id);
   document.getElementById('categoria-id').value=cat?.id||'';
   document.getElementById('categoria-kind').value=isSub?'sub':'root';
   document.getElementById('categoria-modal-title').textContent=(edit?'Editar ':'Adicionar ')+(isSub?'subcategoria':'categoria');
-  document.getElementById('categoria-modal-descricao').textContent=isSub?'Subcategoria vinculada a uma categoria principal':'Categoria principal do negócio';
+  document.getElementById('categoria-modal-descricao').textContent=isSub?'A alteração de categoria principal transfere os produtos vinculados automaticamente.':'Categoria principal do negócio';
   document.getElementById('categoria-save').textContent=edit?'Salvar alterações':'Criar';
   document.getElementById('categoria-nome').value=cat?.name||suggestedName;
-  const wrap=document.getElementById('categoria-parent-wrap');
-  const select=document.getElementById('categoria-parent');
+  const wrap=document.getElementById('categoria-parent-wrap'),select=document.getElementById('categoria-parent');
   wrap.style.display=isSub?'block':'none';
   select.innerHTML='<option value="">Selecione a categoria principal</option>'+catalogRoots()
     .map(c=>'<option value="'+escapeHtml(c.id)+'">'+escapeHtml(c.name)+'</option>').join('');
   select.value=cat?.parent_id||parentId||'';
-  select.disabled=edit; // Mudar hierarquia de uma subcategoria existente exige reclassificar os produtos.
-  hideMsg('categoria-msg');
-  document.getElementById('modal-categoria').classList.add('open');
+  select.disabled=false; // V26: permite transferência de subcategoria por RPC transacional.
+  hideMsg('categoria-msg');document.getElementById('modal-categoria').classList.add('open');
   document.getElementById('categoria-nome').focus();
 }
 document.getElementById('btn-add-categoria').addEventListener('click',()=>openCategoryModal());
 document.getElementById('btn-add-subcategoria').addEventListener('click',()=>{
-  if(!catalogRoots().length){toast('Crie uma categoria principal primeiro.',true);return;}
-  openCategoryModal(null,'sub');
+  if(!catalogRoots().length){toast('Crie uma categoria principal primeiro.',true);return;}openCategoryModal(null,'sub');
 });
 document.getElementById('categoria-cancel').addEventListener('click',()=>document.getElementById('modal-categoria').classList.remove('open'));
 document.getElementById('categoria-save').addEventListener('click',async()=>{
   const id=document.getElementById('categoria-id').value;
   const kind=document.getElementById('categoria-kind').value;
   const parentId=kind==='sub'?document.getElementById('categoria-parent').value:null;
-  const name=categoryName(document.getElementById('categoria-nome').value);
-  const bid=currentBusiness?.id;
+  const name=categoryName(document.getElementById('categoria-nome').value),bid=currentBusiness?.id;
   hideMsg('categoria-msg');
   if(!bid){showMsg('categoria-msg','Selecione uma empresa.','error');return;}
-  if(!name||name.length>100){showMsg('categoria-msg','Nome deve ter de 1 a 100 caracteres.','error');return;}
-  if(kind==='sub' && !catalogRoots().some(r=>r.id===parentId)){
+  if(!name||name.length>100){showMsg('categoria-msg','O nome precisa ter de 1 a 100 caracteres.','error');return;}
+  if(kind==='sub'&&!catalogRoots().some(r=>r.id===parentId)){
     showMsg('categoria-msg','Selecione uma categoria principal válida.','error');return;
   }
-  if(categories.some(c=>c.id!==id && categoryKey(c.name)===categoryKey(name))){
-    showMsg('categoria-msg','Esse nome já existe no catálogo. Use um nome diferente.','error');return;
+  if(categories.some(c=>c.id!==id&&categoryKey(c.name)===categoryKey(name))){
+    showMsg('categoria-msg','Esse nome já está sendo utilizado no catálogo.','error');return;
   }
   setBtn('categoria-save',true,id?'Salvar alterações':'Criar');
   try {
-    const user=await getAuthedUser();if(!user)throw Error('Sua sessão expirou.');
-    if(id){
-      const old=categories.find(c=>c.id===id);if(!old)throw Error('Categoria não encontrada.');
-      if(categoryLiveSnapshot?.status!=='ready')throw Error('Atualize as contagens antes de editar.');
-      // V25: uma transação no banco renomeia categoria E todos os produtos vinculados,
-      // incluindo affiliate_products; a operação é revertida integralmente se falhar.
-      const {error}=await withTimeout(sb.rpc('conexus_category_action_v25',{
-        p_business_id:bid,p_category_id:id,p_action:'rename',p_new_name:name
-      }),20000);
-      if(error)throw Error('Não foi possível atualizar a categoria: '+error.message);
-
-    }else{
-      const {data,error}=await withTimeout(sb.from('categories').insert({
-        name,parent_id:parentId,business_id:bid,user_id:user.id
-      }).select('id'),15000);
-      if(error||!data?.length)throw Error(error?.message||'O banco não confirmou a criação.');
-    }
+    // V26: criar, renomear e mover sempre na mesma RPC, com verificação de permissão.
+    const {error}=await withTimeout(sb.rpc('conexus_category_mutate_v27',{
+      p_business_id:bid,p_action:id?'update':'create',p_category_id:id||null,
+      p_name:name,p_parent_id:parentId||null
+    }),20000);
+    if(error)throw Error(error.message);
     document.getElementById('modal-categoria').classList.remove('open');
     toast(id?'Categoria atualizada.':'Categoria criada.');
     if(currentBusiness?.id===bid)await loadAllData();
   }catch(err){showMsg('categoria-msg','Não foi possível salvar: '+(err?.message||'Erro desconhecido.'),'error');}
   finally{setBtn('categoria-save',false,id?'Salvar alterações':'Criar');}
 });
-function openDeleteCategoryModal(cat){
+function openDeleteCategoryModal(cat) {
   if(categoryLiveSnapshot?.status!=='ready'||categoryLiveSnapshot.businessId!==currentBusiness?.id){
     toast('Atualize a lista de categorias antes de excluir.',true);void refreshCategoryCounts();return;
   }
@@ -6777,28 +7048,23 @@ function openDeleteCategoryModal(cat){
   }
   const parent=cat.parent_id?categories.find(c=>c.id===cat.parent_id):null;
   const count=parent?categoryProductCount(cat.name,parent.name):categoryProductCount(cat.name);
-  // V25: o total vem do snapshot das duas tabelas e é novamente conferido na RPC.
-  if(count>0){toast('Categoria em uso por '+count+' produto(s). Reclassifique antes de excluir.',true);return;}
+  if(count>0){toast('Categoria vinculada a '+count+' produto(s). Reclassifique antes de excluir.',true);return;}
   document.getElementById('delete-categoria-id').value=cat.id;
   document.getElementById('modal-delete-categoria').classList.add('open');
 }
 document.getElementById('delete-categoria-cancel').addEventListener('click',()=>document.getElementById('modal-delete-categoria').classList.remove('open'));
 document.getElementById('delete-categoria-confirm').addEventListener('click',async()=>{
   const id=document.getElementById('delete-categoria-id').value;
-  const cat=categories.find(c=>c.id===id);
-  if(!cat||!currentBusiness?.id)return;
-  const bid=currentBusiness.id;
-  setBtn('delete-categoria-confirm',true,'Excluir');
-  try{
-    // V25: exclusão atômica verifica products e affiliate_products no próprio banco.
-    // Isso evita apagar uma subcategoria usada por afiliados ou depender de cache antigo.
-    const {error}=await withTimeout(sb.rpc('conexus_category_action_v25',{
-      p_business_id:bid,p_category_id:id,p_action:'delete',p_new_name:null
+  if(!categories.find(c=>c.id===id)||!currentBusiness?.id)return;
+  const bid=currentBusiness.id;setBtn('delete-categoria-confirm',true,'Excluir');
+  try {
+    // V26: verificação de vínculos e exclusão são atômicas e não dependem do cache.
+    const {error}=await withTimeout(sb.rpc('conexus_category_mutate_v27',{
+      p_business_id:bid,p_action:'delete',p_category_id:id,p_name:null,p_parent_id:null
     }),20000);
     if(error)throw Error(error.message);
     document.getElementById('modal-delete-categoria').classList.remove('open');
-    toast('Categoria excluída.');
-    if(currentBusiness?.id===bid)await loadAllData();
+    toast('Categoria excluída.');if(currentBusiness?.id===bid)await loadAllData();
   }catch(err){toast('Não foi possível excluir: '+(err?.message||'Erro desconhecido.'),true);}
   finally{setBtn('delete-categoria-confirm',false,'Excluir categoria');}
 });
@@ -7118,11 +7384,16 @@ function renderAuditoria() {
 // NOTIFICAÇÕES
 // ══════════════════════════════════════════════
 function getNotifications() {
+  if (cx28Alerts && currentBusiness?.id===cx28BusinessId) return cx28NotificationItems(cx28Alerts);
   const notifs = [];
   const esgotados = products.filter(p => Number(p.quantity) <= 0);
   const baixos = products.filter(p => Number(p.quantity) > 0 && Number(p.quantity) <= Number(p.low_stock_threshold));
-  const contasPagarVencidas = expenses.filter(e => isVencida(e));
-  const contasReceberVencidas = revenues.filter(r => isVencida(r));
+  // V28.1: em caso de erro na RPC de alertas ou papel ainda não validado,
+  // NÃO monta avisos financeiros a partir de dados em memória.
+  const financeAuthorized = demoActive ||
+    (cx28BusinessId===currentBusiness?.id && cx28RoleHas(cx28Role,'finance'));
+  const contasPagarVencidas = financeAuthorized ? expenses.filter(e => isVencida(e)) : [];
+  const contasReceberVencidas = financeAuthorized ? revenues.filter(r => isVencida(r)) : [];
 
   if (esgotados.length > 0) notifs.push({ icon: '🔴', text: esgotados.length + ' produto(s) sem estoque', view: 'view-estoque' });
   if (baixos.length > 0) notifs.push({ icon: '⚠️', text: baixos.length + ' produto(s) com estoque baixo', view: 'view-estoque' });
@@ -7659,11 +7930,13 @@ function renderAffiliateUI(){if(!isAffiliate())return;
   renderAffiliateProducts();renderAffiliateLists();renderAffiliateReports();
 }
 function renderAffiliateProducts(){const search=document.getElementById('aff-product-search').value.toLocaleLowerCase('pt-BR').trim(),filter=document.getElementById('aff-product-filter').value;
-  const matched=affData.products.filter(p=>[p.name,p.external_id,p.category,p.subcategory,p.platform].join(' ').toLocaleLowerCase('pt-BR').includes(search)&&(filter==='todos'||affProductState(p)===filter));
+  const duplicateAff=cxV27DuplicateKeys(affData.products,'afiliados');
+  const matched=affData.products.filter(p=>[p.name,p.external_id,p.category,p.subcategory,p.platform].join(' ').toLocaleLowerCase('pt-BR').includes(search)&&(filter==='todos'||affProductState(p)===filter)&&cxV27AffiliateMatches(p));
+  document.getElementById('cx-v27-aff-summary').textContent=matched.length+' produto(s) visíveis após os filtros.';
   document.getElementById('aff-products-count').textContent=`${matched.length} de ${affData.products.length}`;
   document.getElementById('aff-products-list').innerHTML=matched.length?matched.map(p=>{
     const cs=affData.contents.filter(c=>c.product_id===p.id),posts=affData.publications.filter(pub=>cs.some(c=>c.id===pub.content_id));
-    return `<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(p.name)}</h4>${affStateTag(affProductState(p))}</div>
+    return `<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(p.name)}</h4>${duplicateAff.get(categoryKey(p.platform)+'|'+categoryKey(p.external_id))>1?'<small class="cx-v27-duplicate">ID duplicado</small>':''}${affStateTag(affProductState(p))}</div>
     <div class="aff-meta"><span class="aff-pill">${escapeHtml(p.platform)}</span><span class="aff-pill">ID: ${escapeHtml(p.external_id)}</span><span class="aff-pill muted">${escapeHtml((()=>{const path=normalizedCategoryPath(p);return path.category+(path.subcategory?' › '+path.subcategory:'');})())}</span></div>
     <p>${cs.length} conteúdo(s) · ${posts.length} publicação(ões) · preço ${brl(p.price||0)} · comissão estimada ${Number(p.commission_rate||0).toLocaleString('pt-BR')}%</p>
     <p>${affLink(p.product_url,'Abrir produto')} ${affLink(p.affiliate_url,'Abrir link de afiliado')}</p>
@@ -7714,7 +7987,7 @@ affFormBind('aff-product-form','affiliate_products',f=>{
  const subName=affValue(f,'subcategory');
  const sub=subName?catalogChildren(root.id).find(c=>categoryKey(c.name)===categoryKey(subName)):null;
  if(subName&&!sub)throw Error('A subcategoria não pertence à categoria selecionada.');
- return {platform,external_id:id,name,category:root.name,subcategory:sub?.name||null,product_url:affSafeUrl(affValue(f,'product_url'),true),affiliate_url:affSafeUrl(affValue(f,'affiliate_url')),price:affNum(affValue(f,'price'),'Preço',true),commission_rate:affNum(affValue(f,'commission_rate'),'Percentual de comissão',true),notes:affValue(f,'notes')||null};
+ return {platform,external_id:id,name,category:root.name,subcategory:sub?.name||null,category_id:root.id,subcategory_id:sub?.id||null,product_url:affSafeUrl(affValue(f,'product_url'),true),affiliate_url:affSafeUrl(affValue(f,'affiliate_url')),price:affNum(affValue(f,'price'),'Preço',true),commission_rate:affNum(affValue(f,'commission_rate'),'Percentual de comissão',true),notes:affValue(f,'notes')||null};
 });
 affFormBind('aff-content-form','affiliate_contents',f=>{
  const pid=affValue(f,'product_id'),title=affValue(f,'title'),campaign=affValue(f,'campaign_id');if(!affById('products',pid)||title.length<2)throw Error('Produto ou título inválido.');if(campaign&&!affById('campaigns',campaign))throw Error('Campanha não pertence a esta empresa.');
@@ -8000,7 +8273,358 @@ Object.entries(conexusMaskIDs).forEach(([id,mask])=>{
  element.addEventListener('focus',()=>{element.value=mask(element.value);});
 });
 conexusWireClientPickers();
+// ═══════════════════════════════════════════════════════════════════════════
+// V27 — FILTROS, DUPLICATAS E IMPORTAÇÃO CONTROLADA (CSV / EXCEL)
+// ═══════════════════════════════════════════════════════════════════════════
+// Importante: IDs de categorias são a referência para novos produtos.
+const cxV27 = {importKind:'estoque', rows:[], businessId:null};
+function cxV27CategoryId(p) {
+  return p.category_id || catalogRootByName(normalizedCategoryPath(p).category)?.id || '';
+}
+function cxV27SubId(p) {
+  if(p.subcategory_id)return p.subcategory_id;
+  const path=normalizedCategoryPath(p),root=catalogRootByName(path.category);
+  return catalogChildren(root?.id).find(c=>categoryKey(c.name)===categoryKey(path.subcategory))?.id || '';
+}
+function cxV27DuplicateKeys(rows,kind) {
+  const groups=new Map();
+  rows.forEach(p=>{
+    const key=kind==='afiliados' ? categoryKey(p.platform)+'|'+categoryKey(p.external_id)
+      : categoryKey(p.name);
+    if(key)groups.set(key,(groups.get(key)||0)+1);
+  });
+  return groups;
+}
+function cxV27FillFilter(rootId,subId) {
+  const root=document.getElementById(rootId),sub=document.getElementById(subId);
+  if(!root||!sub)return;
+  const selectedRoot=root.value,selectedSub=sub.value;
+  root.innerHTML='<option value="">Todas as categorias</option>'+catalogRoots()
+    .map(c=>'<option value="'+escapeHtml(c.id)+'">'+escapeHtml(c.name)+'</option>').join('');
+  root.value=categories.some(c=>c.id===selectedRoot&&!c.parent_id)?selectedRoot:'';
+  const children=root.value?catalogChildren(root.value):categories.filter(c=>c.parent_id);
+  sub.innerHTML='<option value="">Todas as subcategorias</option>'+children
+    .map(c=>'<option value="'+escapeHtml(c.id)+'">'+escapeHtml(c.name)+'</option>').join('');
+  sub.value=children.some(c=>c.id===selectedSub)?selectedSub:'';
+}
+function cxV27RefreshFilters() {
+  cxV27FillFilter('cx-v27-stock-category','cx-v27-stock-subcategory');
+  cxV27FillFilter('cx-v27-aff-category','cx-v27-aff-subcategory');
+}
+function cxV27NumericLimit(id) {
+  const value=document.getElementById(id)?.value?.trim();
+  return value ? Number(value) : null;
+}
+function cxV27StockMatches(p) {
+  const category=document.getElementById('cx-v27-stock-category').value;
+  const sub=document.getElementById('cx-v27-stock-subcategory').value;
+  const status=document.getElementById('cx-v27-stock-status').value;
+  const price=Number(p.price||0),qty=Number(p.quantity||0),threshold=Number(p.low_stock_threshold||0);
+  const min=cxV27NumericLimit('cx-v27-stock-price-min'),max=cxV27NumericLimit('cx-v27-stock-price-max');
+  if(category&&cxV27CategoryId(p)!==category)return false;
+  if(sub&&cxV27SubId(p)!==sub)return false;
+  if(min!==null&&price<min||max!==null&&price>max)return false;
+  if(status==='out'&&qty>0||status==='low'&&(qty<=0||qty>threshold)||status==='ok'&&qty<=threshold)return false;
+  return true;
+}
+function cxV27AffiliateMatches(p) {
+  const category=document.getElementById('cx-v27-aff-category').value;
+  const sub=document.getElementById('cx-v27-aff-subcategory').value;
+  const max=cxV27NumericLimit('cx-v27-aff-price-max');
+  return (!category||cxV27CategoryId(p)===category)&&(!sub||cxV27SubId(p)===sub)
+    &&(max===null||Number(p.price||0)<=max);
+}
+[['cx-v27-stock-category','renderEstoqueTable'],['cx-v27-stock-subcategory','renderEstoqueTable'],
+ ['cx-v27-stock-status','renderEstoqueTable'],['cx-v27-stock-price-min','renderEstoqueTable'],
+ ['cx-v27-stock-price-max','renderEstoqueTable'],['cx-v27-aff-category','renderAffiliateProducts'],
+ ['cx-v27-aff-subcategory','renderAffiliateProducts'],['cx-v27-aff-price-max','renderAffiliateProducts']]
+ .forEach(([id,fn])=>document.getElementById(id).addEventListener('input',()=>{
+   if(id==='cx-v27-stock-category')cxV27FillFilter('cx-v27-stock-category','cx-v27-stock-subcategory');
+   if(id==='cx-v27-aff-category')cxV27FillFilter('cx-v27-aff-category','cx-v27-aff-subcategory');
+   if(fn==='renderEstoqueTable')renderEstoqueTable();else renderAffiliateProducts();
+ }));
+document.getElementById('cx-v27-stock-clear').addEventListener('click',()=>{
+ ['cx-v27-stock-category','cx-v27-stock-subcategory','cx-v27-stock-status','cx-v27-stock-price-min','cx-v27-stock-price-max']
+   .forEach(id=>document.getElementById(id).value='');renderEstoqueTable();
+});
+document.getElementById('cx-v27-aff-clear').addEventListener('click',()=>{
+ ['cx-v27-aff-category','cx-v27-aff-subcategory','cx-v27-aff-price-max']
+   .forEach(id=>document.getElementById(id).value='');renderAffiliateProducts();
+});
 
+// Modelo CSV com as colunas aceitas pela importação atual.
+document.getElementById('cx-v27-import-template').addEventListener('click',()=>{
+  const fields=cxV27.importKind==='estoque'
+    ?'nome;categoria;subcategoria;quantidade;preco;custo;limite\r\nCamiseta básica;Roupas;Camisetas;10;59,90;25,00;3'
+    :'plataforma;id_externo;nome;categoria;subcategoria;url_produto;url_afiliado;preco;comissao\r\nShopee;EXEMPLO-001;Camiseta básica;Roupas;Camisetas;https://example.com/produto;;59,90;15';
+  const blob=new Blob(['\uFEFF'+fields],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='conexus_modelo_'+cxV27.importKind+'.csv';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1200);
+});
+
+// Importação apenas por ação explícita. A prévia nunca altera o banco.
+const cxV27Modal=document.getElementById('cx-v27-import-modal');
+function cxV27Open(kind) {
+  if(!currentBusiness?.id){toast('Selecione uma empresa.',true);return;}
+  cxV27.importKind=kind;cxV27.rows=[];cxV27.businessId=currentBusiness.id;
+  document.getElementById('cx-v27-import-kind').textContent=
+    kind==='estoque'?'Estoque: nome, categoria, subcategoria, quantidade, preco, custo, limite'
+      :'Afiliados: plataforma, id_externo, nome, categoria, subcategoria, url_produto, url_afiliado, preco, comissao';
+  document.getElementById('cx-v27-import-file').value='';
+  document.getElementById('cx-v27-import-confirm').disabled=true;
+  document.getElementById('cx-v27-import-preview').textContent='Escolha um arquivo para visualizar os registros.';
+  cxV27Modal.classList.add('open');
+}
+document.getElementById('cx-v27-open-stock').addEventListener('click',()=>cxV27Open('estoque'));
+document.getElementById('cx-v27-open-aff').addEventListener('click',()=>cxV27Open('afiliados'));
+document.getElementById('cx-v27-import-close').addEventListener('click',()=>cxV27Modal.classList.remove('open'));
+function cxV27Header(s) {
+  return String(s??'').trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().replace(/[\s-]+/g,'_').replace(/[^a-z0-9_]/g,'');
+}
+function cxV27Get(row,...keys) {
+  for(const key of keys) if(row[key]!==undefined&&String(row[key]).trim()!=='')return String(row[key]).trim();
+  return '';
+}
+function cxV27Number(raw,defaultValue=null) {
+  let x=String(raw??'').trim().replace(/^(R\$|\$)\s*/i,'').replace(/\s/g,'');
+  if(!x)return defaultValue;
+  if(x.includes(',')&&x.includes('.')){
+    x=x.lastIndexOf(',')>x.lastIndexOf('.')?x.replaceAll('.','').replace(',','.'):x.replaceAll(',','');
+  } else if(x.includes(','))x=x.replace(',','.');
+  const val=Number(x);return Number.isFinite(val)?val:NaN;
+}
+function cxV27ValidateImport(row,kind,number) {
+  const name=cxV27Get(row,'nome','name','produto');
+  const rootText=cxV27Get(row,'categoria','category'),subText=cxV27Get(row,'subcategoria','subcategory');
+  const root=catalogRootByName(rootText);
+  if(!name)throw Error('Linha '+number+': nome obrigatório.');
+  if(!root)throw Error('Linha '+number+': categoria "'+rootText+'" não cadastrada.');
+  const sub=subText?catalogChildren(root.id).find(c=>categoryKey(c.name)===categoryKey(subText)):null;
+  if(subText&&!sub)throw Error('Linha '+number+': subcategoria "'+subText+'" não pertence a '+root.name+'.');
+  const base={name,category_id:root.id,subcategory_id:sub?.id||null};
+  const rawPrice=cxV27Get(row,'preco','price','valor');
+  const price=cxV27Number(rawPrice,kind==='estoque'?0:null);
+  if(price!==null&&(!Number.isFinite(price)||price<0||price>100000000))throw Error('Linha '+number+': preço inválido.');
+  if(kind==='estoque'){
+    const quantity=cxV27Number(cxV27Get(row,'quantidade','quantity','qtd'),0);
+    const threshold=cxV27Number(cxV27Get(row,'limite','threshold','estoque_minimo'),10);
+    const cost=cxV27Number(cxV27Get(row,'custo','cost'),null);
+    if(name.length>160||![quantity,threshold].every(x=>Number.isSafeInteger(x)&&x>=0&&x<=100000000)
+       ||cost!==null&&(!Number.isFinite(cost)||cost<0))throw Error('Linha '+number+': quantidade, custo ou limite inválido.');
+    return {...base,quantity,price,threshold,cost};
+  }
+  const platform=cxV27Get(row,'plataforma','platform');
+  const external_id=cxV27Get(row,'id_externo','external_id','id_produto');
+  const product_url=cxV27Get(row,'url_produto','product_url','link_produto');
+  const affiliate_url=cxV27Get(row,'url_afiliado','affiliate_url','link_afiliado');
+  const commission_rate=cxV27Number(cxV27Get(row,'comissao','commission_rate','comissao_percentual'),null);
+  const validUrl=u=>{try{const x=new URL(u);return ['https:','http:'].includes(x.protocol)&&x.hostname.includes('.');}catch{return false;}};
+  if(name.length<2||name.length>200||platform.length<2||!external_id||external_id.length>120
+      ||!validUrl(product_url)||(affiliate_url&&!validUrl(affiliate_url))||!Number.isFinite(commission_rate??0)
+      ||commission_rate!==null&&(commission_rate<0||commission_rate>100))throw Error('Linha '+number+': ID, plataforma, link ou comissão inválidos.');
+  return {...base,platform,external_id,product_url,affiliate_url:affiliate_url||null,price,commission_rate};
+}
+document.getElementById('cx-v27-import-file').addEventListener('change',async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  const preview=document.getElementById('cx-v27-import-preview'),confirm=document.getElementById('cx-v27-import-confirm');
+  confirm.disabled=true;cxV27.rows=[];preview.textContent='Lendo arquivo…';
+  try{
+    if(file.size>5_000_000)throw Error('O arquivo deve ter no máximo 5 MB.');
+    const bytes=await file.arrayBuffer();
+    // SheetJS já era uma dependência da V26; lê CSV, XLS/XLSX localmente sem upload prévio.
+    const book=XLSX.read(bytes,{type:'array',cellDates:false});
+    if(!book.SheetNames.length)throw Error('A planilha não contém abas.');
+    const matrix=XLSX.utils.sheet_to_json(book.Sheets[book.SheetNames[0]],{header:1,defval:'',raw:false});
+    if(matrix.length<2)throw Error('Inclua um cabeçalho e pelo menos um produto.');
+    const cols=matrix[0].map(cxV27Header);
+    if(cols.some((x,i)=>x&&cols.indexOf(x)!==i))throw Error('Cabeçalhos duplicados no arquivo.');
+    const records=matrix.slice(1).filter(x=>x.some(v=>String(v??'').trim())).map(row=>Object.fromEntries(cols.map((key,i)=>[key,row[i]??''])));
+    if(records.length<1||records.length>1000)throw Error('Importe entre 1 e 1.000 produtos por arquivo.');
+    const rows=[],problems=[];
+    records.forEach((record,i)=>{try{rows.push(cxV27ValidateImport(record,cxV27.importKind,i+2));}
+      catch(err){if(problems.length<12)problems.push(err.message);}});
+    if(problems.length)throw Error('Corrija a planilha antes de importar:\n'+problems.join('\n'));
+    if(cxV27.businessId!==currentBusiness?.id)throw Error('A empresa foi alterada. Abra a importação novamente.');
+    const keys=cxV27DuplicateKeys(rows,cxV27.importKind);
+    const duplicates=[...keys.values()].filter(n=>n>1).reduce((sum,n)=>sum+n-1,0);
+    cxV27.rows=rows;
+    preview.textContent=rows.length+' registro(s) válidos na empresa selecionada.\n'
+      +(duplicates?duplicates+' duplicata(s) dentro do arquivo (serão ignoradas).\n':'')
+      +'Prévia:\n'+rows.slice(0,6).map(r=>'• '+r.name+' | '+categories.find(c=>c.id===r.category_id)?.name
+        +(r.subcategory_id?' › '+categories.find(c=>c.id===r.subcategory_id)?.name:'')).join('\n')
+      +'\n\nConfirme para gravar. Cada lote de até 100 registros é transacional.';
+    confirm.disabled=false;
+  }catch(err){preview.textContent='Não foi possível validar:\n'+err.message;}
+});
+document.getElementById('cx-v27-import-confirm').addEventListener('click',async()=>{
+  if(!cxV27.rows.length||cxV27.businessId!==currentBusiness?.id){toast('Reabra a importação para esta empresa.',true);return;}
+  const button=document.getElementById('cx-v27-import-confirm'),preview=document.getElementById('cx-v27-import-preview');
+  button.disabled=true;let inserted=0,skipped=0;
+  try {
+    for(let i=0;i<cxV27.rows.length;i+=100){
+      if(currentBusiness?.id!==cxV27.businessId)throw Error('Empresa alterada durante a importação.');
+      button.textContent='Importando '+Math.min(i+100,cxV27.rows.length)+'/'+cxV27.rows.length;
+      const {data,error}=await withTimeout(sb.rpc('conexus_import_products_v27',{
+        p_business_id:cxV27.businessId,p_kind:cxV27.importKind,p_rows:cxV27.rows.slice(i,i+100)
+      }),40000);
+      if(error)throw Error(error.message);
+      inserted+=Number(data?.inserted||0);skipped+=Number(data?.skipped||0);
+    }
+    cxV27.rows=[];cxV27Modal.classList.remove('open');
+    toast('Importação concluída: '+inserted+' criados; '+skipped+' duplicados ignorados.');
+    if(demoActive){ await loadAllData(); } else await loadAllData();
+    if(isAffiliate())await loadAffiliateData(currentBusiness?.id);
+    await refreshCategoryCounts();
+  } catch(err){
+    preview.textContent='Importação interrompida: '+err.message+'\nJá gravados: '+inserted+'; ignorados: '+skipped
+      +'. Lotes anteriores não foram revertidos. Você pode repetir o arquivo: duplicatas serão ignoradas.';
+  } finally {button.textContent='Importar produtos';button.disabled=!cxV27.rows.length;}
+});
+
+// ===== Conexus V28.1 — governança (apenas API autenticada; o banco aplica RLS) =====
+let cx28Role=null,cx28Alerts=null,cx28BusinessId=null;
+const cx28FinViews=new Set(['view-financas','view-insights','view-aff-commissions']);
+const cx28ManageViews=new Set(['view-auditoria']);
+const cx28WriteViews=new Set(['view-adicionar']);
+function cx28RoleHas(role,permission){
+ if(role==='proprietario')return true;
+ if(permission==='team')return false;
+ if(permission==='finance'||permission==='audit')return role==='administrador'||role==='gerente';
+ if(permission==='write')return ['administrador','gerente','operador'].includes(role);
+ return ['administrador','gerente','operador','leitura'].includes(role);
+}
+function cx28AllowedView(id){
+ if(!currentBusiness)return true;
+ // Enquanto o papel não é conhecido, acesso restrito por padrão.
+ const role=cx28Role; // V28: sem papel validado = negar por padrão
+ if(cx28FinViews.has(id))return cx28RoleHas(role,'finance');
+ if(cx28ManageViews.has(id))return cx28RoleHas(role,'audit');
+ if(cx28WriteViews.has(id))return cx28RoleHas(role,'write');
+ if(id==='view-team')return role==='proprietario';
+ return cx28RoleHas(role,'read');
+}
+function cx28GateNav(){
+ // V28.1: reavalia ambos os critérios em cada troca de empresa/papel/módulos.
+ // A V28 apenas escondia itens e não conseguia reexibir módulos permitidos.
+ const active = new Set(enabledModules());
+ document.querySelectorAll('.app-nav-item[data-view]').forEach(el=>{
+   el.hidden = !active.has(el.dataset.view) || !cx28AllowedView(el.dataset.view);
+ });
+ document.querySelectorAll('[data-goto]').forEach(el=>{
+   el.hidden = !active.has(el.dataset.goto) || !cx28AllowedView(el.dataset.goto);
+ });
+ const settings=document.getElementById('modulos-abre');
+ if(settings)settings.hidden=currentBusiness?.user_id!==currentUser?.id;
+ const btn=document.getElementById('v21-open-team');if(btn)btn.hidden=cx28Role!=='proprietario';
+}
+function cx28RoleBanner(){
+ const el=document.getElementById('cx28-current-role');
+ if(el)el.innerHTML='Seu papel neste negócio: <span class="cx28-role-chip">'+escapeHtml(cx28Role||'sem acesso')+'</span>';
+ const badge=document.getElementById('cx28-app-role');if(badge)badge.textContent=cx28Role||'Verificando perfil';
+}
+const cx28CardIds=['products','value','low','moves'];
+function cx28ApplyDashboard(widgets){
+ const selected=new Set(widgets);
+ const labels=isAffiliate()?['Produtos afiliados','Conteúdos pendentes','Publicações','Comissões recebidas']:['Produtos','Valor em estoque','Estoque baixo','Movimentações'];
+ document.querySelectorAll('#cx28-dashboard-options .cx28-choice').forEach((el,i)=>{const text=[...el.childNodes].find(n=>n.nodeType===3);if(text)text.nodeValue=' '+labels[i];});
+ document.querySelectorAll('#cx28-dashboard-options input[type="checkbox"]').forEach(input=>input.checked=selected.has(input.value));
+ const cards=document.querySelectorAll('#view-dashboard .kpi-grid > .kpi-card');
+ cards.forEach((card,index)=>{if(cx28CardIds[index])card.hidden=!selected.has(cx28CardIds[index]);});
+}
+async function cx28DashboardLoad(bizId){
+ const msg=document.getElementById('cx28-dashboard-msg');
+ if(demoActive){cx28ApplyDashboard(cx28CardIds);if(msg)msg.textContent='Modo de teste: configuração temporária.';return;}
+ const {data,error}=await withTimeout(sb.from('conexus_v28_dashboard').select('widgets')
+  .eq('business_id',bizId).eq('user_id',currentUser.id).maybeSingle(),12000);
+ if(currentBusiness?.id!==bizId)return;
+ if(error){msg.textContent='Preferências não carregadas: '+error.message;return;}
+ cx28ApplyDashboard(Array.isArray(data?.widgets)&&data.widgets.length?data.widgets:cx28CardIds);
+ if(msg)msg.textContent='';
+}
+document.getElementById('cx28-dashboard-save').addEventListener('click',async()=>{
+ if(!currentBusiness)return;
+ const widgets=[...document.querySelectorAll('#cx28-dashboard-options input:checked')].map(e=>e.value)
+  .filter(id=>cx28CardIds.includes(id));
+ const status=document.getElementById('cx28-dashboard-msg');
+ if(!widgets.length){status.textContent='Selecione pelo menos um indicador.';return;}
+ if(demoActive){cx28ApplyDashboard(widgets);status.textContent='Visualização temporária aplicada.';return;}
+ const bizId=currentBusiness.id;const button=document.getElementById('cx28-dashboard-save');button.disabled=true;
+ try{
+  const {error}=await withTimeout(sb.from('conexus_v28_dashboard').upsert({
+   business_id:bizId,user_id:currentUser.id,widgets,updated_at:new Date().toISOString()
+  },{onConflict:'business_id,user_id'}),15000);
+  if(error)throw error;
+  if(currentBusiness?.id===bizId){cx28ApplyDashboard(widgets);status.textContent='Painel salvo.';}
+ }catch(err){status.textContent='Falha ao salvar: '+(err.message||'erro desconhecido');}
+ finally{button.disabled=false;}
+});
+function cx28NotificationItems(c){
+ const n=[];
+ if(c.empty>0)n.push({icon:'🔴',text:c.empty+' produto(s) sem estoque',view:'view-estoque'});
+ if(c.low>0)n.push({icon:'⚠️',text:c.low+' produto(s) com estoque baixo',view:'view-estoque'});
+ if(c.uncategorized>0)n.push({icon:'🏷️',text:c.uncategorized+' produto(s) sem categoria cadastrada',view:'view-categorias'});
+ if(c.finance_visible&&c.overdue_payable>0)n.push({icon:'💳',text:c.overdue_payable+' conta(s) a pagar vencidas',view:'view-financas',subtab:'pagar'});
+ if(c.finance_visible&&c.overdue_receivable>0)n.push({icon:'💵',text:c.overdue_receivable+' conta(s) a receber vencidas',view:'view-financas',subtab:'receber'});
+ return n;
+}
+async function cx28AfterDataLoad(bizId){
+ if(currentBusiness?.id!==bizId)return;
+ if(demoActive){cx28Role='proprietario';cx28BusinessId=bizId;cx28Alerts=null;
+   cx28GateNav();cx28RoleBanner();await cx28DashboardLoad(bizId);return;}
+ const results=await Promise.allSettled([
+  withTimeout(sb.rpc('conexus_v28_role',{p_business_id:bizId}),12000),
+  withTimeout(sb.rpc('conexus_v28_alerts',{p_business_id:bizId}),12000),
+  cx28DashboardLoad(bizId)
+ ]);
+ if(currentBusiness?.id!==bizId)return;
+ const roleRes=results[0].status==='fulfilled'?results[0].value:{error:results[0].reason};
+ cx28Role=roleRes.error?null:roleRes.data;
+ if(roleRes.error){setDataState('warning','V28: não foi possível validar as permissões. Confira o SQL V28.');}
+ const alertRes=results[1].status==='fulfilled'?results[1].value:{error:results[1].reason};
+ cx28Alerts=alertRes.error?null:alertRes.data;
+ cx28BusinessId=bizId;
+ configureSectorUI();cx28GateNav();cx28RoleBanner();renderNotifications();
+ const current=document.querySelector('.app-view.active');
+ if(current&&!cx28AllowedView(current.id))goto('view-dashboard');
+}
+async function cx28LoadEvents(){
+ const slot=document.getElementById('cx28-events-table');if(!slot||!currentBusiness)return;
+ if(!cx28RoleHas(cx28Role,'audit')){slot.textContent='Seu perfil não possui acesso ao histórico.';return;}
+ if(demoActive){slot.textContent='Auditoria do banco indisponível na demonstração.';return;}
+ const bizId=currentBusiness.id;slot.textContent='Carregando eventos...';
+ try{
+  const {data,error}=await withTimeout(sb.from('conexus_v28_events').select('id,actor_id,entity_table,operation,created_at')
+    .eq('business_id',bizId).order('created_at',{ascending:false}).limit(100),15000);
+  if(error)throw error;if(currentBusiness?.id!==bizId)return;
+  if(!data?.length){slot.textContent='Nenhum evento recente registrado pelo servidor.';return;}
+  const labels={INSERT:'Criação',UPDATE:'Alteração',DELETE:'Exclusão'};
+  slot.innerHTML='<table class="cx28-table"><thead><tr><th>Data/hora</th><th>Operação</th><th>Tabela</th><th>Autor (ID)</th></tr></thead><tbody>'+
+   data.map(x=>'<tr><td>'+escapeHtml(new Date(x.created_at).toLocaleString('pt-BR'))+'</td><td>'+escapeHtml(labels[x.operation]||x.operation)+
+     '</td><td>'+escapeHtml(x.entity_table)+'</td><td>'+escapeHtml(x.actor_id||'Sistema')+'</td></tr>').join('')+'</tbody></table>';
+ }catch(err){slot.textContent='Não foi possível carregar o histórico: '+(err.message||'erro');}
+}
+document.getElementById('cx28-refresh-events').addEventListener('click',()=>void cx28LoadEvents());
+
+// V25.2: este marcador só é definido após o script principal terminar de inicializar.
+window.__conexusAppReady = true;
+
+</script>
+<!-- V25.2: script de diagnóstico independente dos CDNs externos.
+     Se uma importação falhar, o botão não parece simplesmente quebrado. -->
+<script>
+window.addEventListener('load', function () {
+  window.setTimeout(function () {
+    if (window.__conexusAppReady) return;
+    ['msg-login', 'msg-signup'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = 'Não foi possível carregar os scripts do Conexus. Confira a conexão, desative bloqueadores para este site e atualize a página. Se continuar, abra o Console (F12).';
+      el.className = 'msg-box msg-error';
+      el.style.display = 'block';
+    });
+  }, 1800);
+});
 </script>
 </body>
 </html>
