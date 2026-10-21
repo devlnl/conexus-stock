@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#10151D" />
-  <title>Conexus – Gestão empresarial por segmento</title>
+  <title>Conexus V28.2 – Gestão empresarial por segmento</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1082,6 +1082,18 @@ textarea:focus-visible,.app-nav-item:focus-visible {
 
 /* CONEXUS V16 — módulo Afiliados, tema escuro #10151D */
 .aff-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+/* V28.3: vários produtos em um único conteúdo de afiliados */
+.aff-product-picker{border:1px solid var(--theme-border);border-radius:10px;background:var(--theme-surface-alt,#1B222A);padding:12px;margin:8px 0 16px}
+.aff-product-picker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:8px 0}
+.aff-product-picker-head span{font-size:12px;color:#CAD6E2}
+.aff-product-options{max-height:236px;overflow-y:auto;border:1px solid var(--theme-border);border-radius:8px;margin-top:8px;padding:5px}
+.aff-product-choice{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border-radius:7px;cursor:pointer;color:#F4F6FA;font-size:13px}
+.aff-product-choice:hover{background:rgba(105,212,9,.09)}
+.aff-product-choice input{accent-color:#69D409;width:16px;height:16px;flex:0 0 auto;margin-top:2px}
+.aff-product-choice small{display:block;color:#B6C1CE;font-size:11px;margin-top:3px;overflow-wrap:anywhere}
+.aff-content-product-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.aff-content-product-tags .aff-pill{max-width:100%;white-space:normal}
+
 .aff-two>*{min-width:0}.aff-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .aff-actions .btn-app-primary,.aff-actions .btn-app-secondary{margin-top:0!important}
 .aff-item{border:1px solid var(--theme-border);border-radius:8px;padding:16px;margin:12px 0;background:var(--theme-surface-alt,#1B222A);overflow-wrap:anywhere}
@@ -1784,9 +1796,16 @@ textarea:focus-visible,.app-nav-item:focus-visible {
         </div>
       </div>
       <div class="app-view" id="view-aff-contents">
-        <div class="app-header-row"><div><div class="app-view-title">Conteúdos</div><div class="app-view-sub">Relacione cada vídeo, imagem, montagem ou carrossel ao ID do produto.</div></div></div>
+        <div class="app-header-row"><div><div class="app-view-title">Conteúdos</div><div class="app-view-sub">Vincule um ou vários produtos ao mesmo vídeo, imagem, montagem ou carrossel.</div></div></div>
         <div class="food-cols"><section class="app-card food-card"><h3 class="food-card-title" id="aff-content-title">Novo conteúdo</h3><form id="aff-content-form"><input type="hidden" name="edit_id"/>
-          <label class="app-form-label">Produto</label><select class="app-form-select" name="product_id" required></select>
+          <label class="app-form-label" id="aff-content-products-label">Produtos vinculados (selecione 1 ou mais)</label>
+          <div class="aff-product-picker" aria-labelledby="aff-content-products-label">
+            <input class="app-form-input" id="aff-content-product-search" type="search" placeholder="Buscar por nome, ID ou plataforma" autocomplete="off" aria-label="Buscar produtos para vincular ao conteúdo"/>
+            <div class="aff-product-picker-head"><span id="aff-content-product-count" aria-live="polite">Nenhum produto selecionado</span>
+            <div class="aff-actions"><button type="button" class="btn-app-secondary" id="aff-content-select-all">Selecionar visíveis</button><button type="button" class="btn-app-secondary" id="aff-content-clear">Limpar</button></div></div>
+            <div class="aff-product-options" id="aff-content-product-options" role="group" aria-label="Produtos disponíveis"></div>
+            <p class="food-hint">Selecione até 50 produtos do mesmo negócio. Uma publicação poderá divulgar todos eles.</p>
+          </div>
           <label class="app-form-label">Título do conteúdo</label><input class="app-form-input" name="title" maxlength="200" required placeholder="Ex.: Review jaqueta racing"/>
           <div class="aff-two"><div><label class="app-form-label">Formato</label><select class="app-form-select" name="content_type"><option value="video">Vídeo</option><option value="imagem">Imagem</option><option value="carrossel">Carrossel</option><option value="montagem">Montagem</option><option value="texto">Texto</option><option value="outro">Outro</option></select></div><div><label class="app-form-label">Situação</label><select class="app-form-select" name="status"><option value="planejado">Planejado</option><option value="produzido">Produzido</option><option value="arquivado">Arquivado</option></select></div></div>
           <label class="app-form-label">Campanha (opcional)</label><select class="app-form-select" name="campaign_id"></select>
@@ -3658,7 +3677,7 @@ function makeDemoData() {
   ].map(([name,slug,size]) => ({id:demoUuid(),name,size,business_type_id:'tipo-'+slug,
     user_id:owner, module_preferences:{},created_at:now,updated_at:now}));
   const byType=Object.fromEntries(b.map(x=>[t.find(s=>s.id===x.business_type_id).slug,x]));
-  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_publications:[],affiliate_commissions:[],commerce_orders:[],service_jobs:[],integration_channels:[],conexus_sale_requests:[]};
+  const tables={business_types:t,businesses:b,products:[],stock_movements:[],customers:[],sales:[],sale_items:[],suppliers:[],purchases:[],purchase_items:[],returns:[],expenses:[],revenues:[],categories:[],audit_logs:[],business_records:[],business_members:[],food_recipes:[],food_recipe_items:[],food_production_orders:[],food_batches:[],food_quality_checks:[],affiliate_campaigns:[],affiliate_products:[],affiliate_contents:[],affiliate_content_products:[],affiliate_publications:[],affiliate_commissions:[],commerce_orders:[],service_jobs:[],integration_channels:[],conexus_sale_requests:[]};
   function product(biz,name,quantity,price,cost,category) {
     const row={id:demoUuid(),user_id:owner,business_id:biz.id,name,quantity,price,cost_price:cost,
       category,low_stock_threshold:8,created_at:now,updated_at:now};
@@ -3726,6 +3745,7 @@ function makeDemoData() {
   const ac1={id:demoUuid(),business_id:ab,user_id:owner,product_id:ap1.id,title:'Montagem com jaqueta racing',content_type:'video',status:'produzido',created_at:now};
   const ac2={id:demoUuid(),business_id:ab,user_id:owner,product_id:ap2.id,title:'Carrossel de tênis',content_type:'carrossel',status:'produzido',created_at:now};
   tables.affiliate_contents.push(ac1,ac2);
+  tables.affiliate_content_products.push({business_id:ab,content_id:ac1.id,product_id:ap1.id},{business_id:ab,content_id:ac2.id,product_id:ap2.id});
   tables.affiliate_publications.push({id:demoUuid(),business_id:ab,user_id:owner,content_id:ac1.id,channel:'TikTok',publication_url:'https://example.com/publicacao-demo',published_at:now,views:1200,clicks:80,created_at:now});
   tables.affiliate_commissions.push({id:demoUuid(),business_id:ab,user_id:owner,product_id:ap1.id,sale_date:now.slice(0,10),quantity:1,gross_amount:149.90,commission_amount:22.49,status:'pendente',created_at:now});
   const cb=byType.comercio.id,cbProduct=tables.products.find(p=>p.business_id===cb);
@@ -3826,7 +3846,22 @@ function makeDemoClient(store) {
       const bid=req.p_business_id;
       if (bid && !store.businesses.some(b=>b.id===bid && b.user_id===uid)) throw Error('Empresa de demonstração não encontrada.');
       const now=new Date().toISOString();
-      if (action==='conexus_register_product_v27') {
+      if(action==='conexus_aff_content_links_v283'){
+        result=store.affiliate_content_products.filter(x=>x.business_id===bid).map(x=>({content_id:x.content_id,product_id:x.product_id}));
+      } else if(action==='conexus_aff_save_content_v283'){
+        const ids=req.p_product_ids;
+        if(!Array.isArray(ids)||ids.length<1||ids.length>50||new Set(ids).size!==ids.length)throw Error('Selecione de 1 a 50 produtos sem repetição.');
+        if(ids.some(id=>!store.affiliate_products.some(p=>p.business_id===bid&&p.id===id)))throw Error('Produto de outra empresa.');
+        if(String(req.p_title||'').trim().length<2)throw Error('Título inválido.');
+        if(req.p_campaign_id&&!store.affiliate_campaigns.some(c=>c.id===req.p_campaign_id&&c.business_id===bid))throw Error('Campanha inválida.');
+        let content;
+        if(req.p_content_id){content=store.affiliate_contents.find(c=>c.id===req.p_content_id&&c.business_id===bid);if(!content)throw Error('Conteúdo não encontrado.');}
+        else {content={id:demoUuid(),business_id:bid,user_id:uid,created_at:now};store.affiliate_contents.push(content);}
+        Object.assign(content,{product_id:ids[0],title:req.p_title.trim(),content_type:req.p_content_type,status:req.p_status,campaign_id:req.p_campaign_id||null,content_url:req.p_content_url||null,notes:req.p_notes||null});
+        for(let i=store.affiliate_content_products.length-1;i>=0;i--)if(store.affiliate_content_products[i].content_id===content.id&&store.affiliate_content_products[i].business_id===bid)store.affiliate_content_products.splice(i,1);
+        ids.forEach(product_id=>store.affiliate_content_products.push({business_id:bid,content_id:content.id,product_id}));
+        result=content.id;
+      } else if (action==='conexus_register_product_v27') {
         const root=store.categories.find(c=>c.id===req.p_category_id&&c.business_id===bid&&!c.parent_id);
         const sub=req.p_subcategory_id?store.categories.find(c=>c.id===req.p_subcategory_id&&c.parent_id===root?.id&&c.business_id===bid):null;
         if(!root||(req.p_subcategory_id&&!sub))throw Error('Classificação inválida para esta empresa.');
@@ -4975,6 +5010,11 @@ async function loadAllData() {
     else {affData=affBlank();affLoadError='';}
     await v21Load(businessAtStart);
     await cx28AfterDataLoad(businessAtStart); // V28: permissões, alertas e painel sem usar cache de empresa anterior.
+    // V28.2: verifica se o banco está atualizado ANTES de dizer “Dados atualizados”.
+    // O HTML não pressupõe que basta publicar código novo: RPCs faltantes são exibidas.
+    const cx282Issue = await cx282VerifyDatabase(businessAtStart);
+    if (!currentBusiness || currentBusiness.id !== businessAtStart) return;
+    if (cx282Issue) failures.push('instalação SQL: ' + cx282Issue);
     const maybePartial=[movRes.data?.length>=200,salesRes.data?.length>=200,purchRes.data?.length>=200,returnsRes.data?.length>=200,expRes.data?.length>=300,revRes.data?.length>=300,recordsRes.data?.length>=300].some(Boolean);
     window.__conexusPartialHistory = maybePartial || Boolean(failures.length);
     const reportsNotice = document.getElementById('v21-insights-data-warning');
@@ -7852,7 +7892,7 @@ function demoFoodRpc(action,req,store,uid,changeStock){
 // CONEXUS V16 · AFILIADOS — CRUD isolado por empresa
 // ═══════════════════════════════════════════════════════════
 const AFF_TABLES = ['affiliate_campaigns','affiliate_products','affiliate_contents','affiliate_publications','affiliate_commissions'];
-function affBlank(){return {campaigns:[],products:[],contents:[],publications:[],commissions:[]};}
+function affBlank(){return {campaigns:[],products:[],contents:[],publications:[],commissions:[],contentLinks:[]};}
 let affData=affBlank(), affLoadError='';
 const isAffiliate=()=>!!currentBusiness && slugNegocio()==='afiliados';
 function affById(table,id){return affData[table].find(r=>r.id===id);}
@@ -7861,7 +7901,26 @@ function affInt(value,label){let n=Number(value);if(!Number.isSafeInteger(n)||n<
 function affNum(value,label,allowNull=false){if(allowNull && String(value).trim()==='')return null;const n=Number(value);if(!Number.isFinite(n)||n<0||n>1000000000)throw Error(label+' inválido.');return Math.round(n*100)/100;}
 function affSafeUrl(value,required=false){const s=String(value||'').trim();if(!s&&!required)return null;try{let u=new URL(s);if(!['http:','https:'].includes(u.protocol)||!u.hostname.includes('.'))throw Error();return u.href;}catch{throw Error('Informe um link válido iniciando com https://');}}
 function affLink(url,title){if(!url)return '';try{const u=new URL(url);if(!['https:','http:'].includes(u.protocol))return '';return `<a target="_blank" rel="noopener noreferrer" href="${escapeHtml(u.href)}">${escapeHtml(title)} ↗</a>`;}catch{return '';}}
-function affProductState(p){const cs=affData.contents.filter(c=>c.product_id===p.id);const posted=cs.some(c=>affData.publications.some(a=>a.content_id===c.id));if(posted)return 'divulgado';if(cs.some(c=>c.status==='produzido'))return 'pronto';if(cs.some(c=>c.status==='planejado'))return 'planejado';return 'sem';}
+// V28.3: relacionamentos N:N; fallback apenas para conteúdos antigos ainda sem vínculo migrado.
+function affContentProducts(content){
+  const linked=affData.contentLinks.filter(x=>x.content_id===content.id).map(x=>x.product_id);
+  return [...new Set(linked.length?linked:(content.product_id?[content.product_id]:[]))];
+}
+function affHasContentProduct(content,productId){return affContentProducts(content).includes(productId);}
+function affProductContents(productId){return affData.contents.filter(c=>affHasContentProduct(c,productId));}
+let affContentSelection=new Set();
+function affRenderContentChoices(ids=null){
+  if(ids!==null)affContentSelection=new Set(ids);
+  const list=document.getElementById('aff-content-product-options');
+  if(!list)return;
+  const search=(document.getElementById('aff-content-product-search')?.value||'').trim().toLocaleLowerCase('pt-BR');
+  const visible=affData.products.filter(p=>[p.name,p.external_id,p.platform].join(' ').toLocaleLowerCase('pt-BR').includes(search));
+  list.innerHTML=visible.length?visible.map(p=>`<label class="aff-product-choice"><input type="checkbox" value="${escapeHtml(p.id)}" ${affContentSelection.has(p.id)?'checked':''}><span>${escapeHtml(p.name)}<small>${escapeHtml(p.platform)} · ID ${escapeHtml(p.external_id)}</small></span></label>`).join(''):'<p class="aff-empty">Nenhum produto encontrado. Cadastre produtos na aba Produtos afiliados.</p>';
+  const n=affContentSelection.size;
+  document.getElementById('aff-content-product-count').textContent=n===1?'1 produto selecionado':n+' produtos selecionados';
+}
+function affContentSelectedIds(){return [...affContentSelection];}
+function affProductState(p){const cs=affProductContents(p.id);const posted=cs.some(c=>affData.publications.some(a=>a.content_id===c.id));if(posted)return 'divulgado';if(cs.some(c=>c.status==='produzido'))return 'pronto';if(cs.some(c=>c.status==='planejado'))return 'planejado';return 'sem';}
 function affStateLabel(state){return ({sem:'Sem conteúdo',planejado:'Planejado',pronto:'Produzido · não divulgado',divulgado:'Já divulgado'})[state]||state;}
 function affStateTag(state){return `<span class="aff-pill ${state==='divulgado'?'green':state==='pronto'?'warning':'muted'}">${escapeHtml(affStateLabel(state))}</span>`;}
 function affSelect(id,rows,placeholder,getLabel){const el=document.querySelector(`#${id}`);if(!el)return;const old=el.value;el.innerHTML=`<option value="">${escapeHtml(placeholder)}</option>`+rows.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(getLabel(x))}</option>`).join('');if(rows.some(x=>x.id===old))el.value=old;}
@@ -7870,15 +7929,19 @@ async function loadAffiliateData(expected=currentBusiness?.id){if(!isAffiliate()
   try{const res=await withTimeout(Promise.all(AFF_TABLES.map(table=>sb.from(table).select('*').eq('business_id',expected).order('created_at',{ascending:false}).limit(1000))),25000);
     if(res.some(r=>r.error))throw res.find(r=>r.error).error;
     if(currentBusiness?.id!==expected)return;
-    affData={campaigns:res[0].data||[],products:res[1].data||[],contents:res[2].data||[],publications:res[3].data||[],commissions:res[4].data||[]};
+    const linkRes=await withTimeout(sb.rpc('conexus_aff_content_links_v283',{p_business_id:expected}),15000);
+    if(linkRes.error)throw new Error('A atualização SQL V28.3 ainda não está instalada: '+linkRes.error.message);
+    if(currentBusiness?.id!==expected)return;
+    affData={campaigns:res[0].data||[],products:res[1].data||[],contents:res[2].data||[],publications:res[3].data||[],commissions:res[4].data||[],contentLinks:Array.isArray(linkRes.data)?linkRes.data:[]};
     if(res.some(r=>r.data?.length===1000))affLoadError='Limite de 1.000 registros por tabela atingido. Os totais podem estar incompletos; exporte os dados por períodos.';
-  }catch(e){if(currentBusiness?.id!==expected)return;affLoadError='Não foi possível carregar Afiliados. Aplique o SQL V16: '+(e.message||'erro desconhecido');affData=affBlank();}
+  }catch(e){if(currentBusiness?.id!==expected)return;affLoadError='Não foi possível carregar Afiliados. Confira a migração V28.3 e as permissões: '+(e.message||'erro desconhecido');affData=affBlank();}
   renderAffiliateUI();renderDashboard();
 }
 function affValue(form,name){return form.elements.namedItem(name)?.value?.trim()??'';}
 function affReset(formId){const form=document.getElementById(formId);form.reset();form.elements.namedItem('edit_id').value='';
   const cancel=document.getElementById(formId.replace('-form','-cancel'));if(cancel)cancel.hidden=true;
   const btn=document.getElementById(formId.replace('-form','-save'));if(btn)btn.textContent=({'aff-product-form':'Salvar produto','aff-content-form':'Salvar conteúdo','aff-pub-form':'Salvar divulgação','aff-campaign-form':'Salvar campanha','aff-commission-form':'Salvar comissão'})[formId];
+  if(formId==='aff-content-form'){affContentSelection=new Set();const search=document.getElementById('aff-content-product-search');if(search)search.value='';affRenderContentChoices();}
   if(formId==='aff-product-form'){fillCategorySelector('aff-product-categoria','');fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria','');}
   if(formId==='aff-pub-form')form.elements.namedItem('published_date').value=new Date().toISOString().slice(0,10);
   if(formId==='aff-commission-form')form.elements.namedItem('sale_date').value=new Date().toISOString().slice(0,10);
@@ -7902,6 +7965,7 @@ function affFormBind(formId,table,build){const form=document.getElementById(form
  });const cancel=document.getElementById(formId.replace('-form','-cancel'));cancel?.addEventListener('click',()=>affReset(formId));}
 function affFormEdit(formId,record,fields){const form=document.getElementById(formId);form.elements.namedItem('edit_id').value=record.id;
  if(formId==='aff-product-form')fields={...fields,...normalizedCategoryPath(record)};
+ if(formId==='aff-content-form'){document.getElementById('aff-content-product-search').value='';affRenderContentChoices(affContentProducts(record));}
  for(const [field,value] of Object.entries(fields))if(form.elements.namedItem(field))form.elements.namedItem(field).value=value??'';
  if(formId==='aff-product-form'){
    fillCategorySelector('aff-product-categoria',fields.category);
@@ -7917,14 +7981,14 @@ function renderAffiliateUI(){if(!isAffiliate())return;
   fillSubcategorySelector('aff-product-categoria','aff-product-subcategoria');
   const err=document.getElementById('aff-error-products');err.hidden=!affLoadError;err.textContent=affLoadError;
   const opts=affData.products.map(p=>({...p}));
-  affSelect('aff-content-product',[], '',x=>x.name); // compatibilidade sem efeito (campo nomeado, abaixo)
-  for(const id of ['aff-content-form','aff-commission-form']){
+  affRenderContentChoices();
+  for(const id of ['aff-commission-form']){
     const f=document.getElementById(id),el=f.elements.namedItem('product_id'),old=el.value;
     el.innerHTML='<option value="">Selecione um produto</option>'+opts.map(p=>`<option value="${escapeHtml(p.id)}">${escapeHtml(p.platform+' · '+p.external_id+' · '+p.name)}</option>`).join('');if(opts.some(p=>p.id===old))el.value=old;
   }
   const contentEl=document.querySelector('#aff-pub-form [name="content_id"]'),oldContent=contentEl.value;
   const ready=affData.contents.filter(c=>c.status==='produzido'||affData.publications.some(p=>p.content_id===c.id));
-  contentEl.innerHTML='<option value="">Selecione um conteúdo produzido</option>'+ready.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.title+' · '+(affById('products',c.product_id)?.external_id||''))}</option>`).join('');if(ready.some(c=>c.id===oldContent))contentEl.value=oldContent;
+  contentEl.innerHTML='<option value="">Selecione um conteúdo produzido</option>'+ready.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.title+' · '+(affContentProducts(c).map(pid=>affById('products',pid)?.external_id).filter(Boolean).slice(0,3).join(', ')+(affContentProducts(c).length>3?'…':'')))}</option>`).join('');if(ready.some(c=>c.id===oldContent))contentEl.value=oldContent;
   const campaignEl=document.querySelector('#aff-content-form [name="campaign_id"]'),oldCampaign=campaignEl.value;
   campaignEl.innerHTML='<option value="">Sem campanha</option>'+affData.campaigns.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');if(affData.campaigns.some(c=>c.id===oldCampaign))campaignEl.value=oldCampaign;
   renderAffiliateProducts();renderAffiliateLists();renderAffiliateReports();
@@ -7935,7 +7999,7 @@ function renderAffiliateProducts(){const search=document.getElementById('aff-pro
   document.getElementById('cx-v27-aff-summary').textContent=matched.length+' produto(s) visíveis após os filtros.';
   document.getElementById('aff-products-count').textContent=`${matched.length} de ${affData.products.length}`;
   document.getElementById('aff-products-list').innerHTML=matched.length?matched.map(p=>{
-    const cs=affData.contents.filter(c=>c.product_id===p.id),posts=affData.publications.filter(pub=>cs.some(c=>c.id===pub.content_id));
+    const cs=affProductContents(p.id),posts=affData.publications.filter(pub=>cs.some(c=>c.id===pub.content_id));
     return `<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(p.name)}</h4>${duplicateAff.get(categoryKey(p.platform)+'|'+categoryKey(p.external_id))>1?'<small class="cx-v27-duplicate">ID duplicado</small>':''}${affStateTag(affProductState(p))}</div>
     <div class="aff-meta"><span class="aff-pill">${escapeHtml(p.platform)}</span><span class="aff-pill">ID: ${escapeHtml(p.external_id)}</span><span class="aff-pill muted">${escapeHtml((()=>{const path=normalizedCategoryPath(p);return path.category+(path.subcategory?' › '+path.subcategory:'');})())}</span></div>
     <p>${cs.length} conteúdo(s) · ${posts.length} publicação(ões) · preço ${brl(p.price||0)} · comissão estimada ${Number(p.commission_rate||0).toLocaleString('pt-BR')}%</p>
@@ -7945,14 +8009,14 @@ function renderAffiliateProducts(){const search=document.getElementById('aff-pro
 }
 function renderAffiliateLists(){
  const cList=document.getElementById('aff-contents-list');cList.innerHTML=affData.contents.length?affData.contents.map(c=>{
- const n=affData.publications.filter(p=>p.content_id===c.id).length;return `<article class="aff-item"><h4>${escapeHtml(c.title)}</h4><div class="aff-meta"><span class="aff-pill">${escapeHtml(c.content_type)}</span><span class="aff-pill ${n?'green':'muted'}">${n?'Publicado '+n+' vez(es)':c.status==='produzido'?'Pronto para divulgar':c.status==='planejado'?'Planejado':'Arquivado'}</span></div><p>${escapeHtml(affById('products',c.product_id)?.name||'Produto excluído')}</p><p>${affLink(c.content_url,'Abrir arquivo')}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-content" data-id="${c.id}">Editar</button>${c.status==='produzido'?`<button class="btn-app-secondary" data-aff-action="publish-content" data-id="${c.id}">+ Divulgação</button>`:''}</div></article>`;}).join(''):'<p class="aff-empty">Nenhum conteúdo cadastrado.</p>';
+ const n=affData.publications.filter(p=>p.content_id===c.id).length;return `<article class="aff-item"><h4>${escapeHtml(c.title)}</h4><div class="aff-meta"><span class="aff-pill">${escapeHtml(c.content_type)}</span><span class="aff-pill ${n?'green':'muted'}">${n?'Publicado '+n+' vez(es)':c.status==='produzido'?'Pronto para divulgar':c.status==='planejado'?'Planejado':'Arquivado'}</span></div><div class="aff-content-product-tags">${affContentProducts(c).map(pid=>`<span class="aff-pill">${escapeHtml(affById('products',pid)?.name||'Produto removido')}</span>`).join('')||'<span class="aff-pill muted">Sem produtos válidos</span>'}</div><p>${affLink(c.content_url,'Abrir arquivo')}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-content" data-id="${c.id}">Editar</button>${c.status==='produzido'?`<button class="btn-app-secondary" data-aff-action="publish-content" data-id="${c.id}">+ Divulgação</button>`:''}</div></article>`;}).join(''):'<p class="aff-empty">Nenhum conteúdo cadastrado.</p>';
  const pList=document.getElementById('aff-publications-list');pList.innerHTML=affData.publications.length?affData.publications.map(p=>`<article class="aff-item"><h4>${escapeHtml(affById('contents',p.content_id)?.title||'Conteúdo')}</h4><div class="aff-meta"><span class="aff-pill green">${escapeHtml(p.channel)}</span><span class="aff-pill">${affDate(p.published_at)}</span></div><p>${Number(p.views||0).toLocaleString('pt-BR')} visualizações · ${Number(p.clicks||0).toLocaleString('pt-BR')} cliques</p><p>${affLink(p.publication_url,'Abrir publicação')}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-publication" data-id="${p.id}">Atualizar métricas</button></div></article>`).join(''):'<p class="aff-empty">Nenhuma divulgação registrada.</p>';
  const camp=document.getElementById('aff-campaigns-list');camp.innerHTML=affData.campaigns.length?affData.campaigns.map(c=>`<article class="aff-item"><h4>${escapeHtml(c.name)}</h4><div class="aff-meta"><span class="aff-pill">${escapeHtml(c.channel)}</span><span class="aff-pill ${c.status==='ativa'?'green':'muted'}">${escapeHtml(c.status)}</span></div><p>${affDate(c.starts_on)} — ${affDate(c.ends_on)} · Orçamento ${brl(c.budget)}</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-campaign" data-id="${c.id}">Editar</button></div></article>`).join(''):'<p class="aff-empty">Nenhuma campanha cadastrada.</p>';
  const comm=document.getElementById('aff-commissions-list');comm.innerHTML=affData.commissions.length?affData.commissions.map(c=>`<article class="aff-item"><div class="aff-heading"><h4>${escapeHtml(affById('products',c.product_id)?.name||'Produto')}</h4><span class="aff-pill ${c.status==='recebida'?'green':'muted'}">${escapeHtml(c.status)}</span></div><p>${affDate(c.sale_date)} · Venda ${brl(c.gross_amount)} · Comissão <strong>${brl(c.commission_amount)}</strong></p><p>${escapeHtml(c.order_ref||'Sem ID de pedido')} · ${c.quantity} un.</p><div class="aff-item-actions"><button class="btn-app-secondary" data-aff-action="edit-commission" data-id="${c.id}">Editar status/valor</button></div></article>`).join(''):'<p class="aff-empty">Nenhuma comissão registrada.</p>';
 }
 function affMetrics(){const posts=affData.publications,cs=affData.contents,com=affData.commissions;return {products:affData.products.length,ready:affData.products.filter(p=>affProductState(p)==='pronto').length,posted:affData.products.filter(p=>affProductState(p)==='divulgado').length,publications:posts.length,views:posts.reduce((a,p)=>a+Number(p.views||0),0),clicks:posts.reduce((a,p)=>a+Number(p.clicks||0),0),received:com.filter(x=>x.status==='recebida').reduce((a,x)=>a+Number(x.commission_amount||0),0),pending:com.filter(x=>x.status==='pendente'||x.status==='confirmada').reduce((a,x)=>a+Number(x.commission_amount||0),0),sales:com.filter(x=>x.status!=='cancelada').reduce((a,x)=>a+Number(x.quantity||1),0),contents:cs.length};}
 function renderAffiliateReports(){const s=affMetrics();document.getElementById('aff-report-stats').innerHTML=[['Produtos',s.products],['Prontos sem divulgar',s.ready],['Publicações',s.publications],['Visualizações',s.views.toLocaleString('pt-BR')],['Cliques',s.clicks.toLocaleString('pt-BR')],['Comissões recebidas',brl(s.received)],['Comissões a receber',brl(s.pending)],['Vendas informadas',s.sales]].map(([l,v])=>`<div><span>${escapeHtml(l)}</span><strong>${escapeHtml(String(v))}</strong></div>`).join('');
- document.getElementById('aff-report-tbody').innerHTML=affData.products.length?affData.products.map(p=>{const cs=affData.contents.filter(c=>c.product_id===p.id);const ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));const paid=affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((a,x)=>a+Number(x.commission_amount||0),0);return `<tr><td>${escapeHtml(p.external_id)} · ${escapeHtml(p.name)}</td><td>${cs.length}</td><td>${ps.length}</td><td>${ps.reduce((a,x)=>a+Number(x.views||0),0)}</td><td>${ps.reduce((a,x)=>a+Number(x.clicks||0),0)}</td><td>${brl(paid)}</td></tr>`;}).join(''):'<tr><td colspan="6">Cadastre produtos para consultar os indicadores.</td></tr>';
+ document.getElementById('aff-report-tbody').innerHTML=affData.products.length?affData.products.map(p=>{const cs=affProductContents(p.id);const ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));const paid=affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((a,x)=>a+Number(x.commission_amount||0),0);return `<tr><td>${escapeHtml(p.external_id)} · ${escapeHtml(p.name)}</td><td>${cs.length}</td><td>${ps.length}</td><td>${ps.reduce((a,x)=>a+Number(x.views||0),0)}</td><td>${ps.reduce((a,x)=>a+Number(x.clicks||0),0)}</td><td>${brl(paid)}</td></tr>`;}).join(''):'<tr><td colspan="6">Cadastre produtos para consultar os indicadores.</td></tr>';
 }
 function renderAffiliateDashboard(){const m=affMetrics();const cards=document.querySelectorAll('#view-dashboard .kpi-card');
  [['Produtos afiliados',m.products,'IDs cadastrados por plataforma'],['Conteúdo não divulgado',m.ready,'Produtos com conteúdo produzido'],['Publicações',m.publications,'TikTok, Instagram e outros'],['Comissões recebidas',brl(m.received),'Valores informados manualmente']].forEach(([label,value,desc],i)=>{cards[i].querySelector('.kpi-label').textContent=label;cards[i].querySelector('.kpi-val').textContent=value;cards[i].querySelector('.kpi-sub').textContent=desc;});
@@ -7989,9 +8053,43 @@ affFormBind('aff-product-form','affiliate_products',f=>{
  if(subName&&!sub)throw Error('A subcategoria não pertence à categoria selecionada.');
  return {platform,external_id:id,name,category:root.name,subcategory:sub?.name||null,category_id:root.id,subcategory_id:sub?.id||null,product_url:affSafeUrl(affValue(f,'product_url'),true),affiliate_url:affSafeUrl(affValue(f,'affiliate_url')),price:affNum(affValue(f,'price'),'Preço',true),commission_rate:affNum(affValue(f,'commission_rate'),'Percentual de comissão',true),notes:affValue(f,'notes')||null};
 });
-affFormBind('aff-content-form','affiliate_contents',f=>{
- const pid=affValue(f,'product_id'),title=affValue(f,'title'),campaign=affValue(f,'campaign_id');if(!affById('products',pid)||title.length<2)throw Error('Produto ou título inválido.');if(campaign&&!affById('campaigns',campaign))throw Error('Campanha não pertence a esta empresa.');
- return {product_id:pid,title,content_type:affValue(f,'content_type'),status:affValue(f,'status'),campaign_id:campaign||null,content_url:affSafeUrl(affValue(f,'content_url')),notes:affValue(f,'notes')||null};
+// V28.3: salvar conteúdo + vínculos em UMA RPC transacional, sem estado parcial.
+const affContentForm=document.getElementById('aff-content-form');
+document.getElementById('aff-content-product-search').addEventListener('input',()=>affRenderContentChoices());
+document.getElementById('aff-content-product-options').addEventListener('change',e=>{
+  if(!e.target.matches('input[type="checkbox"]'))return;
+  if(e.target.checked){if(affContentSelection.size>=50){e.target.checked=false;toast('Máximo de 50 produtos por conteúdo.',true);return;}affContentSelection.add(e.target.value);}
+  else affContentSelection.delete(e.target.value);
+  affRenderContentChoices();
+});
+document.getElementById('aff-content-select-all').addEventListener('click',()=>{
+  const vis=[...document.querySelectorAll('#aff-content-product-options input[type="checkbox"]')].map(e=>e.value);
+  for(const id of vis){if(affContentSelection.size===50)break;affContentSelection.add(id);}
+  affRenderContentChoices();
+});
+document.getElementById('aff-content-clear').addEventListener('click',()=>affRenderContentChoices([]));
+document.getElementById('aff-content-cancel').addEventListener('click',()=>affReset('aff-content-form'));
+affContentForm.addEventListener('submit',async e=>{
+  e.preventDefault();if(!affContentForm.reportValidity())return;
+  const ids=affContentSelectedIds();
+  if(!ids.length||ids.length>50||ids.some(id=>!affById('products',id))){toast('Selecione de 1 a 50 produtos válidos.',true);return;}
+  if(!isAffiliate()||affLoadError){toast(affLoadError||'Selecione uma empresa de afiliados.',true);return;}
+  const title=affValue(affContentForm,'title'),campaign=affValue(affContentForm,'campaign_id');
+  if(title.length<2){toast('Título precisa ter pelo menos 2 caracteres.',true);return;}
+  if(campaign&&!affById('campaigns',campaign)){toast('Campanha não pertence à empresa.',true);return;}
+  const btn=document.getElementById('aff-content-save'),before=btn.textContent;
+  btn.disabled=true;btn.textContent='Salvando...';
+  const businessId=currentBusiness.id,editing=affValue(affContentForm,'edit_id');
+  try{
+    const payload={p_business_id:businessId,p_content_id:editing||null,p_product_ids:ids,
+      p_title:title,p_content_type:affValue(affContentForm,'content_type'),p_status:affValue(affContentForm,'status'),
+      p_campaign_id:campaign||null,p_content_url:affSafeUrl(affValue(affContentForm,'content_url')),
+      p_notes:affValue(affContentForm,'notes')||null};
+    const {error}=await withTimeout(sb.rpc('conexus_aff_save_content_v283',payload),25000);
+    if(error)throw error;
+    if(currentBusiness?.id===businessId){await loadAffiliateData(businessId);affReset('aff-content-form');toast(editing?'Conteúdo e produtos atualizados.':'Conteúdo cadastrado com produtos vinculados.');}
+  }catch(err){console.error('Afiliados / conteúdo múltiplo',err);toast('Não foi possível salvar: '+(err.message||'Erro desconhecido.'),true);}
+  finally{btn.disabled=false;if(affValue(affContentForm,'edit_id'))btn.textContent=before;else btn.textContent='Salvar conteúdo';}
 });
 affFormBind('aff-pub-form','affiliate_publications',f=>{
  const content=affById('contents',affValue(f,'content_id'));if(!content||!['produzido','arquivado'].includes(content.status))throw Error('Produza o conteúdo antes de registrar uma divulgação.');
@@ -8014,15 +8112,15 @@ for(const id of ['aff-product-search','aff-product-filter'])document.getElementB
 document.getElementById('app-shell').addEventListener('click',event=>{
  const btn=event.target.closest('[data-aff-action]');if(!btn||!isAffiliate())return;const id=btn.dataset.id,a=btn.dataset.affAction;
  if(a==='edit-product'){const p=affById('products',id);if(!p)return;goto('view-aff-products');affFormEdit('aff-product-form',p,p);}
- else if(a==='new-content'){goto('view-aff-contents');affReset('aff-content-form');document.querySelector('#aff-content-form [name="product_id"]').value=id;document.getElementById('aff-content-form').scrollIntoView({behavior:'smooth'});}
+ else if(a==='new-content'){goto('view-aff-contents');affReset('aff-content-form');affRenderContentChoices([id]);document.getElementById('aff-content-form').scrollIntoView({behavior:'smooth'});}
  else if(a==='edit-content'){const c=affById('contents',id);if(!c)return;goto('view-aff-contents');affFormEdit('aff-content-form',c,c);}
  else if(a==='publish-content'){goto('view-aff-publications');affReset('aff-pub-form');document.querySelector('#aff-pub-form [name="content_id"]').value=id;}
  else if(a==='edit-publication'){const p=affById('publications',id);if(!p)return;goto('view-aff-publications');affFormEdit('aff-pub-form',p,{...p,published_date:String(p.published_at).slice(0,10)});}
  else if(a==='edit-campaign'){const c=affById('campaigns',id);if(!c)return;goto('view-aff-campaigns');affFormEdit('aff-campaign-form',c,c);}
  else if(a==='edit-commission'){const c=affById('commissions',id);if(!c)return;goto('view-aff-commissions');affFormEdit('aff-commission-form',c,c);}
 });
-document.getElementById('aff-export-products').addEventListener('click',()=>affCsv(affData.products.map(p=>({plataforma:p.platform,id_produto:p.external_id,nome:p.name,categoria:p.category,link_produto:p.product_url,link_afiliado:p.affiliate_url,preco:p.price,comissao_percentual:p.commission_rate,status:affStateLabel(affProductState(p)),conteudos:affData.contents.filter(c=>c.product_id===p.id).length,publicacoes:affData.publications.filter(pub=>affData.contents.some(c=>c.product_id===p.id&&c.id===pub.content_id)).length})),'conexus_afiliados_produtos'));
-document.getElementById('aff-export-report').addEventListener('click',()=>affCsv(affData.products.map(p=>{const cs=affData.contents.filter(c=>c.product_id===p.id),ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));return {id:p.external_id,nome:p.name,plataforma:p.platform,conteudos:cs.length,publicacoes:ps.length,visualizacoes:ps.reduce((s,x)=>s+Number(x.views||0),0),cliques:ps.reduce((s,x)=>s+Number(x.clicks||0),0),comissoes_recebidas:affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((s,x)=>s+Number(x.commission_amount||0),0)};}),'conexus_afiliados_relatorio'));
+document.getElementById('aff-export-products').addEventListener('click',()=>affCsv(affData.products.map(p=>({plataforma:p.platform,id_produto:p.external_id,nome:p.name,categoria:p.category,link_produto:p.product_url,link_afiliado:p.affiliate_url,preco:p.price,comissao_percentual:p.commission_rate,status:affStateLabel(affProductState(p)),conteudos:affProductContents(p.id).length,publicacoes:affData.publications.filter(pub=>affData.contents.some(c=>affHasContentProduct(c,p.id)&&c.id===pub.content_id)).length})),'conexus_afiliados_produtos'));
+document.getElementById('aff-export-report').addEventListener('click',()=>affCsv(affData.products.map(p=>{const cs=affProductContents(p.id),ps=affData.publications.filter(x=>cs.some(c=>c.id===x.content_id));return {id:p.external_id,nome:p.name,plataforma:p.platform,conteudos:cs.length,publicacoes:ps.length,visualizacoes:ps.reduce((s,x)=>s+Number(x.views||0),0),cliques:ps.reduce((s,x)=>s+Number(x.clicks||0),0),comissoes_recebidas:affData.commissions.filter(x=>x.product_id===p.id&&x.status==='recebida').reduce((s,x)=>s+Number(x.commission_amount||0),0)};}),'conexus_afiliados_relatorio'));
 affReset('aff-pub-form');affReset('aff-commission-form');
 
 // ════════════════════════════════════════════════════════════════
@@ -8482,6 +8580,33 @@ document.getElementById('cx-v27-import-confirm').addEventListener('click',async(
   } finally {button.textContent='Importar produtos';button.disabled=!cxV27.rows.length;}
 });
 
+// ===== Conexus V28.2 — recuperação de instalação SQL =====
+// Diagnóstico somente de leitura. O Supabase usa RLS e a sessão autenticada;
+// nenhuma consulta desta função modifica produtos, empresas ou funcionários.
+async function cx282VerifyDatabase(businessId) {
+  if (demoActive || !currentUser || !businessId) return null;
+  try {
+    const {data, error} = await withTimeout(
+      sb.rpc('conexus_installation_status_v282'), 12000
+    );
+    if (error) {
+      // SQL não instalado: evite mostrar sincronização como concluída.
+      if (error.code === 'PGRST202' || error.code === '42883' ||
+          /conexus_installation_status_v282/i.test(error.message || '')) {
+        return 'a atualização V28.2 não está instalada. Execute o SQL 01_ATUALIZAR_CONEXUS_EXISTENTE_V28_2.sql.';
+      }
+      return 'não foi possível verificar a versão do banco: ' + (error.message || 'erro desconhecido');
+    }
+    if (!data || data.ok !== true) {
+      const missing = Array.isArray(data?.missing) ? data.missing.join(', ') : 'funções necessárias';
+      return 'instalação incompleta (' + missing + '). Execute a atualização V28.2.';
+    }
+    return null;
+  } catch(e) {
+    return 'falha ao verificar o banco: ' + (e.message || 'tempo esgotado');
+  }
+}
+
 // ===== Conexus V28.1 — governança (apenas API autenticada; o banco aplica RLS) =====
 let cx28Role=null,cx28Alerts=null,cx28BusinessId=null;
 const cx28FinViews=new Set(['view-financas','view-insights','view-aff-commissions']);
@@ -8580,7 +8705,7 @@ async function cx28AfterDataLoad(bizId){
  if(currentBusiness?.id!==bizId)return;
  const roleRes=results[0].status==='fulfilled'?results[0].value:{error:results[0].reason};
  cx28Role=roleRes.error?null:roleRes.data;
- if(roleRes.error){setDataState('warning','V28: não foi possível validar as permissões. Confira o SQL V28.');}
+ if(roleRes.error){setDataState('warning','Não foi possível validar permissões. Confira se a instalação V28.2 foi concluída.');}
  const alertRes=results[1].status==='fulfilled'?results[1].value:{error:results[1].reason};
  cx28Alerts=alertRes.error?null:alertRes.data;
  cx28BusinessId=bizId;
